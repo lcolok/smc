@@ -3,7 +3,9 @@ const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 
 module.exports = {
   mode: 'universal',
-
+  router: {
+    mode: 'hash'
+  },
   /*
   ** Headers of the page
   */
