@@ -3,6 +3,14 @@ const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 const app = express()
 
+const AV = require('leanengine')
+AV.init({
+  appId: process.env.LEANCLOUD_APP_ID,
+  appKey: process.env.LEANCLOUD_APP_KEY,
+  masterKey: process.env.LEANCLOUD_APP_MASTER_KEY
+});
+app.use(AV.express())
+
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')
 config.dev = !(process.env.NODE_ENV === 'production')
@@ -11,7 +19,9 @@ async function start() {
   // Init Nuxt.js
   const nuxt = new Nuxt(config)
 
-  const { host, port } = nuxt.options.server
+  // const { host, port } = nuxt.options.server
+  const host = process.env.HOST || '0.0.0.0';
+  const port = parseInt(process.env.LEANCLOUD_APP_PORT || process.env.PORT || 3000);
 
   // Build only in dev mode
   if (config.dev) {

@@ -1,5 +1,5 @@
 {
-  "name": "SMC",
+  "name": "smc",
   "version": "1.0.0",
   "description": "My wicked Nuxt.js project",
   "author": "lcolok",
@@ -11,6 +11,8 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "leancloud-storage": "^3.12.0",
+    "leanengine": "^3.3.3",
     "cross-env": "^5.2.0",
     "nuxt": "^2.4.0",
     "express": "^4.16.4",
@@ -23,5 +25,8 @@
     "nodemon": "^1.18.9",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }

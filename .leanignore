@@ -1,0 +1,17 @@
+.git/
+.avoscloud/
+.leancloud/
+node_modules/
+#assets/
+#components/
+#layouts/
+#middleware/
+#pages/
+#plugins/
+#server
+#static/
+#store/
+.editorconfig
+.gitignore
+README.mid
+#package-lock.json
