@@ -1,65 +1,50 @@
 <template>
-  <section class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        SMC
-      </h1>
-      <h2 class="subtitle"></h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green"
-          >Documentation</a
-        >
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-          >GitHub</a
-        >
-      </div>
-    </div>
-  </section>
+  <no-ssr>
+    <el-main>
+      <el-row type="flex" justify="center" align="middle">
+        <el-col :span="16">
+          <el-card class="box-card">
+            <div slot="header" class="clearfix">
+              <span>路由总表</span>
+              <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+            </div>
+            <el-row v-for="(item,index) in $router.options.routes" :key="index" justify="center">
+              <el-button class="text item" @click="$router.push({path:item.path})">
+                {{ item.name }}
+                <i class="el-icon-upload el-icon--right"></i>
+              </el-button>
+            </el-row>
+          </el-card>
+        </el-col>
+      </el-row>
+    </el-main>
+  </no-ssr>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
 export default {
-  components: {
-    Logo
-  }
+  created() {
+    console.log(this.$router.options.routes)
+  },
+  components: {}
 }
 </script>
 
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+.text {
+  font-size: 14px;
 }
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+.item {
+  margin-bottom: 18px;
 }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: '';
 }
-
-.links {
-  padding-top: 15px;
+.clearfix:after {
+  clear: both;
 }
 </style>
