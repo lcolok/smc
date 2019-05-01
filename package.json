@@ -14,14 +14,11 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/pwa": "^2.6.0",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
     "cross-env": "^5.2.0",
     "del": "^4.1.1",
     "express": "^4.16.4",
-    "leancloud-storage": "^3.12.0",
-    "leanengine": "^3.3.3",
-    "nuxt": "^2.6.3",
-    "vuetify": "^1.5.5",
-    "vuetify-loader": "^1.2.1",
     "gulp": "^4.0.1",
     "gulp-append-prepend": "^1.0.8",
     "gulp-changed": "^3.2.0",
@@ -34,7 +31,14 @@
     "gulp-strip-debug": "^3.0.0",
     "gulp-uglify": "^3.0.2",
     "gulp-uglify-es": "^1.0.4",
-    "gulp-util": "^3.0.8"
+    "gulp-util": "^3.0.8",
+    "leancloud-storage": "^3.12.0",
+    "leanengine": "^3.3.3",
+    "nuxt": "^2.6.3",
+    "request": "^2.88.0",
+    "require-all": "^3.0.0",
+    "vuetify": "^1.5.5",
+    "vuetify-loader": "^1.2.1"
   },
   "devDependencies": {
     "nodemon": "^1.18.9",

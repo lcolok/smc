@@ -1,7 +1,7 @@
-const express = require('express')
+
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
-const app = express()
+
 
 const AV = require('leanengine')
 AV.init({
@@ -9,9 +9,14 @@ AV.init({
   appKey: process.env.LEANCLOUD_APP_KEY,
   masterKey: process.env.LEANCLOUD_APP_MASTER_KEY
 });
-app.use(AV.express())
+
 
 // console.log(process.env.LEANCLOUD_APP_DOMAIN);
+
+// 如果不希望使用 masterKey 权限，可以将下面一行删除
+AV.Cloud.useMasterKey();
+
+var app = require('./app');
 
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')
