@@ -13,15 +13,7 @@ var gutil = require('gulp-util');
 // var exec = require('gulp-exec');
 var exec = require('child_process').exec;
 
-gulp.task('default', done => {
-    // 将你的默认的任务代码放在这
-    gulp.parallel(
-        gulp.series('buildLeanCloudAPI', 'buildNuxt'),
-        gulp.series('deployLeanCloud')
-    );
 
-    done();
-});
 
 gulp.task('deployLeanCloud', function (cb) {
     exec('lean deploy', function (err, stdout, stderr) {
@@ -32,7 +24,7 @@ gulp.task('deployLeanCloud', function (cb) {
 })
 
 gulp.task('buildNuxt', function (cb) {
-    exec('nuxt build', function (err, stdout, stderr) {
+    exec('npm run build', function (err, stdout, stderr) {
         console.log(stdout);
         console.log(stderr);
         cb(err);
@@ -181,10 +173,24 @@ gulp.task('buildLeanCloudAPI', function (done) {
 
 });
 
+gulp.task('getProcessEnv', function (done) {
+    done();
+});
+
 gulp.task('prepublish',
     gulp.series(
-        // done => { console.log('> gulp prepublish'); done() },//gulp 4x版本一定要"async completion" 详情请参考:http://t.cn/EXBpo2u
-        // 'minapi',
-        'buildLeanCloudAPI',
+        'getProcessEnv'
     )
 );
+
+
+gulp.task('default',
+    gulp.series(
+        gulp.parallel(
+            'buildLeanCloudAPI',
+            'buildNuxt'
+        ),
+
+        'deployLeanCloud'
+
+    ));

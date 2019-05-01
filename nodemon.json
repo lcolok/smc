@@ -1,0 +1,14 @@
+{
+  "ignore": [
+    ".git",
+    "assets/*",
+    "components/*",
+    "layouts/*",
+    "middleware/*",
+    "pages/*",
+    "plugins/*",
+    "serverless/*",
+    "static/*",
+    "store/*"
+  ]
+}

@@ -11,6 +11,8 @@ AV.init({
 });
 app.use(AV.express())
 
+// console.log(process.env.LEANCLOUD_APP_DOMAIN);
+
 // Import and Set Nuxt.js options
 let config = require('../nuxt.config.js')
 config.dev = !(process.env.NODE_ENV === 'production')
@@ -20,7 +22,7 @@ async function start() {
   const nuxt = new Nuxt(config)
 
   // const { host, port } = nuxt.options.server
-  const host = process.env.HOST || '0.0.0.0';
+  const host = config.dev ? '127.0.0.1' : (process.env.HOST || '0.0.0.0');
   const port = parseInt(process.env.LEANCLOUD_APP_PORT || process.env.PORT || 3000);
 
   // Build only in dev mode
