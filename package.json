@@ -13,8 +13,8 @@
     "start": "node ./server/index.js",
     "predeploy": "npx vue-cli-service build --dest dist",
     "deploy": "git add dist && git commit -m 'Initial dist subtree commit' && git subtree push --prefix='dist' https://github.com/lcolok/smcw.git gh-pages && rm -r dist",
-    "prelean":"gulp dev && npx vue-cli-service build --mode production --dest dist",
-    "lean":"lean deploy && rm -r dist"
+    "prelean": "gulp dev && npx vue-cli-service build --mode production --dest dist",
+    "lean": "lean deploy && rm -r dist"
   },
   "main": "index.js",
   "dependencies": {
@@ -44,6 +44,7 @@
     "less-loader": "^4.1.0",
     "lodash": "^4.17.11",
     "mescroll.js": "^1.4.1",
+    "moment": "^2.24.0",
     "qiniu-js": "^2.5.4",
     "request": "^2.88.0",
     "require-all": "^3.0.0",

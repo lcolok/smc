@@ -51,7 +51,9 @@ if (developing) {//leancloud的开发环境下
 
     });
     ls.stderr.on('data', (data) => {
-      console.log(`stderr: ${data}`);
+      
+      console.log(`\n stderr: ${data} \n`);
+     
     });
     ls.on('close', (code) => {
       // console.log(`child process exited with code ${code}`);
