@@ -41,8 +41,8 @@ if (developing) {//leancloud的开发环境下
   const exec = child_process.exec;
 
   for (var j in tasks.gulp) {
-    const ls = spawn('gulp', [tasks.gulp[j]], { stdio: "inherit" });//如果使用stdio:"inherit",就能显示彩色的console结果
-/*     ls.stdout.on('data', (data) => {
+    const ls = spawn('gulp', [tasks.gulp[j]], { stdio: "pipe" });//如果使用stdio:"inherit",就能显示彩色的console结果;如果是用pipe的话就可以进行下面的 ls.stdout.on
+    ls.stdout.on('data', (data) => {
       // console.log(data.toString());
       var sign = '-fs';
       if (data.toString().match(sign)) {
@@ -56,12 +56,12 @@ if (developing) {//leancloud的开发环境下
     ls.on('close', (code) => {
       // console.log(`child process exited with code ${code}`);
       pb.stepRender();
-    }); */
+    });
   }
 }
 
 
 for (var i in tasks.module) {
-  // developing ? pb.stepRender() : "";
+  developing ? pb.stepRender() : "";
   (tasks.module[i])();
 }
