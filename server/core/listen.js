@@ -44,13 +44,13 @@ module.exports = () => {
 
         app.listen(PORT, function (err) {
             const timer = setInterval(() => {
-                if (process.env.PROGRESS_BAR_RUNNING == "false") {//只有进度条播放完才会进行以下声明
+                // if (process.env.PROGRESS_BAR_RUNNING == "false") {//只有进度条播放完才会进行以下声明
                     clearInterval(timer);
                     console.log(chalk.yellow.inverse(` SERVER READY `) + ' ' + 'Node app is running on', `${chalk.yellow('http://localhost:' + PORT)}`);
                     for (var n = 0; n < 10; n++) {
                         checkLocalServer(8080 + n);//从端口8080开始轮询
                     }
-                }
+                // }
             }, 0);
             // 注册全局未捕获异常处理器
             process.on('uncaughtException', function (err) {
