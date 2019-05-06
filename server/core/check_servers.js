@@ -9,7 +9,7 @@ module.exports = () => {
         }
     }, (err, httpResponse, body) => {
         if (!err) {
-            console.log('\n');
+      
             const apps = JSON.parse(body);
             // console.log(apps);
 
@@ -19,7 +19,7 @@ module.exports = () => {
             }
             // fs.writeFileSync("smc.data.json", JSON.stringify(app));
 
-            console.log('\n');
+        
         } else {
             console.log(err);
         }
