@@ -30,8 +30,10 @@ function leanUp() {
 
 }
 
+
+
 module.exports = {
-  publicPath: '/SMC/',
+  publicPath: `/${require("./package.json")["gh-pages-name"]}/` || "./",
   assetsDir: 'assets',
 
   css: {

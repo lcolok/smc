@@ -1,5 +1,6 @@
 {
   "name": "smc_vue",
+  "gh-pages-name":"smcw",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,7 +12,7 @@
     "dev": "nodemon ./server/index.js",
     "start": "node ./server/index.js",
     "predeploy": "npx vue-cli-service build --dest dist",
-    "deploy": "git add dist && git commit -m 'Initial dist subtree commit' && git subtree push --prefix='dist' origin gh-pages && rm -r dist"
+    "deploy": "git add dist && git commit -m 'Initial dist subtree commit' && git subtree push --prefix='dist' https://github.com/lcolok/smcw.git gh-pages && rm -r dist"
   },
   "main": "index.js",
   "dependencies": {
