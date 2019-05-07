@@ -33,8 +33,14 @@ function leanUp() {
 
 
 module.exports = {
-  publicPath: `/${require("./package.json")["gh-pages-name"]}/` || "./",
+  publicPath: process.env.VUE_APP_PUBLIC_PATH || `/${require("./package.json")["gh-pages-name"]}/` || "./",
   assetsDir: 'assets',
+  lintOnSave: undefined,
+  productionSourceMap: false,
+  outputDir: undefined,
+  runtimeCompiler: undefined,
+  parallel: undefined,
+
 
   css: {
     loaderOptions: {
@@ -83,10 +89,4 @@ module.exports = {
       enableInSFC: true
     }
   },
-
-  lintOnSave: undefined,
-  productionSourceMap: false,
-  outputDir: undefined,
-  runtimeCompiler: undefined,
-  parallel: undefined,
 }

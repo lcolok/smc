@@ -28,14 +28,14 @@ app.use(compression());
 
 var distPath;
 if (process.env.npm_lifecycle_event == 'dev') {
-    distPath = path.join(__dirname, '../dist');
+    distPath = path.resolve('./dist');
     app.all('*', function(req, res, next){
         // req.headers['server_status'] = 'development';
         res.header('server_status','development');
         next()
     })
 } else {
-    distPath = path.join(__dirname, '../dist');
+    distPath = path.resolve('./dist');
 }
 
 // 设置模板引擎

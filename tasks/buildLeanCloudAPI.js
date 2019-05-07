@@ -7,7 +7,7 @@ const path = require('path');
 var gulpIgnore = require('gulp-ignore');
 var fs = require('fs');
 let uglify = require('gulp-uglify-es').default;
-
+var gutil = require('gulp-util');
 
 gulp.task('buildLeanCloudAPI', function (done) {
 
