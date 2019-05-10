@@ -1,6 +1,13 @@
 var gulp = require('gulp');
+var fs = require('fs');
+var path = require('path');
 
 gulp.task('leanUp', function (done) {
+
+    // console.log('-fs'+process.env.LEANCLOUD_APP_KEY);
+    // fs.writeFileSync(path.resolve('.leancloud/current_app_id'),process.env.LEANCLOUD_APP_ID);//ID并不需要写入,因为ID是因也是果
+    fs.writeFileSync(path.resolve('.leancloud/current_app_key'),process.env.LEANCLOUD_APP_KEY);
+
 
 /*     var fs = require('fs');
     var path = require('path');
