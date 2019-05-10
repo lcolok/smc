@@ -8,8 +8,7 @@ const tasks = {
     'leanUp',
   ],
   module: [//开发环境和生产环境都会运行的组件
-    require('./core/listen'),
-    require('./core/check_servers'),
+
   ]
 }
 
@@ -70,8 +69,5 @@ if (developing) {//leancloud的开发环境下
 
 
 function runCore() {
-  for (var i in tasks.module) {
-    developing ? pb.stepRender() : "";
-    (tasks.module[i])();
-  }
+  require('./core')
 }
