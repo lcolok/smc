@@ -7,7 +7,7 @@ module.exports = {
     },
     apiBuildDest: "./server/serverless",
     bundleName: "api.min.js",
-    dev:{
-        port:3000,
+    server:{
+        devPort:3000,
     }
 }

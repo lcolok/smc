@@ -11,7 +11,7 @@
 
 
 
-    var devPort = require(path.resolve('api/config/api.config.js')).dev.port;
+    var devPort = require(path.resolve('api/config/api.config.js')).server.devPort;
 
     var PORT = parseInt(developing ? devPort : (process.env.LEANCLOUD_APP_PORT || process.env.PORT || 3000));
 

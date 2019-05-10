@@ -3,7 +3,7 @@ import AV from 'leancloud-storage'
 import current_app_id from '!raw-loader!../../.leancloud/current_app_id';
 import current_app_key from '!raw-loader!../../.leancloud/current_app_key';
 
-console.log(process.env);
+// console.log(process.env);
 
 AV.init({
   appId: current_app_id,
