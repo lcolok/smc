@@ -45,7 +45,7 @@
                 const app = require('./app');
                 app.listen(PORT, function (err) {
 
-                    require('./check_servers')//进行判断本台机器是属于leancloud众多机器中的哪一台
+                    require('./rotate')//进行判断本台机器是属于leancloud众多机器中的哪一台
 
                     clearInterval(timer);
                     console.log(chalk.yellow.inverse(` SERVER READY `) + ' ' + 'Node app is running on', `${chalk.yellow('http://localhost:' + PORT)}`);//启动本服务器

@@ -11,8 +11,8 @@
     "electron:serve": "vue-cli-service electron:serve",
     "dev": "nodemon ./server/dev.js",
     "start": "node ./server/index.js",
-    "predeploy": "npx vue-cli-service build --dest dist",
-    "deploy": "git add dist && git commit -m 'Initial dist subtree commit' && git subtree push --prefix='dist' https://github.com/lcolok/smcw.git gh-pages && rm -r dist",
+    "pregh": "npx vue-cli-service build --mode ghPage --dest ghDist",
+    "gh": "git add ghDist && git commit -m 'Initial dist subtree commit' && git subtree push --prefix='ghDist' https://github.com/lcolok/smcw.git gh-pages && rm -r ghDist",
     "prelean": "gulp dev && npx vue-cli-service build --mode production --dest dist",
     "lean": "lean deploy && rm -r dist"
   },
