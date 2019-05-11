@@ -1,1 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["login24"],{df20:function(o,n,p){o.exports=p.p+"assets/img/logo.82b9c7a5.png"}}]);

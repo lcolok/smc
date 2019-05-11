@@ -30,10 +30,13 @@ function leanUp() {
 
 }
 
+// console.log(process.env);
+
+const publicPath = process.env.VUE_APP_PUBLIC_PATH || '/'
 
 
 module.exports = {
-  publicPath: process.env.VUE_APP_PUBLIC_PATH || `/${require("./package.json")["gh-pages-name"]}/` || "./",
+  publicPath: publicPath,
   assetsDir: 'assets',
   lintOnSave: undefined,
   productionSourceMap: false,
@@ -78,7 +81,7 @@ module.exports = {
           ]
         }
       }
-
+ 
     }, */
 
   pluginOptions: {

@@ -10,7 +10,7 @@
     "dev": "nodemon ./server/dev.js",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
-    "pregh": "npx vue-cli-service build --mode ghPage --dest ghDist",
+    "pregh": "npx vue-cli-service build --mode staging --dest ghDist",
     "gh": "git add ghDist && git commit -m 'Initial dist subtree commit' && git subtree push --prefix='ghDist' https://github.com/lcolok/smcw.git gh-pages && rm -r ghDist",
     "prelean": "gulp dev && npx vue-cli-service build --mode production --dest dist",
     "lean": "lean deploy && rm -r dist",
