@@ -1,29 +1,20 @@
 import Vue from "vue";
-Vue.config.productionTip = false
-
-import './registerServiceWorker'
 import ArgonDashboard from './plugins/argon-dashboard'
-Vue.use(ArgonDashboard)
-
-new Vue({
-  router,
-  render: h => h(App)
-}).$mount('#app')
-
-
-
-import './plugins/directives'
-import './plugins/antd'
-// import './plugins/lottie'
 import App from './App.vue'
 import router from './router'
 import i18n from './i18n'
 import store from './store'
-
 import rawDisplayer from "./vue/infra/raw-displayer.vue";
+import './registerServiceWorker'
+// import './plugins/lottie'
+import './plugins/directives'
+import './plugins/antd'
+import 'animate.css';
+
+Vue.config.productionTip = false
+Vue.use(ArgonDashboard)
 Vue.component("rawDisplayer", rawDisplayer);
 
-import 'animate.css';
 // Vue.prototype.$Vue = Vue;
 
 /* // 注册一个全局自定义指令 `v-focus`
@@ -47,8 +38,6 @@ Vue.directive("focus", {
     }
   }
 }); */
-
-
 
 new Vue({
   router,
