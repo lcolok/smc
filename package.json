@@ -3,20 +3,38 @@
   "gh-pages-name": "smcw",
   "version": "0.1.0",
   "private": true,
+  "main": "index.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
+    "dev": "nodemon ./server/dev.js",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
-    "dev": "nodemon ./server/dev.js",
-    "start": "node ./server/core",
     "pregh": "npx vue-cli-service build --mode ghPage --dest ghDist",
     "gh": "git add ghDist && git commit -m 'Initial dist subtree commit' && git subtree push --prefix='ghDist' https://github.com/lcolok/smcw.git gh-pages && rm -r ghDist",
     "prelean": "gulp dev && npx vue-cli-service build --mode production --dest dist",
-    "lean": "lean deploy && rm -r dist"
+    "lean": "lean deploy && rm -r dist",
+    "lint": "vue-cli-service lint",
+    "start": "node ./server/core"
   },
-  "main": "index.js",
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "eslintConfig": {
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "root": true
+  },
   "dependencies": {
     "acorn": "^6.1.1",
     "acorn-dynamic-import": "^4.0.0",
@@ -25,36 +43,47 @@
     "axios": "^0.18.0",
     "babel-plugin-import": "^1.11.0",
     "body-parser": "^1.18.3",
+    "bootstrap": "4.3.1",
+    "bootstrap-vue": "2.0.0-rc.15",
     "browser-sync": "^2.26.5",
     "chalk": "^2.4.2",
+    "chart.js": "2.8.0",
     "cheerio": "^1.0.0-rc.3",
     "circular-json": "^0.5.9",
     "compression": "^1.7.4",
     "compression-webpack-plugin": "^2.0.0",
     "connect-timeout": "^1.7.0",
     "cookie-parser": "^1.3.5",
+    "core-js": "2.6.5",
     "del": "^4.1.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "filepond": "^4.4.0",
     "filepond-plugin-file-validate-type": "^1.2.4",
     "filepond-plugin-image-preview": "^4.0.8",
+    "flatpickr": "4.5.7",
     "leancloud-storage": "^3.13.0",
     "leanengine": "^3.3.3",
     "less-loader": "^4.1.0",
     "lodash": "^4.17.11",
     "mescroll.js": "^1.4.1",
     "moment": "^2.24.0",
+    "nouislider": "13.1.4",
     "qiniu-js": "^2.5.4",
+    "register-service-worker": "1.6.2",
     "request": "^2.88.0",
     "require-all": "^3.0.0",
     "single-line-log": "^1.1.2",
     "v-emoji-picker": "^1.1.2",
     "vue": "^2.6.6",
+    "vue-chartjs": "3.4.2",
+    "vue-clipboard2": "0.3.0",
     "vue-filepond": "^5.1.0",
+    "vue-flatpickr-component": "8.1.2",
     "vue-i18n": "^8.0.0",
     "vue-loader": "^15.7.0",
     "vue-router": "^3.0.6",
+    "vue2-transitions": "0.3.0",
     "vuedraggable": "^2.20.0",
     "vuex": "^3.0.1",
     "webpack": "^4.30.0",
@@ -86,9 +115,11 @@
     "gulp-util": "^3.0.8",
     "less": "^3.9.0",
     "material-design-icons-iconfont": "^4.0.5",
+    "node-sass": "^4.9.0",
     "nodemon": "^1.18.0",
     "raw-loader": "^2.0.0",
     "require-dir": "^1.2.0",
+    "sass-loader": "^7.1.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "vue-cli-plugin-electron-builder": "^1.2.0",
@@ -96,30 +127,12 @@
     "vue-cli-plugin-vuetify": "^0.5.0",
     "vue-template-compiler": "^2.6.10"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
+  "engines": {
+    "node": "10.x"
   },
   "postcss": {
     "plugins": {
       "autoprefixer": {}
     }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ],
-  "engines": {
-    "node": "10.x"
   }
 }

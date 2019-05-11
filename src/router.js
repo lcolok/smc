@@ -1,71 +1,127 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+import AV from './plugins/AVinit'
+import DashboardLayout from '@/layout/DashboardLayout'
+import AuthLayout from '@/layout/AuthLayout'
 Vue.use(Router);
 
-import AV from './plugins/AVinit'
 Vue.prototype.$AV = AV;
 
+if (process.env.NODE_ENV == "development") { AV._setServerURLs('http://localhost:' + require('../api/config/api.config.js').server.devPort) }//如果是处于开发状态的话,设置本地服务器端口(必须先进行 lean up 操作)
 
+// const routes = []
 
-if (process.env.NODE_ENV == "development") {//如果是处于开发状态的话
-  const custom_dev_port = require('../api/config/api.config.js').server.devPort;
-  AV._setServerURLs('http://localhost:' + custom_dev_port)//设置本地服务器端口(必须先进行 lean up 操作)
-}
+// importPages(require.context('./vue', false, /\.vue$/))
+// function importPages(r) {
 
-const routes = []
+//   var arr = r.keys();
 
-importPages(require.context('./vue', false, /\.vue$/))
-function importPages(r) {
+//   arr.forEach(key => {
+//     var meta = r(key).default.meta;
+//     // console.log(r(key).default);
 
-  var arr = r.keys();
+//     var filePath = (key.split('.'))[1];
+//     // var path = (key.toLowerCase().split('.'))[1];
+//     // var title = (key.split('.'))[1].split('/')[1];
 
-  arr.forEach(key => {
-    var meta = r(key).default.meta;
-    // console.log(r(key).default);
+//     routes.push({
+//       path: (meta.staticPath || filePath).toLowerCase(),//如果有静态路径则用静态路径
+//       component: () => import(/* webpackChunkName: "login" */"./vue" + filePath),
+//       meta: meta
+//     })
 
-    var filePath = (key.split('.'))[1];
-    // var path = (key.toLowerCase().split('.'))[1];
-    // var title = (key.split('.'))[1].split('/')[1];
+//     routes
+//       .sort((a, b) => {//按照自定义的优先级来排序
+//         // console.log(a.meta.order);
+//         if ((a.meta.order || -1) < (b.meta.order || -1)) {
+//           return -1
+//         } else {
+//           return 0
+//         }
+//       })
+//       .sort((a, b) => {//置底404页面
+//         if (a.path == '*') {
+//           return -1
+//         } else {
+//           return 1
+//         }
+//       })
+//       .sort((a, b) => {//置顶首页
+//         if (b.path == '/') {
+//           return 1
+//         } else {
+//           return -1
+//         }
+//       })
+//   });
+// }
 
-    routes.push({
-      path: (meta.staticPath || filePath).toLowerCase(),//如果有静态路径则用静态路径
-      component: () => import("./vue" + filePath),
-      meta: meta
-    })
-
-    routes
-      .sort((a, b) => {//按照自定义的优先级来排序
-        // console.log(a.meta.order);
-        if ((a.meta.order || -1) < (b.meta.order || -1)) {
-          return -1
-        } else {
-          return 0
-        }
-      })
-      .sort((a, b) => {//置底404页面
-        if (a.path == '*') {
-          return -1
-        } else {
-          return 1
-        }
-      })
-      .sort((a, b) => {//置顶首页
-        if (b.path == '/') {
-          return 1
-        } else {
-          return -1
-        }
-      })
-  });
-}
+// const router = new Router({
+//   routes: routes
+// })
 
 const router = new Router({
-  routes: routes
+  linkExactActiveClass: 'active',
+  routes: [
+    {
+      path: '/',
+      redirect: 'dashboard',
+      component: DashboardLayout,
+      children: [
+        {
+          path: '/dashboard',
+          name: 'dashboard',
+          // route level code-splitting
+          // this generates a separate chunk (about.[hash].js) for this route
+          // which is lazy-loaded when the route is visited.
+          component: () => import(/* webpackChunkName: "demo" */ './views/Dashboard.vue')
+        },
+        {
+          path: '/icons',
+          name: 'icons',
+          component: () => import(/* webpackChunkName: "demo" */ './views/Icons.vue')
+        },
+        {
+          path: '/profile',
+          name: 'profile',
+          component: () => import(/* webpackChunkName: "demo" */ './views/UserProfile.vue')
+        },
+        {
+          path: '/maps',
+          name: 'maps',
+          component: () => import(/* webpackChunkName: "demo" */ './views/Maps.vue')
+        },
+        {
+          path: '/tables',
+          name: 'tables',
+          component: () => import(/* webpackChunkName: "demo" */ './views/Tables.vue')
+        }
+      ]
+    },
+    {
+      path: '/',
+      redirect: 'login',
+      component: AuthLayout,
+      children: [
+        {
+          path: '/login',
+          name: 'login',
+          component: () => import(/* webpackChunkName: "demo" */ './views/Login.vue')
+        },
+        {
+          path: '/register',
+          name: 'register',
+          component: () => import(/* webpackChunkName: "demo" */ './views/Register.vue')
+        }
+      ]
+    }
+  ]
 })
 
+
+
 router.beforeEach((to, from, next) => {//to即将进入的目标路由对象，from当前导航正要离开的路由， next  :  下一步执行的函数钩子
-  document.title = to.meta.title;//给出指定的标题名称
+  document.title = to.meta.title || "Vue Argon Dashboard - Free Dashboard for Vue.js & Bootstrap 4";//给出指定的标题名称
 
   if (to.path === '/login') { next() }  // 如果即将进入登录路由，则直接放行
 

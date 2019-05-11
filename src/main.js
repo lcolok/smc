@@ -1,6 +1,17 @@
 import Vue from "vue";
 Vue.config.productionTip = false
 
+import './registerServiceWorker'
+import ArgonDashboard from './plugins/argon-dashboard'
+Vue.use(ArgonDashboard)
+
+new Vue({
+  router,
+  render: h => h(App)
+}).$mount('#app')
+
+
+
 import './plugins/directives'
 import './plugins/antd'
 // import './plugins/lottie'
