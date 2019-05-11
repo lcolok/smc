@@ -5,8 +5,7 @@
 <!--     <transition enter-to-class="animated bounceInLeft">
       <router-view></router-view>
     </transition> -->
-    <transition>
-      <router-view></router-view>
-    </transition>
+    <notifications></notifications>
+    <router-view/>
   </div>
 </template>

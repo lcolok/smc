@@ -74,27 +74,27 @@ const router = new Router({
           // route level code-splitting
           // this generates a separate chunk (about.[hash].js) for this route
           // which is lazy-loaded when the route is visited.
-          component: () => import(/* webpackChunkName: "demo" */ './views/Dashboard.vue')
+          component: () => import(/* webpackChunkName: "Dashboard" */ './views/Dashboard.vue')
         },
         {
           path: '/icons',
           name: 'icons',
-          component: () => import(/* webpackChunkName: "demo" */ './views/Icons.vue')
+          component: () => import(/* webpackChunkName: "Icons" */ './views/Icons.vue')
         },
         {
           path: '/profile',
           name: 'profile',
-          component: () => import(/* webpackChunkName: "demo" */ './views/UserProfile.vue')
+          component: () => import(/* webpackChunkName: "UserProfile" */ './views/UserProfile.vue')
         },
         {
           path: '/maps',
           name: 'maps',
-          component: () => import(/* webpackChunkName: "demo" */ './views/Maps.vue')
+          component: () => import(/* webpackChunkName: "Maps" */ './views/Maps.vue')
         },
         {
           path: '/tables',
           name: 'tables',
-          component: () => import(/* webpackChunkName: "demo" */ './views/Tables.vue')
+          component: () => import(/* webpackChunkName: "Tables" */ './views/Tables.vue')
         }
       ]
     },
@@ -106,14 +106,18 @@ const router = new Router({
         {
           path: '/login',
           name: 'login',
-          component: () => import(/* webpackChunkName: "demo" */ './views/Login.vue')
+          component: () => import(/* webpackChunkName: "Login" */ './views/Login.vue')
         },
         {
           path: '/register',
           name: 'register',
-          component: () => import(/* webpackChunkName: "demo" */ './views/Register.vue')
+          component: () => import(/* webpackChunkName: "Register" */ './views/Register.vue')
         }
       ]
+    },
+    {
+      path: '*',
+      component: () => import(/* webpackChunkName: "NotFound" */ './views/NotFound.vue'),
     }
   ]
 })
