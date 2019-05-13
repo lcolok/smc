@@ -7,9 +7,10 @@ import store from './store'
 import rawDisplayer from "./vue/infra/raw-displayer.vue";
 import './registerServiceWorker'
 // import './plugins/lottie'
+// import './plugins/antd'
 import './plugins/directives'
-import './plugins/antd'
 import 'animate.css';
+import '@mdi/font/css/materialdesignicons.css';//mdi图标
 
 Vue.config.productionTip = false
 Vue.use(ArgonDashboard)

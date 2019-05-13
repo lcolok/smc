@@ -1,5 +1,14 @@
 {
+  "Create account": "创建用户",
+  "Email": "电子邮箱",
   "Forgot password?": "忘记密码？",
+  "I agree with the": "我同意",
+  "Login into your account": "去登录",
+  "Or sign up with credentials": "或者直接注册",
+  "Password": "密码",
+  "Privacy Policy": "隐私策略",
+  "Username": "用户名",
   "Welcome to Vuetify": "欢迎来到Vetify",
-  "message": "你好 i18n !!"
+  "message": "你好 i18n !!",
+  "password strength": "密码强度"
 }

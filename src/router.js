@@ -7,7 +7,7 @@ Vue.use(Router);
 
 Vue.prototype.$AV = AV;
 
-if (process.env.NODE_ENV == "development") { AV._setServerURLs('http://localhost:' + require('../api/config/api.config.js').server.devPort) }//如果是处于开发状态的话,设置本地服务器端口(必须先进行 lean up 操作)
+// if (process.env.NODE_ENV == "development") { AV._setServerURLs('http://localhost:' + require('../api/config/api.config.js').server.devPort) }//如果是处于开发状态的话,设置本地服务器端口(必须先进行 lean up 操作)
 
 // const routes = []
 
@@ -67,6 +67,9 @@ const router = new Router({
       path: '/',
       redirect: 'dashboard',
       component: DashboardLayout,
+      meta: {
+        requiresAuth: true
+      },
       children: [
         {
           path: '/dashboard',
@@ -127,24 +130,28 @@ const router = new Router({
 router.beforeEach((to, from, next) => {//to即将进入的目标路由对象，from当前导航正要离开的路由， next  :  下一步执行的函数钩子
   document.title = to.meta.title || "Vue Argon Dashboard - Free Dashboard for Vue.js & Bootstrap 4";//给出指定的标题名称
 
+  console.log(to.matched);
+
   if (to.path === '/login') { next() }  // 如果即将进入登录路由，则直接放行
 
   else {     //进入的不是登录路由
 
-    if (to.meta.requiresAuth && !AV.User.current()) {
-      console.log('还没登录');
-      next({
-        path: 'login',
-        query: {
-          redirect: to.fullPath//留下原来要到达的路径信息，等用户登录好之后，再进行跳转
-        }
-      })
-
+    if (to.matched.some(record => { return record.meta.requiresAuth })) {
+      // 此路由需要鉴权，请检查是否登录
+      // 如果没有登录，重定向到登录页面。
+      if (!AV.User.current()) {
+        next({
+          path: '/login',
+          query: { redirect: to.fullPath }//留下原来要到达的路径信息，等用户登录好之后，再进行跳转
+        })
+      } else {
+        next()
+      }
+    } else {
+      next() // 确保一定要调用 next()
     }
 
-    //下一跳路由需要登录验证，并且还未登录，则路由定向到  登录路由
 
-    else { next() }
   }  //如果不需要登录验证，或者已经登录成功，则直接放行
 
 })

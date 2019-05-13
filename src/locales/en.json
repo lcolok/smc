@@ -1,5 +1,14 @@
 {
+  "Create account": "",
+  "Emai'l": "",
   "Forgot password?": "Forgot password?",
+  "I agree with the": "",
+  "Login into your account": "",
+  "Or sign up with credentials": "Or sign up with credentials",
+  "Password": "",
+  "Privacy Policy": "",
+  "Username": "Username",
   "Welcome to Vuetify": "Welcome to Vuetify",
-  "message": "hello i18n !!"
+  "message": "hello i18n !!",
+  "password strength": ""
 }

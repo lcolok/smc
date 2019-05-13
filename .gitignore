@@ -21,3 +21,6 @@ yarn-error.log*
 
 #Electron-builder output
 /dist_electron
+
+#Vue-CLI-builder output
+/dist
