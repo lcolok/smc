@@ -5,6 +5,7 @@
   "I agree with the": "",
   "I have verified the mail": "",
   "Login into your account": "",
+  "Logout": "",
   "One more thing": "",
   "Or sign up with credentials": "Or sign up with credentials",
   "Password": "",
@@ -14,5 +15,8 @@
   "Username has already been taken": "",
   "Welcome to Vuetify": "Welcome to Vuetify",
   "message": "hello i18n !!",
-  "password strength": ""
+  "password strength": "",
+  "or": " or ",
+  "Create new account": "",
+  "Sign in":""
 }

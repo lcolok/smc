@@ -133,13 +133,14 @@ export default {
   },
   methods: {
     signUp() {
-      var username = this.model.name;
-      var password = this.model.password;
-      var email = this.model.email;
+      let username = this.model.name;
+      let password = this.model.password;
+      let email = this.model.email;
 
       // LeanCloud - 注册
       // https://leancloud.cn/docs/leanstorage_guide-js.html#注册
-      var user = new this.$AV.User();
+      let user = new this.$AV.User();
+      let __this = this;
       user.setUsername(username);
       user.setPassword(password);
       user.setEmail(email);
@@ -148,9 +149,9 @@ export default {
         .then(function(user) {
           //注册成功
           //然后会提醒用户打开邮箱验证
-          console.log(user);
-          console.log(this.$AV.User.current());
-        //   this.$AV.user = user.toJSON();
+          __this.$router.push({
+            path: '/email_check'
+          });          
         })
         .catch(error => {
           error = error.toString();
@@ -158,7 +159,7 @@ export default {
 
           let info = "";
 
-/*           if (error.match(/^taken$/gm)) {
+          /*           if (error.match(/^taken$/gm)) {
             info = $t("This username has already been taken");
           } else if (error.match(/此电子邮箱已经被占用/gm)) {
             info = $t("This Email has already been taken");

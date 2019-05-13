@@ -28,14 +28,14 @@
           <form role="form">
             <base-input
               class="input-group-alternative mb-3"
-              placeholder="Email"
-              addon-left-icon="ni ni-email-83"
-              v-model="model.email"
+              :placeholder="$t('Username')+$t('or')+$t('Email')"
+              addon-left-icon="ni ni-single-02"
+              v-model="model.username"
             ></base-input>
 
             <base-input
               class="input-group-alternative"
-              placeholder="Password"
+              :placeholder="$t('Password')"
               type="password"
               addon-left-icon="ni ni-lock-circle-open"
               v-model="model.password"
@@ -45,7 +45,7 @@
               <span class="text-muted">Remember me</span>
             </base-checkbox>
             <div class="text-center">
-              <base-button type="primary" class="my-4" @click="login">Sign in</base-button>
+              <base-button type="primary" class="my-4" @click="login">{{$t("Sign in")}}</base-button>
             </div>
           </form>
         </div>
@@ -53,12 +53,12 @@
       <div class="row mt-3">
         <div class="col-6">
           <a href="#" class="text-light">
-            <small>Forgot password?</small>
+            <small>{{$t("Forgot password?")}}</small>
           </a>
         </div>
         <div class="col-6 text-right">
           <router-link to="/register" class="text-light">
-            <small>Create new account</small>
+            <small>{{$t("Create new account")}}</small>
           </router-link>
         </div>
       </div>
@@ -71,17 +71,34 @@ export default {
   data() {
     return {
       model: {
-        email: "",
+        username: "",
         password: ""
       }
     };
   },
-  mounted() {
-    this.checkEmail();
-  },
   methods: {
     login() {
+      var username = this.model.username;
+      var password = this.model.password;
 
+      let __this = this;
+      // LeanCloud - 登录
+      // https://leancloud.cn/docs/leanstorage_guide-js.html#用户名和密码登录
+      this.$AV.User.logIn(username, password)
+        .then(function(user) {
+          // 登录成功
+          let dest;
+          if (__this.$route.query.redirect) {
+            dest = __this.$route.query.redirect;
+          } else {
+            //默认转跳到
+            dest = "/";
+          }
+          __this.$router.push({
+            path: dest
+          });
+        })
+        .catch(alert);
     }
   }
 };

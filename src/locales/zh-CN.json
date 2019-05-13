@@ -5,6 +5,7 @@
   "I agree with the": "我同意",
   "I have verified the mail": "我已验证邮件",
   "Login into your account": "去登录",
+  "Logout": "登出",
   "One more thing": "还有一件事",
   "Or sign up with credentials": "或者直接注册",
   "Password": "密码",
@@ -14,5 +15,8 @@
   "Username": "用户名",
   "Welcome to Vuetify": "欢迎来到Vetify",
   "message": "你好 i18n !!",
-  "password strength": "密码强度"
+  "password strength": "密码强度",
+  "or": " 或 ",
+  "Create new account": "注册新账户",
+  "Sign in":"登入"
 }

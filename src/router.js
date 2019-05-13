@@ -112,6 +112,11 @@ const router = new Router({
           component: () => import(/* webpackChunkName: "Login" */ './views/Login.vue')
         },
         {
+          path: '/logout',
+          name: 'logout',
+          component: () => import(/* webpackChunkName: "Logout" */ './views/Logout.vue')
+        },
+        {
           path: '/register',
           name: 'register',
           component: () => import(/* webpackChunkName: "Register" */ './views/Register.vue')
@@ -134,8 +139,6 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {//to即将进入的目标路由对象，from当前导航正要离开的路由， next  :  下一步执行的函数钩子
   document.title = to.meta.title || "Vue Argon Dashboard - Free Dashboard for Vue.js & Bootstrap 4";//给出指定的标题名称
-
-  console.log(to.matched);
 
   if (to.path === '/login') { next() }  // 如果即将进入登录路由，则直接放行
 

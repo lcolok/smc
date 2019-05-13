@@ -10,7 +10,7 @@
             <base-button
               type="primary"
               class="my-4"
-              @click="login"
+              @click="checkEmail"
             >{{$t('I have verified the mail')}}</base-button>
           </div>
         </div>
@@ -30,30 +30,37 @@ export default {
     };
   },
   mounted() {
-    this.checkEmail();
-    console.log(this.$AV.User.current());
+    // this.checkEmail();
+    // console.log(this.$AV.User.current());
   },
   methods: {
-    login() {
-      console.log(this.$AV.User.current().attributes.emailVerified);
-      console.log(this.$route.query.redirect);
-      if (this.checkEmail()) {
-        this.$router.push({
-          path: this.$route.query.redirect,
-          query: {}
-        });
-      }
-    },
     checkEmail() {
-      if (!this.$AV.User.current().attributes.emailVerified) {
-        this.$notify({
-          type: "danger",
-          title: "请验证你的邮箱"
+      let __this = this;
+      let sessionToken = this.$AV.User.current().getSessionToken(); //获取sessionToken
+      this.$AV.User.logOut().then(e => {
+        //再登出
+        this.$AV.User.become(sessionToken).then(function(user) {
+          //利用sessionToken登录,相当于刷新AV.User的信息
+          console.log(user);
+          if (user.attributes.emailVerified) {
+            let dest;
+            if (__this.$route.query.redirect) {
+              dest = __this.$route.query.redirect;
+            } else {
+              //默认转跳到
+              dest = "/";
+            }
+            __this.$router.push({
+              path: dest
+            });
+          } else {
+            __this.$notify({
+              type: "danger",
+              title: "请验证你的邮箱"
+            });
+          }
         });
-        return false;
-      } else {
-        return true;
-      }
+      });
     }
   }
 };
