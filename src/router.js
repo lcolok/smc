@@ -115,6 +115,11 @@ const router = new Router({
           path: '/register',
           name: 'register',
           component: () => import(/* webpackChunkName: "Register" */ './views/Register.vue')
+        },
+        {
+          path: '/email_check',
+          name: 'EmailCheck',
+          component: () => import(/* webpackChunkName: "EmailCheck" */ './views/EmailCheck.vue')
         }
       ]
     },
@@ -139,13 +144,27 @@ router.beforeEach((to, from, next) => {//to即将进入的目标路由对象，f
     if (to.matched.some(record => { return record.meta.requiresAuth })) {
       // 此路由需要鉴权，请检查是否登录
       // 如果没有登录，重定向到登录页面。
+      console.log('需要鉴权');
       if (!AV.User.current()) {
+        console.log('还没登录');
         next({
           path: '/login',
           query: { redirect: to.fullPath }//留下原来要到达的路径信息，等用户登录好之后，再进行跳转
         })
       } else {
-        next()
+        console.log('已经登录了');
+        if (!AV.User.current().attributes.emailVerified) {
+          console.log('邮箱还没激活');
+          next({
+            path: '/email_check',
+            query: {
+              redirect: to.fullPath //留下原来要到达的路径信息，等用户登录好之后，再进行跳转
+            }
+          })
+
+        } else {
+          next()
+        }
       }
     } else {
       next() // 确保一定要调用 next()

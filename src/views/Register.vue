@@ -55,6 +55,34 @@
               </small>
             </div>
 
+            <modal
+              :show.sync="modals.modal2"
+              gradient="danger"
+              modal-classes="modal-danger modal-dialog-centered"
+            >
+              <h6
+                slot="header"
+                class="modal-title"
+                id="modal-title-notification"
+              >Your attention is required</h6>
+
+              <div class="py-3 text-center">
+                <i class="ni ni-bell-55 ni-3x"></i>
+                <h4 class="heading mt-4">You should read this!</h4>
+                <p>{{this.modals.alertInfo}}</p>
+              </div>
+
+              <template slot="footer">
+                <base-button type="white">Ok, Got it</base-button>
+                <base-button
+                  type="link"
+                  text-color="white"
+                  class="ml-auto"
+                  @click="modals.modal2 = false"
+                >Close</base-button>
+              </template>
+            </modal>
+
             <div class="row my-4">
               <div class="col-12">
                 <base-checkbox class="custom-control-alternative">
@@ -87,6 +115,7 @@
   </div>
 </template>
 <script>
+import { error } from "util";
 export default {
   name: "register",
   data() {
@@ -95,6 +124,10 @@ export default {
         name: "",
         email: "",
         password: ""
+      },
+      modals: {
+        modal2: false,
+        alertInfo: ""
       }
     };
   },
@@ -113,11 +146,35 @@ export default {
       user
         .signUp()
         .then(function(user) {
-          // 注册成功
+          //注册成功
+          //然后会提醒用户打开邮箱验证
           console.log(user);
-          app.user = user.toJSON();
+          console.log(this.$AV.User.current());
+        //   this.$AV.user = user.toJSON();
         })
-        .catch(alert);
+        .catch(error => {
+          error = error.toString();
+          console.log(error);
+
+          let info = "";
+
+/*           if (error.match(/^taken$/gm)) {
+            info = $t("This username has already been taken");
+          } else if (error.match(/此电子邮箱已经被占用/gm)) {
+            info = $t("This Email has already been taken");
+          } else {
+            info = error;
+          }
+          console.log(error); */
+
+          this.modals.alertInfo = error;
+          this.modals.modal2 = true;
+
+          /*           this.$notify({
+            type: "error",
+            title: error
+          }); */
+        });
     }
   }
 };
