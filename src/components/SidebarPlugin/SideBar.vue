@@ -44,27 +44,15 @@
             <div class="dropdown-header noti-title">
               <h6 class="text-overflow m-0">Welcome!</h6>
             </div>
-            <router-link to="/profile" class="dropdown-item">
-              <i class="ni ni-single-02"></i>
-              <span>My profile</span>
-            </router-link>
-            <router-link to="/profile" class="dropdown-item">
-              <i class="ni ni-settings-gear-65"></i>
-              <span>Settings</span>
-            </router-link>
-            <router-link to="/profile" class="dropdown-item">
-              <i class="ni ni-calendar-grid-58"></i>
-              <span>Activity</span>
-            </router-link>
-            <router-link to="/profile" class="dropdown-item">
-              <i class="ni ni-support-16"></i>
-              <span>Support</span>
-            </router-link>
-            <div class="dropdown-divider"></div>
-            <router-link to="/logout" class="dropdown-item">
-              <i class="ni ni-user-run"></i>
-              <span>{{$t("Logout")}}</span>
-            </router-link>
+            <div v-for="(item,index) in menu" :key="index">
+              <div v-if="item.to!=$route.path">
+                <div v-if="item.divider" class="dropdown-divider"></div>
+                <router-link :to="item.to" class="dropdown-item">
+                  <i :class="item.icon"></i>
+                  <span>{{$t(item.text)}}</span>
+                </router-link>
+              </div>
+            </div>
           </base-dropdown>
         </ul>
       </slot>
@@ -130,6 +118,11 @@ import NavbarToggleButton from "@/components/NavbarToggleButton";
 
 export default {
   name: "sidebar",
+  computed: {
+    menu() {
+      return this.$store.state.menu;
+    }
+  },
   components: {
     NavbarToggleButton
   },

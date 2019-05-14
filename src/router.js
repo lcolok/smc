@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import AV from './plugins/AVinit'
+import AV from './plugins/leancloud'
 import DashboardLayout from '@/layout/DashboardLayout'
 import AuthLayout from '@/layout/AuthLayout'
 Vue.use(Router);
