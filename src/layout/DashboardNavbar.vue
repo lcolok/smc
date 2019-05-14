@@ -47,7 +47,7 @@
 export default {
   computed: {
     profileMenu() {
-      return this.$store.state.profileMenu;
+      return this.$store.state.menu.profileMenu;
     }
   },
   data() {

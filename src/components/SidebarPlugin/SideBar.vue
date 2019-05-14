@@ -120,7 +120,7 @@ export default {
   name: "sidebar",
   computed: {
     profileMenu() {
-      return this.$store.state.profileMenu;
+      return this.$store.state.menu.profileMenu;
     }
   },
   components: {

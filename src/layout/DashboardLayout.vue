@@ -28,7 +28,7 @@ import { FadeTransition } from "vue2-transitions";
 export default {
   computed: {
     drawerMenu() {
-      return this.$store.state.drawerMenu;
+      return this.$store.state.menu.drawerMenu;
     }
   },
   components: {

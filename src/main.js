@@ -1,11 +1,12 @@
 import Vue from "vue";
+import './plugins/vuetify'
 import ArgonDashboard from './plugins/argon-dashboard'
 import App from './App.vue'
 import router from './router'
 import i18n from './i18n'
 import rawDisplayer from "./vue/infra/raw-displayer.vue";
 import './registerServiceWorker'
-// import './plugins/lottie'
+
 import './plugins/antd'
 import './plugins/directives'
 import 'animate.css';
@@ -19,11 +20,11 @@ Vue.use(ArgonDashboard)
 Vue.component("rawDisplayer", rawDisplayer);
 
 import store from '@/store'
-// Sync router with store
-import { sync } from 'vuex-router-sync'
-// Sync store with router
-sync(store, router)
 
+// // Sync router with store
+// import { sync } from 'vuex-router-sync'
+// // Sync store with router
+// sync(store, router)
 
 
 /* eslint-disable no-new */
