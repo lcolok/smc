@@ -5,6 +5,9 @@
   "I agree with the": "",
   "I have verified the mail": "",
   "Login into your account": "",
+  "Dashboard":"",
+  "Register":"",
+  "Login": "",
   "Logout": "",
   "One more thing": "",
   "Or sign up with credentials": "Or sign up with credentials",
@@ -19,5 +22,9 @@
   "or": " or ",
   "Create new account": "",
   "Sign in":"",
-  "My profile":""
+  "My profile":"",
+  "Settings":"",
+  "Activity":"",
+  "Support":"",
+  "Welcome!":""
 }

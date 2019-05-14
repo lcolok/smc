@@ -42,9 +42,9 @@
             </a>
 
             <div class="dropdown-header noti-title">
-              <h6 class="text-overflow m-0">Welcome!</h6>
+              <h6 class="text-overflow m-0">{{$t("Welcome!")}}</h6>
             </div>
-            <div v-for="(item,index) in menu" :key="index">
+            <div v-for="(item,index) in profileMenu" :key="index">
               <div v-if="item.to!=$route.path">
                 <div v-if="item.divider" class="dropdown-divider"></div>
                 <router-link :to="item.to" class="dropdown-item">
@@ -119,8 +119,8 @@ import NavbarToggleButton from "@/components/NavbarToggleButton";
 export default {
   name: "sidebar",
   computed: {
-    menu() {
-      return this.$store.state.menu;
+    profileMenu() {
+      return this.$store.state.profileMenu;
     }
   },
   components: {

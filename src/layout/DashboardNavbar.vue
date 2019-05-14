@@ -24,10 +24,10 @@
 
           <template>
             <div class="dropdown-header noti-title">
-              <h6 class="text-overflow m-0">Welcome!</h6>
+              <h6 class="text-overflow m-0">{{$t("Welcome!")}}</h6>
             </div>
 
-            <div v-for="(item,index) in menu" :key="index">
+            <div v-for="(item,index) in profileMenu" :key="index">
               <div v-if="item.to!=$route.path">
                 <div v-if="item.divider" class="dropdown-divider"></div>
                 <router-link :to="item.to" class="dropdown-item">
@@ -46,8 +46,8 @@
 <script>
 export default {
   computed: {
-    menu() {
-      return this.$store.state.menu;
+    profileMenu() {
+      return this.$store.state.profileMenu;
     }
   },
   data() {
@@ -60,7 +60,7 @@ export default {
   },
   created() {
     this.user = this.$AV.User.current();
-    console.log(this.user.toJSON());
+    // console.log(this.user.toJSON());
   },
   methods: {
     toggleSidebar() {
