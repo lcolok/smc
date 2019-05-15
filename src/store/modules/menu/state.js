@@ -10,11 +10,11 @@ export default {
   ],
   drawerMenu: [
     { name: 'Dashboard', icon: 'ni ni-tv-2 text-primary', path: '/dashboard' },
-    { name: 'Icons', icon: 'ni ni-planet text-blue', path: '/icons' },
-    { name: 'Maps', icon: 'ni ni-pin-3 text-orange', path: '/maps' },
+    // { name: 'Icons', icon: 'ni ni-planet text-blue', path: '/icons' },
+    // { name: 'Maps', icon: 'ni ni-pin-3 text-orange', path: '/maps' },
     { name: 'My profile', icon: 'ni ni-single-02 text-yellow', path: '/profile' },
-    { name: 'Tables', icon: 'ni ni-bullet-list-67 text-red', path: '/tables' },
-    { name: 'Login', icon: 'ni ni-key-25 text-info', path: '/login' },
-    { name: 'Register', icon: 'ni ni-circle-08 text-pink', path: '/register' }
+    // { name: 'Tables', icon: 'ni ni-bullet-list-67 text-red', path: '/tables' },
+    // { name: 'Login', icon: 'ni ni-key-25 text-info', path: '/login' },
+    // { name: 'Register', icon: 'ni ni-circle-08 text-pink', path: '/register' }
   ]
 }

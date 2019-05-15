@@ -1,5 +1,6 @@
 import Vue from "vue";
-import './plugins/vuetify'
+// import './plugins/antd'
+// import './plugins/vuetify'
 import ArgonDashboard from './plugins/argon-dashboard'
 import App from './App.vue'
 import router from './router'
@@ -7,7 +8,7 @@ import i18n from './i18n'
 import rawDisplayer from "./vue/infra/raw-displayer.vue";
 import './registerServiceWorker'
 
-import './plugins/antd'
+
 import './plugins/directives'
 import 'animate.css';
 import '@mdi/font/css/materialdesignicons.css';//mdi图标
