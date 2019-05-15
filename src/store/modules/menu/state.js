@@ -1,9 +1,9 @@
 export default {
   profileMenu: [
-    { to: "/profile", icon: "mdi-account", text: "My profile" },
-    { to: "/profile", icon: "ni ni-settings-gear-65", text: "Settings" },
-    { to: "/profile", icon: "ni ni-calendar-grid-58", text: "Activity" },
-    { to: "/profile", icon: "ni ni-support-16", text: "Support" },
-    { to: "/logout", icon: "ni ni-user-run", text: "Logout", divider: true }
+    { to: "/profile", icon: "mdi-account-settings", text: "My profile" },
+    { to: "/profile", icon: "mdi-settings", text: "Settings" },
+    { to: "/profile", icon: "mdi-calendar-multiselect", text: "Activity" },
+    { to: "/profile", icon: "mdi-help-circle", text: "Support" },
+    { to: "/logout", icon: "mdi-exit-run", text: "Logout", divider: true }
   ],
 }

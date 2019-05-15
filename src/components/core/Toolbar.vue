@@ -45,25 +45,19 @@
           <v-icon color="tertiary">mdi-account</v-icon>
         </router-link>-->
 
+
         <v-menu bottom left content-class="dropdown-menu" offset-y transition="slide-y-transition">
-          <router-link v-ripple slot="activator" class="toolbar-items" to="/user-profile">
-            <v-badge color="error" overlap>
-              <template slot="badge">{{ profileMenu.length }}</template>
-              <v-icon color="tertiary">mdi-account</v-icon>
-            </v-badge>
+          <router-link v-ripple slot="activator" class="toolbar-items" to="!">
+            <v-icon color="tertiary">mdi-dots-vertical</v-icon>
           </router-link>
-          <v-card>
-            <v-list dense>
-              <v-list-tile v-for="(menuItem,index) in profileMenu" :key="index" @click="onClick">
-                <v-list-tile-action>
-                  <v-icon>{{ menuItem.icon }}</v-icon>
-                </v-list-tile-action>
-                <v-list-tile-content>
-                  <v-list-tile-title v-text="$t(menuItem.text)"></v-list-tile-title>
-                </v-list-tile-content>
-              </v-list-tile>
-            </v-list>
-          </v-card>
+          <v-list dense>
+            <v-list-tile v-for="(menuItem, i) in profileMenu" :key="i" >
+              <v-list-tile-avatar color="rgba(0, 0, 0, 0)">
+                <v-icon >{{ menuItem.icon }}</v-icon>
+              </v-list-tile-avatar>
+              <v-list-tile-title>  {{$t(menuItem.text)}}</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
         </v-menu>
       </v-flex>
     </v-toolbar-items>
