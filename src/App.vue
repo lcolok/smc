@@ -1,11 +1,20 @@
+<template>
+  <v-app>
+    <core-filter />
 
+    <core-toolbar />
 
-<template v-cloak>
-  <div id="app" style="height: 100%;">
-    <!--     <transition enter-to-class="animated bounceInLeft">
-      <router-view></router-view>
-    </transition>-->
-    <notifications/>
-    <router-view/>
-  </div>
+    <core-drawer />
+
+    <core-view />
+  </v-app>
 </template>
+
+<style lang="scss">
+@import '@/styles/index.scss';
+
+/* Remove in 1.2 */
+.v-datatable thead th.column.sortable i {
+  vertical-align: unset;
+}
+</style>
