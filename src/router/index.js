@@ -11,7 +11,7 @@ import Vue from 'vue'
 import VueAnalytics from 'vue-analytics'
 import Router from 'vue-router'
 import Meta from 'vue-meta'
-import AV from '../plugins/leancloud'
+import AV from '@/plugins/leancloud'
 // Routes
 import paths from './paths'
 
@@ -64,7 +64,7 @@ if (process.env.GOOGLE_ANALYTICS) {
 
 router.beforeEach((to, from, next) => {//to即将进入的目标路由对象，from当前导航正要离开的路由， next  :  下一步执行的函数钩子
   document.title = to.meta.title || "Vue Argon Dashboard - Free Dashboard for Vue.js & Bootstrap 4";//给出指定的标题名称
-  console.log(to.meta);
+  // console.log(to.meta);
   if (to.path === '/login') { next() }  // 如果即将进入登录路由，则直接放行
 
   else {     //进入的不是登录路由

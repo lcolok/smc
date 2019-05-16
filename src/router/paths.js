@@ -18,6 +18,11 @@ export default [
     view: 'UserProfile'
   },
   {
+    path: '/login',
+    name: 'Login',
+    view: 'Login'
+  },
+  {
     path: '/table-list',
     name: 'Table List',
     view: 'TableList'

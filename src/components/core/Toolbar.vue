@@ -50,7 +50,7 @@
             <v-icon color="tertiary">mdi-dots-vertical</v-icon>
           </a>
           <v-list dense>
-            <v-list-tile v-for="(menuItem, i) in profileMenu" :key="i">
+            <v-list-tile v-for="(menuItem, i) in profileMenu" :key="i" @click="menuItem.action($event)">
               <!--               <v-list-tile-avatar color="rgba(0, 0, 0, 0)">
                 <v-icon>{{ menuItem.icon }}</v-icon>
               </v-list-tile-avatar>-->

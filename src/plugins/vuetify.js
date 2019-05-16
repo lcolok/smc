@@ -6,7 +6,7 @@ import '@mdi/font/css/materialdesignicons.css'
 import colors from 'vuetify/es5/util/colors'
 
 
-console.log(colors);
+// console.log(colors);
 Vue.use(Vuetify, {
   iconfont: 'mdi',
   theme
