@@ -45,17 +45,17 @@
           <v-icon color="tertiary">mdi-account</v-icon>
         </router-link>-->
 
-
         <v-menu bottom left content-class="dropdown-menu" offset-y transition="slide-y-transition">
-          <router-link v-ripple slot="activator" class="toolbar-items" to="!">
+          <a v-ripple slot="activator" class="toolbar-items">
             <v-icon color="tertiary">mdi-dots-vertical</v-icon>
-          </router-link>
+          </a>
           <v-list dense>
-            <v-list-tile v-for="(menuItem, i) in profileMenu" :key="i" >
-              <v-list-tile-avatar color="rgba(0, 0, 0, 0)">
-                <v-icon >{{ menuItem.icon }}</v-icon>
-              </v-list-tile-avatar>
-              <v-list-tile-title>  {{$t(menuItem.text)}}</v-list-tile-title>
+            <v-list-tile v-for="(menuItem, i) in profileMenu" :key="i">
+              <!--               <v-list-tile-avatar color="rgba(0, 0, 0, 0)">
+                <v-icon>{{ menuItem.icon }}</v-icon>
+              </v-list-tile-avatar>-->
+              <v-icon>{{ menuItem.icon }}</v-icon>
+              <v-list-tile-title>{{$t(menuItem.text)}}</v-list-tile-title>
             </v-list-tile>
           </v-list>
         </v-menu>

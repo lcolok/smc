@@ -86,6 +86,7 @@
 
 @mixin dropdown-menu-color($color) {
   background-color: $color !important;
+  border-radius: $border-radius-base;
   @include button-shadow-color($color);
 }
 
