@@ -14,6 +14,9 @@ import Meta from 'vue-meta'
 import AV from '@/plugins/leancloud'
 // Routes
 import paths from './paths'
+import DashboardLayout from '@/layout/DashboardLayout'
+import AuthLayout from '@/layout/AuthLayout'
+
 
 Vue.prototype.$AV = AV;
 
@@ -33,9 +36,34 @@ Vue.use(Router)
 // Create a new router
 const router = new Router({
   mode: 'history',
-  routes: paths.map(path => route(path.path, path.view, path.name, path.meta)).concat([
-    { path: '*', redirect: '/dashboard' }
-  ]),
+  routes: [
+    {
+      path: '/',
+      redirect: 'dashboard',
+      component: DashboardLayout,
+      meta: {
+        requiresAuth: true
+      },
+      children: paths.map(path => route(path.path, path.view, path.name, path.meta))
+    }
+  ].concat(
+    [
+      {
+        path: '/',
+        redirect: 'login',
+        component: AuthLayout,
+        children: [
+          {
+            path: '/login',
+            name: 'login',
+            component: () => import(/* webpackChunkName: "Login" */ '../views/Login.vue')
+          }
+        ]
+      }
+      ,
+      { path: '*', redirect: '/dashboard' }
+    ]
+  ),
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition

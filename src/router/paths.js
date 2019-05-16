@@ -17,11 +17,11 @@ export default [
     name: 'User Profile',
     view: 'UserProfile'
   },
-  {
-    path: '/login',
-    name: 'Login',
-    view: 'Login'
-  },
+  // {
+  //   path: '/login',
+  //   name: 'Login',
+  //   view: 'Login'
+  // },
   {
     path: '/table-list',
     name: 'Table List',
