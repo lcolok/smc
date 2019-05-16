@@ -36,13 +36,13 @@ const publicPath = process.env.VUE_APP_PUBLIC_PATH || '/'
 
 
 module.exports = {
-  publicPath: publicPath,
-  assetsDir: 'assets',
+  publicPath: undefined,
+  assetsDir: undefined,
   lintOnSave: undefined,
   productionSourceMap: false,
   outputDir: undefined,
   runtimeCompiler: undefined,
-  parallel: undefined,
+  parallel: false,
 
 
   css: {
@@ -51,12 +51,12 @@ module.exports = {
         modifyVars: {
           'primary-color': '#1DA57A',
           'link-color': '#1DA57A',
-          'border-radius-base': '6px',
-
+          'border-radius-base': '6px'
         },
         javascriptEnabled: true
       }
-    }
+    },
+    extract: false
   },
 
   devServer: {
