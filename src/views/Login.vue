@@ -1,9 +1,9 @@
 <template>
-  <div class="row justify-content-center">
-    <div class="col-lg-5 col-md-7">
-      <div class="card bg-secondary shadow border-0">
-        <div class="card-header bg-transparent pb-5">
-          <div class="text-muted text-center mt-2 mb-3">
+<!--   <div>
+    <div >
+      <div >
+        <div>
+          <div >
             <small>Sign in with</small>
           </div>
           <div class="btn-wrapper text-center">
@@ -25,7 +25,7 @@
           <div class="text-center text-muted mb-4">
             <small>Or sign in with credentials</small>
           </div>
-          <form role="form">
+       
             <v-text-field
               class="input-group-alternative mb-3"
               :placeholder="$t('Username')+$t('or')+$t('Email')"
@@ -45,9 +45,9 @@
               <span class="text-muted">Remember me</span>
             </v-checkbox>
             <div class="text-center">
-              <v-btn type="primary" class="my-4" @click="login">{{$t("Sign in")}}</v-btn>
+              <v-btn color="success" @click="login">{{$t("Sign in")}}</v-btn>
             </div>
-          </form>
+        
         </div>
       </div>
       <div class="row mt-3">
@@ -63,9 +63,48 @@
         </div>
       </div>
     </div>
-         <v-btn type="primary" class="my-4" @click="login">{{$t("Sign in")}}</v-btn>
-  </div>
-  
+ 
+  </div> -->
+  <div id="app">
+  <v-app id="inspire">
+    <v-content>
+      <v-container fluid fill-height>
+        <v-layout align-center justify-center>
+          <v-flex xs12 sm8 md4>
+            <v-card class="elevation-12">
+              <v-toolbar  color="primary">
+                <v-toolbar-title >Login form</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-tooltip bottom>
+                  <v-btn
+                    icon
+                  
+                    target="_blank"
+                    slot="activator"
+                  >
+                    <v-icon large>mdi-help-rhombus</v-icon>
+                  </v-btn>
+                  <span>Source</span>
+                </v-tooltip>
+              </v-toolbar>
+              <v-card-text>
+
+                <v-form>
+                  <v-text-field box v-model="model.username" prepend-icon="mdi-account" name="login" label="Login" type="text"></v-text-field>
+                  <v-text-field box active-class="border-radius: 6px" v-model="model.password" prepend-icon="mdi-lock" name="password" label="Password" id="password" type="password"></v-text-field>
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" @click="login">Login</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-content>
+  </v-app>
+</div>
 </template>
 <script>
 export default {
