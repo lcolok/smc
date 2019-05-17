@@ -92,11 +92,11 @@ import { mapMutations, mapState } from "vuex";
 
 export default {
   data: () => ({
-    colors: ["primary", "info", "success", "warning", "danger"]
+ 
   }),
 
   computed: {
-    ...mapState("app", ["image", "color","images"]),
+    ...mapState("app", ["image","images", "color", "colors"]),
 /*     color() {
       console.log(this);
       return this.$store.state.app.color;

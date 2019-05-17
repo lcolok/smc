@@ -13,10 +13,12 @@ const images = [
   'https://images-cdn.shimo.im/tncnW1p0rUsZA8PR/cat_washer_dribbble.gif'
 ];
 
+const colors = ["primary", "info", "success", "warning", "danger",]
 
 export default {
   drawer: null,
   color: 'primary',
+  colors: colors,
   image: images[Math.floor(images.length * Math.random())],//随机显示某一张
   images: images,
   sidebarBackgroundColor: 'rgba(27, 27, 27, 0.74)'
