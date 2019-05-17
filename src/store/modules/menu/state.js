@@ -1,4 +1,4 @@
-import { logout } from '@/utils/vuex'
+import { logout } from '@/utils/user'
 
 export default {
   profileMenu: [

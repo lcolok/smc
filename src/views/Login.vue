@@ -68,7 +68,7 @@
 <script>
 import "@/assets/vendor/nucleo/css/nucleo.css"; //主要为argon中的icon
 import "@/assets/scss/argon.scss";
-import { login } from "@/utils/vuex";
+import { login } from "@/utils/user";
 
 export default {
   name: "login",
