@@ -49,6 +49,17 @@
               @click.native="setImage(img)"
             />
           </v-flex>
+
+          <v-flex xs12>
+            <v-switch v-model="switch1" color="primary">
+              <template v-slot:label>
+                <div>
+                  <strong class="text-xs-center body-2 text-uppercase sidebar-filter">随机壁纸</strong>
+                </div>
+              </template>
+            </v-switch>
+          </v-flex>
+
           <v-flex xs12>
             <v-btn
               href="https://www.creative-tim.com/product/vuetify-material-dashboard"
@@ -57,6 +68,7 @@
               block
             >Free Download</v-btn>
           </v-flex>
+
           <v-flex xs12>
             <v-btn
               href="https://demos.creative-tim.com/vuetify-material-dashboard/documentation"
@@ -91,13 +103,16 @@
 import { mapMutations, mapState } from "vuex";
 
 export default {
-  data: () => ({
- 
-  }),
+  data() {
+    return {
+      switch1: true,
+      switch2: false
+    };
+  },
 
   computed: {
-    ...mapState("app", ["image","images", "color", "colors"]),
-/*     color() {
+    ...mapState("app", ["image", "images", "color", "colors"])
+    /*     color() {
       console.log(this);
       return this.$store.state.app.color;
     },
