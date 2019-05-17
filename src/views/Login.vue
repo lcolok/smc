@@ -45,7 +45,7 @@
               <span class="text-muted font-weight-bolder">Remember me</span>
             </base-checkbox>
             <div class="text-center">
-              <base-button type="primary" class="my-4" @click="login">{{$t("Sign in")}}</base-button>
+              <base-button type="primary" class="my-4" @click="login()">{{$t("Sign in")}}</base-button>
             </div>
           </form>
         </div>
@@ -66,8 +66,9 @@
   </div>
 </template>
 <script>
-import "@/assets/vendor/nucleo/css/nucleo.css";//主要为argon中的icon
+import "@/assets/vendor/nucleo/css/nucleo.css"; //主要为argon中的icon
 import "@/assets/scss/argon.scss";
+import { login } from "@/utils/vuex";
 
 export default {
   name: "login",
@@ -81,27 +82,7 @@ export default {
   },
   methods: {
     login() {
-      var username = this.model.username;
-      var password = this.model.password;
-
-      let __this = this;
-      // LeanCloud - 登录
-      // https://leancloud.cn/docs/leanstorage_guide-js.html#用户名和密码登录
-      this.$AV.User.logIn(username, password)
-        .then(function(user) {
-          // 登录成功
-          let dest;
-          if (__this.$route.query.redirect) {
-            dest = __this.$route.query.redirect;
-          } else {
-            //默认转跳到
-            dest = "/";
-          }
-          __this.$router.push({
-            path: dest
-          });
-        })
-        .catch(alert);
+      login(this);
     }
   }
 };
