@@ -14,56 +14,41 @@ import Meta from 'vue-meta'
 import AV from '@/plugins/leancloud'
 // Routes
 import paths from './paths'
-import DashboardLayout from '@/layout/DashboardLayout'
-import AuthLayout from '@/layout/AuthLayout'
 
 
 Vue.prototype.$AV = AV;
 
-function route(path, view, name, meta) {
-  return {
-    name: name || view,
-    path,
-    component: (resovle) => import(
-      /* webpackChunkName: "[request]" */ `@/views/${view}.vue`
-    ).then(resovle),
-    meta: meta
-  }
+function childrenRoute() {
+  let child = arguments[0];
+
+  child.name = child.name || child.view;
+  child.component = (resovle) => import(
+/* webpackChunkName: "[request]" */ `@/views/${child.view}.vue`
+  ).then(resovle);
+  
+  return child
+}
+
+function parentRoute() {
+  let parent = arguments[0];
+  parent.children = parent.children.map(child => childrenRoute(child));
+  return parent
 }
 
 Vue.use(Router)
 
+// console.log(paths.map(path => parentRoute(path)));
+
 // Create a new router
 const router = new Router({
   mode: 'history',
-  routes: [
-    {
-      path: '/',
-      redirect: 'dashboard',
-      component: DashboardLayout,
-      meta: {
-        requiresAuth: true
-      },
-      children: paths.map(path => route(path.path, path.view, path.name, path.meta))
-    }
-  ].concat(
-    [
-      {
-        path: '/',
-        redirect: 'login',
-        component: AuthLayout,
-        children: [
-          {
-            path: '/login',
-            name: 'login',
-            component: () => import(/* webpackChunkName: "Login" */ '../views/Login.vue')
-          }
+  routes:
+    paths.map(path => parentRoute(path))
+      .concat(
+        [
+          { path: '*', redirect: '/dashboard' }//此处后期应该改为not found
         ]
-      }
-      ,
-      { path: '*', redirect: '/dashboard' }
-    ]
-  ),
+      ),
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
@@ -77,18 +62,18 @@ const router = new Router({
 
 Vue.use(Meta)
 
-// Bootstrap Analytics
-// Set in .env
-// https://github.com/MatteoGabriele/vue-analytics
-if (process.env.GOOGLE_ANALYTICS) {
-  Vue.use(VueAnalytics, {
-    id: process.env.GOOGLE_ANALYTICS,
-    router,
-    autoTracking: {
-      page: process.env.NODE_ENV !== 'development'
-    }
-  })
-}
+// // Bootstrap Analytics
+// // Set in .env
+// // https://github.com/MatteoGabriele/vue-analytics
+// if (process.env.GOOGLE_ANALYTICS) {
+//   Vue.use(VueAnalytics, {
+//     id: process.env.GOOGLE_ANALYTICS,
+//     router,
+//     autoTracking: {
+//       page: process.env.NODE_ENV !== 'development'
+//     }
+//   })
+// }
 
 router.beforeEach((to, from, next) => {//to即将进入的目标路由对象，from当前导航正要离开的路由， next  :  下一步执行的函数钩子
   document.title = to.meta.title || "Vue Argon Dashboard - Free Dashboard for Vue.js & Bootstrap 4";//给出指定的标题名称
