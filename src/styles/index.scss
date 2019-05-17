@@ -1,3 +1,6 @@
+//引入全局scss，初衷是为了隐藏滚动条
+@import "global.scss";
+
 //material-dashboard import
 
 @import "material-dashboard/mixins";
