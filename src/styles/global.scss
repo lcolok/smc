@@ -12,6 +12,6 @@ body::-webkit-scrollbar {
 body {
   -ms-overflow-style: none;
   height: 100%;
-  width: calc(100vw + 18px);
+  // width: calc(100vw + 18px);//此参数会导致页面右侧被吃了一条边
   overflow: auto;
 }
