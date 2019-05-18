@@ -12,7 +12,7 @@ AV.init({
 
 // import custom_dev_port from '!raw-loader!../../.leancloud/custom_dev_port';
 if (process.env.NODE_ENV == "development") {//如果是处于开发状态的话
-  var devPort = require('../../api/config/api.config').server.devPort || 3000;
+  var devPort = require('../../config/api.config').server.devPort || 3000;
   AV._setServerURLs('http://localhost:' + devPort)//设置本地服务器端口(必须先进行 lean up 操作)
 }
 
