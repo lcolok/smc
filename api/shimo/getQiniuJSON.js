@@ -1,5 +1,6 @@
 const requestJS = require("request");
 const path = require("path");
+const AV = require('leancloud-storage');
 async function thisFunc(request) {
 
     var fileNameArr = request.params.fileNameArr;
