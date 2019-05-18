@@ -25,7 +25,7 @@
       <v-container grid-list-xl>
         <v-layout wrap>
           <v-flex xs12>
-            <div class="text-xs-center body-2 text-uppercase sidebar-filter">Sidebar Filters</div>
+            <div class="text-xs-center body-2 text-uppercase sidebar-filter">{{$t('Sidebar Filters')}}</div>
 
             <v-layout justify-center>
               <v-avatar

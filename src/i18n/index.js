@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
+import AV from 'leancloud-storage'
 
 Vue.use(VueI18n)
 
@@ -16,12 +17,26 @@ function loadLocaleMessages() {
   return messages
 }
 
-export default new VueI18n({
+
+const i18n = new VueI18n({
   locale: process.env.VUE_APP_I18N_LOCALE || 'zh-CN',
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'zh-CN',
   messages: loadLocaleMessages(),
-  missing() {
-    console.log(arguments);
-  }
 })
 
+i18n.missing = (locale, key, vm) => {
+
+  console.log(locale, key, vm);
+
+  if (process.env.NODE_ENV == "development") {
+    AV.Cloud.run('i18nPathCreator', {
+      locale: locale,
+      key: key
+    }).then((e) => {
+      console.log(e);
+    })
+  }
+
+}
+
+export default i18n
