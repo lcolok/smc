@@ -120,7 +120,7 @@ export default {
   methods: {
     ...mapMutations("app", ["setDrawer", "toggleDrawer"]),
     test() {
-      this.$AV.Cloud.run("alive", {}).then(e => {
+      this.$AV.Cloud.run("alive", {a:"哈哈哈"}).then(e => {
         console.log(e);
       });
     },

@@ -1,6 +1,6 @@
 function thisFunc(request) {
         const a = '你好厉害哦！！！';
-        console.log(a);
+        console.log(request.params);
         return true
 };
 

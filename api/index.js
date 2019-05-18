@@ -21,7 +21,7 @@ scripts.keys()
                         // console.log(funcName);
                         let thisFunc = require(filePath + '/' + key);
                         // console.log(thisFunc);
-                        AV.Cloud.define(funcName,r=>thisFunc(r));
+                        AV.Cloud.define(funcName, thisFunc);
                 }
         })
 
