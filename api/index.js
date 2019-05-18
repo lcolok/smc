@@ -17,7 +17,7 @@ scripts.keys()
                 const matched = key.match(/([A-Za-z0-9-_]+)\./i)
                 if (matched && matched.length > 1) {
                         // console.log(key);
-                        let funcName = key.split('.js').shift();
+                        let funcName = key.split('/').pop().split('.js').shift();
                         // console.log(funcName);
                         let thisFunc = require(filePath + '/' + key);
                         // console.log(thisFunc);

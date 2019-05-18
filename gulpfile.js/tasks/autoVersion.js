@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 var path = require('path');
-var verConfigPath = path.resolve("./api/config/ver.config.js");
+var verConfigPath = path.resolve("./config/ver.config.js");
 
 var ver = require(verConfigPath);
 var fs = require('fs');
