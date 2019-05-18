@@ -57,6 +57,7 @@
     "register-service-worker": "1.6.2",
     "request": "^2.88.0",
     "require-all": "^3.0.0",
+    "require-context": "^1.1.0",
     "single-line-log": "^1.1.2",
     "v-emoji-picker": "^1.1.2",
     "vue": "^2.6.6",

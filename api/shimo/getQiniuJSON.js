@@ -1,6 +1,5 @@
-
-
-
+const requestJS = require("request");
+const path = require("path");
 async function thisFunc(request) {
 
     var fileNameArr = request.params.fileNameArr;
@@ -26,7 +25,7 @@ async function thisFunc(request) {
 
 /*CG:D*/
 
-require('../tools/identifier.js').run({
+require(path.resolve('./tools/identifier.js')).run({
     rules: '!vscode||local',
     func: async () => {
 
@@ -40,3 +39,5 @@ require('../tools/identifier.js').run({
 })
 
 /*CG:D*/
+
+module.exports = thisFunc

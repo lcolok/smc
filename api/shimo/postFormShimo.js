@@ -1,3 +1,4 @@
+const requestJS = require("request");
 
 
 async function thisFunc(request) {
@@ -52,3 +53,5 @@ async function thisFunc(request) {
     })
 
 }
+
+module.exports = thisFunc

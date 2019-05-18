@@ -9,18 +9,22 @@ var bodyParser = require('body-parser');
 var AV = require('leanengine');
 var fs = require('fs');
 
-// 加载云函数定义，你可以将云函数拆分到多个文件方便管理，但需要在主文件中加载它们
-var apiBuildDest = require(path.resolve('api/config/api.config.js')).apiBuildDest;
+// // 加载云函数定义，你可以将云函数拆分到多个文件方便管理，但需要在主文件中加载它们
+// var apiBuildDest = require(path.resolve('api/config/api.config.js')).apiBuildDest;
 
-require('require-all')({
-    dirname: path.resolve(apiBuildDest),
-    excludeDirs: /^public$/,
-    filter: function (fileName) {
-        if (fileName == 'tempCodeRunnerFile.js') return; //排除掉tempCodeRunnerFile.js这种临时生成的文件
-        if (!fileName.match(/(.+)\.js$/)) return; //符合js命名格式的才能通过
-        return fileName;
-    },
-})
+// require('require-all')({
+//     dirname: path.resolve(apiBuildDest),
+//     excludeDirs: /^public$/,
+//     filter: function (fileName) {
+//         if (fileName == 'tempCodeRunnerFile.js') return; //排除掉tempCodeRunnerFile.js这种临时生成的文件
+//         if (!fileName.match(/(.+)\.js$/)) return; //符合js命名格式的才能通过
+//         return fileName;
+//     },
+// })
+
+
+//更简约地加载云函数
+require(path.resolve('api'))
 
 var app = express();
 

@@ -1,3 +1,4 @@
+const requestJS = require("request");
 
 function thisFunc(request) {
     return new Promise((resolve, reject) => {
@@ -17,3 +18,4 @@ function thisFunc(request) {
         })
     })
 }
+module.exports = thisFunc

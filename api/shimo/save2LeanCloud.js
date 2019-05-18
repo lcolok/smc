@@ -12,3 +12,5 @@ function thisFunc(request) {
     });
     return
 };
+
+module.exports = thisFunc

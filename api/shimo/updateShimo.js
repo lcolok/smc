@@ -1,5 +1,5 @@
 
-
+const path = require("path");
 var axios = require('axios');
 const Qs = require("qs");
 var fs = require('fs');
@@ -367,7 +367,7 @@ async function thisFunc(request) {
 
 /*CG:D*/
 
-require('../tools/identifier.js').run({
+require(path.resolve('./tools/identifier.js')).run({
     rules: '!vscode||local',
     func: () => {
         thisFunc();
@@ -375,3 +375,6 @@ require('../tools/identifier.js').run({
 }) 
 
 /*CG:D*/
+
+
+module.exports = thisFunc
