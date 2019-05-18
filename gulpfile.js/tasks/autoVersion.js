@@ -8,7 +8,7 @@ const child_process = require('child_process');
 const spawn = child_process.spawn;
 const exec = child_process.exec;
 
-gulp.task('autoVersion', function (done) {
+module.exports = function (done) {
 
     const ls = exec(`git log --no-merges | grep -e 'commit [a-zA-Z0-9]*' | wc -l`);//查询git的commits数量
 
@@ -63,4 +63,4 @@ gulp.task('autoVersion', function (done) {
     });
 
     done();
-})
+}

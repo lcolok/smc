@@ -9,7 +9,7 @@ var fs = require('fs');
 let uglify = require('gulp-uglify-es').default;
 var gutil = require('gulp-util');
 
-gulp.task('buildLeanCloudAPI', function (done) {
+module.exports = function (done) {
 
     var configPath = path.resolve('config/api.config');
     var config = require(configPath);
@@ -106,4 +106,4 @@ gulp.task('buildLeanCloudAPI', function (done) {
         return result;
     }
 
-});
+};

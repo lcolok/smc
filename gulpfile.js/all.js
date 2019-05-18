@@ -39,13 +39,6 @@ gulp.task('docs', function (callback) {
 gulp.task('getProcessEnv', function (done) {
     done();
 });
-/* 
-gulp.task('prepublish',
-    gulp.series(
-        'getProcessEnv'
-    )
-);
- */
 
 
 
