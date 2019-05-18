@@ -39,7 +39,7 @@
             <v-divider class="mt-3"/>
           </v-flex>
           <v-flex xs12>
-            <div class="text-xs-center body-2 text-uppercase sidebar-filter">Images</div>
+            <div class="text-xs-center body-2 text-uppercase sidebar-filter">{{$t('Images')}}</div>
           </v-flex>
           <v-flex v-for="img in images" :key="img" xs3>
             <v-img
@@ -54,7 +54,7 @@
             <v-switch v-model="switch1" color="primary">
               <template v-slot:label>
                 <div>
-                  <strong class="text-xs-center body-2 text-uppercase sidebar-filter">随机壁纸</strong>
+                  <strong class="text-xs-center body-2 text-uppercase sidebar-filter">{{$t('Random wallpaper')}}</strong>
                 </div>
               </template>
             </v-switch>

@@ -17,7 +17,6 @@
   },
   "main": "index.js",
   "dependencies": {
-    "@ant-design/icons": "^2.0.0",
     "acorn": "^6.1.1",
     "acorn-dynamic-import": "^4.0.0",
     "animate.css": "^3.7.0",
@@ -29,7 +28,6 @@
     "bootstrap-vue": "2.0.0-rc.15",
     "browser-sync": "^2.26.5",
     "chalk": "^2.4.2",
-    "chart.js": "2.8.0",
     "chartist": "0.11.0",
     "cheerio": "^1.0.0-rc.3",
     "circular-json": "^0.5.9",
@@ -76,6 +74,8 @@
     "workbox-webpack-plugin": "^4.3.1"
   },
   "devDependencies": {
+    "chart.js": "2.8.0",
+    "@ant-design/icons": "^1.1.16",
     "@kazupon/vue-i18n-loader": "^0.3.0",
     "@mdi/font": "^3.6.95",
     "@vue/cli-plugin-babel": "^3.7.0",
