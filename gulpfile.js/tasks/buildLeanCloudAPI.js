@@ -25,8 +25,8 @@ gulp.task('buildLeanCloudAPI', function (done) {
 
     var orig = '-debug.js';
     gulp.src('api/*.js')//只读取根目录的js文件
-        // .pipe(gulpIgnore.exclude('public/**/*'))//用于过滤public文件
-        .pipe(gulpIgnore.exclude(['api.config.js']))//用于过滤api.config.js
+        // .pipe(gulpIgnore.exclude('public/**/*'))//用于过滤public文件夹
+        .pipe(gulpIgnore.exclude(['config/**/*']))//用于过滤config文件夹
         .pipe(replace(/\/\*([\S]*CRISPR-GULP[\S]*)\*\/([\s\S]*?)(\/\*\1\*\/)/igm, (...res) => CG(res)))
         .pipe(replace(/\/\*([\S]*CG[\S]*)\*\/([\s\S]*?)(\/\*\1\*\/)/igm, (...res) => CG(res)))
         .pipe(gap.appendText(`AV_Cloud_Define("thisFunc",r=>thisFunc(r));`))
@@ -46,9 +46,9 @@ gulp.task('buildLeanCloudAPI', function (done) {
         // }))
         // .pipe(gulpIgnore.exclude('*' + orig))//可以用于过滤文件
 
-        .pipe(uglify({
-            toplevel: true,
-        }))
+        // .pipe(uglify({
+        //     toplevel: true,
+        // }))
         .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
         .pipe(gulp.dest(destPath));
     // console.log('minapi任务已完成');
