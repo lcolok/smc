@@ -24,3 +24,4 @@ yarn-error.log*
 
 #Vue-CLI-builder output
 /dist
+package-lock.json

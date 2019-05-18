@@ -37,12 +37,12 @@ const publicPath = process.env.VUE_APP_PUBLIC_PATH || '/'
 
 module.exports = {
   publicPath: undefined,
-  assetsDir: undefined,
+  assetsDir: 'assets',
   lintOnSave: undefined,
   productionSourceMap: false,
   outputDir: undefined,
-  runtimeCompiler: undefined,
-  parallel: false,
+  runtimeCompiler: true,
+  parallel: undefined,
 
 
   css: {
@@ -55,8 +55,7 @@ module.exports = {
         },
         javascriptEnabled: true
       }
-    },
-    extract: false
+    }
   },
 
   devServer: {

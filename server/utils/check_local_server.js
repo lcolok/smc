@@ -60,7 +60,7 @@ function checkLocalServer(port) {
         });
 
     function tellReady(currentPort) {
-        var publicPath = require(path.resolve('vue.config.js')).publicPath;//获取公共路径
+        var publicPath = require(path.resolve('vue.config.js')).publicPath || '';//获取公共路径
         console.log(chalk.green.inverse(` CLIENT READY `) + ' ' + 'Vue App running at', `${chalk.green('http://localhost:' + currentPort + publicPath)}`);
     }
 
