@@ -50,47 +50,49 @@
 import { mapMutations, mapState } from "vuex";
 
 export default {
-  data: () => ({
-    logo: "./img/vuetifylogo.png",
-    links: [
-      {
-        to: "/dashboard",
-        icon: "mdi-view-dashboard",
-        text: "Dashboard"
-      },
-      {
-        to: "/user-profile",
-        icon: "mdi-account",
-        text: "User Profile"
-      },
-      {
-        to: "/table-list",
-        icon: "mdi-clipboard-outline",
-        text: "Table List"
-      },
-      {
-        to: "/typography",
-        icon: "mdi-format-font",
-        text: "Typography"
-      },
-      {
-        to: "/icons",
-        icon: "mdi-chart-bubble",
-        text: "Icons"
-      },
-      {
-        to: "/maps",
-        icon: "mdi-map-marker",
-        text: "Maps"
-      },
-      {
-        to: "/notifications",
-        icon: "mdi-bell",
-        text: "Notifications"
-      }
-    ],
-    responsive: false
-  }),
+  data() {
+    return {
+      logo: "./img/vuetifylogo.png",
+      links: [
+        {
+          to: "/dashboard",
+          icon: "mdi-view-dashboard",
+          text: this.$t("Dashboard")
+        },
+        {
+          to: "/user-profile",
+          icon: "mdi-account",
+          text:this.$t("User Profile") 
+        },
+        {
+          to: "/table-list",
+          icon: "mdi-clipboard-outline",
+          text: this.$t("Table List")
+        },
+        {
+          to: "/typography",
+          icon: "mdi-format-font",
+          text: this.$t("Typography")
+        },
+        {
+          to: "/icons",
+          icon: "mdi-chart-bubble",
+          text: this.$t("Icons")
+        },
+        {
+          to: "/maps",
+          icon: "mdi-map-marker",
+          text: this.$t("Maps")
+        },
+        {
+          to: "/notifications",
+          icon: "mdi-bell",
+          text: this.$t("Notifications")
+        }
+      ],
+      responsive: false
+    };
+  },
   computed: {
     ...mapState("app", ["image", "color"]),
     inputValue: {
@@ -120,7 +122,7 @@ export default {
   methods: {
     ...mapMutations("app", ["setDrawer", "toggleDrawer"]),
     test() {
-      this.$AV.Cloud.run("alive", {a:"哈哈哈"}).then(e => {
+      this.$AV.Cloud.run("alive", { a: "哈哈哈" }).then(e => {
         console.log(e);
       });
     },

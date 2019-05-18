@@ -11,6 +11,23 @@ export const logout = evt => {
         });
 }
 
+export const devPort = function (bool) {
+
+
+        if (process.env.NODE_ENV !== "development") { return }
+        if (bool) {
+                console.log('本地⮕远程');
+                AV._setServerURLs(AV._config.devServerURLs)//设置本地服务器端口(必须先进行 lean up 操作)
+
+        } else {
+                console.log('远程⮕本地');
+                AV._setServerURLs(AV._config.origServerURLs)
+        }
+
+
+}
+
+
 export const login = function () {
         let __this = arguments[0];
         let username = __this.model.username;

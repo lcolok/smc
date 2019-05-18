@@ -68,7 +68,7 @@
 <script>
 import "@/assets/vendor/nucleo/css/nucleo.css"; //主要为argon中的icon
 import "@/assets/scss/argon.scss";
-import { login } from "@/utils/user";
+import { login, devPort } from "@/utils/user";
 import { mapMutations } from "vuex";
 import { setTimeout } from "timers";
 
@@ -83,11 +83,10 @@ export default {
     };
   },
   methods: {
-    ...mapMutations("app", ["toggleDevPort"]),
     login() {
-      this.toggleDevPort();//关闭devPort
+      devPort(false); //关闭devPort
       login(this);
-      this.toggleDevPort();//开启devPort
+      devPort(true); //开启devPort
     }
   }
 };

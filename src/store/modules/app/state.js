@@ -1,5 +1,3 @@
-import AV from '@/plugins/leancloud'
-const origServerURLs = AV._config.serverURLs;
 const images = [
   'https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-1.23832d31.jpg',
   'https://demos.creative-tim.com/vue-material-dashboard/img/sidebar-2.32103624.jpg',
@@ -18,7 +16,6 @@ const images = [
 const colors = ["primary", "info", "success", "warning", "danger",]
 
 export default {
-  origServerURLs: origServerURLs,
   devPort: null,
   drawer: null,
   color: 'primary',
