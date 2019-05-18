@@ -5,3 +5,4 @@ function thisFunc(request) {
 };
 
 
+module.exports = thisFunc

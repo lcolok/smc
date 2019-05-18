@@ -22,9 +22,9 @@ gulp.task('deploy',
 
 gulp.task('dev',
     gulp.series(
-        gulp.parallel(
-            'buildLeanCloudAPI',
-        ),
+        // gulp.parallel(
+        //     'buildLeanCloudAPI',
+        // ),
         'leanUp'
     ));
 

@@ -12,46 +12,50 @@ var gutil = require('gulp-util');
 gulp.task('buildLeanCloudAPI', function (done) {
 
     var configPath = path.resolve('api/config/api.config');
-    console.log('-fs'+configPath);
     var config = require(configPath);
 
     var destPath = config.apiBuildDest;
 
-/*     try {
+    try {
         del([
             destPath
         ]);
-    } catch (e) { console.log(e); } */
+    } catch (e) { console.log(e); }
 
-    var orig = '-debug.js';
-    gulp.src('api/*.js')//只读取根目录的js文件
-        // .pipe(gulpIgnore.exclude('public/**/*'))//用于过滤public文件夹
-        .pipe(gulpIgnore.exclude(['config/**/*']))//用于过滤config文件夹
-        .pipe(replace(/\/\*([\S]*CRISPR-GULP[\S]*)\*\/([\s\S]*?)(\/\*\1\*\/)/igm, (...res) => CG(res)))
-        .pipe(replace(/\/\*([\S]*CG[\S]*)\*\/([\s\S]*?)(\/\*\1\*\/)/igm, (...res) => CG(res)))
-        .pipe(gap.appendText(`AV_Cloud_Define("thisFunc",r=>thisFunc(r));`))
-        .pipe(replace(/thisFunc/igm, function () {
-            return this.file.relative.split('.').shift();//获取文件名
-        }))
-        // .pipe(stripDebug())//删除所有console
-        .pipe(concat(config.bundleName))
-        .pipe(gap.prependText("var AV_Cloud_Define=AV.Cloud.define"))
-        .pipe(gap.prependText(getAllRequires(config)))//统一加上需要引入的函数库
+    // var orig = '-debug.js';
+    // gulp.src('api/*.js')//只读取根目录的js文件
+    //     // .pipe(gulpIgnore.exclude('public/**/*'))//用于过滤public文件夹
+    //     .pipe(gulpIgnore.exclude(['index.js']))//用于过滤config文件夹
+    //     .pipe(gulpIgnore.exclude(['config/**/*']))//用于过滤config文件夹
+    //     .pipe(replace(/\/\*([\S]*CRISPR-GULP[\S]*)\*\/([\s\S]*?)(\/\*\1\*\/)/igm, (...res) => CG(res)))
+    //     .pipe(replace(/\/\*([\S]*CG[\S]*)\*\/([\s\S]*?)(\/\*\1\*\/)/igm, (...res) => CG(res)))
+    //     .pipe(gap.appendText(`AV_Cloud_Define("thisFunc",r=>thisFunc(r));`))
+    //     .pipe(replace(/thisFunc/igm, function () {
+    //         return this.file.relative.split('.').shift();//获取文件名
+    //     }))
+    //     // .pipe(stripDebug())//删除所有console
+    //     .pipe(concat(config.bundleName))
+    //     .pipe(gap.prependText("var AV_Cloud_Define=AV.Cloud.define"))
+    //     .pipe(gap.prependText(getAllRequires(config)))//统一加上需要引入的函数库
 
-        // .pipe(minify({
-        //     ext: {
-        //         src: orig,//源文件的后缀
-        //         min: '.js'//经过minify的文件所命名的后缀
-        //     },
-        // }))
-        // .pipe(gulpIgnore.exclude('*' + orig))//可以用于过滤文件
+    //     // .pipe(minify({
+    //     //     ext: {
+    //     //         src: orig,//源文件的后缀
+    //     //         min: '.js'//经过minify的文件所命名的后缀
+    //     //     },
+    //     // }))
+    //     // .pipe(gulpIgnore.exclude('*' + orig))//可以用于过滤文件
 
-        // .pipe(uglify({
-        //     toplevel: true,
-        // }))
-        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
-        .pipe(gulp.dest(destPath));
-    // console.log('minapi任务已完成');
+    //     // .pipe(uglify({
+    //     //     toplevel: true,
+    //     // }))
+    //     .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
+    //     .pipe(gulp.dest(destPath));
+    // // console.log('minapi任务已完成');
+
+    gulp.src('api/index.js')//只读取根目录的js文件
+    .pipe(gulp.dest(destPath));
+    
     done();
 
     function getAllRequires(config) {
