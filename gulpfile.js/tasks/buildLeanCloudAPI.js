@@ -11,7 +11,8 @@ var gutil = require('gulp-util');
 
 gulp.task('buildLeanCloudAPI', function (done) {
 
-    var configPath = path.resolve(__dirname, '../api/config/api.config.js');
+    var configPath = path.resolve('api/config/api.config');
+    console.log('-fs'+configPath);
     var config = require(configPath);
 
     var destPath = config.apiBuildDest;
