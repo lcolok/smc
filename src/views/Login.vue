@@ -84,9 +84,7 @@ export default {
   },
   methods: {
     login() {
-      devPort(false); //关闭devPort
       login(this);
-      devPort(true); //开启devPort
     }
   }
 };
