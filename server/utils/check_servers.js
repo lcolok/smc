@@ -3,6 +3,7 @@ const fs = require("fs");
 const path = require('path');
 const del = require('del');
 const requestJS = require("request");
+const configer = require(path.resolve('tools/configer'));
 
 const logPath = './server/log/';
 module.exports = () => {
@@ -72,12 +73,7 @@ module.exports = () => {
                             apiConfig.groupMembers[name].app_key = detail.app_key;
                         })
 
-                        let json = JSON.stringify(apiConfig, null, '\t');
-                        json.replace(/\\"/g, "\uFFFF"); //U+ FFFF
-                        json = json.replace(/\"([^"]+)\":/g, "$1:").replace(/\uFFFF/g, "\\\"");
-                
-                
-                        fs.writeFileSync(configPath, `module.exports = ${json}`)//写入文件
+                        configer.save(configPath, apiConfig);
                     }
                 }
 

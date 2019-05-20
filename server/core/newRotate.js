@@ -1,4 +1,9 @@
 const dayjs = require('dayjs');
+const path = require('path');
+const configer = require(path.resolve('tools/configer'));
+const apiConfig = require(path.resolve('config/api.config'));
+
+
 
 // const orig = '03:00';
 
@@ -46,17 +51,25 @@ function time(t) {
         return dayjs(d.format(ct))
 }
 
-
-console.log('\n')
 const dayStart = start.subtract(unit, 'hour');
 const dayEnd = end.add(unit, 'hour');
 
 const nightStart = end.subtract(unit, 'hour');
 const nightEnd = start.add(1, 'day').add(unit, 'hour');
 
+console.log('\n')
+
+
 
 console.log(nightEnd.format('YYYY-MM-DD hh:mm:ss'));
 
-console.log(dayjs().isAfter(time(start)) && dayjs().isBefore(end));
+console.log(dayjs().isAfter(nightStart) && dayjs().isBefore(nightEnd));
 
 console.log('\n')
+
+
+apiConfig.groupMembers.DAY.start = dayStart;
+apiConfig.groupMembers.DAY.end = dayEnd;
+apiConfig.groupMembers.NIGHT.start = nightStart;
+apiConfig.groupMembers.NIGHT.end = nightEnd;
+

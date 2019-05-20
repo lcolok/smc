@@ -4,6 +4,7 @@ var verConfigPath = path.resolve("./config/ver.config.js");
 
 var ver = require(verConfigPath);
 var fs = require('fs');
+const configer = require(path.resolve('tools/configer'));
 const child_process = require('child_process');
 const spawn = child_process.spawn;
 const exec = child_process.exec;
@@ -52,14 +53,7 @@ module.exports = function (done) {
         // console.log(`-fs ${arr.join('.')}`);
         ver.whole = arr.join('.') + `(${ver.commits})`; */
 
-        /* 进行stringify和去除key两边的双引号的格式化 */
-
-        var json = JSON.stringify(ver, null, '\t');
-        json.replace(/\\"/g, "\uFFFF"); //U+ FFFF
-        json = json.replace(/\"([^"]+)\":/g, "$1:").replace(/\uFFFF/g, "\\\"");
-
-
-        fs.writeFileSync(verConfigPath, `module.exports = ${json}`)//写入文件
+        configer.save(verConfigPath, ver);
     });
 
     done();
