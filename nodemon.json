@@ -8,7 +8,8 @@
     "tools/*.json",
     "server/api/*",
     "server/serverless/*",
-    ".git"
+    ".git",
+    "log/*"
   ],
   "events": {
 

@@ -11,6 +11,10 @@
 
 
 
+    require(path.resolve('./server/utils/check_servers'));
+    
+    
+
 
     var devPort = require(path.resolve('config/api.config.js')).server.devPort;
 

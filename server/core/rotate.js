@@ -1,5 +1,3 @@
-require('../utils/check_servers')
-
 
 
 
