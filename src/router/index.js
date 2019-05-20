@@ -11,7 +11,7 @@ import Vue from 'vue'
 import VueAnalytics from 'vue-analytics'
 import Router from 'vue-router'
 import Meta from 'vue-meta'
-import AV from '@/plugins/leancloud'
+import AV from '@/plugins/leancloudInit'
 // Routes
 import paths from './paths'
 

@@ -62,7 +62,7 @@ export default {
         {
           to: "/user-profile",
           icon: "mdi-account",
-          text:this.$t("User Profile") 
+          text: this.$t("User Profile")
         },
         {
           to: "/table-list",

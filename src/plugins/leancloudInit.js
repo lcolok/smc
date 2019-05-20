@@ -31,7 +31,7 @@ if (process.env.NODE_ENV == "development") {//如果是处于开发状态的话
       console.log('本地⮕远程');
       AV._setServerURLs(AV._config.devServerURLs)//设置本地服务器端口(必须先进行 lean up 操作)
     } else {
-      console.log('远程⮕本地');
+      console.log('本地⬅远程');
       AV._setServerURLs(AV._config.origServerURLs)
     }
   }
@@ -39,10 +39,14 @@ if (process.env.NODE_ENV == "development") {//如果是处于开发状态的话
 
 
   function Promise(fn) {
-    devPort(true);
+
     var state = 'pending',
       value = null,
       callbacks = [];
+
+    if (state === 'pending') {
+      devPort(true);
+    }
 
     this.then = function (onFulfilled, onRejected) {
       return new Promise(function (resolve, reject) {
@@ -62,12 +66,6 @@ if (process.env.NODE_ENV == "development") {//如果是处于开发状态的话
         callbacks.push(callback);
         return;
       }
-
-      if (state === 'fulfilled') {
-        devPort(false);
-        console.log('结束');
-      }
-
       var cb = state === 'fulfilled' ? callback.onFulfilled : callback.onRejected,
         ret;
       if (cb === null) {
@@ -93,6 +91,8 @@ if (process.env.NODE_ENV == "development") {//如果是处于开发状态的话
       execute();
     }
 
+
+
     function reject(reason) {
       state = 'rejected';
       value = reason;
@@ -101,26 +101,28 @@ if (process.env.NODE_ENV == "development") {//如果是处于开发状态的话
 
     function execute() {
       setTimeout(function () {
+
+
+        if (state === 'fulfilled' || state === 'rejected') {
+          devPort(false);
+        }
         callbacks.forEach(function (callback) {
           handle(callback);
         });
       }, 0);
     }
 
+
     fn(resolve, reject);
   }
 
-  const middle = AV.Cloud.run;
+  const middle = AV.Cloud.run;//过渡产物
 
-  function newRun(name, data, option) {
-    // console.log(arguments);
+  AV.Cloud.run = function (name, data, option) {
     return new Promise((resolve, reject) => {
-      resolve(middle(name, data, option))
+      resolve(middle(name, data, option).catch(e => reject(e)))
     })
   }
-
-
-  AV.Cloud.run = newRun;
 }
 
 

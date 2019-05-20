@@ -1,4 +1,4 @@
-import AV from '@/plugins/leancloud'
+import AV from '@/plugins/leancloudInit'
 import router from '@/router'
 
 export const logout = evt => {
