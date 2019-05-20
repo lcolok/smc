@@ -1,14 +1,14 @@
 import AV from 'leancloud-storage'
 
-import current_app_id from '!raw-loader!../../.leancloud/current_app_id';
-import current_app_key from '!raw-loader!../../.leancloud/current_app_key';
+// import current_app_id from '!raw-loader!../../.leancloud/current_app_id';
+// import current_app_key from '!raw-loader!../../.leancloud/current_app_key';
 
 // console.log(process.env);
-
+const apiConfig = require('../../config/api.config');
 
 AV.init({
-  appId: current_app_id,
-  appKey: current_app_key,
+  appId: apiConfig.groupMembers.DAY.app_id,
+  appKey: apiConfig.groupMembers.DAY.app_key,
 })
 
 
@@ -19,7 +19,7 @@ AV.init({
 if (process.env.NODE_ENV == "development") {//如果是处于开发状态的话
 
 
-  const apiConfigDevPort = require('../../config/api.config').server.devPort || 3000;
+  const apiConfigDevPort = apiConfig.groupMembers.DAY.devPort || 3000;
   const devServerURLs = 'http://localhost:' + apiConfigDevPort;
 
   AV._config.origServerURLs = AV._config.serverURLs;

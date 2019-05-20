@@ -14,9 +14,9 @@ const apiConfig = require(path.resolve('config/api.config.js'));
 
 
 checkServers().then(e => {
-    console.log(e);
-    let type = e.currentApp.split('@').pop();
-    const devPort = apiConfig.server.devPort[type];
+    // console.log(e);
+    let memberName = e.currentApp.split('@').pop();
+    const devPort = apiConfig.groupMembers[memberName].devPort;
     const PORT = parseInt(developing ? devPort : (process.env.LEANCLOUD_APP_PORT || process.env.PORT || 3000));
     testPort(PORT);
 })

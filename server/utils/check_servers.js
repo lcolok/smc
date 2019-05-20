@@ -18,6 +18,8 @@ module.exports = () => {
 
                 const apps = JSON.parse(body);
                 // console.log(apps);
+                const appJSON = {};
+
 
                 function getGroupName(name) {
                     if (name.includes('@')) {
@@ -27,9 +29,20 @@ module.exports = () => {
                     }
                 }
 
+                apps.map(app => {
+                    appJSON[app.app_name] = app;
+                })
+
+
+
                 for (var app of apps) {
+
+                    let groupName, groupMembers = [], currentApp = app.app_name;
+
+
+
                     if (app.app_id == process.env.LEANCLOUD_APP_ID) {
-                        let groupName, groupMembers = [], currentApp = app.app_name;
+
 
                         groupName = getGroupName(currentApp);
                         if (groupName) {
@@ -43,10 +56,32 @@ module.exports = () => {
                         reslove({
                             groupName, currentApp, groupMembers
                         });
-                        del.sync(['!' + logPath, logPath + '**/*']);
-                        fs.writeFileSync(path.resolve(logPath + `${app.app_name}.data.json`), JSON.stringify(app, null, 8));
+
+                        // //记录一下 app 的其他 data （非调试可关掉）
+                        // del.sync(['!' + logPath, logPath + '**/*']);
+                        // fs.writeFileSync(path.resolve(logPath + `${app.app_name}.data.json`), JSON.stringify(app, null, 8));
+
+
+                        const configPath = path.resolve('config/api.config.js');
+                        const apiConfig = require(configPath);
+
+                        groupMembers.forEach(e => {
+                            let name = e.split('@').pop();
+                            let detail = appJSON[e];
+                            apiConfig.groupMembers[name].app_id = detail.app_id;
+                            apiConfig.groupMembers[name].app_key = detail.app_key;
+                        })
+
+                        let json = JSON.stringify(apiConfig, null, '\t');
+                        json.replace(/\\"/g, "\uFFFF"); //U+ FFFF
+                        json = json.replace(/\"([^"]+)\":/g, "$1:").replace(/\uFFFF/g, "\\\"");
+                
+                
+                        fs.writeFileSync(configPath, `module.exports = ${json}`)//写入文件
                     }
                 }
+
+
 
 
 
