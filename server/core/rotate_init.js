@@ -4,32 +4,9 @@ const configer = require(path.resolve('tools/configer'));
 const apiConfig = require(path.resolve('config/api.config'));
 
 
-
-// const orig = '03:00';
-
-// Date.prototype.Format = function (fmt) { //author: meizz
-//         var o = {
-//                 "M+": this.getMonth() + 1, //月份
-//                 "d+": this.getDate(), //日
-//                 "h+": this.getHours(), //小时
-//                 "m+": this.getMinutes(), //分
-//                 "s+": this.getSeconds(), //秒
-//                 "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-//                 "S": this.getMilliseconds() //毫秒
-//         };
-//         if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-//         for (var k in o)
-//                 if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-//         return fmt;
-// }
-
-
-
-
-
-
-const orig = 0;
+const orig = 0;//自行设定起始时间点
 const start = time(orig);
+if (start.format('HH:mm:ss') == apiConfig.web.dayRequestStart) { return }
 const end = time(orig).add(12, 'hour');
 const unit = 3;
 
@@ -60,18 +37,15 @@ const dayEnd = end.add(unit, 'hour').format(rule);
 const nightStart = end.subtract(unit, 'hour').format(rule);
 const nightEnd = start.add(1, 'day').add(unit, 'hour').format(rule);
 
-console.log('\n')
+// console.log('\n')
 
+// console.log(dayjs().isAfter(nightStart) && dayjs().isBefore(nightEnd));
 
-
-
-console.log(dayjs().isAfter(nightStart) && dayjs().isBefore(nightEnd));
-
-console.log('\n')
+// console.log('\n')
 
 
 apiConfig.groupMembers.DAY.start = dayStart;
 apiConfig.groupMembers.DAY.end = dayEnd;
 apiConfig.groupMembers.NIGHT.start = nightStart;
 apiConfig.groupMembers.NIGHT.end = nightEnd;
-
+apiConfig.web.dayRequestStart = start.format('HH:mm:ss');

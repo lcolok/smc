@@ -1,4 +1,4 @@
-require('./newRotate')//用于周期测试
+require('./rotate_init')//用于周期测试
 const chalk = require('chalk');
 const path = require('path');
 const checkLocalServer = require(path.resolve('server/utils/check_local_server'));
