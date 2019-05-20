@@ -2,7 +2,8 @@
     const chalk = require('chalk');
     const path = require('path');
     const checkLocalServer = require(path.resolve('server/utils/check_local_server'));
-    const AV = require('./load_leancloud');//加载leancloud
+    const AV = require('./lc_server_init');//加载leancloud
+    const app = require('./app');//加载 express app
     var net = require('net');
     const developing = process.env.LEANCLOUD_APP_ENV == "development";
     // 端口一定要从环境变量 `LEANCLOUD_APP_PORT` 中获取。
@@ -31,7 +32,7 @@
         server.on('error', function (err) {
             if (err.code === 'EADDRINUSE') { // 端口已经被使用
                 // console.log('The port【' + port + '】 is occupied, please change other port.')
-                testPort(port + 1)
+                testPort(port + 1);
             }
         })
     }
@@ -42,7 +43,6 @@
     function listen(PORT) {
         const timer = setInterval(() => {
             if ((process.env.PROGRESS_BAR_RUNNING == "false") || !developing) {//只有进度条播放完才会进行以下声明
-                const app = require('./app');
                 app.listen(PORT, function (err) {
 
                     require('./rotate')//进行判断本台机器是属于leancloud众多机器中的哪一台
