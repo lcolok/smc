@@ -1,8 +1,9 @@
-require('./rotate_init')//用于周期测试
+// require('./rotate_init')//用于周期测试
+// const AV = require('./lc_server_init');//加载leancloud
+require('./init')
 const chalk = require('chalk');
 const path = require('path');
 const checkLocalServer = require(path.resolve('server/utils/check_local_server'));
-const AV = require('./lc_server_init');//加载leancloud
 const app = require('./app');//加载 express app
 const net = require('net');
 const developing = process.env.LEANCLOUD_APP_ENV == "development";

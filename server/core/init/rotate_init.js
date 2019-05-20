@@ -6,7 +6,7 @@ const apiConfig = require(path.resolve('config/api.config'));
 
 const orig = 0;//自行设定起始时间点
 const start = time(orig);
-if (start.format('HH:mm:ss') == apiConfig.web.dayRequestStart) { return }
+// if (start.format('HH:mm:ss') == apiConfig.web.dayRequestStart) { return }
 const end = time(orig).add(12, 'hour');
 const unit = 3;
 
