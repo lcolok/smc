@@ -51,17 +51,19 @@ function time(t) {
         return dayjs(d.format(ct))
 }
 
-const dayStart = start.subtract(unit, 'hour');
-const dayEnd = end.add(unit, 'hour');
+// const rule = 'YYYY-MM-DD HH:mm:ss';
+const rule = undefined;
 
-const nightStart = end.subtract(unit, 'hour');
-const nightEnd = start.add(1, 'day').add(unit, 'hour');
+const dayStart = start.subtract(unit, 'hour').format(rule);
+const dayEnd = end.add(unit, 'hour').format(rule);
+
+const nightStart = end.subtract(unit, 'hour').format(rule);
+const nightEnd = start.add(1, 'day').add(unit, 'hour').format(rule);
 
 console.log('\n')
 
 
 
-console.log(nightEnd.format('YYYY-MM-DD hh:mm:ss'));
 
 console.log(dayjs().isAfter(nightStart) && dayjs().isBefore(nightEnd));
 
