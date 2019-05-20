@@ -1,4 +1,4 @@
-
+require('./newRotate')//用于周期测试
 const chalk = require('chalk');
 const path = require('path');
 const checkLocalServer = require(path.resolve('server/utils/check_local_server'));
@@ -13,7 +13,7 @@ const checkServers = require(path.resolve('server/utils/check_servers'));
 const apiConfig = require(path.resolve('config/api.config.js'));
 
 
-checkServers().then(e => {
+checkServers().then(e => {//进行判断本台机器是属于leancloud众多机器中的哪一台
     // console.log(e);
     let memberName = e.currentApp.split('@').pop();
     const devPort = apiConfig.groupMembers[memberName].devPort;
@@ -50,7 +50,6 @@ function listen(PORT) {
         if ((process.env.PROGRESS_BAR_RUNNING == "false") || !developing) {//只有进度条播放完才会进行以下声明
             app.listen(PORT, function (err) {
 
-                require('./rotate')//进行判断本台机器是属于leancloud众多机器中的哪一台
 
                 clearInterval(timer);
                 console.log(chalk.yellow.inverse(` SERVER READY `) + ' ' + 'Node app is running on', `${chalk.yellow('http://localhost:' + PORT)}`);//启动本服务器

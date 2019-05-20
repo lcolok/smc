@@ -6,6 +6,15 @@ import AV from 'leancloud-storage'
 // console.log(process.env);
 const apiConfig = require('../../config/api.config');
 
+/* const cronJob = require('cron').CronJob;
+const cronExp = "* * * * * *";
+const job1 = new cronJob(cronExp, function () {
+    "use strict";
+    console.log("每1秒执行一次。。。。")
+});
+job1.start(); */
+
+
 AV.init({
   appId: apiConfig.groupMembers.DAY.app_id,
   appKey: apiConfig.groupMembers.DAY.app_key,
