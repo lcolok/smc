@@ -4,7 +4,7 @@ const configer = require(path.resolve('tools/configer'));
 const apiConfig = require(path.resolve('config/api.config'));
 
 
-const orig = 0;//自行设定起始时间点
+const orig = apiConfig.web.dayRequestStart;//自行设定起始时间点
 const start = time(orig);
 // if (start.format('HH:mm:ss') == apiConfig.web.dayRequestStart) { return }
 const end = time(orig).add(12, 'hour');
@@ -48,4 +48,3 @@ apiConfig.groupMembers.DAY.start = dayStart;
 apiConfig.groupMembers.DAY.end = dayEnd;
 apiConfig.groupMembers.NIGHT.start = nightStart;
 apiConfig.groupMembers.NIGHT.end = nightEnd;
-apiConfig.web.dayRequestStart = start.format('HH:mm:ss');
