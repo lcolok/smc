@@ -10,6 +10,8 @@ const start = time(orig);
 const end = time(orig).add(12, 'hour');
 const unit = 3;
 
+const today = dayjs();
+
 function time(t) {
         t = t.toString();
         let colonArr = t.match(/:/g);
@@ -28,14 +30,14 @@ function time(t) {
         return dayjs(d.format(ct))
 }
 
-// const rule = 'YYYY-MM-DD HH:mm:ss';
-const rule = undefined;
+const rule = 'HH:mm:ss';
+// const rule = undefined;
 
-const dayStart = start.subtract(unit, 'hour').format(rule);
-const dayEnd = end.add(unit, 'hour').format(rule);
+const dayStart = start.subtract(unit, 'hour');
+const dayEnd = end.add(unit, 'hour');
 
-const nightStart = end.subtract(unit, 'hour').format(rule);
-const nightEnd = start.add(1, 'day').add(unit, 'hour').format(rule);
+const nightStart = end.subtract(unit, 'hour');
+const nightEnd = start.add(1, 'day').add(unit, 'hour');
 
 // console.log('\n')
 
@@ -43,8 +45,20 @@ const nightEnd = start.add(1, 'day').add(unit, 'hour').format(rule);
 
 // console.log('\n')
 
+function PoM(t) {//Plus or Minus
+        let o, ft = dayjs(t).format(rule);
+        if (dayjs(t).isBefore(today)) {
+                o = '-' + ft;
+        } else if (dayjs(t).isAfter(today.add(1, 'day'))) {
+                o = '+' + ft;
+        } else {
+                o = ft;
+        }
+        return o;
+}
 
-apiConfig.groupMembers.DAY.start = dayStart;
-apiConfig.groupMembers.DAY.end = dayEnd;
-apiConfig.groupMembers.NIGHT.start = nightStart;
-apiConfig.groupMembers.NIGHT.end = nightEnd;
+
+apiConfig.groupMembers.DAY.start = PoM(dayStart);
+apiConfig.groupMembers.DAY.end = PoM(dayEnd);
+apiConfig.groupMembers.NIGHT.start = PoM(nightStart);
+apiConfig.groupMembers.NIGHT.end = PoM(nightEnd);
