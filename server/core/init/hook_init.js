@@ -65,7 +65,7 @@ function setHook_afterSave(className) {
             r
         }
         if (awake(you)) {//如果对方醒着的话
-
+            console.log('对方醒着');
             let url, funcName = 'load';
             let eight = groupMembers[you].app_id.substring(0, 8).toLowerCase();
             if (process.env.LEANCLOUD_APP_ENV == 'development') {
@@ -87,6 +87,9 @@ function setHook_afterSave(className) {
             }, (err, httpResponse, body) => {
                 console.log(body);
             })
+        } else {
+            console.log('对方沉睡中');
+
         }
 
     });
