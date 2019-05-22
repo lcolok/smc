@@ -39,9 +39,16 @@ Vue.use(Router)
 
 // console.log(paths.map(path => parentRoute(path)));
 
+function getAbsolutePath () {
+  let path = location.pathname
+  return path.substring(0, path.lastIndexOf('/') + 1)
+}
+
+
 // Create a new router
 const router = new Router({
   mode: 'history',
+  base: getAbsolutePath(),
   routes:
     paths.map(path => parentRoute(path))
       .concat(

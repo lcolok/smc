@@ -21,7 +21,7 @@ import store from '@/store'
 // sync(store, router)
 
 Vue.config.productionTip = false;
-Vue.prototype.$baseUrl = process.env.BASE_URL;
+Vue.prototype.$baseUrl = process.env.VUE_APP_PUBLIC_PATH;
 
 /* eslint-disable no-new */
 new Vue({
