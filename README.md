@@ -1,4 +1,4 @@
-# Shared Management Center[![Build Status](https://travis-ci.org/lcolok/smc.svg?branch=master)](https://travis-ci.org/lcolok/smc)
+# Shared Management Center [![Build Status](https://travis-ci.org/lcolok/smc.svg?branch=master)](https://travis-ci.org/lcolok/smc)
 
 ## Project setup
 ```
