@@ -20,7 +20,8 @@ import store from '@/store'
 // Sync store with router
 // sync(store, router)
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+Vue.prototype.$baseUrl = process.env.BASE_URL;
 
 /* eslint-disable no-new */
 new Vue({

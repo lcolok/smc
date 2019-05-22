@@ -1,7 +1,11 @@
 language: node_js
+
 node_js:
   - node
-cache:  npm
+
+cache:
+  directories:
+  - "$HOME/.npm"
 
 env:
 - VUE_APP_PUBLIC_PATH=/smc/
