@@ -4,7 +4,7 @@ node_js:
 cache:  npm
 
 install:
-  - npm install
+  - npm ci
 
 script:
   - npm run build
@@ -14,4 +14,4 @@ deploy:
   skip-clean up: true
   github-token: $GITHUB_TOKEN
   on:
-    branch: gh-pages
+    branch: master
