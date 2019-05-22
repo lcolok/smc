@@ -10,7 +10,8 @@ const start = time(orig);
 const end = time(orig).add(12, 'hour');
 const unit = 3;
 
-const today = dayjs();
+const todayZero = dayjs(dayjs().format(`YYYY-MM-DDT00:00:00+08:00`));//中国北京时间的今天的零点;
+const tomorrowZero = todayZero.add(1, 'day');
 
 function time(t) {
         t = t.toString();
@@ -30,7 +31,6 @@ function time(t) {
         return dayjs(d.format(ct))
 }
 
-const rule = 'HH:mm:ss';
 // const rule = undefined;
 
 const dayStart = start.subtract(unit, 'hour');
@@ -46,10 +46,10 @@ const nightEnd = start.add(1, 'day').add(unit, 'hour');
 // console.log('\n')
 
 function PoM(t) {//Plus or Minus
-        let o, ft = dayjs(t).format(rule);
-        if (dayjs(t).isBefore(today)) {
+        let o, ft = dayjs(t).format('HH:mm:ss');
+        if (dayjs(t).isBefore(todayZero)) {
                 o = '-' + ft;
-        } else if (dayjs(t).isAfter(today.add(1, 'day'))) {
+        } else if (dayjs(t).isAfter(tomorrowZero)) {
                 o = '+' + ft;
         } else {
                 o = ft;
