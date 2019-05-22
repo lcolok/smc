@@ -122,9 +122,23 @@ export default {
   methods: {
     ...mapMutations("app", ["setDrawer", "toggleDrawer"]),
     test() {
-      this.$AV.Cloud.run("alive", { a: "哈哈哈" }).then(e => {
+      /*       this.$AV.Cloud.run("alive", { a: "哈哈哈" }).then(e => {
         console.log(e);
-      });
+      }); */
+      let Comments = this.$AV.Object.extend("Comments");
+      let comObject = new Comments();
+
+      comObject.set("guy", "哈哈哈");
+      comObject.set("content", "嘻嘻嘻");
+      comObject.save().then(
+        function(testObject) {
+          // 成功
+          console.log(testObject);
+        },
+        function(error) {
+          // 失败
+        }
+      );
     },
     onResponsiveInverted() {
       if (window.innerWidth < 991) {

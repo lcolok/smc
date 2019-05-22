@@ -63,17 +63,20 @@ module.exports = () => {
                         // fs.writeFileSync(path.resolve(logPath + `${app.app_name}.data.json`), JSON.stringify(app, null, 8));
 
 
-                        const configPath = path.resolve('config/api.config.js');
-                        const apiConfig = require(configPath);
+                        if (process.env.LEANCLOUD_APP_ENV === 'development') {//开发环境下才会进行
 
-                        groupMembers.forEach(e => {
-                            let name = e.split('@').pop();
-                            let detail = appJSON[e];
-                            apiConfig.groupMembers[name].app_id = detail.app_id;
-                            apiConfig.groupMembers[name].app_key = detail.app_key;
-                        })
+                            const configPath = path.resolve('config/api.config.js');
+                            const apiConfig = require(configPath);
 
-                        configer.save(configPath, apiConfig);
+                            groupMembers.forEach(e => {
+                                let name = e.split('@').pop();
+                                let detail = appJSON[e];
+                                apiConfig.groupMembers[name].app_id = detail.app_id;
+                                apiConfig.groupMembers[name].app_key = detail.app_key;
+                            })
+
+                            configer.save(configPath, apiConfig);
+                        }
                     }
                 }
 

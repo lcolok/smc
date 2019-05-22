@@ -1,6 +1,6 @@
 // require('./rotate_init')//用于周期测试
 // const AV = require('./lc_server_init');//加载leancloud
-require('./init')
+
 const chalk = require('chalk');
 const path = require('path');
 const checkLocalServer = require(path.resolve('server/utils/check_local_server'));
@@ -17,6 +17,20 @@ const apiConfig = require(path.resolve('config/api.config.js'));
 checkServers().then(e => {//进行判断本台机器是属于leancloud众多机器中的哪一台
     // console.log(e);
     let memberName = e.currentApp.split('@').pop();
+
+
+    require('./init');
+
+
+
+
+
+
+
+
+
+
+
     const devPort = apiConfig.groupMembers[memberName].devPort;
     const PORT = parseInt(developing ? devPort : (process.env.LEANCLOUD_APP_PORT || process.env.PORT || 3000));
     testPort(PORT);
