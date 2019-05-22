@@ -1,7 +1,10 @@
 language: node_js
 node_js:
-  - 11.6.0
+  - node
 cache:  npm
+
+env:
+- VUE_APP_PUBLIC_PATH=/smc/
 
 install:
   - npm ci
