@@ -52,7 +52,7 @@ import { mapMutations, mapState } from "vuex";
 export default {
   data() {
     return {
-      logo: `${$baseUrl}img/vuetifylogo.png`,
+      logo: `${this.$baseUrl}img/vuetifylogo.png`,
       links: [
         {
           to: "/dashboard",
