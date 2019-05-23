@@ -1,3 +1,5 @@
+os: osx
+
 language: node_js
 
 node_js:
@@ -12,6 +14,7 @@ env:
 
 install:
   - npm ci
+  - brew install lean-cli
 
 script:
   - npm run build
@@ -24,3 +27,10 @@ deploy:
   keep_history: true
   on:
     branch: master
+
+after_deploy: 
+  - lean login -u '$LC_USER' -p '$LC_PASSWORD' -r CN
+  - lean switch SMC@DAY
+  - lean deploy
+  - lean switch SMC@NIGHT
+  - lean deploy
