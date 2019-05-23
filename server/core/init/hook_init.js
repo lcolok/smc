@@ -38,18 +38,11 @@ function opposite(me) {
 }
 
 function whoAmI() {
-
-
-
     for (let i in groupMembers) {
         if (groupMembers[i].app_id == process.env.LC_APP_ID && groupMembers[i].app_key == process.env.LC_APP_KEY) {
             return i
         }
     }
-
-    console.log(process.env.LC_APP_ID);
-    console.log(process.env.LC_APP_KEY);
-
 }
 
 const me = whoAmI();
@@ -57,7 +50,13 @@ const you = opposite(me);
 
 setHook_afterSave('Comments');
 
+
+
+
+
 function setHook_afterSave(className) {
+
+
     AV.Cloud.afterSave(className, function (r) {
 
         let body = {
@@ -93,5 +92,9 @@ function setHook_afterSave(className) {
         }
 
     });
+
+    console.log('\n');
+    console.log(`Set class ${className} after save hook already`);
+    console.log('\n');
 }
 

@@ -49,7 +49,7 @@ app.engine('html', ejs.__express);
 app.set('view engine', 'html');
 
 // 设置默认超时时间
-app.use(timeout('15s'));
+app.use(timeout('1500s'));
 
 // 加载云引擎中间件
 app.use(AV.express());
@@ -63,7 +63,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // 可以将一类的路由单独保存在一个文件中
-app.use('/todos', require('../routes/todos'));
+app.use('/functions', require('./routes/functions'));
 
 app.get('/', function (req, res) {
     console.log(req);
