@@ -9,14 +9,13 @@ before_cache:
 cache:
   directories:
   - "$HOME/.npm"
-  - $HOME/Library/Caches/Homebrew
 
 env:
   - VUE_APP_PUBLIC_PATH=/smc/
 
 before_install:
   - cd /bin
-  - wget https://releases.leanapp.cn/leancloud/lean-cli/releases/download/v0.20.1/lean-linux-x64
+  - wget https://releases.leanapp.cn/leancloud/lean-cli/releases/download/v0.20.1/lean-linux-x64 -O
   - mv lean-linux-x64 lean
   - lean
   - chmod -R 755 /bin/lean
