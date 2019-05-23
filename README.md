@@ -1,4 +1,5 @@
-# Shared Management Center [![Build Status](https://travis-ci.org/lcolok/smc.svg?branch=master)](https://travis-ci.org/lcolok/smc) [![Netlify Status](https://api.netlify.com/api/v1/badges/d3e3ccd4-f0cb-4dbf-97d1-e733a40fcd68/deploy-status)](https://app.netlify.com/sites/romantic-pare-c1c44a/deploys)
+# Shared Management Center 
+[![Build Status](https://travis-ci.org/lcolok/smc.svg?branch=master)](https://travis-ci.org/lcolok/smc) [![Netlify Status](https://api.netlify.com/api/v1/badges/d3e3ccd4-f0cb-4dbf-97d1-e733a40fcd68/deploy-status)](https://app.netlify.com/sites/smc/deploys)
 
 ## Project setup
 ```
