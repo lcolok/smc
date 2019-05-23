@@ -3,11 +3,6 @@ language: node_js
 node_js:
   - node
 
-addons:
-  apt:
-    sources:
-      - debian-sid
-      
 before_cache:
   - brew cleanup
 
@@ -19,8 +14,11 @@ env:
   - VUE_APP_PUBLIC_PATH=/smc/
 
 before_install:
-  - wget https://releases.leanapp.cn/leancloud/lean-cli/releases/download/v0.20.1/lean-cli-x64.deb
-  - sudo dpkg -i lean-cli-x64.deb
+  - cd /bin
+  - wget https://releases.leanapp.cn/leancloud/lean-cli/releases/download/v0.20.1/lean-linux-x64
+  - mv lean-linux-x64 lean
+  - lean
+  - chmod -R 755 /bin/lean
 
 install:
   - npm ci
