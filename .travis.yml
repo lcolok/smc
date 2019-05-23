@@ -7,9 +7,7 @@ addons:
   apt:
     sources:
       - debian-sid
-    packages:
-      - shellcheck
-
+      
 before_cache:
   - brew cleanup
 
