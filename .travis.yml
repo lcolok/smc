@@ -1,5 +1,3 @@
-os: osx
-
 language: node_js
 
 node_js:
@@ -14,11 +12,16 @@ cache:
   - $HOME/Library/Caches/Homebrew
 
 env:
-- VUE_APP_PUBLIC_PATH=/smc/
+  - VUE_APP_PUBLIC_PATH=/smc/
+
+before_install:
+  - wget https://releases.leanapp.cn/leancloud/lean-cli/releases/download/v0.20.1/lean-linux-x64
+  - mv lean-linux-x64 lean
+  - lean
+  - chmod -R 755 /lean
 
 install:
   - npm ci
-  - brew install lean-cli
 
 script:
   - npm run build
@@ -33,7 +36,7 @@ deploy:
     branch: master
 
 after_deploy: 
-  - npm run build --mode production
+  - npx vue-cli-service build --mode production --dest dist
   - lean login -u $LC_USER -p $LC_PASSWORD -r CN
   - lean switch SMC@DAY
   - lean deploy
