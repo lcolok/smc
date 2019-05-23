@@ -17,8 +17,6 @@ before_install:
   - wget https://releases.leanapp.cn/leancloud/lean-cli/releases/download/v0.20.1/lean-linux-x64
   - mv lean-linux-x64 lean
   - chmod +x ./lean
-  - export PATH="$PATH:$HOME/lean"
-
 
 install:
   - npm ci
@@ -37,8 +35,8 @@ deploy:
 
 after_deploy: 
   - npx vue-cli-service build --mode production --dest dist
-  - lean login -u $LC_USER -p $LC_PASSWORD -r CN
-  - lean switch SMC@DAY
-  - lean deploy
-  - lean switch SMC@NIGHT
-  - lean deploy
+  - ./lean login -u $LC_USER -p $LC_PASSWORD -r CN
+  - ./lean switch SMC@DAY
+  - ./lean deploy
+  - ./lean switch SMC@NIGHT
+  - ./lean deploy
