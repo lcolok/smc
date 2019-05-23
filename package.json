@@ -14,7 +14,6 @@
     "pregh": "npx vue-cli-service build --mode staging --dest ghDist",
     "prelean": "npx vue-cli-service build --mode production --dest dist",
     "start": "node ./server/core",
-    "prenow-build": "npm rebuild node-sass",
     "now-build": "npm run build"
   },
   "main": "index.js",
