@@ -15,10 +15,11 @@ env:
   - VUE_APP_PUBLIC_PATH=/smc/
 
 before_install:
+  - cd /bin
   - wget https://releases.leanapp.cn/leancloud/lean-cli/releases/download/v0.20.1/lean-linux-x64
   - mv lean-linux-x64 lean
   - lean
-  - chmod -R 755 /lean
+  - chmod -R 755 /bin/lean
 
 install:
   - npm ci
