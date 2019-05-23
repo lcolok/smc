@@ -33,7 +33,7 @@ deploy:
     branch: master
 
 after_deploy: 
-  - lean login -u '$LC_USER' -p '$LC_PASSWORD' -r CN
+  - lean login -u $LC_USER -p $LC_PASSWORD -r CN
   - lean switch SMC@DAY
   - lean deploy
   - lean switch SMC@NIGHT
