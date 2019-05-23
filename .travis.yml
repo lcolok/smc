@@ -3,6 +3,13 @@ language: node_js
 node_js:
   - node
 
+addons:
+  apt:
+    sources:
+      - debian-sid
+    packages:
+      - shellcheck
+
 before_cache:
   - brew cleanup
 
