@@ -51,7 +51,7 @@ AV.init({
 if (process.env.NODE_ENV == "development") {//如果是处于开发状态的话
 
 
-  const apiConfigDevPort = apiConfig.groupMembers.DAY.devPort || 3000;
+  const apiConfigDevPort = apiConfig.groupMembers[dayOrNight].devPort || 3000;
   const devServerURLs = 'http://localhost:' + apiConfigDevPort;
 
   const origServerURLs = AV._config.serverURLs;//原来的远程服务器url
@@ -150,11 +150,11 @@ if (process.env.NODE_ENV == "development") {//如果是处于开发状态的话
 
   const middle = AV.Cloud.run;//过渡产物
 
-  // AV.Cloud.run = function (name, data, option) {
-  //   return new Promise((resolve, reject) => {
-  //     resolve(middle(name, data, option).catch(e => reject(e)))
-  //   })
-  // }
+  AV.Cloud.run = function (name, data, option) {
+    return new Promise((resolve, reject) => {
+      resolve(middle(name, data, option).catch(e => reject(e)))
+    })
+  }
 
 
 }
