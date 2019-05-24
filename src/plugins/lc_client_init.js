@@ -54,17 +54,17 @@ if (process.env.NODE_ENV == "development") {//如果是处于开发状态的话
   const apiConfigDevPort = apiConfig.groupMembers.DAY.devPort || 3000;
   const devServerURLs = 'http://localhost:' + apiConfigDevPort;
 
-  AV._config.origServerURLs = AV._config.serverURLs;
-  AV._config.devServerURLs = devServerURLs
+  const origServerURLs = AV._config.serverURLs;//原来的远程服务器url
+
 
   function devPort(bool) {
     if (process.env.NODE_ENV !== "development") { return }
     if (bool) {
       console.log('本地⮕远程');
-      AV._setServerURLs(AV._config.devServerURLs)//设置本地服务器端口(必须先进行 lean up 操作)
+      AV._setServerURLs(devServerURLs)//设置本地服务器端口(必须先进行 lean up 操作)
     } else {
       console.log('本地⬅远程');
-      AV._setServerURLs(AV._config.origServerURLs)
+      AV._setServerURLs(origServerURLs)
     }
   }
 
@@ -150,11 +150,13 @@ if (process.env.NODE_ENV == "development") {//如果是处于开发状态的话
 
   const middle = AV.Cloud.run;//过渡产物
 
-  AV.Cloud.run = function (name, data, option) {
-    return new Promise((resolve, reject) => {
-      resolve(middle(name, data, option).catch(e => reject(e)))
-    })
-  }
+  // AV.Cloud.run = function (name, data, option) {
+  //   return new Promise((resolve, reject) => {
+  //     resolve(middle(name, data, option).catch(e => reject(e)))
+  //   })
+  // }
+
+
 }
 
 

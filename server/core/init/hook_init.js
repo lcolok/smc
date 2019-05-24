@@ -125,8 +125,8 @@ function setHook_afterSave(className) {
 
 setTimeout(() => {
     if (me == 'DAY') {
-        send(groupMembers[you].app_id, { className: 'Comments' });
+        // send(groupMembers[you].app_id, { className: 'Comments' });
     }
-}, 200);
+}, 500);
 
 console.log('\n');
