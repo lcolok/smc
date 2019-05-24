@@ -1,10 +1,11 @@
 const dayjs = require('dayjs');
 const path = require('path');
 const configer = require(path.resolve('tools/configer'));
-const apiConfig = require(path.resolve('config/api.config'));
+const apiConfig = configer.load('api');
 
 
 const orig = apiConfig.web.dayRequestStart;//自行设定起始时间点
+
 const start = time(orig);
 // if (start.format('HH:mm:ss') == apiConfig.web.dayRequestStart) { return }
 const end = time(orig).add(12, 'hour');
@@ -62,3 +63,6 @@ apiConfig.groupMembers.DAY.start = PoM(dayStart);
 apiConfig.groupMembers.DAY.end = PoM(dayEnd);
 apiConfig.groupMembers.NIGHT.start = PoM(nightStart);
 apiConfig.groupMembers.NIGHT.end = PoM(nightEnd);
+
+
+configer.save('api', apiConfig);
