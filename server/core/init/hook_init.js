@@ -1,9 +1,12 @@
+console.log('\n');
+
 const AV = require('leanengine');
 const path = require('path');
 const apiConfig = require(path.resolve('config/api.config'));
 const groupMembers = apiConfig.groupMembers;
 const dayjs = require('dayjs');
 const requestJS = require('request');
+const axios = require('axios');
 
 function awake(who) {//day or night
     const start = time(groupMembers[who].start);
@@ -51,50 +54,73 @@ const you = opposite(me);
 setHook_afterSave('Comments');
 
 
+function send(id, payload) {
+    let url,
+        funcName = 'load',
+        eight = id.substring(0, 8).toLowerCase();
+
+    if (process.env.LEANCLOUD_APP_ENV == 'development') {//开发模式下进行本地请求
+        let devPort = groupMembers[you].devPort;
+        url = `http://localhost:${devPort}/1.1/functions/${funcName}`;
+    } else {//生产环境进行远程请求
+        url = `https://${eight}.engine.lncld.net/1.1/functions/${funcName}`;
+
+    }
+
+
+    /*     requestJS.post(url, {
+            json: true,
+            headers: {
+                'X-LC-Id': groupMembers[you].app_id,
+                'X-LC-Key': groupMembers[you].app_key
+            },
+            body: payload
+        }, (err, httpResponse, body) => {
+            console.log(body);
+        }) */
+
+
+
+    axios({
+        url,
+        method: 'POST',
+        headers: {
+            'X-LC-Id': groupMembers[you].app_id,
+            'X-LC-Key': groupMembers[you].app_key
+        },
+        data: payload,
+    })
+        .then(function (response) {
+            console.log(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+
+
+send(groupMembers[you].app_id, { className: 'Comments' });
 
 
 
 function setHook_afterSave(className) {
-
-
     AV.Cloud.afterSave(className, function (r) {
 
-        let body = {
+        let payload = {
             className,
             r
         }
         if (awake(you)) {//如果对方醒着的话
             console.log('对方醒着');
-            let url, funcName = 'load';
-            let eight = groupMembers[you].app_id.substring(0, 8).toLowerCase();
-            if (process.env.LEANCLOUD_APP_ENV == 'development') {
-                let devPort = groupMembers[you].devPort;
-                url = `http://localhost:${devPort}/1.1/functions/${funcName}`;
-            } else {
-                url = `https://${eight}.engine.lncld.net/1.1/functions/${funcName}`;
-
-            }
-
-
-            requestJS.post(url, {
-                json: true,
-                headers: {
-                    'X-LC-Id': groupMembers[you].app_id,
-                    'X-LC-Key': groupMembers[you].app_key
-                },
-                body: body
-            }, (err, httpResponse, body) => {
-                console.log(body);
-            })
+            send(groupMembers[you].app_id, payload);
         } else {
             console.log('对方沉睡中');
 
         }
 
     });
-
-    console.log('\n');
     console.log(`Set class ${className} after save hook already`);
-    console.log('\n');
 }
 
+console.log('\n');
