@@ -100,7 +100,7 @@ function send(id, payload) {
 
 
 
-send(groupMembers[you].app_id, { className: 'Comments' });
+
 
 
 
@@ -116,11 +116,17 @@ function setHook_afterSave(className) {
             send(groupMembers[you].app_id, payload);
         } else {
             console.log('对方沉睡中');
-
+            console.log(r);
         }
 
     });
     console.log(`Set class ${className} after save hook already`);
 }
+
+setTimeout(() => {
+    if (me == 'DAY') {
+        send(groupMembers[you].app_id, { className: 'Comments' });
+    }
+}, 200);
 
 console.log('\n');
