@@ -24,7 +24,7 @@
       // Otherwise, leave segmentCount as 0.
       var segmentCount = 1;
       var l = window.location;
-      if(l.href.includes('github')){
+
         l.replace(
         l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
         l.pathname.split('/').slice(0, 1 + segmentCount).join('/') + '/?p=/' +
@@ -32,9 +32,7 @@
         (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
         l.hash
       );
-      }else if(l.includes('netlify')){
 
-      }
 
     </script>
   </head>
