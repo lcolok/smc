@@ -26,6 +26,7 @@ deploy:
   keep_history: true
   on:
     branch: master
+  fqdn: smc.wiki
 
 after_deploy: 
   - npx vue-cli-service build --mode production --dest dist
