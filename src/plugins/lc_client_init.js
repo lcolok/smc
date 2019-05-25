@@ -7,8 +7,11 @@ const apiConfig = require('../../config/api.config');
 // console.log(process.env);
 
 const orig = apiConfig.web.dayRequestStart;
-const start = time(orig);
-const end = time(orig).add(12, 'hour');
+const dayRequestStart = time(orig);
+const dayRequestEnd = dayRequestStart.add(12, 'hour');
+const nightRequestStart = dayRequestEnd;
+const nightRequestEnd = nightRequestStart.add(12, 'hour');
+const today = dayjs();//打算计划用网络时间API同步 http://worldtimeapi.org/api/timezone/Asia/Hong_Kong
 
 function time(t) {
   t = t.toString();
@@ -30,10 +33,12 @@ function time(t) {
 
 let dayOrNight = '';
 
-if (dayjs().isAfter(start) && dayjs().isBefore(end)) {
+if (today.isAfter(dayRequestStart) && today.isBefore(dayRequestEnd)) {
   dayOrNight = "DAY";
-} else {
+} else if (today.isAfter(nightRequestStart) && today.isBefore(nightRequestEnd)) {
   dayOrNight = "NIGHT";
+} else {
+  dayOrNight = "UNKNOWN";
 }
 
 console.log(dayOrNight);
