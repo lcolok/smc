@@ -9,7 +9,7 @@
     "dev": "nodemon ./server/dev.js",
     "electron:build": "vue-cli-service electron:build",
     "electron:serve": "vue-cli-service electron:serve",
-    "lean": "lean deploy && rm -r dist",
+    "lean": "lean deploy",
     "prelean": "npx vue-cli-service build --mode production --dest dist",
     "start": "node ./server/core",
     "now-build": "npm run build"

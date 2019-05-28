@@ -51,7 +51,7 @@ function whoAmI() {
 const me = whoAmI();
 const you = opposite(me);
 
-setHook_afterSave('Comments');
+setHook('afterSave','Comments');
 
 
 function send(id, payload) {
@@ -104,11 +104,19 @@ function send(id, payload) {
 
 
 
-function setHook_afterSave(className) {
-    AV.Cloud.afterSave(className, function (r) {
+function setHook(hookName, className) {
+
+    const action = hookName.replace(/before|after/g,'').toLowerCase();
+
+    console.log({action});
+
+    AV.Cloud[hookName](className, function (r) {
+
+
 
         let payload = {
             className,
+            action,
             r
         }
         if (awake(you)) {//如果对方醒着的话
@@ -116,16 +124,48 @@ function setHook_afterSave(className) {
             send(groupMembers[you].app_id, payload);
         } else {
             console.log('对方沉睡中');
-            console.log(r);
+            console.log(payload);
+
+            // 声明类型
+            var ToSync = AV.Object.extend('ToSync');
+            // 新建对象
+            var toSync = new ToSync();
+            // 设置名称
+            toSync.set('classToSync', payload.className);
+            toSync.set('action', payload.action);
+            // 遍历设值
+
+            // for (var i in payload.r) {
+            //     toSync.set(i, JSON.stringify(payload.r[i]));
+            // }
+
+
+
+            for (var i in r.object.attributes) {
+                toSync.set(i, r.object.attributes[i]);
+            }
+
+            toSync.save().then(function (sync) {
+                console.log('objectId is ' + sync.id);
+            }, function (error) {
+                console.error(error);
+            });
+
+
+
+
+
+
+
         }
 
     });
-    console.log(`Set class ${className} after save hook already`);
+    console.log(`Set class ${className} ${hookName} hook already`);
 }
 
 setTimeout(() => {
     if (me == 'DAY') {
-        // send(groupMembers[you].app_id, { className: 'Comments' });
+        send(groupMembers[you].app_id, { className: 'Comments' });
     }
 }, 500);
 
