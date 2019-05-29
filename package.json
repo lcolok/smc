@@ -12,7 +12,10 @@
     "lean": "lean deploy",
     "prelean": "npx vue-cli-service build --mode production --dest dist",
     "start": "node ./server/core",
-    "now-build": "npm run build"
+    "now-build": "npm run build",
+    "day": "lean switch SMC@DAY && lean up -c 3031",
+    "night": "lean switch SMC@NIGHT && lean up -c 3030",
+    "bothDeploy": "lean switch SMC@DAY && lean deploy && lean switch SMC@NIGHT && lean deploy"
   },
   "main": "index.js",
   "dependencies": {

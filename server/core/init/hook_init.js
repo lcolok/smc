@@ -5,7 +5,6 @@ const path = require('path');
 const apiConfig = require(path.resolve('config/api.config'));
 const groupMembers = apiConfig.groupMembers;
 const dayjs = require('dayjs');
-const requestJS = require('request');
 const axios = require('axios');
 
 function awake(who) {//day or night
@@ -51,7 +50,7 @@ function whoAmI() {
 const me = whoAmI();
 const you = opposite(me);
 
-setHook('afterSave','Comments');
+setHook('afterSave', 'Comments');
 
 
 function send(id, payload) {
@@ -106,59 +105,73 @@ function send(id, payload) {
 
 function setHook(hookName, className) {
 
-    const action = hookName.replace(/before|after/g,'').toLowerCase();
+    const action = hookName.replace(/before|after/g, '').toLowerCase();
 
-    console.log({action});
+    console.log({ action });
 
-    AV.Cloud[hookName](className, function (r) {
+    AV.Cloud[hookName](className, function (request) {
+        const real_id = request.object.id;
+        const real_createdAt = request.object.createdAt;
+        const real_updatedAt = request.object.updatedAt;
+
+        request.object.set('real_id', real_id);
+        request.object.set('real_createdAt', real_createdAt);
+        request.object.set('real_updatedAt', real_updatedAt);
 
 
+        let attributes = request.object.attributes;
 
         let payload = {
             className,
             action,
-            r
-        }
-        if (awake(you)) {//如果对方醒着的话
-            console.log('对方醒着');
-            send(groupMembers[you].app_id, payload);
-        } else {
-            console.log('对方沉睡中');
-            console.log(payload);
-
-            // 声明类型
-            var ToSync = AV.Object.extend('ToSync');
-            // 新建对象
-            var toSync = new ToSync();
-            // 设置名称
-            toSync.set('classToSync', payload.className);
-            toSync.set('action', payload.action);
-            // 遍历设值
-
-            // for (var i in payload.r) {
-            //     toSync.set(i, JSON.stringify(payload.r[i]));
-            // }
-
-
-
-            for (var i in r.object.attributes) {
-                toSync.set(i, r.object.attributes[i]);
-            }
-
-            toSync.save().then(function (sync) {
-                console.log('objectId is ' + sync.id);
-            }, function (error) {
-                console.error(error);
-            });
-
-
-
-
-
-
-
+            attributes
         }
 
+        switch (hookName) {
+            case 'afterSave':
+
+                if (awake(you)) {//如果对方醒着的话
+                    console.log('对方醒着');
+                    // console.log(request.object);
+                    console.log(payload.attributes);
+                    send(groupMembers[you].app_id, payload);
+                } else {
+                    console.log('对方沉睡中');
+
+                    // 声明类型
+                    var ToSync = AV.Object.extend('ToSync');
+                    // 新建对象
+
+                    var toSync = new ToSync();
+
+                    toSync.set(payload);
+
+                    /*             // 设置名称
+                                toSync.set('classToSync', payload.className);
+                                toSync.set('action', payload.action);
+                                // 遍历设值
+                    
+                                // for (var i in payload.request) {
+                                //     toSync.set(i, JSON.stringify(payload.request[i]));
+                                // }
+                    
+                    
+                    
+                                for (var i in request.object.attributes) {
+                                    toSync.set(i, request.object.attributes[i]);
+                                } */
+
+                    toSync.save().then(function (sync) {
+                        console.log('objectId is ' + sync.id);
+                    }, function (error) {
+                        console.error(error);
+                    });
+                }
+                break;
+        }
+        return request.object.save().then(function (user) {
+            console.log(`ok!已经更新 ${className}`, user);
+        });
     });
     console.log(`Set class ${className} ${hookName} hook already`);
 }
