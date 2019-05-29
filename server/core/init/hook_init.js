@@ -47,12 +47,6 @@ function whoAmI() {
     }
 }
 
-const me = whoAmI();
-const you = opposite(me);
-
-setHook('afterSave', 'Comments');
-
-
 function send(id, payload) {
     let url,
         funcName = 'load',
@@ -96,11 +90,6 @@ function send(id, payload) {
             console.log(error);
         });
 }
-
-
-
-
-
 
 
 function setHook(hookName, className) {
@@ -176,10 +165,37 @@ function setHook(hookName, className) {
     console.log(`Set class ${className} ${hookName} hook already`);
 }
 
+
+
+const me = whoAmI();
+const you = opposite(me);
+
+setHook('afterSave', 'Comments');
+
+
 setTimeout(() => {
     if (me == 'DAY') {
-        send(groupMembers[you].app_id, { className: 'Comments' });
+       /*  send(groupMembers[you].app_id, [
+            { action: 'save', className: 'Comments', attributes: { aaa: 1111, bbb: 2222 } },
+        ]); */
+                send(groupMembers[you].app_id,
+                    [
+                        { action: 'delete', className: 'Comments', real_id: '5ceebc607b968a007688b123' },
+                        { action: 'delete', className: 'Comments', real_id: '5ceebc60ba39c80068a1e45f' },
+                        { action: 'delete', className: 'Comments', real_id: '5ceebc5f43e78c006737bc27' },
+                        { action: 'delete', className: 'Comments', real_id: '5ceebc5fc8959c0069006808' },
+                        { action: 'delete', className: 'Comments', real_id: '5ceebc5f43e78c006737bc24' },
+                        { action: 'delete', className: 'Comments', real_id: '5ceebc5e30863b006863427a' },
+                        { action: 'delete', className: 'Comments', real_id: '5ceebc5ec8959c0069006805' },
+                        { action: 'delete', className: 'Comments', real_id: '5ceebc5dc8959c0069006801' }
+                    ]
+                );
     }
-}, 500);
+}, 1000);
+
+
+
+
+
 
 console.log('\n');
