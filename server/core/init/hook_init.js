@@ -47,48 +47,37 @@ function whoAmI() {
     }
 }
 
-function send(id, payload) {
-    let url,
-        funcName = 'load',
-        eight = id.substring(0, 8).toLowerCase();
+function send(id, commandArray) {
+    return new Promise((resolve, reject) => {
+        let url,
+            funcName = 'load',
+            eight = id.substring(0, 8).toLowerCase();
 
-    if (process.env.LEANCLOUD_APP_ENV == 'development') {//开发模式下进行本地请求
-        let devPort = groupMembers[you].devPort;
-        url = `http://localhost:${devPort}/1.1/functions/${funcName}`;
-    } else {//生产环境进行远程请求
-        url = `https://${eight}.engine.lncld.net/1.1/functions/${funcName}`;
+        if (process.env.LEANCLOUD_APP_ENV == 'development') {//开发模式下进行本地请求
+            let devPort = groupMembers[you].devPort;
+            url = `http://localhost:${devPort}/1.1/functions/${funcName}`;
+        } else {//生产环境进行远程请求
+            url = `https://${eight}.engine.lncld.net/1.1/functions/${funcName}`;
 
-    }
-
-
-    /*     requestJS.post(url, {
-            json: true,
+        }
+        axios({
+            url,
+            method: 'POST',
             headers: {
                 'X-LC-Id': groupMembers[you].app_id,
                 'X-LC-Key': groupMembers[you].app_key
             },
-            body: payload
-        }, (err, httpResponse, body) => {
-            console.log(body);
-        }) */
-
-
-
-    axios({
-        url,
-        method: 'POST',
-        headers: {
-            'X-LC-Id': groupMembers[you].app_id,
-            'X-LC-Key': groupMembers[you].app_key
-        },
-        data: payload,
-    })
-        .then(function (response) {
-            console.log(response.data);
+            data: commandArray,
         })
-        .catch(function (error) {
-            console.log(error);
-        });
+            .then(function (response) {
+
+                resolve(response.data);
+            })
+            .catch(function (error) {
+
+                reject(error);
+            });
+    })
 }
 
 
@@ -121,40 +110,13 @@ function setHook(hookName, className) {
 
                 if (awake(you)) {//如果对方醒着的话
                     console.log('对方醒着');
-                    // console.log(request.object);
-                    console.log(payload.attributes);
                     send(groupMembers[you].app_id, payload);
                 } else {
                     console.log('对方沉睡中');
+                    setToSync(payload).then(object => {
 
-                    // 声明类型
-                    var ToSync = AV.Object.extend('ToSync');
-                    // 新建对象
+                    })
 
-                    var toSync = new ToSync();
-
-                    toSync.set(payload);
-
-                    /*             // 设置名称
-                                toSync.set('classToSync', payload.className);
-                                toSync.set('action', payload.action);
-                                // 遍历设值
-                    
-                                // for (var i in payload.request) {
-                                //     toSync.set(i, JSON.stringify(payload.request[i]));
-                                // }
-                    
-                    
-                    
-                                for (var i in request.object.attributes) {
-                                    toSync.set(i, request.object.attributes[i]);
-                                } */
-
-                    toSync.save().then(function (sync) {
-                        console.log('objectId is ' + sync.id);
-                    }, function (error) {
-                        console.error(error);
-                    });
                 }
                 break;
         }
@@ -165,7 +127,38 @@ function setHook(hookName, className) {
     console.log(`Set class ${className} ${hookName} hook already`);
 }
 
+function setToSync(payload) {
+    return new Promise((resolve, reject) => {
+        // 声明类型
+        const ToSync = AV.Object.extend('ToSync');
+        // 新建对象
 
+        const toSync = new ToSync();
+
+        toSync.set(payload);
+
+        toSync.save().then(function (sync) {
+            resolve(sync);
+        }, function (error) {
+            reject(error);
+        });
+    });
+}
+
+function getToSync() {
+    return new Promise((resolve, reject) => {
+        const query = new AV.Query('ToSync');
+        query.ascending('createdAt');// 按时间，升序排列
+        query.limit(1000);
+        query.find().then(function (results) {
+            const commandArray = results.map(e => e.toJSON());
+            send(groupMembers[you].app_id, commandArray).then(cb => {
+                callbackArray = cb.result;
+                console.log(callbackArray);
+            });
+        });
+    })
+}
 
 const me = whoAmI();
 const you = opposite(me);
@@ -175,10 +168,13 @@ setHook('afterSave', 'Comments');
 
 setTimeout(() => {
     if (me == 'DAY') {
-       /*  send(groupMembers[you].app_id, [
-            { action: 'save', className: 'Comments', attributes: { aaa: 1111, bbb: 2222 } },
-        ]); */
-                send(groupMembers[you].app_id,
+
+        getToSync();
+
+        /*  send(groupMembers[you].app_id, [
+             { action: 'save', className: 'Comments', attributes: { aaa: 1111, bbb: 2222 } },
+         ]); */
+        /*         send(groupMembers[you].app_id,
                     [
                         { action: 'delete', className: 'Comments', real_id: '5ceebc607b968a007688b123' },
                         { action: 'delete', className: 'Comments', real_id: '5ceebc60ba39c80068a1e45f' },
@@ -189,7 +185,15 @@ setTimeout(() => {
                         { action: 'delete', className: 'Comments', real_id: '5ceebc5ec8959c0069006805' },
                         { action: 'delete', className: 'Comments', real_id: '5ceebc5dc8959c0069006801' }
                     ]
-                );
+                ).then(resp => {
+                    console.log(resp);
+                }).catch(error => console.log(error));
+         */
+                /* setToSync({
+                    className:'Comment',
+                    action:'save',
+                    attributes:{aaa:'333333333333333'}
+                }) */
     }
 }, 1000);
 
