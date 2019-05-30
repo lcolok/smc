@@ -6,14 +6,15 @@ const queue = new PQueue({ concurrency: 1 });
 
 module.exports = (e) => new Promise((resolve, reject) => {
 
-        let feedback = [], promiseArr = [];
-        if (e.params.length > 0) {
+        let promiseArr = [];
+        if (e.params instanceof Array) {
                 e.params.forEach(element => {
                         promiseArr.push(() => dealWith(element));
                 });
         } else {
-                promiseArr.push(() => dealWith(e.params));
+                resolve({ code: 1, error: 'commandArray并不是数组，请输入数组' })
         }
+        // console.log(promiseArr);
 
         /* Promise.all(promiseArr).then(function (feedback) {
                 resolve(feedback);

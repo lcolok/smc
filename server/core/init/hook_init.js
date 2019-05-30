@@ -47,7 +47,7 @@ function whoAmI() {
     }
 }
 
-function send(id, commandArray) {
+function send(id, commandArray, objectArray) {
     return new Promise((resolve, reject) => {
         let url,
             funcName = 'load',
@@ -70,8 +70,23 @@ function send(id, commandArray) {
             data: commandArray,
         })
             .then(function (response) {
+                response.data.result.forEach((currentValue, index) => {
+                    if (!currentValue.code) {
+                        console.log('成功');
 
-                resolve(response.data);
+                        objectArray[index].destroy().then(success => {
+                            // 删除成功
+                            console.log('删除成功');
+                            objectArray.splice(index, 1);//删除objectArray中已经成功同步的一项
+                            commandArray.splice(index, 1);//删除commandArray中已经成功同步的一项
+                        }, function (error) {
+                            // 删除失败
+                        });
+                    }
+                })
+
+
+
             })
             .catch(function (error) {
 
@@ -150,30 +165,27 @@ function getToSync() {
         const query = new AV.Query('ToSync');
         query.ascending('createdAt');// 按时间，升序排列
         query.limit(1000);
-        query.find().then(function (results) {
-            results.forEach(e => {
-                query.get(e.id).then(object => {    // 成功获得实例
-                    // console.log(object.toJSON());
+        query.find().then(async (results) => {
+            let objectArray = [];
+            let commandArray = await Promise.all(
+                results.map(async e => {
+                    let object = await query.get(e.id);// 成功获得实例
+                    objectArray.push(object);
                     for (let i of ['id', 'createdAt', 'updatedAt']) {
                         if (!object[`real_${i}`]) {//不存在 real_ 开头的三个参数(id, createdAt, updatedAt)才创建
                             object.set(`real_${i}`, object[i])
                         }
                     }
-                    object.save().then(obj => {
-                        const commandArray = obj.toJSON();
-                        send(groupMembers[you].app_id, commandArray).then(cb => {
-                            let callbackArray = cb.result;
-                            console.log(callbackArray);
-                            callbackArray.forEach(e=>{
-                                
-                            })
-                        });
+                    return object.toJSON();
+                })
+            );
 
-                    });
-                }, function (error) {
-                    // 如果 todo 不存在，error 为 AVError.OBJECT_NOT_FOUND
-                });
-            });
+            send(groupMembers[you].app_id, commandArray, objectArray)
+
+
+
+
+
 
         });
     })
@@ -209,10 +221,20 @@ setTimeout(() => {
                 }).catch(error => console.log(error));
          */
         /* setToSync({
-            className:'Comment',
-            action:'save',
-            attributes:{aaa:'333333333333'}
-        }) */
+            className: 'Comment',
+            action: 'save',
+            attributes: { aaa: '3333333333' }
+        });
+        setToSync({
+            className: 'Comment',
+            action: 'save',
+            attributes: { aaa: '2222222222' }
+        });
+        setToSync({
+            className: 'Comment',
+            action: 'save',
+            attributes: { aaa: '1111111111' }
+        }); */
     }
 }, 1000);
 
