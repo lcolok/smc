@@ -26,7 +26,7 @@ module.exports = (e) => new Promise((resolve, reject) => {
 
 
 function dealWith(input) {
-        console.log(input);
+        // console.log(input);
         return new Promise((resolve, reject) => {
                 const className = input.className;
                 const action = input.action;
@@ -43,20 +43,29 @@ function dealWith(input) {
                 switch (action) {
                         case 'save':
                                 console.log('case save');
-                                // 遍历设值
-                                // for (var i in attributes) {
-                                //         cc.set(i, attributes[i]);
-                                // }
-                                cc.set(attributes);
-                                cc.save().then(function (obj) {
-                                        for (let i of ['id', 'createdAt', 'updatedAt']) {
-                                                if (!obj[`real_${i}`]) {//不存在 real_ 开头的三个参数(id, createdAt, updatedAt)才创建
-                                                        obj.set(`real_${i}`, obj[i])
+
+                                //不存在 real_ 开头的三个参数(id, createdAt, updatedAt)就不能执行载入
+                                for (let i of ['id', 'createdAt', 'updatedAt']) {
+                                        let real = `real_${i}`;
+                                        if (!input[real]) {
+                                                resolve({ code: 1, error: `缺少必要属性 ${real}` })
+                                                return
+                                        } else {
+                                                let val;
+                                                if (real == 'real_createdAt' || real == 'real_updatedAt') {
+                                                        val = new Date(input[real]);
+                                                } else {
+                                                        val = input[real];
                                                 }
+
+                                                cc.set(real, val);
                                         }
-                                        obj.save().then(function (object) {
-                                                resolve({ code: 0, object })
-                                        });
+                                }
+                                //正常情况执行载入
+                                cc.set(attributes);
+                                cc.save().then(function (object) {
+
+                                        resolve({ code: 0, object });
                                 }, function (error) {
                                         // console.error(error);
                                         // reject(error)

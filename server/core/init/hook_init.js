@@ -151,11 +151,30 @@ function getToSync() {
         query.ascending('createdAt');// 按时间，升序排列
         query.limit(1000);
         query.find().then(function (results) {
-            const commandArray = results.map(e => e.toJSON());
-            send(groupMembers[you].app_id, commandArray).then(cb => {
-                callbackArray = cb.result;
-                console.log(callbackArray);
+            results.forEach(e => {
+                query.get(e.id).then(object => {    // 成功获得实例
+                    // console.log(object.toJSON());
+                    for (let i of ['id', 'createdAt', 'updatedAt']) {
+                        if (!object[`real_${i}`]) {//不存在 real_ 开头的三个参数(id, createdAt, updatedAt)才创建
+                            object.set(`real_${i}`, object[i])
+                        }
+                    }
+                    object.save().then(obj => {
+                        const commandArray = obj.toJSON();
+                        send(groupMembers[you].app_id, commandArray).then(cb => {
+                            let callbackArray = cb.result;
+                            console.log(callbackArray);
+                            callbackArray.forEach(e=>{
+                                
+                            })
+                        });
+
+                    });
+                }, function (error) {
+                    // 如果 todo 不存在，error 为 AVError.OBJECT_NOT_FOUND
+                });
             });
+
         });
     })
 }
@@ -189,11 +208,11 @@ setTimeout(() => {
                     console.log(resp);
                 }).catch(error => console.log(error));
          */
-                /* setToSync({
-                    className:'Comment',
-                    action:'save',
-                    attributes:{aaa:'333333333333333'}
-                }) */
+        /* setToSync({
+            className:'Comment',
+            action:'save',
+            attributes:{aaa:'333333333333'}
+        }) */
     }
 }, 1000);
 
