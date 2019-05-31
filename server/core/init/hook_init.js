@@ -7,6 +7,18 @@ const groupMembers = apiConfig.groupMembers;
 const dayjs = require('dayjs');
 const axios = require('axios');
 
+
+const me = (_ => {
+    for (let i in groupMembers) {
+        if (groupMembers[i].app_id == process.env.LC_APP_ID && groupMembers[i].app_key == process.env.LC_APP_KEY) {
+            return i
+        }
+    }
+})();
+
+const you = opposite(me);
+
+
 function awake(who) {//day or night
     const start = time(groupMembers[who].start);
     const end = time(groupMembers[who].end)
@@ -39,13 +51,7 @@ function opposite(me) {
     return me == "DAY" ? "NIGHT" : "DAY";
 }
 
-function whoAmI() {
-    for (let i in groupMembers) {
-        if (groupMembers[i].app_id == process.env.LC_APP_ID && groupMembers[i].app_key == process.env.LC_APP_KEY) {
-            return i
-        }
-    }
-}
+
 
 function send(id, commandArray, objectArray) {
     return new Promise((resolve, reject) => {
@@ -129,7 +135,7 @@ function setHook(hookName, className) {
         }
 
         switch (hookName) {
-            case 'afterSave':
+            case 'afterSave', 'afterDelete', 'afterUpdate':
 
                 if (awake(you)) {//如果对方醒着的话
                     console.log('对方醒着');
@@ -192,53 +198,82 @@ function getToSync() {
     })
 }
 
-const me = whoAmI();
-const you = opposite(me);
+function getAllClasses() {
+    return new Promise((resolve, reject) => {
+        axios({
+            url: `https://leancloud.cn/1.1/data/${process.env.LC_APP_ID}/classes`,
+            method: 'GET',
+            headers: {
+                'Cookie': process.env.lcCookie,
+                'X-XSRF-TOKEN': process.env.xsrfToken,
+            },
+        }).then(response => {
+            const allClassDetails = response.data;
+            const allClassNames = allClassDetails
+                .map(item => item.name)
+                .filter(item => item !== 'ToSync');//过滤掉 ToSync 这个 Class
+            resolve(allClassNames);
+        }).catch(error => reject(error));
+    });
+}
 
-setHook('afterSave', 'Comments');
+void async function () {
+    const allClassNames = await getAllClasses();
+    console.log(allClassNames);
 
-/* 以下为测试代码 */
-setTimeout(() => {
-    if (me == 'DAY') {
 
-        getToSync();
 
-        /*  send(groupMembers[you].app_id, [
-             { action: 'save', className: 'Comments', attributes: { aaa: 1111, bbb: 2222 } },
-         ]); */
-        /*         send(groupMembers[you].app_id,
-                    [
-                        { action: 'delete', className: 'Comments', real_id: '5ceebc607b968a007688b123' },
-                        { action: 'delete', className: 'Comments', real_id: '5ceebc60ba39c80068a1e45f' },
-                        { action: 'delete', className: 'Comments', real_id: '5ceebc5f43e78c006737bc27' },
-                        { action: 'delete', className: 'Comments', real_id: '5ceebc5fc8959c0069006808' },
-                        { action: 'delete', className: 'Comments', real_id: '5ceebc5f43e78c006737bc24' },
-                        { action: 'delete', className: 'Comments', real_id: '5ceebc5e30863b006863427a' },
-                        { action: 'delete', className: 'Comments', real_id: '5ceebc5ec8959c0069006805' },
-                        { action: 'delete', className: 'Comments', real_id: '5ceebc5dc8959c0069006801' }
-                    ]
-                ).then(resp => {
-                    console.log(resp);
-                }).catch(error => console.log(error));
-         */
-        /* setToSync({
-            className: 'Comments',
-            action: 'save',
-            attributes: { aaa: '3333333333' }
-        });
-        setToSync({
-            className: 'Comments',
-            action: 'save',
-            attributes: { aaa: '2222222222' }
-        });
-        setToSync({
-            className: 'Comments',
-            action: 'save',
-            attributes: { aaa: '1111111111' }
-        }); */
-    }
-}, 1000);
-/* 以上为测试代码 */
+    allClassNames.forEach(element => {
+        setHook('afterSave', element);
+    });
+
+
+    /* 以下为测试代码 */
+    setTimeout(() => {
+        if (me == 'DAY') {
+
+            getToSync();
+
+            /*  send(groupMembers[you].app_id, [
+                 { action: 'save', className: 'Comments', attributes: { aaa: 1111, bbb: 2222 } },
+             ]); */
+            /*         send(groupMembers[you].app_id,
+                        [
+                            { action: 'delete', className: 'Comments', real_id: '5ceebc607b968a007688b123' },
+                            { action: 'delete', className: 'Comments', real_id: '5ceebc60ba39c80068a1e45f' },
+                            { action: 'delete', className: 'Comments', real_id: '5ceebc5f43e78c006737bc27' },
+                            { action: 'delete', className: 'Comments', real_id: '5ceebc5fc8959c0069006808' },
+                            { action: 'delete', className: 'Comments', real_id: '5ceebc5f43e78c006737bc24' },
+                            { action: 'delete', className: 'Comments', real_id: '5ceebc5e30863b006863427a' },
+                            { action: 'delete', className: 'Comments', real_id: '5ceebc5ec8959c0069006805' },
+                            { action: 'delete', className: 'Comments', real_id: '5ceebc5dc8959c0069006801' }
+                        ]
+                    ).then(resp => {
+                        console.log(resp);
+                    }).catch(error => console.log(error));
+             */
+            /* setToSync({
+                className: 'Comments',
+                action: 'save',
+                attributes: { aaa: '3333333333' }
+            });
+            setToSync({
+                className: 'Comments',
+                action: 'save',
+                attributes: { aaa: '2222222222' }
+            });
+            setToSync({
+                className: 'Comments',
+                action: 'save',
+                attributes: { aaa: '1111111111' }
+            }); */
+        }
+    }, 1000);
+    /* 以上为测试代码 */
+
+
+}();
+
 
 
 
