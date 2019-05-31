@@ -109,6 +109,11 @@ function send(id, commandArray, objectArray) {
     })
 }
 
+function setAllAfterHooks(className) {
+    ['afterSave', 'afterDelete', 'afterUpdate'].forEach(e => {
+        setHook(e, className);
+    })
+}
 
 function setHook(hookName, className) {
 
@@ -219,12 +224,8 @@ function getAllClasses() {
 
 void async function () {
     const allClassNames = await getAllClasses();
-    console.log(allClassNames);
-
-
-
     allClassNames.forEach(element => {
-        setHook('afterSave', element);
+        setAllAfterHooks(element);
     });
 
 
