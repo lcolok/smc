@@ -69,27 +69,35 @@ function send(id, commandArray, objectArray) {
             },
             data: commandArray,
         })
-            .then(function (response) {
-                response.data.result.forEach((currentValue, index) => {
-                    if (!currentValue.code) {
-                        console.log('成功');
+            .then(async (response) => {
 
-                        objectArray[index].destroy().then(success => {
-                            // 删除成功
+                let count = 0;
+                await Promise.all(response.data.result.map(async (currentValue, index) => {
+                    if (!currentValue.code) {
+                        console.log('此项同步成功');
+                        let obj = await objectArray[index - count].destroy()
+                            .catch(error => {
+                                console.log('删除失败');
+                            });
+                        if (obj) {
                             console.log('删除成功');
                             objectArray.splice(index, 1);//删除objectArray中已经成功同步的一项
                             commandArray.splice(index, 1);//删除commandArray中已经成功同步的一项
-                        }, function (error) {
-                            // 删除失败
-                        });
+                            count++;
+                        }
+                    } else {
+                        console.log('此项同步失败');
                     }
-                })
-
-
-
+                }));
+                if (commandArray.length > 0 || objectArray.length > 0) {
+                    send(id, commandArray, objectArray)//重新发送之前同步失败的项目;
+                }
             })
             .catch(function (error) {
-
+                console.log('发送失败,正准备重试');
+                setTimeout(() => {
+                    send(id, commandArray, objectArray)//五秒后重新发送
+                }, 5000);
                 reject(error);
             });
     })
@@ -100,7 +108,7 @@ function setHook(hookName, className) {
 
     const action = hookName.replace(/before|after/g, '').toLowerCase();
 
-    console.log({ action });
+    // console.log({ action });
 
     AV.Cloud[hookName](className, function (request) {
         const real_id = request.object.id;
@@ -179,14 +187,7 @@ function getToSync() {
                     return object.toJSON();
                 })
             );
-
-            send(groupMembers[you].app_id, commandArray, objectArray)
-
-
-
-
-
-
+            send(groupMembers[you].app_id, commandArray, objectArray);
         });
     })
 }
@@ -196,7 +197,7 @@ const you = opposite(me);
 
 setHook('afterSave', 'Comments');
 
-
+/* 以下为测试代码 */
 setTimeout(() => {
     if (me == 'DAY') {
 
@@ -221,22 +222,23 @@ setTimeout(() => {
                 }).catch(error => console.log(error));
          */
         /* setToSync({
-            className: 'Comment',
+            className: 'Comments',
             action: 'save',
             attributes: { aaa: '3333333333' }
         });
         setToSync({
-            className: 'Comment',
+            className: 'Comments',
             action: 'save',
             attributes: { aaa: '2222222222' }
         });
         setToSync({
-            className: 'Comment',
+            className: 'Comments',
             action: 'save',
             attributes: { aaa: '1111111111' }
         }); */
     }
 }, 1000);
+/* 以上为测试代码 */
 
 
 
