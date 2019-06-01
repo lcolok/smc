@@ -82,18 +82,21 @@ function send(id, commandArray, objectArray) {
 				let count = 0;
 				await Promise.all(
 					response.data.result.map(async (currentValue, index) => {
+						let currentIndex = index - count;
 						if (!currentValue.code) {
 							console.log('此项同步成功');
-							let obj = await objectArray[index - count]
+							let obj = await objectArray[currentIndex]
 								.destroy()
 								.catch(error => {
 									console.log('删除失败');
 								});
 							if (obj) {
 								console.log('删除成功');
-								objectArray.splice(index, 1); //删除objectArray中已经成功同步的一项
-								commandArray.splice(index, 1); //删除commandArray中已经成功同步的一项
+								objectArray.splice(currentIndex, 1); //删除objectArray中已经成功同步的一项
+								commandArray.splice(currentIndex, 1); //删除commandArray中已经成功同步的一项
 								count++;
+								// console.log({ objectArray, commandArray, count });
+								console.log(count);
 							}
 						} else {
 							console.log('此项同步失败');
@@ -101,6 +104,7 @@ function send(id, commandArray, objectArray) {
 					}),
 				);
 				if (commandArray.length > 0 || objectArray.length > 0) {
+					console.log('正准备重新发送之前同步失败的项目');
 					send(id, commandArray, objectArray); //重新发送之前同步失败的项目;
 				}
 			})
@@ -171,14 +175,10 @@ function setToSync(payload) {
 
 		toSync.set(payload);
 
-		toSync.save().then(
-			function(sync) {
-				resolve(sync);
-			},
-			function(error) {
-				reject(error);
-			},
-		);
+		toSync
+			.save()
+			.then(sync => resolve(sync))
+			.catch(error => reject(error));
 	});
 }
 
@@ -235,20 +235,19 @@ void (async function() {
 	});
 
 	/* 以下为测试代码 */
-	setTimeout(() => {
+	setTimeout(async () => {
 		if (me == 'DAY') {
-			getToSync();
-
+			// getToSync();
 			/*  send(groupMembers[you].app_id, [
                  { action: 'save', className: 'Comments', attributes: { aaa: 1111, bbb: 2222 } },
              ]); */
 			/*         send(groupMembers[you].app_id,
                         [
-                            { action: 'delete', className: 'Comments', real_id: '5ceebc607b968a007688b123' },
-                            { action: 'delete', className: 'Comments', real_id: '5ceebc60ba39c80068a1e45f' },
-                            { action: 'delete', className: 'Comments', real_id: '5ceebc5f43e78c006737bc27' },
-                            { action: 'delete', className: 'Comments', real_id: '5ceebc5fc8959c0069006808' },
-                            { action: 'delete', className: 'Comments', real_id: '5ceebc5f43e78c006737bc24' },
+                            { action: 'delete', className: 'Comments', real_id: '5cf23ddc43e78c006759712c' },
+                            { action: 'delete', className: 'Comments', real_id: '5cf23dc6a673f500685a406b' },
+                            { action: 'delete', className: 'Comments', real_id: '5cf23dc630863b00688542de' },
+                            { action: 'delete', className: 'Comments', real_id: '5cf23dc630863b00688542de' },
+                            { action: 'delete', className: 'Comments', real_id: '5cf23ddc43e78c006759712c' },
                             { action: 'delete', className: 'Comments', real_id: '5ceebc5e30863b006863427a' },
                             { action: 'delete', className: 'Comments', real_id: '5ceebc5ec8959c0069006805' },
                             { action: 'delete', className: 'Comments', real_id: '5ceebc5dc8959c0069006801' }
@@ -257,23 +256,33 @@ void (async function() {
                         console.log(resp);
                     }).catch(error => console.log(error));
              */
-			/* setToSync({
-                className: 'Comments',
-                action: 'save',
-                attributes: { aaa: '3333333333' }
-            });
-            setToSync({
-                className: 'Comments',
-                action: 'save',
-                attributes: { aaa: '2222222222' }
-            });
-            setToSync({
-                className: 'Comments',
-                action: 'save',
-                attributes: { aaa: '1111111111' }
-            }); */
+			/* await setToSync({
+				className: 'Comments',
+				action: 'save',
+				attributes: { aaa: '1111111111' },
+			});
+			await setToSync({
+				className: 'Comments',
+				action: 'save',
+				attributes: { aaa: '2222222222' },
+			});
+			await setToSync({
+				className: 'Comments',
+				action: 'save',
+				attributes: { aaa: '3333333333' },
+			});
+			await setToSync({
+				className: 'Comments',
+				action: 'save',
+				attributes: { aaa: '4444444444' },
+			});
+			await setToSync({
+				className: 'Comments',
+				action: 'save',
+				attributes: { aaa: '5555555555' },
+			}); */
 		}
-	}, 1000);
+	}, 1500);
 	/* 以上为测试代码 */
 })();
 
