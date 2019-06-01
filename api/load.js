@@ -32,15 +32,17 @@ function dealWith(input) {
 		const attributes = input.attributes;
 		const real_id = input.real_id;
 
+		// 声明类型
+		const CurrentClass = AV.Object.extend(className);
+		// 新建对象
+		const cc = new CurrentClass();
+		cc.disableBeforeHook();
+		cc.disableAfterHook(); // 如果是其他方式构建对象，则需要在新构建的对象上调用相关的 disable 方法，来确保不会再次触发 Hook 函数
+
 		switch (action) {
 			case 'save':
 				console.log('case save');
-				// 声明类型
-				const CurrentClass = AV.Object.extend(className);
-				// 新建对象
-				const cc = new CurrentClass();
-				cc.disableBeforeHook();
-				cc.disableAfterHook(); // 如果是其他方式构建对象，则需要在新构建的对象上调用相关的 disable 方法，来确保不会再次触发 Hook 函数
+
 				//不存在 real_ 开头的三个参数(id, createdAt, updatedAt)就不能执行载入
 				for (let i of ['id', 'createdAt', 'updatedAt']) {
 					let real = `real_${i}`;
@@ -72,8 +74,6 @@ function dealWith(input) {
 				query.equalTo('real_id', real_id);
 				query.first().then(item => {
 					//first() 就是只返回第一条结果的 find()
-					item.disableBeforeHook();
-					item.disableAfterHook();
 					if (!item) {
 						resolve({
 							code: 1,

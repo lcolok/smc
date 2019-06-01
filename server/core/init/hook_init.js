@@ -55,7 +55,14 @@ function opposite(me) {
 	return me == 'DAY' ? 'NIGHT' : 'DAY';
 }
 
-function send(id, commandArray, objectArray) {
+function send(config, retries) {
+	if (retries <= 0) {
+		return;
+	} //重试次数少于或等于零，就不会再执行发送
+	const id = config.id,
+		commandArray = config.commandArray,
+		objectArray = config.objectArray || [];
+
 	return new Promise((resolve, reject) => {
 		let url,
 			funcName = 'load',
@@ -82,38 +89,57 @@ function send(id, commandArray, objectArray) {
 				let count = 0;
 				await Promise.all(
 					response.data.result.map(async (currentValue, index) => {
-						let currentIndex = index - count;
 						if (!currentValue.code) {
 							console.log('此项同步成功');
-							let obj = await objectArray[currentIndex]
+
+							await objectArray[index - count]
 								.destroy()
+								.then(success => {
+									objectArray.splice(index - count, 1); //删除objectArray中已经成功同步的一项
+									commandArray.splice(index - count, 1); //删除commandArray中已经成功同步的一项
+									count++;
+									// console.log({ objectArray, commandArray, count });
+									console.log(count);
+									console.log('删除成功');
+								})
 								.catch(error => {
 									console.log('删除失败');
 								});
-							if (obj) {
-								console.log('删除成功');
-								objectArray.splice(currentIndex, 1); //删除objectArray中已经成功同步的一项
-								commandArray.splice(currentIndex, 1); //删除commandArray中已经成功同步的一项
-								count++;
-								// console.log({ objectArray, commandArray, count });
-								console.log(count);
-							}
 						} else {
 							console.log('此项同步失败');
 						}
 					}),
 				);
-				if (commandArray.length > 0 || objectArray.length > 0) {
-					console.log('正准备重新发送之前同步失败的项目');
-					send(id, commandArray, objectArray); //重新发送之前同步失败的项目;
-				}
-			})
-			.catch(function(error) {
-				console.log('发送失败,正准备重试');
 				setTimeout(() => {
-					send(id, commandArray, objectArray); //五秒后重新发送
-				}, 5000);
+					if (objectArray.length > 0) {
+						console.log('正准备重新发送之前同步失败的项目');
+						send(
+							{
+								id,
+								commandArray,
+								objectArray,
+							},
+							retries - 1,
+						); //重新发送之前同步失败的项目;
+					}
+				}, 0);
+			})
+			.catch(error => {
+				console.log(error);
+				console.log('发送失败,正准备重试');
+
 				reject(error);
+
+				setTimeout(() => {
+					send(
+						{
+							id,
+							commandArray,
+							objectArray,
+						},
+						retries - 1,
+					); //五秒后重新发送，并减少一次重试次数
+				}, 5000);
 			});
 	});
 }
@@ -151,7 +177,14 @@ function setHook(hookName, className) {
 				if (awake(you)) {
 					//如果对方醒着的话
 					console.log('对方醒着');
-					send(groupMembers[you].app_id, payload);
+					send(
+						{
+							id: groupMembers[you].app_id,
+							commandArray,
+							objectArray,
+						},
+						retries - 1,
+					);
 				} else {
 					console.log('对方沉睡中');
 					setToSync(payload).then(object => {});
@@ -202,7 +235,14 @@ function getToSync() {
 					return object.toJSON();
 				}),
 			);
-			send(groupMembers[you].app_id, commandArray, objectArray);
+			send(
+				{
+					id: groupMembers[you].app_id,
+					commandArray,
+					objectArray,
+				},
+				5, //重试次数
+			);
 		});
 	});
 }
@@ -237,25 +277,29 @@ void (async function() {
 	/* 以下为测试代码 */
 	setTimeout(async () => {
 		if (me == 'DAY') {
-			// getToSync();
+			getToSync();
 			/*  send(groupMembers[you].app_id, [
                  { action: 'save', className: 'Comments', attributes: { aaa: 1111, bbb: 2222 } },
              ]); */
-			/*         send(groupMembers[you].app_id,
-                        [
-                            { action: 'delete', className: 'Comments', real_id: '5cf23ddc43e78c006759712c' },
-                            { action: 'delete', className: 'Comments', real_id: '5cf23dc6a673f500685a406b' },
-                            { action: 'delete', className: 'Comments', real_id: '5cf23dc630863b00688542de' },
-                            { action: 'delete', className: 'Comments', real_id: '5cf23dc630863b00688542de' },
-                            { action: 'delete', className: 'Comments', real_id: '5cf23ddc43e78c006759712c' },
-                            { action: 'delete', className: 'Comments', real_id: '5ceebc5e30863b006863427a' },
-                            { action: 'delete', className: 'Comments', real_id: '5ceebc5ec8959c0069006805' },
-                            { action: 'delete', className: 'Comments', real_id: '5ceebc5dc8959c0069006801' }
-                        ]
-                    ).then(resp => {
-                        console.log(resp);
-                    }).catch(error => console.log(error));
-             */
+			/* send(
+				{
+					id: groupMembers[you].app_id,
+					commandArray: [
+						{
+							action: 'delete',
+							className: 'Comments',
+							real_id: '5cf2555943e78c00675aa165',
+						},
+					],
+					objectArray: [],
+				},
+				5,
+			)
+				.then(resp => {
+					console.log(resp);
+				})
+				.catch(error => console.log(error)); */
+
 			/* await setToSync({
 				className: 'Comments',
 				action: 'save',
