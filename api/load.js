@@ -81,8 +81,8 @@ function dealWith(input) {
 				//正常情况执行载入
 				cc.set(attributes);
 				cc.save()
-					.then(object => resolve({ code: 0, object }))
-					.catch(error => resolve({ code: 1, error }));
+					.then(object => resolve({ code: 0, object, action }))
+					.catch(error => resolve({ code: 1, error, action }));
 				break;
 			case 'delete':
 				console.log('case delete');
@@ -96,14 +96,28 @@ function dealWith(input) {
 					} else {
 						item
 							.destroy()
-							.then(object => resolve({ code: 0, object })) // 删除成功
-							.catch(error => resolve({ code: 1, error }));
+							.then(object => resolve({ code: 0, object, action })) // 删除成功
+							.catch(error => resolve({ code: 1, error, action }));
 					}
 				});
 				break;
 			case 'update':
 				console.log('case update');
-
+				getItem(className, target_id).then(item => {
+					//first() 就是只返回第一条结果的 find()
+					if (!item) {
+						resolve({
+							code: 1,
+							error: '没有此real_id',
+						});
+					} else {
+						item.set(attributes);
+						item
+							.save()
+							.then(object => resolve({ code: 0, object, action }))
+							.catch(error => resolve({ code: 1, error, action }));
+					}
+				});
 				break;
 			default:
 				// reject('没有匹配合适的 Action');

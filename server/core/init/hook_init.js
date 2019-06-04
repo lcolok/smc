@@ -90,7 +90,8 @@ function send(config, retries) {
 				await Promise.all(
 					response.data.result.map(async (currentValue, index) => {
 						if (!currentValue.code) {
-							console.log('此项同步成功');
+							// console.log('此项同步成功');
+							console.log(`已进行${currentValue.action.toUpperCase()}操作`);
 							if (objectArray.length == 0) {
 								return console.log(
 									'缺少objectArray,无法删除Class:ToSync中的项目',
@@ -104,13 +105,14 @@ function send(config, retries) {
 									count++;
 									// console.log({ objectArray, commandArray, count });
 									// console.log(count);
-									console.log('删除成功');
+									console.log(`主机"${me}"的ToSync指令已删除成功`);
 								})
 								.catch(error => {
 									console.log('删除失败');
 								});
 						} else {
 							console.log('此项同步失败');
+							console.log(`已终止${currentValue.action}操作`);
 							console.log(`原因:${currentValue.error}`);
 						}
 					}),
@@ -169,33 +171,72 @@ function setHook(hookName, className) {
 		request.object.set('real_createdAt', real_createdAt);
 		request.object.set('real_updatedAt', real_updatedAt);
 
+		let target_id = real_id;
 		let attributes = request.object.attributes;
 
-		let payload = {
-			className,
-			action,
-			attributes,
-		};
+		if (awake(you)) {
+			//如果对方醒着的话
+			console.log('对方醒着');
+			send(
+				{
+					id: groupMembers[you].app_id,
+					commandArray: [{ className, action, attributes, target_id }],
+				},
+				5, //重试五次
+			);
+		} else {
+			console.log('对方沉睡中');
+			/* 进行分类操作 */
+			switch (hookName) {
+				case 'afterSave':
+					setToSync({
+						className,
+						action,
+						attributes,
+					});
+					break;
+				case 'afterDelete':
+					setToSync({
+						className,
+						action,
+						target_id,
+					});
+					break;
+				case 'afterUpdate':
+					setToSync({
+						className,
+						action,
+						attributes,
+						target_id,
+					});
+					break;
+			}
 
-		switch (hookName) {
-			case ('afterSave', 'afterDelete', 'afterUpdate'):
-				if (awake(you)) {
-					//如果对方醒着的话
-					console.log('对方醒着');
-					send(
-						{
-							id: groupMembers[you].app_id,
-							commandArray,
-							objectArray,
-						},
-						retries - 1,
-					);
-				} else {
-					console.log('对方沉睡中');
-					setToSync(payload).then(object => {});
-				}
-				break;
+			/* delete指令的demo */
+			// await setToSync({
+			// 	className: 'Comments',
+			// 	action: 'delete',
+			// 	target_id: '5cf25c277b968a0076ac102c',
+			// });
+
+			/* update指令的demo */
+
+			// await setToSync({
+			// 	className: 'Comments',
+			// 	action: 'update',
+			// 	target_id: '5cf25c27a673f500685bd696',
+			// 	attributes: { bbb: 'okokokokokokok' },
+			// });
+
+			/* save指令的demo */
+
+			// await setToSync({
+			// 	className: 'Comments',
+			// 	action: 'save',
+			// 	attributes: { aaa: '1111111111' },
+			// });
 		}
+
 		return request.object.save().then(function(user) {
 			console.log(`ok!已经更新 ${className}`, user);
 		});
@@ -281,7 +322,7 @@ void (async function() {
 
 	/* 以下为测试代码 */
 	setTimeout(async () => {
-		if (me == 'DAY') {
+		if (me == 'NIGHT') {
 			getToSync();
 			/*  send(groupMembers[you].app_id, [
                  { action: 'save', className: 'Comments', attributes: { aaa: 1111, bbb: 2222 } },
@@ -305,10 +346,20 @@ void (async function() {
 				})
 				.catch(error => console.log(error)); */
 
+			/* delete指令的demo */
 			// await setToSync({
 			// 	className: 'Comments',
 			// 	action: 'delete',
 			// 	target_id: '5cf25c277b968a0076ac102c',
+			// });
+
+			/* update指令的demo */
+
+			// await setToSync({
+			// 	className: 'Comments',
+			// 	action: 'update',
+			// 	target_id: '5cf25c27a673f500685bd696',
+			// 	attributes: { bbb: 'okokokokokokok' },
 			// });
 
 			/* await setToSync({
