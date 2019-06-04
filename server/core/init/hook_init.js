@@ -186,7 +186,7 @@ function setHook(hookName, className) {
 			);
 		} else {
 			console.log('对方沉睡中');
-			/* 进行分类操作 */
+			/* 进行分类操作,其实分不分类,我认为也不会影响结果,只需要记录 className,action,attributes,target_id 四个参数即可 */
 			switch (hookName) {
 				case 'afterSave':
 					setToSync({
@@ -315,80 +315,89 @@ function getAllClasses() {
 }
 
 void (async function() {
-	const allClassNames = await getAllClasses();
+	/* 	const allClassNames = await getAllClasses();
 	allClassNames.forEach(element => {
 		setAllAfterHooks(element);
+	}); */
+
+	getAllClasses().then(async classes => {
+		await Promise.all(
+			classes.map(async eachClass => {
+				setAllAfterHooks(eachClass); //设置全部hooks
+			}),
+		);
+		getToSync(); //同步
 	});
 
 	/* 以下为测试代码 */
-	setTimeout(async () => {
-		if (me == 'NIGHT') {
-			getToSync();
-			/*  send(groupMembers[you].app_id, [
-                 { action: 'save', className: 'Comments', attributes: { aaa: 1111, bbb: 2222 } },
-             ]); */
-			/* 			send(
-				{
-					id: groupMembers[you].app_id,
-					commandArray: [
-						{
-							action: 'delete',
-							className: 'Comments',
-							real_id: '5cf69b3bc8959c00694d907b',
-						},
-					],
-					objectArray: [],
-				},
-				5,
-			)
-				.then(resp => {
-					console.log(resp);
-				})
-				.catch(error => console.log(error)); */
+	// setTimeout(async () => {
+	// 	if (me == 'NIGHT') {
+	// 		getToSync();
+	// 		/*  send(groupMembers[you].app_id, [
+	//              { action: 'save', className: 'Comments', attributes: { aaa: 1111, bbb: 2222 } },
+	//          ]); */
+	// 		/* 			send(
+	// 			{
+	// 				id: groupMembers[you].app_id,
+	// 				commandArray: [
+	// 					{
+	// 						action: 'delete',
+	// 						className: 'Comments',
+	// 						real_id: '5cf69b3bc8959c00694d907b',
+	// 					},
+	// 				],
+	// 				objectArray: [],
+	// 			},
+	// 			5,
+	// 		)
+	// 			.then(resp => {
+	// 				console.log(resp);
+	// 			})
+	// 			.catch(error => console.log(error)); */
 
-			/* delete指令的demo */
-			// await setToSync({
-			// 	className: 'Comments',
-			// 	action: 'delete',
-			// 	target_id: '5cf25c277b968a0076ac102c',
-			// });
+	// 		/* delete指令的demo */
+	// 		// await setToSync({
+	// 		// 	className: 'Comments',
+	// 		// 	action: 'delete',
+	// 		// 	target_id: '5cf25c277b968a0076ac102c',
+	// 		// });
 
-			/* update指令的demo */
+	// 		/* update指令的demo */
 
-			// await setToSync({
-			// 	className: 'Comments',
-			// 	action: 'update',
-			// 	target_id: '5cf25c27a673f500685bd696',
-			// 	attributes: { bbb: 'okokokokokokok' },
-			// });
+	// 		// await setToSync({
+	// 		// 	className: 'Comments',
+	// 		// 	action: 'update',
+	// 		// 	target_id: '5cf25c27a673f500685bd696',
+	// 		// 	attributes: { bbb: 'okokokokokokok' },
+	// 		// });
 
-			/* await setToSync({
-				className: 'Comments',
-				action: 'save',
-				attributes: { aaa: '1111111111' },
-			});
-			await setToSync({
-				className: 'Comments',
-				action: 'save',
-				attributes: { aaa: '2222222222' },
-			});
-			await setToSync({
-				className: 'Comments',
-				action: 'save',
-				attributes: { aaa: '3333333333' },
-			});
-			await setToSync({
-				className: 'Comments',
-				action: 'save',
-				attributes: { aaa: '4444444444' },
-			});
-			await setToSync({
-				className: 'Comments',
-				action: 'save',
-				attributes: { aaa: '5555555555' },
-			}); */
-		}
-	}, 1500);
+	// 		/* await setToSync({
+	// 			className: 'Comments',
+	// 			action: 'save',
+	// 			attributes: { aaa: '1111111111' },
+	// 		});
+	// 		await setToSync({
+	// 			className: 'Comments',
+	// 			action: 'save',
+	// 			attributes: { aaa: '2222222222' },
+	// 		});
+	// 		await setToSync({
+	// 			className: 'Comments',
+	// 			action: 'save',
+	// 			attributes: { aaa: '3333333333' },
+	// 		});
+	// 		await setToSync({
+	// 			className: 'Comments',
+	// 			action: 'save',
+	// 			attributes: { aaa: '4444444444' },
+	// 		});
+	// 		await setToSync({
+	// 			className: 'Comments',
+	// 			action: 'save',
+	// 			attributes: { aaa: '5555555555' },
+	// 		}); */
+	// 	}
+	// }, 1500);
 	/* 以上为测试代码 */
 })();
 
