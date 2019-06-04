@@ -24,6 +24,21 @@ module.exports = e =>
 		resolve(queue.addAll(promiseArr));
 	});
 
+function getItem(className, target_id) {
+	return new Promise((resolve, reject) => {
+		if (!className) {
+			return reject('GetItem缺少ClassName');
+		}
+		if (!target_id) {
+			return reject('GetItem缺少target_id');
+		}
+
+		const query = new AV.Query(className);
+		query.equalTo('real_id', target_id);
+		resolve(query.first());
+	});
+}
+
 function dealWith(input) {
 	// console.log(input);
 	return new Promise((resolve, reject) => {
@@ -31,6 +46,7 @@ function dealWith(input) {
 		const action = input.action;
 		const attributes = input.attributes;
 		const real_id = input.real_id;
+		const target_id = input.target_id;
 
 		// 声明类型
 		const CurrentClass = AV.Object.extend(className);
@@ -70,9 +86,7 @@ function dealWith(input) {
 				break;
 			case 'delete':
 				console.log('case delete');
-				const query = new AV.Query(className);
-				query.equalTo('real_id', real_id);
-				query.first().then(item => {
+				getItem(className, target_id).then(item => {
 					//first() 就是只返回第一条结果的 find()
 					if (!item) {
 						resolve({

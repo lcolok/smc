@@ -91,7 +91,11 @@ function send(config, retries) {
 					response.data.result.map(async (currentValue, index) => {
 						if (!currentValue.code) {
 							console.log('此项同步成功');
-
+							if (objectArray.length == 0) {
+								return console.log(
+									'缺少objectArray,无法删除Class:ToSync中的项目',
+								);
+							} //objectArray为空数组时候,则不进行相关的指令操作
 							await objectArray[index - count]
 								.destroy()
 								.then(success => {
@@ -99,7 +103,7 @@ function send(config, retries) {
 									commandArray.splice(index - count, 1); //删除commandArray中已经成功同步的一项
 									count++;
 									// console.log({ objectArray, commandArray, count });
-									console.log(count);
+									// console.log(count);
 									console.log('删除成功');
 								})
 								.catch(error => {
@@ -107,6 +111,7 @@ function send(config, retries) {
 								});
 						} else {
 							console.log('此项同步失败');
+							console.log(`原因:${currentValue.error}`);
 						}
 					}),
 				);
@@ -281,14 +286,14 @@ void (async function() {
 			/*  send(groupMembers[you].app_id, [
                  { action: 'save', className: 'Comments', attributes: { aaa: 1111, bbb: 2222 } },
              ]); */
-			/* send(
+			/* 			send(
 				{
 					id: groupMembers[you].app_id,
 					commandArray: [
 						{
 							action: 'delete',
 							className: 'Comments',
-							real_id: '5cf2555943e78c00675aa165',
+							real_id: '5cf69b3bc8959c00694d907b',
 						},
 					],
 					objectArray: [],
@@ -299,6 +304,12 @@ void (async function() {
 					console.log(resp);
 				})
 				.catch(error => console.log(error)); */
+
+			// await setToSync({
+			// 	className: 'Comments',
+			// 	action: 'delete',
+			// 	target_id: '5cf25c277b968a0076ac102c',
+			// });
 
 			/* await setToSync({
 				className: 'Comments',
