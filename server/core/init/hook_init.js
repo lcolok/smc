@@ -113,7 +113,7 @@ function send(config, retries) {
 						} else {
 							console.log('此项同步失败');
 							console.log(`已终止${currentValue.action}操作`);
-							console.log(`原因:${currentValue.error}`);
+							console.log(`原因:`, currentValue.error);
 						}
 					}),
 				);

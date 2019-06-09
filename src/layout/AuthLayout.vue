@@ -61,7 +61,8 @@
     </div>
 </template>
 <script>
-
+import "@/assets/vendor/nucleo/css/nucleo.css"; //主要为argon中的icon
+import "@/assets/scss/argon.scss";
   import { SlideYUpTransition } from 'vue2-transitions'
 
   export default {

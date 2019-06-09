@@ -44,7 +44,11 @@ function dealWith(input) {
 	return new Promise((resolve, reject) => {
 		const className = input.className;
 		const action = input.action;
-		const attributes = input.attributes;
+		let attributes = input.attributes;
+
+		attributes.real_createdAt = Number(attributes.real_createdAt);
+		attributes.real_updatedAt = Number(attributes.real_updatedAt);
+
 		const real_id = input.real_id;
 		const target_id = input.target_id;
 
