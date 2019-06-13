@@ -1,74 +1,68 @@
-const CompressionPlugin = require("compression-webpack-plugin")
-const productionGzipExtensions = ['js', 'html', 'css']
+const CompressionPlugin = require('compression-webpack-plugin');
+const productionGzipExtensions = ['js', 'html', 'css'];
 var path = require('path');
 
-
 function leanUp() {
-
-  /*       var exec = require('child_process').exec;
+	/*       var exec = require('child_process').exec;
         var leanUpProcess = exec('lean up');
   
         leanUpProcess.stdout.on('data', function (data) {
           console.log(data);
         }); */
 
+	var spawn = require('child_process').spawn,
+		ls = spawn('lean', ['up'], { stdio: 'inherit' });
 
-  var spawn = require('child_process').spawn,
-    ls = spawn('lean', ['up'], { stdio: 'inherit' });
+	ls.stdout.on('data', function(data) {
+		console.log('stdout: ' + data.toString());
+	});
 
-  ls.stdout.on('data', function (data) {
-    console.log('stdout: ' + data.toString());
-  });
+	ls.stderr.on('data', function(data) {
+		console.log('stderr: ' + data.toString());
+	});
 
-  ls.stderr.on('data', function (data) {
-    console.log('stderr: ' + data.toString());
-  });
-
-  ls.on('exit', function (code) {
-    console.log('child process exited with code ' + code.toString());
-  });
-
+	ls.on('exit', function(code) {
+		console.log('child process exited with code ' + code.toString());
+	});
 }
 
 // console.log(process.env);
 
-const publicPath = process.env.VUE_APP_PUBLIC_PATH || '/'
-
+const publicPath = process.env.VUE_APP_PUBLIC_PATH || '/';
 
 module.exports = {
-  publicPath: publicPath,
-  assetsDir: 'assets',
-  lintOnSave: undefined,
-  productionSourceMap: false,
-  outputDir: undefined,
-  runtimeCompiler: true,
-  parallel: undefined,
+	publicPath: publicPath,
+	assetsDir: 'assets',
+	lintOnSave: undefined,
+	productionSourceMap: false,
+	outputDir: undefined,
+	runtimeCompiler: true,
+	parallel: undefined,
 
+	css: {
+		loaderOptions: {
+			less: {
+				modifyVars: {
+					'primary-color': '#1DA57A',
+					'link-color': '#1DA57A',
+					'border-radius-base': '6px',
+				},
+				javascriptEnabled: true,
+			},
+		},
+	},
 
-  css: {
-    loaderOptions: {
-      less: {
-        modifyVars: {
-          'primary-color': '#1DA57A',
-          'link-color': '#1DA57A',
-          'border-radius-base': '6px'
-        },
-        javascriptEnabled: true
-      }
-    }
-  },
-
-  devServer: {
-    /*       contentBase: path.join(__dirname, 'devDist'),
+	devServer: {
+		/*       contentBase: path.join(__dirname, 'devDist'),
           compress: true,
           port: 9000 */
-    before: function (app, server) {
-      // leanUp()
-    },
-    clientLogLevel: 'none'//string: 'none' | 'info' | 'error' | 'warning'
-  },
+		before: function(app, server) {
+			// leanUp()
+		},
+		clientLogLevel: 'none', //string: 'none' | 'info' | 'error' | 'warning'
+	},
 
-  /*   configureWebpack: config => {
+	/*   configureWebpack: config => {
       if (process.env.NODE_ENV === 'production') {
         return {
           plugins: [
@@ -83,12 +77,12 @@ module.exports = {
  
     }, */
 
-  pluginOptions: {
-    i18n: {
-      locale: 'zh-CN',
-      fallbackLocale: 'zh-CN',
-      localeDir: 'locales',
-      enableInSFC: true
-    }
-  },
-}
+	pluginOptions: {
+		i18n: {
+			locale: 'zh-CN',
+			fallbackLocale: 'zh-CN',
+			localeDir: 'locales',
+			enableInSFC: true,
+		},
+	},
+};
