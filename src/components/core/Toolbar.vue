@@ -5,7 +5,7 @@
         <v-btn v-if="responsive" class="default v-btn--simple" dark icon @click.stop="onClickBtn">
           <v-icon>mdi-view-list</v-icon>
         </v-btn>
-        {{ title }}
+        {{ $t(title) }}
       </v-toolbar-title>
     </div>
 

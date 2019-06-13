@@ -17,6 +17,11 @@ export default [
 		},
 		children: [
 			{
+				path: '/search_results',
+				view: 'SearchResults',
+				name: 'SearchResults',
+			},
+			{
 				path: '/dashboard',
 				// Relative to /src/views
 				view: 'Dashboard',

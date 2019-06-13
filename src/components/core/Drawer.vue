@@ -61,139 +61,144 @@
 
 <script>
 // Utilities
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState } from 'vuex';
 
 export default {
-  data() {
-    return {
-      logo: `${this.$baseUrl}img/vuetifylogo.png`,
-      links: [
-        {
-          to: "/dashboard",
-          icon: "mdi-view-dashboard",
-          text: this.$t("Dashboard")
-        },
-        {
-          to: "/user-profile",
-          icon: "mdi-account",
-          text: this.$t("User Profile")
-        },
-        {
-          to: "/table-list",
-          icon: "mdi-clipboard-outline",
-          text: this.$t("Table List")
-        },
-        {
-          to: "/typography",
-          icon: "mdi-format-font",
-          text: this.$t("Typography")
-        },
-        {
-          to: "/icons",
-          icon: "mdi-chart-bubble",
-          text: this.$t("Icons")
-        },
-        {
-          to: "/maps",
-          icon: "mdi-map-marker",
-          text: this.$t("Maps")
-        },
-        {
-          to: "/notifications",
-          icon: "mdi-bell",
-          text: this.$t("Notifications")
-        }
-      ],
-      responsive: false
-    };
-  },
-  computed: {
-    ...mapState("app", ["image", "color"]),
-    inputValue: {
-      get() {
-        return this.$store.state.app.drawer;
-      },
-      set(val) {
-        this.setDrawer(val);
-      }
-    },
-    items() {
-      return this.$t("Layout.View.items");
-    },
-    sidebarOverlayGradiant() {
-      return `${this.$store.state.app.sidebarBackgroundColor}, ${
-        this.$store.state.app.sidebarBackgroundColor
-      }`;
-    }
-  },
-  mounted() {
-    this.onResponsiveInverted();
-    window.addEventListener("resize", this.onResponsiveInverted);
-  },
-  beforeDestroy() {
-    window.removeEventListener("resize", this.onResponsiveInverted);
-  },
-  methods: {
-    ...mapMutations("app", ["setDrawer", "toggleDrawer"]),
-    testAPI() {
-      this.$AV.Cloud.run("alive", { a: "哈哈哈" }).then(e => {
-        console.log(e);
-      });
-    },
-    testClass() {
-      /*       this.$AV.Cloud.run("alive", { a: "哈哈哈" }).then(e => {
+	data() {
+		return {
+			logo: `${this.$baseUrl}img/vuetifylogo.png`,
+			links: [
+				{
+					to: '/search_results',
+					icon: 'mdi-cloud-search',
+					text: this.$t('SearchResults'),
+				},
+				{
+					to: '/dashboard',
+					icon: 'mdi-view-dashboard',
+					text: this.$t('Dashboard'),
+				},
+				{
+					to: '/user-profile',
+					icon: 'mdi-account',
+					text: this.$t('User Profile'),
+				},
+				{
+					to: '/table-list',
+					icon: 'mdi-clipboard-outline',
+					text: this.$t('Table List'),
+				},
+				{
+					to: '/typography',
+					icon: 'mdi-format-font',
+					text: this.$t('Typography'),
+				},
+				{
+					to: '/icons',
+					icon: 'mdi-chart-bubble',
+					text: this.$t('Icons'),
+				},
+				{
+					to: '/maps',
+					icon: 'mdi-map-marker',
+					text: this.$t('Maps'),
+				},
+				{
+					to: '/notifications',
+					icon: 'mdi-bell',
+					text: this.$t('Notifications'),
+				},
+			],
+			responsive: false,
+		};
+	},
+	computed: {
+		...mapState('app', ['image', 'color']),
+		inputValue: {
+			get() {
+				return this.$store.state.app.drawer;
+			},
+			set(val) {
+				this.setDrawer(val);
+			},
+		},
+		items() {
+			return this.$t('Layout.View.items');
+		},
+		sidebarOverlayGradiant() {
+			return `${this.$store.state.app.sidebarBackgroundColor}, ${
+				this.$store.state.app.sidebarBackgroundColor
+			}`;
+		},
+	},
+	mounted() {
+		this.onResponsiveInverted();
+		window.addEventListener('resize', this.onResponsiveInverted);
+	},
+	beforeDestroy() {
+		window.removeEventListener('resize', this.onResponsiveInverted);
+	},
+	methods: {
+		...mapMutations('app', ['setDrawer', 'toggleDrawer']),
+		testAPI() {
+			this.$AV.Cloud.run('alive', { a: '哈哈哈' }).then(e => {
+				console.log(e);
+			});
+		},
+		testClass() {
+			/*       this.$AV.Cloud.run("alive", { a: "哈哈哈" }).then(e => {
         console.log(e);
       }); */
-      let Comments = this.$AV.Object.extend("Comments");
-      let comObject = new Comments();
+			let Comments = this.$AV.Object.extend('Comments');
+			let comObject = new Comments();
 
-      comObject.set("guy", "哈哈哈");
-      comObject.set("content", "嘻嘻嘻");
-      comObject.save().then(
-        function(testObject) {
-          // 成功
-          console.log(testObject);
-        },
-        function(error) {
-          // 失败
-        }
-      );
-    },
-    onResponsiveInverted() {
-      if (window.innerWidth < 991) {
-        this.responsive = true;
-      } else {
-        this.responsive = false;
-      }
-    }
-  }
+			comObject.set('guy', '哈哈哈');
+			comObject.set('content', '嘻嘻嘻');
+			comObject.save().then(
+				function(testObject) {
+					// 成功
+					console.log(testObject);
+				},
+				function(error) {
+					// 失败
+				},
+			);
+		},
+		onResponsiveInverted() {
+			if (window.innerWidth < 991) {
+				this.responsive = true;
+			} else {
+				this.responsive = false;
+			}
+		},
+	},
 };
 </script>
 
 <style lang="scss">
 #app-drawer {
-  .v-list__tile {
-    border-radius: 4px;
+	.v-list__tile {
+		border-radius: 4px;
 
-    &--buy {
-      margin-top: auto;
-      margin-bottom: 17px;
-    }
-  }
+		&--buy {
+			margin-top: auto;
+			margin-bottom: 17px;
+		}
+	}
 
-  .v-image__image--contain {
-    top: 9px;
-    height: 60%;
-  }
+	.v-image__image--contain {
+		top: 9px;
+		height: 60%;
+	}
 
-  .search-input {
-    margin-bottom: 30px !important;
-    padding-left: 15px;
-    padding-right: 15px;
-  }
+	.search-input {
+		margin-bottom: 30px !important;
+		padding-left: 15px;
+		padding-right: 15px;
+	}
 
-  div.v-responsive.v-image > div.v-responsive__content {
-    overflow-y: auto;
-  }
+	div.v-responsive.v-image > div.v-responsive__content {
+		overflow-y: auto;
+	}
 }
 </style>
