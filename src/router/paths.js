@@ -68,6 +68,13 @@ export default [
 				path: '/register',
 				view: 'Register',
 			},
+			{
+				path: '/email_check',
+				view: 'Email_Check',
+				meta: {
+					requiresAuth: true,
+				},
+			},
 		],
 	},
 ];
