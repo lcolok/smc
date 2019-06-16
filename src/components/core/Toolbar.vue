@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar id="core-toolbar" flat prominent style="background: #eee;">
+  <v-toolbar id="core-toolbar" app prominent style="background: #eee;">
     <div class="v-toolbar-title">
       <v-toolbar-title class="tertiary--text font-weight-light">
         <v-btn v-if="responsive" class="default v-btn--simple" dark icon @click.stop="onClickBtn">
@@ -50,7 +50,11 @@
             <v-icon color="tertiary">mdi-dots-vertical</v-icon>
           </a>
           <v-list dense>
-            <v-list-tile v-for="(menuItem, i) in profileMenu" :key="i" @click="menuItem.action($event)">
+            <v-list-tile
+              v-for="(menuItem, i) in profileMenu"
+              :key="i"
+              @click="menuItem.action($event)"
+            >
               <!--               <v-list-tile-avatar color="rgba(0, 0, 0, 0)">
                 <v-icon>{{ menuItem.icon }}</v-icon>
               </v-list-tile-avatar>-->
@@ -65,64 +69,64 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations } from 'vuex';
 
 export default {
-  computed: {
-    profileMenu() {
-      return this.$store.state.menu.profileMenu;
-    }
-  },
-  data: () => ({
-    notifications: [
-      "Mike, John responded to your email",
-      "You have 5 new tasks",
-      "You're now a friend with Andrew",
-      "Another Notification",
-      "Another One"
-    ],
-    title: null,
-    responsive: false,
-    responsiveInput: false
-  }),
+	computed: {
+		profileMenu() {
+			return this.$store.state.menu.profileMenu;
+		},
+	},
+	data: () => ({
+		notifications: [
+			'Mike, John responded to your email',
+			'You have 5 new tasks',
+			"You're now a friend with Andrew",
+			'Another Notification',
+			'Another One',
+		],
+		title: null,
+		responsive: false,
+		responsiveInput: false,
+	}),
 
-  watch: {
-    $route(val) {
-      this.title = val.name;
-    }
-  },
+	watch: {
+		$route(val) {
+			this.title = val.name;
+		},
+	},
 
-  mounted() {
-    this.onResponsiveInverted();
-    window.addEventListener("resize", this.onResponsiveInverted);
-  },
-  beforeDestroy() {
-    window.removeEventListener("resize", this.onResponsiveInverted);
-  },
+	mounted() {
+		this.onResponsiveInverted();
+		window.addEventListener('resize', this.onResponsiveInverted);
+	},
+	beforeDestroy() {
+		window.removeEventListener('resize', this.onResponsiveInverted);
+	},
 
-  methods: {
-    ...mapMutations("app", ["setDrawer", "toggleDrawer"]),
-    onClickBtn() {
-      this.setDrawer(!this.$store.state.app.drawer);
-    },
-    onClick() {
-      //
-    },
-    onResponsiveInverted() {
-      if (window.innerWidth < 991) {
-        this.responsive = true;
-        this.responsiveInput = false;
-      } else {
-        this.responsive = false;
-        this.responsiveInput = true;
-      }
-    }
-  }
+	methods: {
+		...mapMutations('app', ['setDrawer', 'toggleDrawer']),
+		onClickBtn() {
+			this.setDrawer(!this.$store.state.app.drawer);
+		},
+		onClick() {
+			//
+		},
+		onResponsiveInverted() {
+			if (window.innerWidth < 991) {
+				this.responsive = true;
+				this.responsiveInput = false;
+			} else {
+				this.responsive = false;
+				this.responsiveInput = true;
+			}
+		},
+	},
 };
 </script>
 
 <style>
 #core-toolbar a {
-  text-decoration: none;
+	text-decoration: none;
 }
 </style>

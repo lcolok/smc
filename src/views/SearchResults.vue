@@ -16,8 +16,8 @@ export default {
 				{
 					color: 'green',
 					icon: 'mdi-store',
-					title: 'Revenue',
-					value: '$34,245',
+					title: '黑人牙膏 【雙重薄荷牙膏 - 醒神嚟喇！】故事版本 张继聪',
+					value: '「體味測謊機」量體味! 香體劑有用嗎? 流汗不等於減肥! 破解汗的迷思!',
 					'sub-icon': 'mdi-calendar',
 					'sub-text': 'Last 24 Hours',
 				},

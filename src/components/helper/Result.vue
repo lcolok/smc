@@ -2,7 +2,7 @@
   <div
     :style="styles"
     :class="classes"
-    class="v-offset"
+    class="v-result"
   >
     <slot />
   </div>
