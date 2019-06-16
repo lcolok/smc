@@ -1,17 +1,17 @@
 //隐藏滚动条的配置
 
-html {
-	overflow: -moz-hidden-unscrollable;
-	height: 100%;
-}
+// html {
+// 	overflow: -moz-hidden-unscrollable;
+// 	height: 100%;
+// }
 
-body::-webkit-scrollbar {
-	display: none;
-}
+// body::-webkit-scrollbar {
+// 	display: none;
+// }
 
-body {
-	-ms-overflow-style: none;
-	height: 100%;
-	// width: calc(100vw + 18px);//此参数会导致页面右侧被吃了一条边
-	overflow: auto;
-}
+// body {
+// 	-ms-overflow-style: none;
+// 	height: 100%;
+// 	// width: calc(100vw + 18px);//此参数会导致页面右侧被吃了一条边
+// 	overflow: auto;
+// }
