@@ -1,14 +1,16 @@
-<template>
+<template >
   <material-card
     v-bind="$attrs"
     class="v-card--material-stats"
     v-on="$listeners"
+   
   >
     <v-card
       slot="offset"
       :class="`elevation-${elevation}`"
       :color="color"
       class="pa-4"
+
       dark
     >
       <v-icon
@@ -94,6 +96,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   position: relative;
+
 
   .v-offset {
     display: inline-block;

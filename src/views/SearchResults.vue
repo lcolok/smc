@@ -2,7 +2,7 @@
   <v-container fill-height fluid grid-list-md>
     <v-layout wrap>
       <v-flex v-for="(item,index) in items" :key="index" sm6 xs12 md6 lg3>
-        <material-stats-card v-bind="item"/>
+        <material-stats-card v-bind="item" />
       </v-flex>
     </v-layout>
   </v-container>
