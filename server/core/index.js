@@ -1,6 +1,7 @@
 // require('./rotate_init')//用于周期测试
 // const AV = require('./lc_server_init');//加载leancloud
 
+require('./init'); //进行一切初始化
 const chalk = require('chalk');
 const path = require('path');
 const checkLocalServer = require(path.resolve(
@@ -25,12 +26,8 @@ const apiConfig = require(path.resolve('config/api.config.js'));
 //     const PORT = parseInt(developing ? devPort : (process.env.LEANCLOUD_APP_PORT || process.env.PORT || 3000));
 //     testPort(PORT);
 // })
-const PORT = parseInt(
-	developing
-		? 3000
-		: process.env.LEANCLOUD_APP_PORT || process.env.PORT || 3000,
-);
-testPort(PORT);
+
+testPort(3000);
 
 function testPort(port) {
 	// 创建服务并监听该端口

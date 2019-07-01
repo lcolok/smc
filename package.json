@@ -8,7 +8,7 @@
 		"prettier": "onchange '@(@(**/*|*).@(js|jsx|json|scss|md))' -e '@(config/**/*.js|node_modules)' -- prettier --write {{changed}}",
 		"day": "lean switch SMC@DAY && lean up --console-port 3031",
 		"night": "lean switch SMC@NIGHT && lean up --console-port 3001",
-		"smc": "lean switch SMC && lean up --console-port 3031",
+		"smc": "lean switch SMC && lean up",
 		"bothDeploy": "lean switch SMC@DAY && lean deploy && lean switch SMC@NIGHT && lean deploy",
 		"electron:build": "vue-cli-service electron:build",
 		"electron:serve": "vue-cli-service electron:serve",
