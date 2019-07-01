@@ -9,19 +9,22 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
+import router from '@/router';
 
 export default {
+	mounted() {
+		console.log(this.$route.query);
+		this.searchByKey({ key: this.$route.query.key });
+	},
 	computed: mapState({
-		// 箭头函数可使代码更简练
 		results: state => state.search.results,
 	}),
 	data() {
-		return {
-			
-		};
+		return {};
 	},
 	methods: {
+		...mapActions('search', ['searchByKey']),
 		complete(index) {
 			this.list[index] = !this.list[index];
 		},
