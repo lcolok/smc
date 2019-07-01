@@ -33,3 +33,4 @@ after_deploy:
   - ./lean login -u $LC_USER -p $LC_PASSWORD -r CN
   - ./lean switch SMC
   - ./lean deploy
+  - ./lean publish

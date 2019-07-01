@@ -9,13 +9,15 @@
       </v-toolbar-title>
     </div>
 
-    <v-spacer/>
+    <v-spacer />
     <v-toolbar-items>
       <v-flex align-center layout py-2>
         <v-text-field
+          v-model="searchContent"
           v-if="responsiveInput"
           class="mr-4 mt-2 purple-input"
           :label="$t('Search...')"
+          @keyup.enter="search(searchContent)"
           hide-details
           color="purple"
         />
@@ -36,7 +38,7 @@
                 :key="notification"
                 @click="onClick"
               >
-                <v-list-tile-title v-text="notification"/>
+                <v-list-tile-title v-text="notification" />
               </v-list-tile>
             </v-list>
           </v-card>
@@ -70,6 +72,8 @@
 
 <script>
 import { mapMutations } from 'vuex';
+import router from '@/router';
+import AV from 'leancloud-storage';
 
 export default {
 	computed: {
@@ -78,6 +82,7 @@ export default {
 		},
 	},
 	data: () => ({
+		searchContent: '',
 		notifications: [
 			'Mike, John responded to your email',
 			'You have 5 new tasks',
@@ -105,7 +110,141 @@ export default {
 	},
 
 	methods: {
-		...mapMutations('app', ['setDrawer', 'toggleDrawer']),
+		...mapMutations('app', ['setDrawer', 'toggleDrawer','search111']),
+		search: async function(key) {
+      // console.log(key);
+      this.search111();
+			router.push({
+				path: 'search_results',
+			}); //跳转到搜索结果页面
+
+			if (!key) {
+				var data = await AV.Cloud.run('updateShimo');
+				console.log(data);
+
+				if (data > 0) {
+					showUpdate(data);
+				} else {
+					// showTop20();
+				}
+
+				var query = new AV.Query('ShimoBed');
+				query.descending('updatedAt');
+				query.limit(20); //请求数量上限为1000条
+				var every = await query.find();
+
+				console.log(every);
+
+				result = makeAList(every);
+				// console.log(result);
+			} else {
+				var result = await this.searchLC(key);
+				// alert(JSON.stringify(this.todos[0]));
+				if (result == '') {
+					Vue.toasted.show(`找不到关于“${key}”的项目`, {
+						position: 'top-center',
+						theme: 'toasted-primary', //Theme of the toast you prefer['toasted-primary', 'outline', 'bubble']
+						duration: 3000,
+						icon: { name: 'search' },
+						iconPack: 'fontawesome',
+						fitToScreen: 'true',
+						type: 'error', //Type of the Toast ['success', 'info', 'error']
+						// fullWidth:"true",
+					});
+					return;
+				}
+      }
+      
+
+
+		
+		},
+		searchLC: async function(key) {
+			var query = new AV.SearchQuery('ShimoBed'); //class名
+			query.queryString(key); //要搜索的关键词
+			var resp = await query.find();
+			console.info(resp);
+			console.log('找到了 ' + query.hits() + ' 个文件.');
+			return this.makeAList(resp);
+		},
+		makeAList(resp) {
+			var result = [];
+
+			app.typeList = [
+				{
+					size: '20',
+					icon: 'fas fa-globe-americas',
+					text: '全部',
+					count: 0,
+				},
+			];
+
+			const fileIndex = {};
+
+			this.$store.state.app.fileDescription.forEach((e, index) => {
+				fileIndex[e.type] = {
+					count: 0,
+					subClassArr: [],
+					icon: e.icon,
+					size: e.size,
+				};
+			});
+
+			resp.forEach(e => {
+				var newDic = this.makeNewDic(e);
+
+				fileIndex[newDic.attributes.type].count++;
+				fileIndex[newDic.attributes.type].subClassArr.push(newDic);
+				app.typeList[0].count++; //也就是'全部'
+				result.push(newDic);
+			});
+
+			app.typeList[0].subClassArr = result; //全部的subClassArr
+
+			this.fileDescription.forEach((e, index) => {
+				var subClass = fileIndex[e.type];
+				app.typeList.push({
+					text: e.type,
+					count: subClass.count,
+					icon: subClass.icon,
+					size: subClass.size,
+					subClassArr: subClass.subClassArr,
+				});
+			});
+
+			return result;
+		},
+		makeNewDic(e) {
+			if (!e.id) {
+				return;
+			}
+
+			var dic = e.attributes;
+
+			e.attributes.suffix = dic.type; //后缀
+
+			// console.log(dic.type);
+
+			var handle = app.suffixHandle(dic.type);
+
+			var emoji = handle.emoji;
+
+			e.attributes.type = handle.type;
+
+			e.attributes.canPlay = handle.canPlay;
+
+			var name = dic.name;
+
+			var shortURL = app.cutHTTP(dic.shortURL);
+
+			var copyContent = `${emoji} ${name} | ${shortURL}`;
+
+			e.attributes.copyContent = copyContent;
+
+			e.attributes.content = emoji + name; //在vue的todo里面content代表
+
+			return e;
+		},
 		onClickBtn() {
 			this.setDrawer(!this.$store.state.app.drawer);
 		},
