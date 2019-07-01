@@ -15,7 +15,7 @@
         <v-text-field
           v-if="responsiveInput"
           class="mr-4 mt-2 purple-input"
-          label="Search..."
+          :label="$t('Search...')"
           hide-details
           color="purple"
         />

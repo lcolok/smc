@@ -76,9 +76,6 @@ export default [
 			{
 				path: '/email_check',
 				view: 'Email_Check',
-				meta: {
-					requiresAuth: true,
-				},
 			},
 		],
 	},

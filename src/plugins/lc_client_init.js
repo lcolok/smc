@@ -1,165 +1,117 @@
-import AV from 'leancloud-storage'
-import dayjs from 'dayjs'
+import AV from 'leancloud-storage';
 const apiConfig = require('../../config/api.config');
 // import current_app_id from '!raw-loader!../../.leancloud/current_app_id';
 // import current_app_key from '!raw-loader!../../.leancloud/current_app_key';
 
 // console.log(process.env);
 
-const orig = apiConfig.web.dayRequestStart;
-const dayRequestStart = time(orig);
-const dayRequestEnd = dayRequestStart.add(12, 'hour');
-const today = dayjs();//打算计划用网络时间API同步 http://worldtimeapi.org/api/timezone/Asia/Hong_Kong
-
-
-
-function time(t) {
-  t = t.toString();
-  let colonArr = t.match(/:/g);
-  let l = colonArr ? colonArr.length : 0;
-  let ct = t.replace(/[^\d:]/g, '');//清除多余的符号和空格
-  for (let i = l; i < 2; i++) {
-    ct = ct + ':00';
-  }
-  let d = dayjs();
-  ct = `YYYY-MM-DD ${ct}`;
-  if (t.includes('+')) {//后一天
-    d = d.add(1, 'day');
-  } else if (t.includes('-')) {//前一天
-    d = d.subtract(1, 'day');
-  }
-  return dayjs(d.format(ct))
-}
-
-let dayOrNight = '';
-
-if (today.isAfter(dayRequestStart) && today.isBefore(dayRequestEnd)) {
-  dayOrNight = "DAY";
-} else {
-  dayOrNight = "NIGHT";
-}
-console.log(dayOrNight);
-
 AV.init({
-  appId: apiConfig.groupMembers[dayOrNight].app_id,
-  appKey: apiConfig.groupMembers[dayOrNight].app_key,
-})
+	appId: 'tSaaSytepnN8bI2MQ1ubO68s-gzGzoHsz',
+	appKey: 'hpdGl56rjXKR0DvGMKypVpwk',
+});
 
+if (process.env.NODE_ENV == 'development') {
+	//如果是处于开发状态的话
 
+	const apiConfigDevPort = 3000;
+	const devServerURLs = 'http://localhost:' + apiConfigDevPort;
 
+	const origServerURLs = AV._config.serverURLs; //原来的远程服务器url
 
+	function devPort(bool) {
+		if (process.env.NODE_ENV !== 'development') {
+			return;
+		}
+		if (bool) {
+			console.log('本地⮕远程');
+			AV._setServerURLs(devServerURLs); //设置本地服务器端口(必须先进行 lean up 操作)
+		} else {
+			console.log('本地⬅远程');
+			AV._setServerURLs(origServerURLs);
+		}
+	}
 
+	function Promise(fn) {
+		var state = 'pending',
+			value = null,
+			callbacks = [];
 
-if (process.env.NODE_ENV == "development") {//如果是处于开发状态的话
+		if (state === 'pending') {
+			devPort(true);
+		}
 
+		this.then = function(onFulfilled, onRejected) {
+			return new Promise(function(resolve, reject) {
+				handle({
+					onFulfilled: onFulfilled || null,
+					onRejected: onRejected || null,
+					resolve: resolve,
+					reject: reject,
+				});
+			});
+		};
 
-  const apiConfigDevPort = apiConfig.groupMembers[dayOrNight].devPort || 3000;
-  const devServerURLs = 'http://localhost:' + apiConfigDevPort;
+		function handle(callback) {
+			if (state === 'pending') {
+				callbacks.push(callback);
+				return;
+			}
+			var cb =
+					state === 'fulfilled' ? callback.onFulfilled : callback.onRejected,
+				ret;
+			if (cb === null) {
+				cb = state === 'fulfilled' ? callback.resolve : callback.reject;
+				cb(value);
 
-  const origServerURLs = AV._config.serverURLs;//原来的远程服务器url
+				return;
+			}
+			ret = cb(value);
+			callback.resolve(ret);
+		}
 
+		function resolve(newValue) {
+			if (
+				newValue &&
+				(typeof newValue === 'object' || typeof newValue === 'function')
+			) {
+				var then = newValue.then;
+				if (typeof then === 'function') {
+					then.call(newValue, resolve, reject);
+					return;
+				}
+			}
+			state = 'fulfilled';
+			value = newValue;
+			execute();
+		}
 
-  function devPort(bool) {
-    if (process.env.NODE_ENV !== "development") { return }
-    if (bool) {
-      console.log('本地⮕远程');
-      AV._setServerURLs(devServerURLs)//设置本地服务器端口(必须先进行 lean up 操作)
-    } else {
-      console.log('本地⬅远程');
-      AV._setServerURLs(origServerURLs)
-    }
-  }
+		function reject(reason) {
+			state = 'rejected';
+			value = reason;
+			execute();
+		}
 
+		function execute() {
+			setTimeout(function() {
+				if (state === 'fulfilled' || state === 'rejected') {
+					devPort(false);
+				}
+				callbacks.forEach(function(callback) {
+					handle(callback);
+				});
+			}, 0);
+		}
 
+		fn(resolve, reject);
+	}
 
-  function Promise(fn) {
+	const middle = AV.Cloud.run; //过渡产物
 
-    var state = 'pending',
-      value = null,
-      callbacks = [];
-
-    if (state === 'pending') {
-      devPort(true);
-    }
-
-    this.then = function (onFulfilled, onRejected) {
-      return new Promise(function (resolve, reject) {
-        handle({
-          onFulfilled: onFulfilled || null,
-          onRejected: onRejected || null,
-          resolve: resolve,
-          reject: reject
-        });
-      });
-    };
-
-    function handle(callback) {
-
-
-      if (state === 'pending') {
-        callbacks.push(callback);
-        return;
-      }
-      var cb = state === 'fulfilled' ? callback.onFulfilled : callback.onRejected,
-        ret;
-      if (cb === null) {
-        cb = state === 'fulfilled' ? callback.resolve : callback.reject;
-        cb(value);
-
-        return;
-      }
-      ret = cb(value);
-      callback.resolve(ret);
-    }
-
-    function resolve(newValue) {
-      if (newValue && (typeof newValue === 'object' || typeof newValue === 'function')) {
-        var then = newValue.then;
-        if (typeof then === 'function') {
-          then.call(newValue, resolve, reject);
-          return;
-        }
-      }
-      state = 'fulfilled';
-      value = newValue;
-      execute();
-    }
-
-
-
-    function reject(reason) {
-      state = 'rejected';
-      value = reason;
-      execute();
-    }
-
-    function execute() {
-      setTimeout(function () {
-
-
-        if (state === 'fulfilled' || state === 'rejected') {
-          devPort(false);
-        }
-        callbacks.forEach(function (callback) {
-          handle(callback);
-        });
-      }, 0);
-    }
-
-
-    fn(resolve, reject);
-  }
-
-  const middle = AV.Cloud.run;//过渡产物
-
-  AV.Cloud.run = function (name, data, option) {
-    return new Promise((resolve, reject) => {
-      resolve(middle(name, data, option).catch(e => reject(e)))
-    })
-  }
-
-
+	AV.Cloud.run = function(name, data, option) {
+		return new Promise((resolve, reject) => {
+			resolve(middle(name, data, option).catch(e => reject(e)));
+		});
+	};
 }
 
-
-export default AV
+export default AV;
