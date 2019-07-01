@@ -1,6 +1,5 @@
 var AV = require('leanengine');
 
-console.log('ddddddddddddddddddddddd');
 
 AV.init({
 	appId: process.env.LEANCLOUD_APP_ID,
