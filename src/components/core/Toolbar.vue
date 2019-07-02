@@ -12,7 +12,8 @@
     <v-spacer />
     <v-toolbar-items>
       <v-flex align-center layout py-2>
-        <!-- <v-text-field
+         <form action="javascript:return true">
+        <v-text-field
           v-model="searchContent"
           v-if="responsiveInput"
           class="mr-4 mt-2 purple-input"
@@ -20,20 +21,24 @@
           @keyup.enter="search(searchContent)"
           hide-details
           color="purple"
-        />-->
-        <v-autocomplete
-          v-model="searchContent"
-          :loading="loading"
-          :items="items"
-          v-if="responsiveInput"
-          class="mr-4 mt-2 purple-input"
-          :label="$t('Search...')"
-          @keyup.enter="search(suggest);"
-          hide-details
-          hide-no-data
-          no-filter
-          :search-input.sync="suggest"
         />
+         </form>
+<!--         <form action="javascript:return true">
+          <v-autocomplete
+            v-model="searchContent"
+            :loading="loading"
+            :items="items"
+            v-if="responsiveInput"
+            class="mr-4 mt-2 purple-input"
+            :label="$t('Search...')"
+            @keyup.enter="search(suggest);"
+   
+            hide-details
+            hide-no-data
+            no-filter
+            :search-input.sync="suggest"
+          />
+        </form> -->
         <router-link v-ripple class="toolbar-items" to="/">
           <v-icon color="tertiary">mdi-view-dashboard</v-icon>
         </router-link>
@@ -192,11 +197,20 @@ export default {
 
 	methods: {
 		...mapMutations('app', ['setDrawer', 'toggleDrawer']),
-		...mapActions('search', ['searchByKey']),
+    ...mapActions('search', ['searchByKey']),
+    keydown:async function(e) {
+      // key.Code === 13表示回车键 
+      console.log(e);
+      if (e.keyCode === 13) {
+        //逻辑处理
+        this.searchByKeyword({ delay: 0 })
+        this.$refs.searchBar.blur();
+      }
+    },
 		search: async function(key) {
-      console.log(key);
+			console.log(key);
 
-      this.items=[];
+			this.items = [];
 			this.searchByKey({ key });
 		},
 

@@ -15,7 +15,10 @@ import router from '@/router';
 export default {
 	mounted() {
 		console.log(this.$route.query);
-		this.searchByKey({ key: this.$route.query.key });
+		let query = this.$route.query;
+		if (query) {
+			this.searchByKey({ key:query.key });
+		}
 	},
 	computed: mapState({
 		results: state => state.search.results,

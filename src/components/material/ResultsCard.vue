@@ -1,42 +1,54 @@
-<template >
-  <material-card v-bind="$attrs" class="v-card--material-results" v-on="$listeners" offset="0">
-    <v-layout align-center justify-start row fill-height>
-      <v-flex mx-2>
-        <div class="text-xs-left">
-          <h3 class="title display-1 font-weight-bold">
-            {{ value }}
-            <small>{{ smallValue }}</small>
-          </h3>
-          <p class="category grey--text font-weight-bold" v-text="title"/>
-        </div>
-      </v-flex>
-    </v-layout>
-    <template slot="actions">
-          <v-layout align-center justify-start row fill-height>
-      <v-card slot="result" :class="`elevation-${elevation}`" :color="color" class="pa-1" dark>
-        <v-icon size="25">{{ icon }}</v-icon>
+<template>
+  <v-layout row>
+    <v-flex>
+      <v-card>
+        <v-expand-transition>
+          <v-img v-if="picPath" :src="picPath" :height="picHeight"></v-img>
+        </v-expand-transition>
+
+        <v-card-title primary-title>
+          <div>
+            <div class="headline">{{title}}</div>
+            <span class="grey--text">{{subTitle}}</span>
+          </div>
+        </v-card-title>
+
+        <v-card-actions>
+          <v-btn flat color="primary">Share</v-btn>
+          <v-btn color="primary">Explore</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn icon @click="show = !show" flat color="primary">
+            <v-icon>{{ show ? 'mdi-arrow-up-drop-circle' : 'mdi-arrow-down-drop-circle' }}</v-icon>
+          </v-btn>
+        </v-card-actions>
+
+        <v-expand-transition>
+          <v-card-text
+            v-show="show"
+          >I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.</v-card-text>
+        </v-expand-transition>
       </v-card>
-      <!-- <v-icon :color="subIconColor" size="20" class="mr-2">{{ subIcon }}</v-icon> -->
-            <v-flex mx-2>
-      <span :class="subTextColor" class="caption font-weight-bold" v-text="subText"/>
-            </v-flex>
-          </v-layout>
-    </template>
-  </material-card>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
 import Card from './Card';
 
 export default {
+	data: () => ({
+		show: false,
+		picPath: '',
+		picHeight:200
+	}),
 	inheritAttrs: false,
 
 	props: {
 		...Card.props,
-		icon: {
+		/* icon: {
 			type: String,
 			required: true,
-		},
+		}, */
 		subIcon: {
 			type: String,
 			default: undefined,
@@ -57,6 +69,10 @@ export default {
 			type: String,
 			default: undefined,
 		},
+		subTitle: {
+			type: String,
+			default: undefined,
+		},
 		value: {
 			type: String,
 			default: undefined,
@@ -65,6 +81,38 @@ export default {
 			type: String,
 			default: undefined,
 		},
+		attachmentsURL: {
+			type: String,
+			default: undefined,
+		},
+		duration: {
+			type: Number,
+			default: undefined,
+		},
+		offset: {
+			type: Number,
+			default: undefined,
+		},
+		suffix: {
+			type: String,
+			default: undefined,
+		},
+	},
+	computed: {},
+	created: async function() {
+		if (this.suffix.match(/mp4/i)) {
+			await this.$http.get(this.attachmentsURL + '?avinfo').then(resp => {
+				let height = resp.data.streams[0].height;
+				let width = resp.data.streams[0].width;
+				let ratio = width/height;
+				let fixedWidth = this.picHeight*ratio;
+				console.log({height,width,ratio,fixedWidth});
+				let offset = this.offset || resp.data.format.duration * 0.618; //默认的截图位置是视频片段的黄金分割位置,如果有指定的offset时间，则采用offset的时间
+				this.picPath = this.attachmentsURL + `?vframe/png/offset/${offset}/w/500`;
+			});
+		} else if (this.attachmentsURL.match(/jpg|png/i)) {
+			this.picPath = this.attachmentsURL + '?imageslim';
+		}
 	},
 };
 </script>
