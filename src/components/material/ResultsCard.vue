@@ -1,9 +1,18 @@
 <template>
   <v-layout row>
     <v-flex>
-      <v-card>
+      <v-card hover>
         <v-expand-transition>
-          <v-img v-if="picPath" :src="picPath" :height="picHeight"></v-img>
+          <v-img v-if="picPath" :src="picPath" :height="picHeight">
+            <v-container fill-height fluid>
+              <v-layout fill-height>
+                <v-flex xs12 align-end flexbox>
+                  <v-layout align-center justify-center column fill-height />
+                  <v-icon color="white">mdi-library-video</v-icon>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-img>
         </v-expand-transition>
 
         <v-card-title primary-title>
@@ -39,7 +48,7 @@ export default {
 	data: () => ({
 		show: false,
 		picPath: '',
-		picHeight:200
+		picHeight: 200,
 	}),
 	inheritAttrs: false,
 
@@ -104,11 +113,12 @@ export default {
 			await this.$http.get(this.attachmentsURL + '?avinfo').then(resp => {
 				let height = resp.data.streams[0].height;
 				let width = resp.data.streams[0].width;
-				let ratio = width/height;
-				let fixedWidth = this.picHeight*ratio;
-				console.log({height,width,ratio,fixedWidth});
+				let ratio = width / height;
+				let fixedWidth = this.picHeight * ratio;
+				console.log({ height, width, ratio, fixedWidth });
 				let offset = this.offset || resp.data.format.duration * 0.618; //默认的截图位置是视频片段的黄金分割位置,如果有指定的offset时间，则采用offset的时间
-				this.picPath = this.attachmentsURL + `?vframe/png/offset/${offset}/w/500`;
+				this.picPath =
+					this.attachmentsURL + `?vframe/png/offset/${offset}/w/500`;
 			});
 		} else if (this.attachmentsURL.match(/jpg|png/i)) {
 			this.picPath = this.attachmentsURL + '?imageslim';
