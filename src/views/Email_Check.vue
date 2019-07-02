@@ -37,7 +37,7 @@ import { login, devPort } from '@/utils/user';
 import { mapMutations } from 'vuex';
 import { setTimeout } from 'timers';
 import router from '@/router';
-import AV from '@/plugins/lc_client_init'
+
 
 export default {
         name: 'email_check',
@@ -54,7 +54,7 @@ export default {
 	},
 	methods: {
 		check() {
-			if (AV.User.current()) {
+			if (this.$AV.User.current()) {
                                 console.log('登录成功');
 				// 登录成功
 				let dest;

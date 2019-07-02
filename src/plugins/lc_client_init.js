@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import AV from 'leancloud-storage';
 const apiConfig = require('../../config/api.config');
 // import current_app_id from '!raw-loader!../../.leancloud/current_app_id';
@@ -113,5 +114,6 @@ if (process.env.NODE_ENV == 'development') {
 		});
 	};
 }
+Vue.prototype.$AV = AV;
 
 export default AV;
