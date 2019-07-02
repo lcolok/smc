@@ -6,7 +6,7 @@ let baseURL;
 if (process.env.NODE_ENV == "development") {
         baseURL = "http://localhost:3000"
 } else {
-        baseURL = "http://smc.leanapp.cn"
+        baseURL = "https://smc.leanapp.cn"
 }
 
 axios.defaults.baseURL = baseURL
