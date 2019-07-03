@@ -4,13 +4,19 @@
       <v-card hover>
         <v-expand-transition>
           <v-img v-if="picPath" :src="picPath" :height="picHeight">
-            <v-container fill-height fluid>
-              <v-layout fill-height>
-                <v-flex xs12 align-end flexbox>
-                  <v-layout align-center justify-center column fill-height />
-                  <v-icon color="white">mdi-library-video</v-icon>
-                </v-flex>
-              </v-layout>
+            <v-container>
+              <!--               <v-flex>
+                <div>
+                  <div>
+                    <v-icon color="white">mdi-library-video</v-icon>
+                  </div>
+                  <span class="caption white--text">视频</span>
+                </div>
+              </v-flex>-->
+              <v-flex class="caption white--text">
+                <v-layout align-center justify-center column fill-height />
+                <v-icon size="15" color="white">{{icon}}</v-icon> {{type}}
+              </v-flex>
             </v-container>
           </v-img>
         </v-expand-transition>
@@ -49,6 +55,8 @@ export default {
 		show: false,
 		picPath: '',
 		picHeight: 200,
+		type:'',
+		icon:'',
 	}),
 	inheritAttrs: false,
 
@@ -109,6 +117,9 @@ export default {
 	},
 	computed: {},
 	created: async function() {
+
+
+		
 		if (this.suffix.match(/mp4/i)) {
 			await this.$http.get(this.attachmentsURL + '?avinfo').then(resp => {
 				let height = resp.data.streams[0].height;

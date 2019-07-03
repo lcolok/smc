@@ -141,15 +141,15 @@ export default {
                         suffix: 'mp4',
                         title: 'Love is in the air',
                         subTitle: '爱在空气中',
-                        duration: 20,
+
                         attachmentsURL: 'https://attachments-cdn.shimo.im/2oaRC0QraiQYFZeh/Love_is_in_the_air.mp4',
                         uploaderURL: 'https://uploader.shimo.im/f/2oaRC0QraiQYFZeh.mp4',
-                        offset: 2
+
                 }, {
                         suffix: 'mp4',
                         title: 'Run Snow run',
                         subTitle: '跑啊,雪诺！',
-                        duration: 20,
+
                         attachmentsURL: 'https://attachments-cdn.shimo.im/0OBY67kZa38RVJrE/Run_Snow_run_.mp4',
                         uploaderURL: 'https://uploader.shimo.im/f/0OBY67kZa38RVJrE.mp4',
 
@@ -157,7 +157,7 @@ export default {
                         suffix: 'mp4',
                         title: 'Light my fire',
                         subTitle: '点燃我的生命',
-                        duration: 20,
+
                         attachmentsURL: 'https://attachments-cdn.shimo.im/1u2nOsrpI24vVL9g/Light_my_fire.mp4',
                         uploaderURL: 'https://uploader.shimo.im/f/1u2nOsrpI24vVL9g.mp4',
 
@@ -165,7 +165,7 @@ export default {
                         suffix: 'mp4',
                         title: '꽥&꼬닥 Emoticon ( chicken&egg ) on Behance',
                         subTitle: '表情符号（鸡肉和鸡蛋）',
-                        duration: 6,
+
                         attachmentsURL: 'https://attachments-cdn.shimo.im/8IMoog6CYUkkipD7/_Emoticon_chicken_egg_on_Behance.mp4',
                         uploaderURL: 'https://uploader.shimo.im/f/8IMoog6CYUkkipD7.mp4',
 
@@ -173,7 +173,7 @@ export default {
                         suffix: 'mp4',
                         title: 'EIGHT DELIGHTS OF TRANSFER _FULL VERSION',
                         subTitle: '[仁川机场 x BT21] ',
-                        duration: 161,
+
                         attachmentsURL: 'https://attachments-cdn.shimo.im/hNmEqm9ydwgZdyLs/_IncheonAirport_x_BT21_EIGHT_DELIGHTS_OF_TRANSFER_FULL_VERSION.mp4',
                         uploaderURL: 'https://uploader.shimo.im/f/hNmEqm9ydwgZdyLs.mp4',
 
@@ -181,7 +181,7 @@ export default {
                         suffix: 'jpg',
                         title: '图片',
                         subTitle: '图片',
-                        duration: 161,
+
                         attachmentsURL: 'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
                         uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
 
