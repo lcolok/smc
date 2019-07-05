@@ -18,4 +18,15 @@ export default {
                 });
                 return suffixJSON;
         },
+        placeholderList(state) {
+                let map = {};
+                state.placeholderMapping.forEach((eachType, index) => {
+                        let suffix = eachType.suffix||[eachType.name] 
+                        suffix.forEach((eachSuffix, index) => {
+                                map[eachSuffix] = eachType;
+                                // delete suffixJSON[eachSuffix].suffix;//可以删除json里的一项key
+                        });
+                })
+                return map;
+        }
 };

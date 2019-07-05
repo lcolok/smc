@@ -3,7 +3,12 @@
     <v-flex>
       <v-card hover>
         <v-expand-transition>
-          <v-img v-if="picPath" :src="picPath" :height="picHeight">
+          <v-img
+            v-if="picPath"
+            :src="picPath"
+            :height="picHeight"
+            @error="picPath='/img/placeholder/file_cover_bg_unknown@2x.png'"
+          >
             <v-container>
               <!--               <v-flex>
                 <div>
@@ -13,13 +18,19 @@
                   <span class="caption white--text">视频</span>
                 </div>
               </v-flex>-->
-              <v-flex class="caption white--text">
+              <v-flex class="caption white--text" style="position:absolute;">
                 <v-layout align-center justify-start row fill-height>
                   <v-icon size="18" color="white">{{icon}}</v-icon>
                   <v-flex>{{typeName}}</v-flex>
                 </v-layout>
               </v-flex>
             </v-container>
+
+            <v-img
+              :src="abovePicPath"
+              :style="aboveStyle"
+              @error="abovePicPath='/img/placeholder/file_cover_name_unknow@2x.png'"
+            ></v-img>
           </v-img>
         </v-expand-transition>
 
@@ -56,6 +67,7 @@ import { mapState, mapGetters } from 'vuex';
 export default {
 	data: () => ({
 		show: false,
+		abovePicPath: '',
 		picPath: '',
 		picHeight: 200,
 		// type:'',
@@ -69,7 +81,7 @@ export default {
 			'unknownDescription',
 			'suffixList',
 		]),
-		...mapGetters('search', ['descriptionList']),
+		...mapGetters('search', ['descriptionList', 'placeholderList']),
 		thisDescriptionList() {
 			return this.descriptionList[this.suffix] || this.unknownDescription;
 		},
@@ -79,9 +91,21 @@ export default {
 		icon() {
 			return this.thisDescriptionList.icon;
 		},
+		thisPlaceholderList() {
+			return (
+				this.placeholderList[this.suffix] || { name: this.suffix, width: 230 }
+			);
+		},
+		placeholderName() {
+			return this.thisPlaceholderList.name || this.suffix;
+		},
+		aboveStyle() {
+			let width = this.thisPlaceholderList.width || 230;
+			return `width: ${width}px;margin-top:35px; margin-left: auto; margin-right: auto;`;
+		},
 	},
 	created: async function() {
-		console.log(this.suffixList);
+		// console.log(this.suffixList);
 
 		switch (this.typeName) {
 			case '视频':
@@ -100,7 +124,10 @@ export default {
 				this.picPath = this.attachmentsURL + '?imageslim';
 				break;
 			default:
-				this.picPath = '/img/placeholder/file_cover_bg_unknown@2x.png';
+				let cover_name = this.placeholderName || 'unknow';
+				let cover_BG_name = this.placeholderName || 'unknown';
+				this.abovePicPath = `/img/placeholder/file_cover_name_${cover_name}@2x.png`;
+				this.picPath = `/img/placeholder/file_cover_bg_${cover_BG_name}@2x.png`;
 				break;
 		}
 	},

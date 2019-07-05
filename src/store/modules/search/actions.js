@@ -107,7 +107,7 @@ export default {
                         var result = await dispatch('searchLC', {
                                 key: params.key
                         });
-                        console.log(result);
+                        // console.log(result);
                         // alert(JSON.stringify(this.todos[0]));
                         if (!result) {
                                 /*          Vue.toasted.show(`找不到关于“${key}”的项目`, {
@@ -137,63 +137,110 @@ export default {
                 var resp = await query.find();
                 console.info(resp);
                 console.log('找到了 ' + query.hits() + ' 个文件.');
-                return [{
-                        suffix: 'mp4',
-                        title: 'Love is in the air',
-                        subTitle: '爱在空气中',
+                return [
+                        {
+                                suffix: '7z',
+                                title: '未知',
+                                subTitle: '未知',
 
-                        attachmentsURL: 'https://attachments-cdn.shimo.im/2oaRC0QraiQYFZeh/Love_is_in_the_air.mp4',
-                        uploaderURL: 'https://uploader.shimo.im/f/2oaRC0QraiQYFZeh.mp4',
+                                attachmentsURL: 'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
+                                uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
 
-                }, {
-                        suffix: 'mp4',
-                        title: 'Run Snow run',
-                        subTitle: '跑啊,雪诺！',
+                        },
+                        {
+                                suffix: 'doc',
+                                title: '未知',
+                                subTitle: '未知',
 
-                        attachmentsURL: 'https://attachments-cdn.shimo.im/0OBY67kZa38RVJrE/Run_Snow_run_.mp4',
-                        uploaderURL: 'https://uploader.shimo.im/f/0OBY67kZa38RVJrE.mp4',
+                                attachmentsURL: 'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
+                                uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
 
-                }, {
-                        suffix: 'mp4',
-                        title: 'Light my fire',
-                        subTitle: '点燃我的生命',
+                        }, 
+                        {
+                                suffix: 'xls',
+                                title: '未知',
+                                subTitle: '未知',
 
-                        attachmentsURL: 'https://attachments-cdn.shimo.im/1u2nOsrpI24vVL9g/Light_my_fire.mp4',
-                        uploaderURL: 'https://uploader.shimo.im/f/1u2nOsrpI24vVL9g.mp4',
+                                attachmentsURL: 'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
+                                uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
 
-                }, {
-                        suffix: 'mp4',
-                        title: '꽥&꼬닥 Emoticon ( chicken&egg ) on Behance',
-                        subTitle: '表情符号（鸡肉和鸡蛋）',
+                        }, 
+                        {
+                                suffix: '12321',
+                                title: '未知',
+                                subTitle: '未知',
 
-                        attachmentsURL: 'https://attachments-cdn.shimo.im/8IMoog6CYUkkipD7/_Emoticon_chicken_egg_on_Behance.mp4',
-                        uploaderURL: 'https://uploader.shimo.im/f/8IMoog6CYUkkipD7.mp4',
+                                attachmentsURL: 'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
+                                uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
 
-                }, {
-                        suffix: 'mp4',
-                        title: 'EIGHT DELIGHTS OF TRANSFER _FULL VERSION',
-                        subTitle: '[仁川机场 x BT21] ',
+                        }, 
+                        {
+                                suffix: 'pdf',
+                                title: 'pdf',
+                                subTitle: 'pdf',
 
-                        attachmentsURL: 'https://attachments-cdn.shimo.im/hNmEqm9ydwgZdyLs/_IncheonAirport_x_BT21_EIGHT_DELIGHTS_OF_TRANSFER_FULL_VERSION.mp4',
-                        uploaderURL: 'https://uploader.shimo.im/f/hNmEqm9ydwgZdyLs.mp4',
+                                attachmentsURL: 'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
+                                uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
 
-                }, {
-                        suffix: 'jpg',
-                        title: '图片',
-                        subTitle: '图片',
+                        },
+                        {
+                                suffix: 'pages',
+                                title: 'pages',
+                                subTitle: 'pages',
 
-                        attachmentsURL: 'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
-                        uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
+                                attachmentsURL: 'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
+                                uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
 
-                }, {
-                        suffix: 'unknown',
-                        title: '未知',
-                        subTitle: '未知',
+                        },
+                        {
+                                suffix: 'mp4',
+                                title: 'Love is in the air',
+                                subTitle: '爱在空气中',
 
-                        attachmentsURL: 'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
-                        uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
+                                attachmentsURL: 'https://attachments-cdn.shimo.im/2oaRC0QraiQYFZeh/Love_is_in_the_air.mp4',
+                                uploaderURL: 'https://uploader.shimo.im/f/2oaRC0QraiQYFZeh.mp4',
 
-                }]
+                        }, {
+                                suffix: 'mp4',
+                                title: 'Run Snow run',
+                                subTitle: '跑啊,雪诺！',
+
+                                attachmentsURL: 'https://attachments-cdn.shimo.im/0OBY67kZa38RVJrE/Run_Snow_run_.mp4',
+                                uploaderURL: 'https://uploader.shimo.im/f/0OBY67kZa38RVJrE.mp4',
+
+                        }, {
+                                suffix: 'mp4',
+                                title: 'Light my fire',
+                                subTitle: '点燃我的生命',
+
+                                attachmentsURL: 'https://attachments-cdn.shimo.im/1u2nOsrpI24vVL9g/Light_my_fire.mp4',
+                                uploaderURL: 'https://uploader.shimo.im/f/1u2nOsrpI24vVL9g.mp4',
+
+                        }, {
+                                suffix: 'mp4',
+                                title: '꽥&꼬닥 Emoticon ( chicken&egg ) on Behance',
+                                subTitle: '表情符号（鸡肉和鸡蛋）',
+
+                                attachmentsURL: 'https://attachments-cdn.shimo.im/8IMoog6CYUkkipD7/_Emoticon_chicken_egg_on_Behance.mp4',
+                                uploaderURL: 'https://uploader.shimo.im/f/8IMoog6CYUkkipD7.mp4',
+
+                        }, {
+                                suffix: 'mp4',
+                                title: 'EIGHT DELIGHTS OF TRANSFER _FULL VERSION',
+                                subTitle: '[仁川机场 x BT21] ',
+
+                                attachmentsURL: 'https://attachments-cdn.shimo.im/hNmEqm9ydwgZdyLs/_IncheonAirport_x_BT21_EIGHT_DELIGHTS_OF_TRANSFER_FULL_VERSION.mp4',
+                                uploaderURL: 'https://uploader.shimo.im/f/hNmEqm9ydwgZdyLs.mp4',
+
+                        }, {
+                                suffix: 'jpg',
+                                title: '图片',
+                                subTitle: '图片',
+
+                                attachmentsURL: 'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
+                                uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
+
+                        },]
         },
         makeAList: async function ({ dispatch, state }, resp) {
                 var result = [];

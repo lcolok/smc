@@ -38,7 +38,7 @@ export default {
 			emoji: '📦', //压缩包
 			typeName: '压缩包',
 			size: '20',
-			icon: 'fas fa-file-archive fa-xs',
+			icon: 'mdi-zip-box',
 		},
 		{
 			suffix: ['dmg', 'iso'],
@@ -96,5 +96,30 @@ export default {
 			typeName: '全部',
 			count: 0,
 		},
+	],
+
+	placeholderMapping: [
+		{
+			name: 'pdf',
+			width:165
+		},
+		{
+			name: 'pages',
+			width:220
+		},
+		{
+			name: 'excel',
+			suffix: ['xls','xlsx'],
+			width:200
+		},
+		{
+			name: 'word',
+			suffix: ['doc','docs'],
+			width:220
+		},
+		{
+			name: '7z',
+			width:140
+		}
 	]
 };
