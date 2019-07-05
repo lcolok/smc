@@ -14,8 +14,10 @@
                 </div>
               </v-flex>-->
               <v-flex class="caption white--text">
-                <v-layout align-center justify-center column fill-height />
-                <v-icon size="15" color="white">{{icon}}</v-icon> {{type}}
+                <v-layout align-center justify-start row fill-height>
+                  <v-icon size="18" color="white">{{icon}}</v-icon>
+                  <v-flex>{{typeName}}</v-flex>
+                </v-layout>
               </v-flex>
             </v-container>
           </v-img>
@@ -49,17 +51,59 @@
 
 <script>
 import Card from './Card';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
 	data: () => ({
 		show: false,
 		picPath: '',
 		picHeight: 200,
-		type:'',
-		icon:'',
+		// type:'',
+		// icon:'',
 	}),
 	inheritAttrs: false,
 
+	computed: {
+		...mapState('search', [
+			'fileDescription',
+			'unknownDescription',
+			'suffixList',
+		]),
+		...mapGetters('search', ['descriptionList']),
+		thisDescriptionList() {
+			return this.descriptionList[this.suffix] || this.unknownDescription;
+		},
+		typeName() {
+			return this.thisDescriptionList.typeName;
+		},
+		icon() {
+			return this.thisDescriptionList.icon;
+		},
+	},
+	created: async function() {
+		console.log(this.suffixList);
+
+		switch (this.typeName) {
+			case '视频':
+				await this.$http.get(this.attachmentsURL + '?avinfo').then(resp => {
+					let height = resp.data.streams[0].height;
+					let width = resp.data.streams[0].width;
+					let ratio = width / height;
+					let fixedWidth = this.picHeight * ratio;
+					// console.log({ height, width, ratio, fixedWidth });
+					let offset = this.offset || resp.data.format.duration * 0.618; //默认的截图位置是视频片段的黄金分割位置,如果有指定的offset时间，则采用offset的时间
+					this.picPath =
+						this.attachmentsURL + `?vframe/png/offset/${offset}/w/500`;
+				});
+				break;
+			case '图片':
+				this.picPath = this.attachmentsURL + '?imageslim';
+				break;
+			default:
+				this.picPath = '/img/placeholder/file_cover_bg_unknown@2x.png';
+				break;
+		}
+	},
 	props: {
 		...Card.props,
 		/* icon: {
@@ -114,26 +158,6 @@ export default {
 			type: String,
 			default: undefined,
 		},
-	},
-	computed: {},
-	created: async function() {
-
-
-		
-		if (this.suffix.match(/mp4/i)) {
-			await this.$http.get(this.attachmentsURL + '?avinfo').then(resp => {
-				let height = resp.data.streams[0].height;
-				let width = resp.data.streams[0].width;
-				let ratio = width / height;
-				let fixedWidth = this.picHeight * ratio;
-				console.log({ height, width, ratio, fixedWidth });
-				let offset = this.offset || resp.data.format.duration * 0.618; //默认的截图位置是视频片段的黄金分割位置,如果有指定的offset时间，则采用offset的时间
-				this.picPath =
-					this.attachmentsURL + `?vframe/png/offset/${offset}/w/500`;
-			});
-		} else if (this.attachmentsURL.match(/jpg|png/i)) {
-			this.picPath = this.attachmentsURL + '?imageslim';
-		}
 	},
 };
 </script>
