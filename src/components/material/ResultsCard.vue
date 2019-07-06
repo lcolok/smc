@@ -3,12 +3,7 @@
     <v-flex>
       <v-card hover>
         <v-expand-transition>
-          <v-img
-            v-if="picPath"
-            :src="picPath"
-            :height="picHeight"
-            @error="picPath='/img/placeholder/file_cover_bg_unknown@2x.png'"
-          >
+          <v-img v-if="picPath" :src="picPath" :height="picHeight" @error="picPath=unknown_bg_src">
             <v-container>
               <!--               <v-flex>
                 <div>
@@ -26,11 +21,7 @@
               </v-flex>
             </v-container>
 
-            <v-img
-              :src="abovePicPath"
-              :style="aboveStyle"
-              @error="abovePicPath='/img/placeholder/file_cover_name_unknow@2x.png'"
-            ></v-img>
+            <v-img :src="abovePicPath" :style="aboveStyle" @error="abovePicPath=unknown_text_src"></v-img>
           </v-img>
         </v-expand-transition>
 
@@ -70,6 +61,8 @@ export default {
 		abovePicPath: '',
 		picPath: '',
 		picHeight: 200,
+		unknown_bg_src: '/img/placeholder/file_cover_bg_unknown@2x.png',
+		unknown_text_src: '/img/placeholder/file_cover_name_unknow@2x.png',
 		// type:'',
 		// icon:'',
 	}),
@@ -126,8 +119,26 @@ export default {
 			default:
 				let cover_name = this.placeholderName || 'unknow';
 				let cover_BG_name = this.placeholderName || 'unknown';
-				this.abovePicPath = `/img/placeholder/file_cover_name_${cover_name}@2x.png`;
-				this.picPath = `/img/placeholder/file_cover_bg_${cover_BG_name}@2x.png`;
+
+				let abovePicPath = `/img/placeholder/file_cover_name_${cover_name}@2x.png`;
+				let picPath = `/img/placeholder/file_cover_bg_${cover_BG_name}@2x.png`;
+
+				function imgExist(pathImg) {
+					var ImgObj = new Image();
+					ImgObj.src = pathImg;
+					if (ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)) {
+						return true;
+					} else {
+						return false;
+					}
+				}
+
+				this.abovePicPath = imgExist(abovePicPath)
+					? abovePicPath
+					: this.unknown_text_src;
+
+				this.picPath = imgExist(picPath) ? picPath : this.unknown_bg_src;
+
 				break;
 		}
 	},

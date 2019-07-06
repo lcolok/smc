@@ -10,6 +10,10 @@ var timeout = require('connect-timeout');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+const router = require('express').Router;
+
+
+
 
 
 // // 加载云函数定义，你可以将云函数拆分到多个文件方便管理，但需要在主文件中加载它们
@@ -75,77 +79,41 @@ app.use(cookieParser());
 
 // 可以将一类的路由单独保存在一个文件中
 // app.use('/functions', require('./routes/functions'));
-// 一次过吧把 routes 文件夹下的全部文件夹全部读取
 
-
-
+// 一次过把 routes 文件夹下的全部文件夹的路由API全部读取
 let root = path.join(__dirname + '/routes/custom');
-// console.log(root);
+let rule = { get: true, post: true }
 
-readDirSync(root);
-function readDirSync(path) {
+readDirSync({ path: root });
+function readDirSync(params) {
+    let currentPath = params.path;
+    let dir = params.dir;
+
     fs
-        .readdirSync(path)
+        .readdirSync(currentPath)
         .forEach(function (ele, index) {
-
-            var info = fs.statSync(path + "/" + ele)
-            if (info.isDirectory()) {
-                console.log("dir: " + ele)
-                app.use('/' + ele, require(root + '/' + ele));// require同名文件夹
+            if (rule[ele]) {
+                let method = ele;
+                let newRouter = new router();
+                fs
+                    .readdirSync(currentPath + '/' + method).forEach((e, index) => {
+                        let funcName = e.split('/').pop().split('.js').shift();
+                        let apiPath = currentPath + '/' + method + '/' + e;
+                        newRouter[method]('/' + funcName, require(apiPath));
+                        app.use('/' + dir, newRouter);// require同名文件夹
+                        // console.log({ funcName, method, dir, currentPath, apiPath });
+                    })
             } else {
-                console.log("file: " + ele)
+                let info = fs.statSync(currentPath + "/" + ele)
+                if (info.isDirectory()) {
+                    // console.log("dir: " + ele)
+                    readDirSync({ path: currentPath + "/" + ele, dir: ele });
+                } else {
+                    // console.log("file: " + ele)
+                }
             }
         })
 }
-
-console.log(root);
-
-
-
-
-// const filePath = path.resolve('./server/core/routes');
-
-// let pa = fs.readdirSync(filePath);
-
-// pa.forEach(function(ele,index){
-//     var info = fs.statSync(path+"/"+ele)	
-//     if(info.isDirectory()){
-//         console.log("dir: "+ele)
-//         readDirSync(path+"/"+ele);
-//     }else{
-//         console.log("file: "+ele)
-//     }	
-// })
-
-
-// , (err, list) => {
-//     console.log(list);
-//     console.log(list);
-//     list.forEach(key => {
-//         console.log(key);
-//         console.log(key);
-//         app.use('/' + key, require(filePath + '/' + key));// require同名文件夹
-//     })
-// }
-
-// const scripts = requireContext(
-//     filePath, true, /index\.js$/
-// )
-
-
-
-// scripts.keys()
-//     .filter(name => !name.includes(__filename.split('/').pop()))//排除掉自己
-//     .filter(name => !name.includes('config'))//把config文件夹筛选出来，去掉
-//     .forEach(key => {
-//         console.log(key);
-//         const dirname = key.split('/').shift();
-//         app.use('/' + dirname, require(filePath + '/' + dirname));// require同名文件夹
-//     })
-
-
-
-
 
 app.get('/', function (req, res) {
     console.log(req);
