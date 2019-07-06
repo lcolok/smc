@@ -121,5 +121,10 @@ export default {
 			name: '7z',
 			width:140
 		}
-	]
+	],
+
+	// placeholderList() {
+	// 	require('./img/placeholder/file_cover_name_unknown@2x.png')
+        //         return 
+        // }
 };

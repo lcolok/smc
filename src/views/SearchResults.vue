@@ -16,7 +16,7 @@ export default {
 	mounted() {
 		console.log(this.$route.query);
 		let query = this.$route.query;
-		if (query) {
+		if (query.key) {
 			this.searchByKey({ key:query.key });
 		}
 	},

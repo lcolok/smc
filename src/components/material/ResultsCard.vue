@@ -62,7 +62,7 @@ export default {
 		picPath: '',
 		picHeight: 200,
 		unknown_bg_src: '/img/placeholder/file_cover_bg_unknown@2x.png',
-		unknown_text_src: '/img/placeholder/file_cover_name_unknow@2x.png',
+		unknown_text_src: '/img/placeholder/file_cover_name_unknown@2x.png',
 		// type:'',
 		// icon:'',
 	}),
@@ -118,10 +118,10 @@ export default {
 				break;
 			default:
 				let cover_name = this.placeholderName || 'unknow';
-				let cover_BG_name = this.placeholderName || 'unknown';
+		
 
 				let abovePicPath = `/img/placeholder/file_cover_name_${cover_name}@2x.png`;
-				let picPath = `/img/placeholder/file_cover_bg_${cover_BG_name}@2x.png`;
+				let picPath = `/img/placeholder/file_cover_bg_${cover_name}@2x.png`;
 
 				function CheckImgExists(imgurl, success, err) {
 					var ImgObj = new Image(); //判断图片是否存在
