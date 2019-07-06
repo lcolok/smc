@@ -76,17 +76,72 @@ app.use(cookieParser());
 // 可以将一类的路由单独保存在一个文件中
 // app.use('/functions', require('./routes/functions'));
 // 一次过吧把 routes 文件夹下的全部文件夹全部读取
-const filePath = path.resolve('./server/core/routes');
-const scripts = requireContext(
-    filePath, true, /\S/
-)
-scripts.keys()
-    .filter(name => !name.includes(__filename.split('/').pop()))//排除掉自己
-    .filter(name => !name.includes('config'))//把config文件夹筛选出来，去掉
-    .forEach(key => {
-        const dirname = key.split('/').shift();
-        app.use('/' + dirname, require(filePath + '/' + dirname));// require同名文件夹
-    })
+
+
+
+let root = path.join(__dirname + '/routes/custom');
+// console.log(root);
+
+readDirSync(root);
+function readDirSync(path) {
+    fs
+        .readdirSync(path)
+        .forEach(function (ele, index) {
+
+            var info = fs.statSync(path + "/" + ele)
+            if (info.isDirectory()) {
+                console.log("dir: " + ele)
+                app.use('/' + ele, require(root + '/' + ele));// require同名文件夹
+            } else {
+                console.log("file: " + ele)
+            }
+        })
+}
+
+console.log(root);
+
+
+
+
+// const filePath = path.resolve('./server/core/routes');
+
+// let pa = fs.readdirSync(filePath);
+
+// pa.forEach(function(ele,index){
+//     var info = fs.statSync(path+"/"+ele)	
+//     if(info.isDirectory()){
+//         console.log("dir: "+ele)
+//         readDirSync(path+"/"+ele);
+//     }else{
+//         console.log("file: "+ele)
+//     }	
+// })
+
+
+// , (err, list) => {
+//     console.log(list);
+//     console.log(list);
+//     list.forEach(key => {
+//         console.log(key);
+//         console.log(key);
+//         app.use('/' + key, require(filePath + '/' + key));// require同名文件夹
+//     })
+// }
+
+// const scripts = requireContext(
+//     filePath, true, /index\.js$/
+// )
+
+
+
+// scripts.keys()
+//     .filter(name => !name.includes(__filename.split('/').pop()))//排除掉自己
+//     .filter(name => !name.includes('config'))//把config文件夹筛选出来，去掉
+//     .forEach(key => {
+//         console.log(key);
+//         const dirname = key.split('/').shift();
+//         app.use('/' + dirname, require(filePath + '/' + dirname));// require同名文件夹
+//     })
 
 
 
