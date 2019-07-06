@@ -23,7 +23,7 @@
           color="purple"
         />
          </form> -->
-        <form action="javascript:return true">
+   
           <v-autocomplete
             v-model="searchContent"
             :loading="loading"
@@ -38,7 +38,7 @@
             no-filter
             :search-input.sync="suggest"
           />
-        </form>
+  
         <router-link v-ripple class="toolbar-items" to="/">
           <v-icon color="tertiary">mdi-view-dashboard</v-icon>
         </router-link>
