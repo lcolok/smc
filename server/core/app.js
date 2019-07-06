@@ -1,13 +1,16 @@
 'use strict';
 
+const path = require('path');
+const fs = require('fs');
+const AV = require("leanengine");
+const requireContext = require('require-context');
 var compression = require('compression');
 var express = require('express');
 var timeout = require('connect-timeout');
-var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var AV = require('leanengine');
-var fs = require('fs');
+
+
 
 // // 加载云函数定义，你可以将云函数拆分到多个文件方便管理，但需要在主文件中加载它们
 // var apiBuildDest = require(path.resolve('config/api.config.js')).apiBuildDest;
@@ -29,10 +32,10 @@ require(path.resolve('api'))
 var app = express();
 
 //这是因为http请求头部没有进行允许跨域导致的，打开后端服务的app.js文件，在路由配置前添加以下代码
-app.all('*', function(req, res, next) {
+app.all('*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type");
-    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
     next();
 });
 
@@ -41,9 +44,9 @@ app.use(compression());
 var distPath;
 if (process.env.npm_lifecycle_event == 'dev') {
     distPath = path.resolve('./dist');
-    app.all('*', function(req, res, next){
+    app.all('*', function (req, res, next) {
         // req.headers['server_status'] = 'development';
-        res.header('server_status','development');
+        res.header('server_status', 'development');
         next()
     })
 } else {
@@ -71,7 +74,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // 可以将一类的路由单独保存在一个文件中
-app.use('/functions', require('./routes/functions'));
+// app.use('/functions', require('./routes/functions'));
+// 一次过吧把 routes 文件夹下的全部文件夹全部读取
+const filePath = path.resolve('./server/core/routes');
+const scripts = requireContext(
+    filePath, true, /\S/
+)
+scripts.keys()
+    .filter(name => !name.includes(__filename.split('/').pop()))//排除掉自己
+    .filter(name => !name.includes('config'))//把config文件夹筛选出来，去掉
+    .forEach(key => {
+        const dirname = key.split('/').shift();
+        app.use('/' + dirname, require(filePath + '/' + dirname));// require同名文件夹
+    })
+
+
+
+
 
 app.get('/', function (req, res) {
     console.log(req);

@@ -42,7 +42,7 @@ router.get('/su', function (req, res, next) {
         }]
     })
         .then(function (response) {
-            console.log(response);
+            // console.log(response);
             res.json({ data: response.data, duration: response.duration });
         })
         .catch(function (error) {
