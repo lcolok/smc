@@ -123,21 +123,38 @@ export default {
 				let abovePicPath = `/img/placeholder/file_cover_name_${cover_name}@2x.png`;
 				let picPath = `/img/placeholder/file_cover_bg_${cover_BG_name}@2x.png`;
 
-				function imgExist(pathImg) {
-					var ImgObj = new Image();
-					ImgObj.src = pathImg;
-					if (ImgObj.fileSize > 0 || (ImgObj.width > 0 && ImgObj.height > 0)) {
-						return true;
-					} else {
-						return false;
-					}
+				function CheckImgExists(imgurl, success, err) {
+					var ImgObj = new Image(); //判断图片是否存在
+					ImgObj.onload = function() {
+						// console.log(ImgObj.width, ImgObj.height);
+						success && success(ImgObj);
+					};
+					ImgObj.onerror = function() {
+						// console.log('error');
+						err && err(ImgObj);
+					};
+					ImgObj.src = imgurl;
 				}
 
-				this.abovePicPath = imgExist(abovePicPath)
-					? abovePicPath
-					: this.unknown_text_src;
+				CheckImgExists(
+					abovePicPath,
+					() => {
+						this.abovePicPath = abovePicPath;
+					},
+					() => {
+						this.abovePicPath = this.unknown_text_src;
+					},
+				);
 
-				this.picPath = imgExist(picPath) ? picPath : this.unknown_bg_src;
+				CheckImgExists(
+					picPath,
+					() => {
+						this.picPath = picPath;
+					},
+					() => {
+						this.picPath = this.unknown_bg_src;
+					},
+				);
 
 				break;
 		}
