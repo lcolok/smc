@@ -91,8 +91,9 @@ export default {
 			'unknownDescription',
 			'suffixList',
 			'placeholderList',
+			'descriptionList',
 		]),
-		...mapGetters('search', ['descriptionList']),
+		...mapGetters('search', []),
 		thisDescriptionList() {
 			return this.descriptionList[this.suffix] || this.unknownDescription;
 		},
