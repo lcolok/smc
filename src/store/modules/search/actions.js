@@ -68,11 +68,15 @@ export default {
 				let o = e.toJSON();
 				console.log(o);
 
-				let response = await this._vm.$http.get(
-					`/functions/expand?url=${o.uploaderURL}`,
-				);
-				o.attachmentsURL = response.data.expandedURL || o.expandedURL;
-				console.log(response.data.expandedURL);
+				if (o.attachmentsURL) {
+				} else if (o.uploaderURL) {
+					let response = await this._vm.$http.get(
+						`/functions/expand?url=${o.uploaderURL}`,
+					);
+					o.attachmentsURL = response.data.expandedURL;
+				} else if (o.expandedURL) {
+					o.attachmentsURL = o.expandedURL;
+				}
 				return o;
 			}),
 		);

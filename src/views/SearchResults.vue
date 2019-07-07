@@ -20,11 +20,11 @@ export default {
 			this.searchByKey({ key: query.key });
 		}
 	},
-	computed: mapState({
-		results: state => state.search.results,
-	}),
 	data() {
 		return {};
+	},
+	computed: {
+		...mapState('search', ['results']),
 	},
 	methods: {
 		...mapActions('search', ['searchByKey']),
