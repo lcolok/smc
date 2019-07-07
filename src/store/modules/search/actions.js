@@ -1,86 +1,18 @@
 import AV from 'leancloud-storage';
 import router from '@/router';
+
+// import axios from 'axios';
+// import Qs from 'qs';
+
+const axios = require('axios');
+const Qs = require('qs');
+
 export default {
 	searchByKey: async function({ dispatch, commit, state }, params) {
 		router.push({
 			path: 'search_results',
 			query: params,
 		}); //跳转到搜索结果页面
-
-		/*                 state.results = [
-                                        {
-                                                color: 'green',
-                                                icon: 'mdi-store',
-                                                title: '黑人牙膏 【雙重薄荷牙膏 - 醒神嚟喇！】故事版本 张继聪',
-                                                value:
-                                                        '「體味測謊機」量體味! 香體劑有用嗎? 流汗不等於減肥! 破解汗的迷思!',
-                                                'sub-icon': 'mdi-calendar',
-                                                'sub-text': 'Last 24 Hours',
-                                        },
-                                        {
-                                                color: 'orange',
-                                                icon: 'mdi-content-copy',
-                                                title: 'Used Space',
-                                                value: '49/50',
-                                                'small-value': 'GB',
-                                                'sub-icon': 'mdi-alert',
-                                                'sub-icon-color': 'error',
-                                                'sub-text': 'Get More Space...',
-                                                'sub-text-color': 'text-primary',
-                                        },
-                                        {
-                                                color: 'red',
-                                                icon: 'mdi-information-outline',
-                                                title: 'Fixed Issues',
-                                                value: '75',
-                                                'sub-icon': 'mdi-tag',
-                                                'sub-text': 'Tracked from Github',
-                                        },
-                                        {
-                                                color: 'info',
-                                                icon: 'mdi-twitter',
-                                                title: 'Followers',
-                                                value: '+245',
-                                                'sub-icon': 'mdi-update',
-                                                'sub-text': 'Just Updated',
-                                        },
-                                        {
-                                                color: 'green',
-                                                icon: 'mdi-store',
-                                                title: 'Revenue',
-                                                value: '$34,245',
-                                                'sub-icon': 'mdi-calendar',
-                                                'sub-text': 'Last 24 Hours',
-                                        },
-                                        {
-                                                color: 'orange',
-                                                icon: 'mdi-content-copy',
-                                                title: 'Used Space',
-                                                value: '49/50',
-                                                'small-value': 'GB',
-                                                'sub-icon': 'mdi-alert',
-                                                'sub-icon-color': 'error',
-                                                'sub-text': 'Get More Space...',
-                                                'sub-text-color': 'text-primary',
-                                        },
-                                        {
-                                                color: 'red',
-                                                icon: 'mdi-information-outline',
-                                                title: 'Fixed Issues',
-                                                value: '75',
-                                                'sub-icon': 'mdi-tag',
-                                                'sub-text': 'Tracked from Github',
-                                        },
-                                        {
-                                                color: 'info',
-                                                icon: 'mdi-twitter',
-                                                title: 'Followers',
-                                                value: '+245',
-                                                'sub-icon': 'mdi-update',
-                                                'sub-text': 'Just Updated',
-                                        },
-                                ];
-                 */
 
 		if (!params) {
 			var data = await AV.Cloud.run('updateShimo');
@@ -128,9 +60,25 @@ export default {
 		var query = new AV.SearchQuery('ShimoBed'); //class名
 
 		query.queryString(params.key); //要搜索的关键词
-		var resp = await query.find();
-		console.info(resp);
+		let resp = await query.find();
 		console.log('找到了 ' + query.hits() + ' 个文件.');
+
+		let results = await Promise.all(
+			resp.map(async e => {
+				let o = e.toJSON();
+				console.log(o);
+
+				let response = await this._vm.$http.get(
+					`/functions/expand?url=${o.uploaderURL}`,
+				);
+				o.attachmentsURL = response.data.expandedURL || o.expandedURL;
+				console.log(response.data.expandedURL);
+				return o;
+			}),
+		);
+
+		console.log(results);
+		return results;
 		return [
 			{
 				suffix: '7z',

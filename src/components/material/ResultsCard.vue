@@ -118,22 +118,21 @@ export default {
 	},
 	created: async function() {
 		// console.log(this.suffixList);
-
+		let srcURL = this.attachmentsURL || this.uploaderURL;
 		switch (this.typeName) {
 			case '视频':
-				await this.$http.get(this.attachmentsURL + '?avinfo').then(resp => {
+				await this.$http.get(srcURL + '?avinfo').then(resp => {
 					let height = resp.data.streams[0].height;
 					let width = resp.data.streams[0].width;
 					let ratio = width / height;
 					let fixedWidth = this.picHeight * ratio;
 					// console.log({ height, width, ratio, fixedWidth });
 					let offset = this.offset || resp.data.format.duration * 0.618; //默认的截图位置是视频片段的黄金分割位置,如果有指定的offset时间，则采用offset的时间
-					this.picPath =
-						this.attachmentsURL + `?vframe/png/offset/${offset}/w/500`;
+					this.picPath = srcURL + `?vframe/png/offset/${offset}/w/500`;
 				});
 				break;
 			case '图片':
-				this.picPath = this.attachmentsURL + '?imageslim';
+				this.picPath = srcURL + '?imageslim';
 				break;
 			default:
 				let cover_name = this.placeholderName;
@@ -182,6 +181,10 @@ export default {
 			default: undefined,
 		},
 		attachmentsURL: {
+			type: String,
+			default: undefined,
+		},
+		uploaderURL: {
 			type: String,
 			default: undefined,
 		},

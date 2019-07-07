@@ -24,6 +24,11 @@ let placeholderMapping = [
 		suffix: ['7z'],
 		width: 140,
 	},
+	{
+		name: 'zip',
+		suffix: ['zip'],
+		width: 140,
+	},
 ];
 
 let fileDescription = [
@@ -132,7 +137,7 @@ function mapToList(placeholderMapping) {
 		}
 	});
 
-	console.log(map);
+	// console.log(map);
 
 	return map;
 }
