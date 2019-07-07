@@ -9,7 +9,7 @@ var express = require('express');
 var timeout = require('connect-timeout');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+const cors = require('cors');
 const router = require('express').Router;
 
 
@@ -35,13 +35,16 @@ require(path.resolve('api'))
 
 var app = express();
 
-//这是因为http请求头部没有进行允许跨域导致的，打开后端服务的app.js文件，在路由配置前添加以下代码
-app.all('*', function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type");
-    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-    next();
-});
+// //这是因为http请求头部没有进行允许跨域导致的，打开后端服务的app.js文件，在路由配置前添加以下代码
+// app.all('*', function (req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type");
+//     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+//     next();
+// });
+
+// 跨域资源共享(CORS) 是一种机制，它使用额外的HTTP 头来告诉浏览器 让运行在一个origin (domain) 上的Web应用被准许访问来自不同源服务器上的指定的资源
+app.use(cors())
 
 app.use(compression());
 
