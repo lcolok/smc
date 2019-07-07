@@ -116,32 +116,46 @@ export default {
 			return `width: ${width}px;margin-top:35px; margin-left: auto; margin-right: auto;`;
 		},
 	},
-	created: async function() {
-		// console.log(this.suffixList);
-		let srcURL = this.attachmentsURL || this.uploaderURL;
-		switch (this.typeName) {
-			case '视频':
-				await this.$http.get(srcURL + '?avinfo').then(resp => {
-					let height = resp.data.streams[0].height;
-					let width = resp.data.streams[0].width;
-					let ratio = width / height;
-					let fixedWidth = this.picHeight * ratio;
-					// console.log({ height, width, ratio, fixedWidth });
-					let offset = this.offset || resp.data.format.duration * 0.618; //默认的截图位置是视频片段的黄金分割位置,如果有指定的offset时间，则采用offset的时间
-					this.picPath = srcURL + `?vframe/png/offset/${offset}/w/500`;
-				});
-				break;
-			case '图片':
-				this.picPath = srcURL + '?imageslim';
-				break;
-			default:
-				let cover_name = this.placeholderName;
-
-				this.abovePicPath = require(`@/assets/img/placeholder/file_cover_name_${cover_name}@2x.png`);
-				this.picPath = require(`@/assets/img/placeholder/file_cover_bg_${cover_name}@2x.png`);
-				break;
-		}
+	created() {
+		this.updatePic();
 	},
+	watch: {
+		title() {
+			this.updatePic();
+		},
+	},
+	methods: {
+		updatePic: async function() {
+			// console.log(this.suffixList);
+			this.abovePicPath = '';
+			this.picPath = '';
+
+			let srcURL = this.attachmentsURL || this.uploaderURL;
+			switch (this.typeName) {
+				case '视频':
+					await this.$http.get(srcURL + '?avinfo').then(resp => {
+						let height = resp.data.streams[0].height;
+						let width = resp.data.streams[0].width;
+						let ratio = width / height;
+						let fixedWidth = this.picHeight * ratio;
+						// console.log({ height, width, ratio, fixedWidth });
+						let offset = this.offset || resp.data.format.duration * 0.618; //默认的截图位置是视频片段的黄金分割位置,如果有指定的offset时间，则采用offset的时间
+						this.picPath = srcURL + `?vframe/png/offset/${offset}/w/500`;
+					});
+					break;
+				case '图片':
+					this.picPath = srcURL + '?imageslim';
+					break;
+				default:
+					let cover_name = this.placeholderName;
+
+					this.abovePicPath = require(`@/assets/img/placeholder/file_cover_name_${cover_name}@2x.png`);
+					this.picPath = require(`@/assets/img/placeholder/file_cover_bg_${cover_name}@2x.png`);
+					break;
+			}
+		},
+	},
+
 	props: {
 		...Card.props,
 		/* icon: {
