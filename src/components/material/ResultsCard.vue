@@ -78,8 +78,8 @@ export default {
 		abovePicPath: '',
 		picPath: '',
 		picHeight: 200,
-		unknown_bg_src: '/img/placeholder/file_cover_bg_unknown@2x.png',
-		unknown_text_src: '/img/placeholder/file_cover_name_unknown@2x.png',
+		unknown_bg_src: require('@/assets/img/placeholder/file_cover_bg_unknown@2x.png'),
+		unknown_text_src: require('@/assets/img/placeholder/file_cover_name_unknown@2x.png'),
 		// type:'',
 		// icon:'',
 	}),
@@ -138,8 +138,8 @@ export default {
 			default:
 				let cover_name = this.placeholderName;
 
-				this.abovePicPath = `/img/placeholder/file_cover_name_${cover_name}@2x.png`;
-				this.picPath = `/img/placeholder/file_cover_bg_${cover_name}@2x.png`;
+				this.abovePicPath = require(`@/assets/img/placeholder/file_cover_name_${cover_name}@2x.png`);
+				this.picPath = require(`@/assets/img/placeholder/file_cover_bg_${cover_name}@2x.png`);
 				break;
 		}
 	},
