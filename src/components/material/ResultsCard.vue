@@ -1,11 +1,16 @@
 <template>
-  <v-layout row>
-    <v-flex>
-      <v-card hover>
-        <v-expand-transition>
-          <v-img v-if="picPath" :src="picPath" :height="picHeight" @error="picPath=unknown_bg_src">
-            <v-container>
-              <!--               <v-flex>
+	<v-layout row>
+		<v-flex>
+			<v-card hover>
+				<v-expand-transition>
+					<v-img
+						v-if="picPath"
+						:src="picPath"
+						:height="picHeight"
+						@error="picPath = unknown_bg_src"
+					>
+						<v-container>
+							<!--               <v-flex>
                 <div>
                   <div>
                     <v-icon color="white">mdi-library-video</v-icon>
@@ -13,42 +18,54 @@
                   <span class="caption white--text">视频</span>
                 </div>
               </v-flex>-->
-              <v-flex class="caption white--text" style="position:absolute;">
-                <v-layout align-center justify-start row fill-height>
-                  <v-icon size="18" color="white">{{icon}}</v-icon>
-                  <v-flex>{{typeName}}</v-flex>
-                </v-layout>
-              </v-flex>
-            </v-container>
+							<v-flex class="caption white--text" style="position:absolute;">
+								<v-layout align-center justify-start row fill-height>
+									<v-icon size="18" color="white">{{ icon }}</v-icon>
+									<v-flex>{{ typeName }}</v-flex>
+								</v-layout>
+							</v-flex>
+						</v-container>
 
-            <v-img :src="abovePicPath" :style="aboveStyle" @error="abovePicPath=unknown_text_src"></v-img>
-          </v-img>
-        </v-expand-transition>
+						<v-img
+							:src="abovePicPath"
+							:style="aboveStyle"
+							@error="abovePicPath = unknown_text_src"
+						></v-img>
+					</v-img>
+				</v-expand-transition>
 
-        <v-card-title primary-title>
-          <div>
-            <div class="headline">{{title}}</div>
-            <span class="grey--text">{{subTitle}}</span>
-          </div>
-        </v-card-title>
+				<v-card-title primary-title>
+					<div>
+						<div class="headline">{{ title }}</div>
+						<span class="grey--text">{{ subTitle }}</span>
+					</div>
+				</v-card-title>
 
-        <v-card-actions>
-          <v-btn flat color="primary">Share</v-btn>
-          <v-btn color="primary">Explore</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn icon @click="show = !show" flat color="primary">
-            <v-icon>{{ show ? 'mdi-arrow-up-drop-circle' : 'mdi-arrow-down-drop-circle' }}</v-icon>
-          </v-btn>
-        </v-card-actions>
+				<v-card-actions>
+					<v-btn flat color="primary">Share</v-btn>
+					<v-btn color="primary">Explore</v-btn>
+					<v-spacer></v-spacer>
+					<v-btn icon @click="show = !show" flat color="primary">
+						<v-icon>
+							{{
+								show ? 'mdi-arrow-up-drop-circle' : 'mdi-arrow-down-drop-circle'
+							}}
+						</v-icon>
+					</v-btn>
+				</v-card-actions>
 
-        <v-expand-transition>
-          <v-card-text
-            v-show="show"
-          >I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.</v-card-text>
-        </v-expand-transition>
-      </v-card>
-    </v-flex>
-  </v-layout>
+				<v-expand-transition>
+					<v-card-text v-show="show">
+						I'm a thing. But, like most politicians, he promised more than he
+						could deliver. You won't have time for sleeping, soldier, not with
+						all the bed making you'll be doing. Then we'll go with that data
+						file! Hey, you add a one and two zeros to that or we walk! You're
+						going to do his laundry? I've got to find a way to escape.
+					</v-card-text>
+				</v-expand-transition>
+			</v-card>
+		</v-flex>
+	</v-layout>
 </template>
 
 <script>
@@ -73,8 +90,9 @@ export default {
 			'fileDescription',
 			'unknownDescription',
 			'suffixList',
+			'placeholderList',
 		]),
-		...mapGetters('search', ['descriptionList', 'placeholderList']),
+		...mapGetters('search', ['descriptionList']),
 		thisDescriptionList() {
 			return this.descriptionList[this.suffix] || this.unknownDescription;
 		},
@@ -86,14 +104,14 @@ export default {
 		},
 		thisPlaceholderList() {
 			return (
-				this.placeholderList[this.suffix] || { name: this.suffix, width: 230 }
+				this.placeholderList[this.suffix] || { name: 'unknown', width: 230 } //如果该后缀能不够匹配对应的placeholder类型,就会赋值默认的unknown图
 			);
 		},
 		placeholderName() {
-			return this.thisPlaceholderList.name || this.suffix;
+			return this.thisPlaceholderList.name;
 		},
 		aboveStyle() {
-			let width = this.thisPlaceholderList.width || 230;
+			let width = this.thisPlaceholderList.width;
 			return `width: ${width}px;margin-top:35px; margin-left: auto; margin-right: auto;`;
 		},
 	},
@@ -117,45 +135,10 @@ export default {
 				this.picPath = this.attachmentsURL + '?imageslim';
 				break;
 			default:
-				let cover_name = this.placeholderName || 'unknow';
-		
+				let cover_name = this.placeholderName;
 
-				let abovePicPath = `/img/placeholder/file_cover_name_${cover_name}@2x.png`;
-				let picPath = `/img/placeholder/file_cover_bg_${cover_name}@2x.png`;
-
-				function CheckImgExists(imgurl, success, err) {
-					var ImgObj = new Image(); //判断图片是否存在
-					ImgObj.onload = function() {
-						// console.log(ImgObj.width, ImgObj.height);
-						success && success(ImgObj);
-					};
-					ImgObj.onerror = function() {
-						// console.log('error');
-						err && err(ImgObj);
-					};
-					ImgObj.src = imgurl;
-				}
-
-				CheckImgExists(
-					abovePicPath,
-					() => {
-						this.abovePicPath = abovePicPath;
-					},
-					() => {
-						this.abovePicPath = this.unknown_text_src;
-					},
-				);
-
-				CheckImgExists(
-					picPath,
-					() => {
-						this.picPath = picPath;
-					},
-					() => {
-						this.picPath = this.unknown_bg_src;
-					},
-				);
-
+				this.abovePicPath = `/img/placeholder/file_cover_name_${cover_name}@2x.png`;
+				this.picPath = `/img/placeholder/file_cover_bg_${cover_name}@2x.png`;
 				break;
 		}
 	},

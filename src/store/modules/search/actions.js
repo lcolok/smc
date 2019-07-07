@@ -1,15 +1,13 @@
 import AV from 'leancloud-storage';
 import router from '@/router';
 export default {
-        searchByKey: async function ({ dispatch, commit, state }, params) {
-                router.push({
-                        path: 'search_results',
-                        query: params
-                }); //跳转到搜索结果页面
+	searchByKey: async function({ dispatch, commit, state }, params) {
+		router.push({
+			path: 'search_results',
+			query: params,
+		}); //跳转到搜索结果页面
 
-
-
-                /*                 state.results = [
+		/*                 state.results = [
                                         {
                                                 color: 'green',
                                                 icon: 'mdi-store',
@@ -84,33 +82,33 @@ export default {
                                 ];
                  */
 
-                if (!params) {
-                        var data = await AV.Cloud.run('updateShimo');
-                        console.log(data);
+		if (!params) {
+			var data = await AV.Cloud.run('updateShimo');
+			console.log(data);
 
-                        if (data > 0) {
-                                showUpdate(data);
-                        } else {
-                                // showTop20();
-                        }
+			if (data > 0) {
+				showUpdate(data);
+			} else {
+				// showTop20();
+			}
 
-                        var query = new AV.Query('ShimoBed');
-                        query.descending('updatedAt');
-                        query.limit(20); //请求数量上限为1000条
-                        var every = await query.find();
+			var query = new AV.Query('ShimoBed');
+			query.descending('updatedAt');
+			query.limit(20); //请求数量上限为1000条
+			var every = await query.find();
 
-                        console.log(every);
+			console.log(every);
 
-                        result = makeAList(every);
-                        // console.log(result);
-                } else {
-                        var result = await dispatch('searchLC', {
-                                key: params.key
-                        });
-                        // console.log(result);
-                        // alert(JSON.stringify(this.todos[0]));
-                        if (!result) {
-                                /*          Vue.toasted.show(`找不到关于“${key}”的项目`, {
+			result = makeAList(every);
+			// console.log(result);
+		} else {
+			var result = await dispatch('searchLC', {
+				key: params.key,
+			});
+			// console.log(result);
+			// alert(JSON.stringify(this.todos[0]));
+			if (!result) {
+				/*          Vue.toasted.show(`找不到关于“${key}”的项目`, {
                                                  position: 'top-center',
                                                  theme: 'toasted-primary', //Theme of the toast you prefer['toasted-primary', 'outline', 'bubble']
                                                  duration: 3000,
@@ -120,225 +118,225 @@ export default {
                                                  type: 'error', //Type of the Toast ['success', 'info', 'error']
                                                  // fullWidth:"true",
                                          }); */
-                                return;
-                        } else {
+				return;
+			} else {
+				state.results = result;
+			}
+		}
+	},
+	searchLC: async function({ dispatch, state }, params) {
+		var query = new AV.SearchQuery('ShimoBed'); //class名
 
+		query.queryString(params.key); //要搜索的关键词
+		var resp = await query.find();
+		console.info(resp);
+		console.log('找到了 ' + query.hits() + ' 个文件.');
+		return [
+			{
+				suffix: '7z',
+				title: '未知',
+				subTitle: '未知',
 
-                                state.results = result;
+				attachmentsURL:
+					'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
+				uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
+			},
+			{
+				suffix: 'doc',
+				title: '未知',
+				subTitle: '未知',
 
-                        }
-                }
+				attachmentsURL:
+					'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
+				uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
+			},
+			{
+				suffix: 'xls',
+				title: '未知',
+				subTitle: '未知',
 
-        },
-        searchLC: async function ({ dispatch, state }, params) {
-                var query = new AV.SearchQuery('ShimoBed'); //class名
+				attachmentsURL:
+					'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
+				uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
+			},
+			{
+				suffix: '12321',
+				title: '未知',
+				subTitle: '未知',
 
-                query.queryString(params.key); //要搜索的关键词
-                var resp = await query.find();
-                console.info(resp);
-                console.log('找到了 ' + query.hits() + ' 个文件.');
-                return [
-                        {
-                                suffix: '7z',
-                                title: '未知',
-                                subTitle: '未知',
+				attachmentsURL:
+					'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
+				uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
+			},
+			{
+				suffix: 'pdf',
+				title: 'pdf',
+				subTitle: 'pdf',
 
-                                attachmentsURL: 'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
-                                uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
+				attachmentsURL:
+					'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
+				uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
+			},
+			{
+				suffix: 'pages',
+				title: 'pages',
+				subTitle: 'pages',
 
-                        },
-                        {
-                                suffix: 'doc',
-                                title: '未知',
-                                subTitle: '未知',
+				attachmentsURL:
+					'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
+				uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
+			},
+			{
+				suffix: 'mp4',
+				title: 'Love is in the air',
+				subTitle: '爱在空气中',
 
-                                attachmentsURL: 'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
-                                uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
+				attachmentsURL:
+					'https://attachments-cdn.shimo.im/2oaRC0QraiQYFZeh/Love_is_in_the_air.mp4',
+				uploaderURL: 'https://uploader.shimo.im/f/2oaRC0QraiQYFZeh.mp4',
+			},
+			{
+				suffix: 'mp4',
+				title: 'Run Snow run',
+				subTitle: '跑啊,雪诺！',
 
-                        }, 
-                        {
-                                suffix: 'xls',
-                                title: '未知',
-                                subTitle: '未知',
+				attachmentsURL:
+					'https://attachments-cdn.shimo.im/0OBY67kZa38RVJrE/Run_Snow_run_.mp4',
+				uploaderURL: 'https://uploader.shimo.im/f/0OBY67kZa38RVJrE.mp4',
+			},
+			{
+				suffix: 'mp4',
+				title: 'Light my fire',
+				subTitle: '点燃我的生命',
 
-                                attachmentsURL: 'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
-                                uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
+				attachmentsURL:
+					'https://attachments-cdn.shimo.im/1u2nOsrpI24vVL9g/Light_my_fire.mp4',
+				uploaderURL: 'https://uploader.shimo.im/f/1u2nOsrpI24vVL9g.mp4',
+			},
+			{
+				suffix: 'mp4',
+				title: '꽥&꼬닥 Emoticon ( chicken&egg ) on Behance',
+				subTitle: '表情符号（鸡肉和鸡蛋）',
 
-                        }, 
-                        {
-                                suffix: '12321',
-                                title: '未知',
-                                subTitle: '未知',
+				attachmentsURL:
+					'https://attachments-cdn.shimo.im/8IMoog6CYUkkipD7/_Emoticon_chicken_egg_on_Behance.mp4',
+				uploaderURL: 'https://uploader.shimo.im/f/8IMoog6CYUkkipD7.mp4',
+			},
+			{
+				suffix: 'mp4',
+				title: 'EIGHT DELIGHTS OF TRANSFER _FULL VERSION',
+				subTitle: '[仁川机场 x BT21] ',
 
-                                attachmentsURL: 'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
-                                uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
+				attachmentsURL:
+					'https://attachments-cdn.shimo.im/hNmEqm9ydwgZdyLs/_IncheonAirport_x_BT21_EIGHT_DELIGHTS_OF_TRANSFER_FULL_VERSION.mp4',
+				uploaderURL: 'https://uploader.shimo.im/f/hNmEqm9ydwgZdyLs.mp4',
+			},
+			{
+				suffix: 'jpg',
+				title: '图片',
+				subTitle: '图片',
 
-                        }, 
-                        {
-                                suffix: 'pdf',
-                                title: 'pdf',
-                                subTitle: 'pdf',
+				attachmentsURL:
+					'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
+				uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
+			},
+		];
+	},
+	makeAList: async function({ dispatch, state }, resp) {
+		var result = [];
 
-                                attachmentsURL: 'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
-                                uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
+		let fileIndex = {};
 
-                        },
-                        {
-                                suffix: 'pages',
-                                title: 'pages',
-                                subTitle: 'pages',
+		state.fileDescription.forEach((e, index) => {
+			fileIndex[e.suffix] = {
+				count: 0,
+				subClassArr: [],
+				icon: e.icon,
+				size: e.size,
+			};
+		});
 
-                                attachmentsURL: 'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
-                                uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
+		resp.forEach(async e => {
+			var newDic = await dispatch('makeNewDic', e);
+			// console.log(newDic.attributes);
 
-                        },
-                        {
-                                suffix: 'mp4',
-                                title: 'Love is in the air',
-                                subTitle: '爱在空气中',
+			fileIndex[newDic.attributes.suffix].count++;
+			fileIndex[newDic.attributes.suffix].subClassArr.push(newDic);
+			state.suffixList[0].count++; //也就是'全部'
+			result.push(newDic);
+		});
 
-                                attachmentsURL: 'https://attachments-cdn.shimo.im/2oaRC0QraiQYFZeh/Love_is_in_the_air.mp4',
-                                uploaderURL: 'https://uploader.shimo.im/f/2oaRC0QraiQYFZeh.mp4',
+		state.suffixList[0].subClassArr = result; //全部的subClassArr
 
-                        }, {
-                                suffix: 'mp4',
-                                title: 'Run Snow run',
-                                subTitle: '跑啊,雪诺！',
+		state.fileDescription.forEach((e, index) => {
+			var subClass = fileIndex[e.suffix];
+			state.suffixList.push({
+				text: e.suffix,
+				count: subClass.count,
+				icon: subClass.icon,
+				size: subClass.size,
+				subClassArr: subClass.subClassArr,
+			});
+		});
+		// console.log(state.suffixList);
+		return result;
+	},
+	makeNewDic: async function({ dispatch, state }, e) {
+		if (!e.id) {
+			return;
+		}
 
-                                attachmentsURL: 'https://attachments-cdn.shimo.im/0OBY67kZa38RVJrE/Run_Snow_run_.mp4',
-                                uploaderURL: 'https://uploader.shimo.im/f/0OBY67kZa38RVJrE.mp4',
+		var dic = e.attributes;
 
-                        }, {
-                                suffix: 'mp4',
-                                title: 'Light my fire',
-                                subTitle: '点燃我的生命',
+		e.attributes.suffix = dic.suffix; //后缀
 
-                                attachmentsURL: 'https://attachments-cdn.shimo.im/1u2nOsrpI24vVL9g/Light_my_fire.mp4',
-                                uploaderURL: 'https://uploader.shimo.im/f/1u2nOsrpI24vVL9g.mp4',
+		var handle = await dispatch('suffixHandle', dic.suffix);
 
-                        }, {
-                                suffix: 'mp4',
-                                title: '꽥&꼬닥 Emoticon ( chicken&egg ) on Behance',
-                                subTitle: '表情符号（鸡肉和鸡蛋）',
+		var emoji = handle.emoji;
 
-                                attachmentsURL: 'https://attachments-cdn.shimo.im/8IMoog6CYUkkipD7/_Emoticon_chicken_egg_on_Behance.mp4',
-                                uploaderURL: 'https://uploader.shimo.im/f/8IMoog6CYUkkipD7.mp4',
+		e.attributes.suffix = handle.suffix;
 
-                        }, {
-                                suffix: 'mp4',
-                                title: 'EIGHT DELIGHTS OF TRANSFER _FULL VERSION',
-                                subTitle: '[仁川机场 x BT21] ',
+		// console.log(e.attributes.suffix);
 
-                                attachmentsURL: 'https://attachments-cdn.shimo.im/hNmEqm9ydwgZdyLs/_IncheonAirport_x_BT21_EIGHT_DELIGHTS_OF_TRANSFER_FULL_VERSION.mp4',
-                                uploaderURL: 'https://uploader.shimo.im/f/hNmEqm9ydwgZdyLs.mp4',
+		e.attributes.canPlay = handle.canPlay;
 
-                        }, {
-                                suffix: 'jpg',
-                                title: '图片',
-                                subTitle: '图片',
+		var name = dic.name;
 
-                                attachmentsURL: 'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
-                                uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
+		var shortURL = await dispatch('cutHTTP', dic.shortURL);
 
-                        },]
-        },
-        makeAList: async function ({ dispatch, state }, resp) {
-                var result = [];
+		var copyContent = `${emoji} ${name} | ${shortURL}`;
 
+		e.attributes.copyContent = copyContent;
 
+		e.attributes.content = emoji + name; //在vue的todo里面content代表
 
-                let fileIndex = {};
+		return e;
+	},
+	suffixHandle: async function({ dispatch, state }, suffix) {
+		suffix = suffix.toLowerCase();
+		const fileIndex = {};
 
-                state.fileDescription.forEach((e, index) => {
-                        fileIndex[e.suffix] = {
-                                count: 0,
-                                subClassArr: [],
-                                icon: e.icon,
-                                size: e.size,
-                        };
-                });
+		state.fileDescription.forEach((e, index) => {
+			e.rule.forEach(
+				suffix => (fileIndex[suffix] = state.fileDescription[index]),
+			);
+		});
 
-                resp.forEach(async e => {
-                        var newDic = await dispatch('makeNewDic', e);
-                        // console.log(newDic.attributes);
+		if (!fileIndex[suffix]) {
+			return {
+				emoji: '❓', //未知格式
+				suffix: '未知格式',
+			};
+		}
 
-                        fileIndex[newDic.attributes.suffix].count++;
-                        fileIndex[newDic.attributes.suffix].subClassArr.push(newDic);
-                        state.suffixList[0].count++; //也就是'全部'
-                        result.push(newDic);
-                });
-
-                state.suffixList[0].subClassArr = result; //全部的subClassArr
-
-                state.fileDescription.forEach((e, index) => {
-                        var subClass = fileIndex[e.suffix];
-                        state.suffixList.push({
-                                text: e.suffix,
-                                count: subClass.count,
-                                icon: subClass.icon,
-                                size: subClass.size,
-                                subClassArr: subClass.subClassArr,
-                        });
-                });
-                // console.log(state.suffixList);
-                return result;
-        },
-        makeNewDic: async function ({ dispatch, state }, e) {
-                if (!e.id) {
-                        return;
-                }
-
-                var dic = e.attributes;
-
-
-                e.attributes.suffix = dic.suffix; //后缀
-
-                var handle = await dispatch('suffixHandle', dic.suffix);
-
-                var emoji = handle.emoji;
-
-                e.attributes.suffix = handle.suffix;
-
-                // console.log(e.attributes.suffix);
-
-                e.attributes.canPlay = handle.canPlay;
-
-                var name = dic.name;
-
-                var shortURL = await dispatch('cutHTTP', dic.shortURL);
-
-                var copyContent = `${emoji} ${name} | ${shortURL}`;
-
-                e.attributes.copyContent = copyContent;
-
-                e.attributes.content = emoji + name; //在vue的todo里面content代表
-
-                return e;
-        },
-        suffixHandle: async function ({ dispatch, state }, suffix) {
-                suffix = suffix.toLowerCase();
-                const fileIndex = {};
-
-                state.fileDescription.forEach((e, index) => {
-
-                        e.rule.forEach((suffix) => fileIndex[suffix] = state.fileDescription[index])
-                });
-
-                if (!fileIndex[suffix]) {
-                        return {
-                                emoji: "❓",//未知格式
-                                suffix: "未知格式",
-                        }
-                }
-
-                return {
-                        emoji: fileIndex[suffix].emoji,
-                        suffix: fileIndex[suffix].suffix,
-                        canPlay: fileIndex[suffix].canPlay,
-                };
-        },
-        cutHTTP({ dispatch, state }, input) {
-                return input.replace(/[a-zA-z]+:\/\//g, '');
-                return input;
-        },
+		return {
+			emoji: fileIndex[suffix].emoji,
+			suffix: fileIndex[suffix].suffix,
+			canPlay: fileIndex[suffix].canPlay,
+		};
+	},
+	cutHTTP({ dispatch, state }, input) {
+		return input.replace(/[a-zA-z]+:\/\//g, '');
+		return input;
+	},
 };

@@ -1,3 +1,65 @@
+let placeholderMapping = [
+	{
+		name: 'pdf',
+		width: 165,
+	},
+	{
+		name: 'pages',
+		width: 220,
+	},
+	{
+		name: 'excel',
+		suffix: ['xls', 'xlsx'],
+		width: 200,
+	},
+	{
+		name: 'word',
+		suffix: ['doc', 'docs'],
+		width: 220,
+	},
+	{
+		name: '7z',
+		width: 140,
+	},
+];
+
+function mapToList(placeholderMapping) {
+	let map = {};
+	placeholderMapping.forEach((eachType, index) => {
+		let suffix = eachType.suffix || [eachType.name];
+		suffix.forEach((eachSuffix, index) => {
+			map[eachSuffix] = eachType;
+			// delete suffixJSON[eachSuffix].suffix;//可以删除json里的一项key
+		});
+	});
+
+	let placeholderContext = require.context(
+		'@/assets/img/placeholder',
+		false,
+		/@2x\.png$/ /* 只读取二倍体 */,
+	);
+
+	placeholderContext.keys().map(fileName => {
+		// console.log(fileName);
+		let regExp = /(file_cover_(bg|name)_)([a-z0-9]+)(@2x\.png)/i;
+		let group = fileName.match(regExp);
+
+		if (group) {
+			let name = group[3];
+			if (!map[name]) {
+				//没有手动添加才进行自动加载
+				map[name] = { name };
+			}
+		}
+	});
+
+	console.log(map);
+
+	return map;
+}
+
+let placeholderList = mapToList(placeholderMapping);
+
 export default {
 	results: [],
 	fileDescription: [
@@ -88,8 +150,8 @@ export default {
 		typeName: '未知格式',
 		size: '',
 		icon: 'mdi-file-question',
-	}
-	, suffixList: [
+	},
+	suffixList: [
 		{
 			size: '20',
 			icon: 'fas fa-globe-americas',
@@ -98,33 +160,5 @@ export default {
 		},
 	],
 
-	placeholderMapping: [
-		{
-			name: 'pdf',
-			width:165
-		},
-		{
-			name: 'pages',
-			width:220
-		},
-		{
-			name: 'excel',
-			suffix: ['xls','xlsx'],
-			width:200
-		},
-		{
-			name: 'word',
-			suffix: ['doc','docs'],
-			width:220
-		},
-		{
-			name: '7z',
-			width:140
-		}
-	],
-
-	// placeholderList() {
-	// 	require('./img/placeholder/file_cover_name_unknown@2x.png')
-        //         return 
-        // }
+	placeholderList,
 };
