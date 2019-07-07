@@ -1,5 +1,5 @@
 <template>
-	<v-container fill-height fluid grid-list-md>
+	<v-container v-if="update" fill-height fluid grid-list-md>
 		<v-layout wrap>
 			<v-flex v-for="(item, index) in results" :key="index" sm6 xs12 md6 lg3>
 				<material-results-card
@@ -25,7 +25,12 @@ export default {
 		}
 	},
 	data() {
-		return {};
+		return { update: true };
+	},
+	watch: {
+		results() {
+			this.reload();
+		},
 	},
 	computed: {
 		...mapState('search', ['results']),
@@ -34,6 +39,15 @@ export default {
 		...mapActions('search', ['searchByKey']),
 		complete(index) {
 			this.list[index] = !this.list[index];
+		},
+		reload() {
+			// 移除组件
+			this.update = false;
+			// 在组件移除后，重新渲染组件
+			// this.$nextTick可实现在DOM 状态更新后，执行传入的方法。
+			this.$nextTick(() => {
+				this.update = true;
+			});
 		},
 	},
 };

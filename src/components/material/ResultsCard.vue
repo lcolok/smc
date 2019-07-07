@@ -119,11 +119,6 @@ export default {
 	created() {
 		this.updatePic();
 	},
-	watch: {
-		title() {
-			this.updatePic();
-		},
-	},
 	methods: {
 		updatePic: async function() {
 			// console.log(this.suffixList);
