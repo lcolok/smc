@@ -66,7 +66,7 @@ export default {
 		let results = await Promise.all(
 			resp.map(async e => {
 				let o = e.toJSON();
-				console.log(o);
+				// console.log(o);
 
 				if (o.attachmentsURL) {
 				} else if (o.uploaderURL) {
