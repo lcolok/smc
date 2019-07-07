@@ -236,13 +236,16 @@ export default {
 			this.searchByKey({ key });
 		},
 
-		baiduSuggest: async function(v) {
+		baiduSuggest: async function(s) {
 			this.loading = true;
+
+			s = s.replace(/\'/g, ''); //把输入法自动生成的那个间隔符号忽略掉
+
 			// Simulated ajax query
 			setTimeout(() => {
 				var vm = this;
 				this.$http
-					.get(`/functions/su?wd=${v}&action=opensearch`)
+					.get(`/functions/su?wd=${s}&action=opensearch`)
 					.then(function(response) {
 						let items = JSON.parse(response.data.data)[1];
 						// console.log(items);
