@@ -126,6 +126,15 @@ export default {
 			this.picPath = '';
 
 			let srcURL = this.attachmentsURL || this.uploaderURL;
+
+			if (
+				srcURL.match(
+					/(attachments-cdn\.shimo\.im)\/([a-z0-9]{16,})\/([\S]+)\?/i, //去掉参数部分
+				)
+			) {
+				srcURL = srcURL.split('?')[0];
+			}
+
 			switch (this.typeName) {
 				case '视频':
 					await this.$http.get(srcURL + '?avinfo').then(resp => {
