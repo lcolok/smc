@@ -9,28 +9,29 @@
 						:height="picHeight"
 						@error="picPath = unknown_bg_src"
 					>
-						<v-container>
-							<!--               <v-flex>
-                <div>
-                  <div>
-                    <v-icon color="white">mdi-library-video</v-icon>
-                  </div>
-                  <span class="caption white--text">视频</span>
-                </div>
-              </v-flex>-->
-							<v-flex class="caption white--text" style="position:absolute;">
-								<v-layout align-center justify-start row fill-height>
-									<v-icon size="18" color="white">{{ icon }}</v-icon>
-									<v-flex>{{ typeName }}</v-flex>
-								</v-layout>
-							</v-flex>
-						</v-container>
+						<div :class="!rawPreview || 'fill-height bottom-gradient'">
+							<v-container class="caption white--text font-weight-800">
+								<v-flex class="file-type-prompt">
+									<v-layout align-center justify-start row fill-height>
+										<v-icon size="18" color="white">{{ icon }}</v-icon>
 
-						<v-img
-							:src="abovePicPath"
-							:style="aboveStyle"
-							@error="abovePicPath = unknown_text_src"
-						></v-img>
+										<v-flex>{{ suffix }}</v-flex>
+									</v-layout>
+								</v-flex>
+								<v-flex class="file-size">
+									<v-layout align-center justify-start row fill-height>
+										<v-icon size="18" color="white">mdi-harddisk</v-icon>
+
+										<v-flex>{{ readaleSize }}</v-flex>
+									</v-layout>
+								</v-flex>
+							</v-container>
+							<v-img
+								:src="abovePicPath"
+								:style="aboveStyle"
+								@error="abovePicPath = unknown_text_src"
+							></v-img>
+						</div>
 					</v-img>
 				</v-expand-transition>
 
@@ -80,11 +81,11 @@ export default {
 		picHeight: 200,
 		unknown_bg_src: require('@/assets/img/placeholder/file_cover_bg_unknown@2x.png'),
 		unknown_text_src: require('@/assets/img/placeholder/file_cover_name_unknown@2x.png'),
+		rawPreview: false,
 		// type:'',
 		// icon:'',
 	}),
 	inheritAttrs: false,
-
 	computed: {
 		...mapState('search', [
 			'fileDescription',
@@ -115,6 +116,9 @@ export default {
 			let width = this.thisPlaceholderList.width;
 			return `width: ${width}px;margin-top:35px; margin-left: auto; margin-right: auto;`;
 		},
+		readaleSize() {
+			return this.renderSize(this.size);
+		},
 	},
 	created() {
 		this.updatePic();
@@ -137,6 +141,7 @@ export default {
 
 			switch (this.typeName) {
 				case '视频':
+					this.rawPreview = true;
 					await this.$http.get(srcURL + '?avinfo').then(resp => {
 						let height = resp.data.streams[0].height;
 						let width = resp.data.streams[0].width;
@@ -148,6 +153,7 @@ export default {
 					});
 					break;
 				case '图片':
+					this.rawPreview = true;
 					this.picPath = srcURL + '?imageslim';
 					break;
 				default:
@@ -157,6 +163,29 @@ export default {
 					this.picPath = require(`@/assets/img/placeholder/file_cover_bg_${cover_name}@2x.png`);
 					break;
 			}
+		},
+		renderSize(value) {
+			if (null == value || value == '') {
+				return '0 Bytes';
+			}
+			var unitArr = new Array(
+				'Bytes',
+				'KB',
+				'MB',
+				'GB',
+				'TB',
+				'PB',
+				'EB',
+				'ZB',
+				'YB',
+			);
+			var index = 0,
+				srcsize = parseFloat(value);
+			index = Math.floor(Math.log(srcsize) / Math.log(1024));
+			var size = srcsize / Math.pow(1024, index);
+			//  保留的小数位数
+			size = size.toFixed(2);
+			return `${size} ${unitArr[index]}`;
 		},
 	},
 
@@ -218,6 +247,10 @@ export default {
 			type: String,
 			default: undefined,
 		},
+		size: {
+			type: Number,
+			default: undefined,
+		},
 	},
 };
 </script>
@@ -255,5 +288,37 @@ export default {
 	.v-card__actions {
 		flex: 1 0 100%;
 	}
+}
+</style>
+
+<style scoped>
+.bottom-gradient {
+	background-image: linear-gradient(
+		to top,
+		rgba(0, 0, 0, 0.4) 0%,
+		transparent 25%
+	);
+}
+
+.repeating-gradient {
+	background-image: repeating-linear-gradient(
+		-45deg,
+		rgba(255, 0, 0, 0.25),
+		rgba(255, 0, 0, 0.25) 5px,
+		rgba(0, 0, 255, 0.25) 5px,
+		rgba(0, 0, 255, 0.25) 10px
+	);
+}
+
+.file-type-prompt {
+	position: absolute;
+	bottom: 2%;
+	left: 2%;
+}
+
+.file-size {
+	position: absolute;
+	bottom: 2%;
+	right: 2%;
 }
 </style>
