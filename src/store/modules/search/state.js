@@ -2,11 +2,16 @@ let placeholderMapping = [
 	{
 		name: 'pdf',
 		suffix: ['pdf'],
-		width: 165,
+		width: 140,
 	},
 	{
 		name: 'pages',
 		suffix: ['pages'],
+		width: 220,
+	},
+	{
+		name: 'keynote',
+		suffix: ['key'],
 		width: 220,
 	},
 	{
@@ -20,6 +25,11 @@ let placeholderMapping = [
 		width: 220,
 	},
 	{
+		name: 'powerpoint',
+		suffix: ['ppt', 'pptx'],
+		width: 220,
+	},
+	{
 		name: '7z',
 		suffix: ['7z'],
 		width: 140,
@@ -28,6 +38,41 @@ let placeholderMapping = [
 		name: 'zip',
 		suffix: ['zip'],
 		width: 140,
+	},
+	{
+		name: 'rar',
+		suffix: ['rar'],
+		width: 140,
+	},
+	{
+		name: 'dmg',
+		suffix: ['dmg'],
+		width: 180,
+	},
+	{
+		name: 'ps',
+		suffix: ['psd'],
+		width: 220,
+	},
+	{
+		name: 'pkg',
+		suffix: ['pkg'],
+		width: 160,
+	},
+	{
+		name: 'txt',
+		suffix: ['txt'],
+		width: 160,
+	},
+	{
+		name: 'music',
+		suffix: ['mp3', 'wav'],
+		width: 160,
+	},
+	{
+		name: 'html',
+		suffix: ['html'],
+		width: 180,
 	},
 ];
 
