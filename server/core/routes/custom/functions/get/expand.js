@@ -42,7 +42,7 @@ module.exports = async (req, res, next) => {
 		// console.log(error);
 		let expandedURL = error.response.headers.location;
 		// console.log(error.response.headers);
-		console.log(expandedURL);
+		// console.log(expandedURL);
 		res.json({ expandedURL });
 	}
 };
