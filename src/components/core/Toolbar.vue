@@ -18,31 +18,7 @@
 		<v-spacer />
 		<v-toolbar-items>
 			<v-flex align-center layout py-2>
-				<!--          <form action="javascript:return true">
-        <v-text-field
-          v-model="searchContent"
-          v-if="responsiveInput"
-          class="mr-4 mt-2 purple-input"
-          :label="$t('Search...')"
-          @keyup.enter="search(searchContent)"
-          hide-details
-          color="purple"
-        />
-        </form>-->
-
-				<v-autocomplete
-					v-model="searchContent"
-					:loading="loading"
-					:items="items"
-					v-if="responsiveInput"
-					class="mr-4 mt-2 purple-input"
-					:label="$t('Search...')"
-					@keyup.enter="search(suggest)"
-					hide-details
-					hide-no-data
-					no-filter
-					:search-input.sync="suggest"
-				/>
+				<base-searchbar v-if="responsiveInput" />
 
 				<router-link v-ripple class="toolbar-items" to="/">
 					<v-icon color="tertiary">mdi-view-dashboard</v-icon>
@@ -52,7 +28,7 @@
 					left
 					content-class="dropdown-menu"
 					offset-y
-					transition="slide-y-transition"
+					transition="slide-y-tranesition"
 				>
 					<router-link
 						v-ripple
@@ -120,7 +96,6 @@ export default {
 		},
 	},
 	data: () => ({
-		searchContent: null,
 		notifications: [
 			'Mike, John responded to your email',
 			'You have 5 new tasks',
@@ -128,87 +103,10 @@ export default {
 			'Another Notification',
 			'Another One',
 		],
-
+		responsiveInput: false,
 		title: null,
 		responsive: false,
-		responsiveInput: false,
-
-		items: [],
-		suggest: null,
-
-		loading: false,
-		states: [
-			'Alabama',
-			'Alaska',
-			'American Samoa',
-			'Arizona',
-			'Arkansas',
-			'California',
-			'Colorado',
-			'Connecticut',
-			'Delaware',
-			'District of Columbia',
-			'Federated States of Micronesia',
-			'Florida',
-			'Georgia',
-			'Guam',
-			'Hawaii',
-			'Idaho',
-			'Illinois',
-			'Indiana',
-			'Iowa',
-			'Kansas',
-			'Kentucky',
-			'Louisiana',
-			'Maine',
-			'Marshall Islands',
-			'Maryland',
-			'Massachusetts',
-			'Michigan',
-			'Minnesota',
-			'Mississippi',
-			'Missouri',
-			'Montana',
-			'Nebraska',
-			'Nevada',
-			'New Hampshire',
-			'New Jersey',
-			'New Mexico',
-			'New York',
-			'North Carolina',
-			'North Dakota',
-			'Northern Mariana Islands',
-			'Ohio',
-			'Oklahoma',
-			'Oregon',
-			'Palau',
-			'Pennsylvania',
-			'Puerto Rico',
-			'Rhode Island',
-			'South Carolina',
-			'South Dakota',
-			'Tennessee',
-			'Texas',
-			'Utah',
-			'Vermont',
-			'Virgin Island',
-			'Virginia',
-			'Washington',
-			'West Virginia',
-			'Wisconsin',
-			'Wyoming',
-		],
 	}),
-
-	watch: {
-		$route(val) {
-			this.title = val.name;
-		},
-		suggest(val) {
-			val && val !== this.searchContent && this.baiduSuggest(val);
-		},
-	},
-
 	mounted() {
 		this.onResponsiveInverted();
 		window.addEventListener('resize', this.onResponsiveInverted);
@@ -217,9 +115,23 @@ export default {
 		window.removeEventListener('resize', this.onResponsiveInverted);
 	},
 
+	watch: {
+		$route(val) {
+			this.title = val.name;
+		},
+	},
+
 	methods: {
 		...mapMutations('app', ['setDrawer', 'toggleDrawer']),
-		...mapActions('search', ['searchByKey']),
+		onResponsiveInverted() {
+			if (window.innerWidth < 991) {
+				this.responsive = true;
+				this.responsiveInput = false;
+			} else {
+				this.responsive = false;
+				this.responsiveInput = true;
+			}
+		},
 		keydown: async function(e) {
 			// key.Code === 13表示回车键
 			console.log(e);
@@ -228,31 +140,6 @@ export default {
 				this.searchByKeyword({ delay: 0 });
 				this.$refs.searchBar.blur();
 			}
-		},
-		search: async function(key) {
-			console.log(key);
-
-			this.items = [];
-			this.searchByKey({ key });
-		},
-
-		baiduSuggest: async function(s) {
-			this.loading = true;
-
-			s = s.replace(/\'/g, ''); //把输入法自动生成的那个间隔符号忽略掉
-
-			// Simulated ajax query
-			setTimeout(() => {
-				var vm = this;
-				this.$http
-					.get(`/functions/su?wd=${s}&action=opensearch`)
-					.then(function(response) {
-						let items = JSON.parse(response.data.data)[1];
-						// console.log(items);
-						vm.items = items;
-					});
-				this.loading = false;
-			}, 0);
 		},
 
 		querySelections(v) {
@@ -271,15 +158,6 @@ export default {
 		},
 		onClick() {
 			//
-		},
-		onResponsiveInverted() {
-			if (window.innerWidth < 991) {
-				this.responsive = true;
-				this.responsiveInput = false;
-			} else {
-				this.responsive = false;
-				this.responsiveInput = true;
-			}
 		},
 	},
 };
