@@ -2,7 +2,7 @@
 
 const path = require('path');
 const fs = require('fs');
-const AV = require("leanengine");
+const AV = require('leanengine');
 const requireContext = require('require-context');
 var compression = require('compression');
 var express = require('express');
@@ -11,10 +11,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const cors = require('cors');
 const router = require('express').Router;
-
-
-
-
 
 // // 加载云函数定义，你可以将云函数拆分到多个文件方便管理，但需要在主文件中加载它们
 // var apiBuildDest = require(path.resolve('config/api.config.js')).apiBuildDest;
@@ -29,9 +25,8 @@ const router = require('express').Router;
 //     },
 // })
 
-
 //更简约地加载云函数
-require(path.resolve('api'))
+require(path.resolve('api'));
 
 var app = express();
 
@@ -44,25 +39,25 @@ var app = express();
 // });
 
 // 跨域资源共享(CORS) 是一种机制，它使用额外的HTTP 头来告诉浏览器 让运行在一个origin (domain) 上的Web应用被准许访问来自不同源服务器上的指定的资源
-app.use(cors())
+app.use(cors());
 
 app.use(compression());
 
 var distPath;
 if (process.env.npm_lifecycle_event == 'dev') {
-    distPath = path.resolve('./dist');
-    app.all('*', function (req, res, next) {
-        // req.headers['server_status'] = 'development';
-        res.header('server_status', 'development');
-        next()
-    })
+	distPath = path.resolve('./dist');
+	app.all('*', function(req, res, next) {
+		// req.headers['server_status'] = 'development';
+		res.header('server_status', 'development');
+		next();
+	});
 } else {
-    distPath = path.resolve('./dist');
+	distPath = path.resolve('./dist');
 }
 
 // 设置模板引擎
 app.set('views', distPath);
-var ejs = require('ejs');  //我是新引入的ejs插件,让express也能够加载html
+var ejs = require('ejs'); //我是新引入的ejs插件,让express也能够加载html
 app.engine('html', ejs.__express);
 app.set('view engine', 'html');
 
@@ -73,8 +68,8 @@ app.use(timeout('1500s'));
 app.use(AV.express());
 
 app.enable('trust proxy');
-app.use(AV.Cloud.HttpsRedirect());// 强制重定向到 HTTPS
-app.use(express.static(distPath));//利用 Express 托管静态文件
+app.use(AV.Cloud.HttpsRedirect()); // 强制重定向到 HTTPS
+app.use(express.static(distPath)); //利用 Express 托管静态文件
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -85,78 +80,85 @@ app.use(cookieParser());
 
 // 一次过把 routes 文件夹下的全部文件夹的路由API全部读取
 let root = path.join(__dirname + '/routes/custom');
-let rule = { get: true, post: true }
+let rule = { get: true, post: true };
 
 readDirSync({ path: root });
 function readDirSync(params) {
-    let currentPath = params.path;
-    let dir = params.dir;
+	let currentPath = params.path;
+	let dir = params.dir;
 
-    fs
-        .readdirSync(currentPath)
-        .forEach(function (ele, index) {
-            if (rule[ele]) {
-                let method = ele;
-                let newRouter = new router();
-                fs
-                    .readdirSync(currentPath + '/' + method).forEach((e, index) => {
-                        let funcName = e.split('/').pop().split('.js').shift();
-                        let apiPath = currentPath + '/' + method + '/' + e;
-                        newRouter[method]('/' + funcName, require(apiPath));
-                        app.use('/' + dir, newRouter);// require同名文件夹
-                        // console.log({ funcName, method, dir, currentPath, apiPath });
-                    })
-            } else {
-                let info = fs.statSync(currentPath + "/" + ele)
-                if (info.isDirectory()) {
-                    // console.log("dir: " + ele)
-                    readDirSync({ path: currentPath + "/" + ele, dir: ele });
-                } else {
-                    // console.log("file: " + ele)
-                }
-            }
-        })
+	fs.readdirSync(currentPath).forEach(function(ele, index) {
+		if (rule[ele]) {
+			let method = ele;
+			let newRouter = new router();
+			fs.readdirSync(currentPath + '/' + method)
+				.filter(e => e.match(/\.js/)) //过滤掉非js的文件
+				.forEach((e, index) => {
+					let funcName = e
+						.split('/')
+						.pop()
+						.split('.js')
+						.shift();
+					let apiPath = currentPath + '/' + method + '/' + e;
+					newRouter[method]('/' + funcName, require(apiPath));
+					app.use('/' + dir, newRouter); // require同名文件夹
+					// console.log({ funcName, method, dir, currentPath, apiPath });
+				});
+		} else {
+			let info = fs.statSync(currentPath + '/' + ele);
+			if (info.isDirectory()) {
+				// console.log("dir: " + ele)
+				readDirSync({ path: currentPath + '/' + ele, dir: ele });
+			} else {
+				// console.log("file: " + ele)
+			}
+		}
+	});
 }
 
-app.get('/', function (req, res) {
-    console.log(req);
-    res.render('index', { currentTime: new Date() });
+app.get('/', function(req, res) {
+	console.log(req);
+	res.render('index', { currentTime: new Date() });
 });
 
-app.use(function (req, res, next) {
-    // 如果任何一个路由都没有返回响应，则抛出一个 404 异常给后续的异常处理器
-    if (!res.headersSent) {
-        var err = new Error('Not Found');
-        err.status = 404;
-        next(err);
-    }
+app.use(function(req, res, next) {
+	// 如果任何一个路由都没有返回响应，则抛出一个 404 异常给后续的异常处理器
+	if (!res.headersSent) {
+		var err = new Error('Not Found');
+		err.status = 404;
+		next(err);
+	}
 });
 
 // error handlers
-app.use(function (err, req, res, next) {
-    if (req.timedout && req.headers.upgrade === 'websocket') {
-        // 忽略 websocket 的超时
-        return;
-    }
+app.use(function(err, req, res, next) {
+	if (req.timedout && req.headers.upgrade === 'websocket') {
+		// 忽略 websocket 的超时
+		return;
+	}
 
-    var statusCode = err.status || 500;
-    if (statusCode === 500) {
-        console.error(err.stack || err);
-    }
-    if (req.timedout) {
-        console.error('请求超时: url=%s, timeout=%d, 请确认方法执行耗时很长，或没有正确的 response 回调。', req.originalUrl, err.timeout);
-    }
-    res.status(statusCode);
-    // 默认不输出异常详情
-    var error = {};
-    if (app.get('env') === 'development') {
-        // 如果是开发环境，则将异常堆栈输出到页面，方便开发调试
-        error = err;
-    }
-    res.render('index', {
-        message: err.message,
-        error: error
-    });
+	var statusCode = err.status || 500;
+	if (statusCode === 500) {
+		console.error(err.stack || err);
+	}
+	if (req.timedout) {
+		console.error(
+			'请求超时: url=%s, timeout=%d, 请确认方法执行耗时很长，或没有正确的 response 回调。',
+			req.originalUrl,
+			err.timeout,
+		);
+	}
+	res.status(statusCode);
+	// 默认不输出异常详情
+	var error = {};
+	if (app.get('env') === 'development') {
+		// 如果是开发环境，则将异常堆栈输出到页面，方便开发调试
+		error = err;
+	}
+	res.render('index', {
+		message: err.message,
+		error: error,
+	});
 });
 
 module.exports = app;
