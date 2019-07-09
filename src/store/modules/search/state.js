@@ -154,7 +154,7 @@ let fileDescription = [
 		icon: 'mdi-format-font',
 	},
 	{
-		suffix: ['doc', 'docs', 'pdf', 'txt', 'pages', 'xls', 'xlsx'],
+		suffix: ['doc', 'docx', 'pdf', 'txt', 'pages', 'numbers', 'xls', 'xlsx'],
 		emoji: '📄', //文档
 		typeName: '文档',
 		size: '',
