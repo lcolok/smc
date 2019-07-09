@@ -8,7 +8,7 @@ cache:
   - "$HOME/.npm"
 
 before_install:
-  - wget https://releases.leanapp.cn/leancloud/lean-cli/releases/download/v0.20.1/lean-linux-x64
+  - wget https://uploader.shimo.im/f/g7nGwHs34Qk7C4O5?attname=lean-linux-x64&download
   - mv lean-linux-x64 lean
   - chmod +x ./lean
 
