@@ -53,7 +53,7 @@ function getAbsolutePath() {
 
 // Create a new router
 const router = new Router({
-	mode: 'hash',
+	mode: 'history',
 	base: getAbsolutePath(),
 	routes: paths
 		.map(parent => parentRoute(parent))
