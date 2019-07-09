@@ -15,14 +15,19 @@ let placeholderMapping = [
 		width: 220,
 	},
 	{
+		name: 'numbers',
+		suffix: ['numbers'],
+		width: 220,
+	},
+	{
 		name: 'excel',
 		suffix: ['xls', 'xlsx'],
-		width: 200,
+		width: 170,
 	},
 	{
 		name: 'word',
-		suffix: ['doc', 'docs'],
-		width: 220,
+		suffix: ['doc', 'docx'],
+		width: 180,
 	},
 	{
 		name: 'powerpoint',
@@ -43,6 +48,11 @@ let placeholderMapping = [
 		name: 'rar',
 		suffix: ['rar'],
 		width: 140,
+	},
+	{
+		name: 'tgz',
+		suffix: ['tgz'],
+		width: 160,
 	},
 	{
 		name: 'dmg',
@@ -161,6 +171,7 @@ let fileDescription = [
 
 function mapToList(placeholderMapping) {
 	let map = arrayToObject(placeholderMapping, 'suffix');
+	let nameList = [];
 
 	let placeholderContext = require.context(
 		'@/assets/img/placeholder',
@@ -179,10 +190,32 @@ function mapToList(placeholderMapping) {
 				//没有手动添加才进行自动加载
 				map[name] = { name };
 			}
+			nameList.push(name);
 		}
 	});
 
-	// console.log(map);
+	// //数组去重
+	// function unique2(array) {
+	// 	var n = {},
+	// 		r = [],
+	// 		len = array.length,
+	// 		val,
+	// 		type;
+	// 	for (var i = 0; i < array.length; i++) {
+	// 		val = array[i];
+	// 		type = typeof val;
+	// 		if (!n[val]) {
+	// 			n[val] = [type];
+	// 			r.push(val);
+	// 		} else if (n[val].indexOf(type) < 0) {
+	// 			n[val].push(type);
+	// 			r.push(val);
+	// 		}
+	// 	}
+	// 	return r;
+	// }
+
+	// console.log(unique2(nameList).join('\n'));
 
 	return map;
 }

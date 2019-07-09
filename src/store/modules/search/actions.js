@@ -67,6 +67,7 @@ export default {
 			resp.map(async e => {
 				let o = e.toJSON();
 				// console.log(o);
+				o.suffix = o.suffix.toLowerCase(); //后缀全变小写
 
 				if (o.attachmentsURL) {
 				} else if (o.uploaderURL) {
