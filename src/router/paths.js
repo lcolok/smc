@@ -64,18 +64,19 @@ export default [
 		path: '/',
 		redirect: 'login',
 		component: AuthLayout,
+		group: 'auth',
 		children: [
 			{
 				path: '/login',
-				view: 'user/Login',
+				view: 'Login',
 			},
 			{
 				path: '/register',
-				view: 'user/Register',
+				view: 'Register',
 			},
 			{
 				path: '/email_check',
-				view: 'user/Email_Check',
+				view: 'Email_Check',
 			},
 		],
 	},
@@ -83,10 +84,11 @@ export default [
 		path: '/e',
 		redirect: 'eninge',
 		component: AuthLayout,
+		group: 'other',
 		children: [
 			{
 				path: '/eninge',
-				view: 'other/Eninge',
+				view: 'Eninge',
 			},
 		],
 	},

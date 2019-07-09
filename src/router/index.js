@@ -17,15 +17,17 @@ import paths from './paths';
 
 Vue.prototype.$AV = AV;
 
-function childrenRoute() {
-	let child = arguments[0];
-
-	let path = child.view;
+function childrenRoute(parent, child) {
 	child.name = child.name || child.view;
 
-	if (!child.view.match(/\//)) {
-		path = 'root/' + path;
+	let path = child.view,
+		group = parent.group;
+
+	if (!group) {
+		group = 'root';
 	}
+
+	path = group + '/' + path;
 
 	child.component = resovle =>
 		import(/* webpackChunkName: "[request]" */ `@/views/${path}.vue`).then(
@@ -35,9 +37,8 @@ function childrenRoute() {
 	return child;
 }
 
-function parentRoute() {
-	let parent = arguments[0];
-	parent.children = parent.children.map(child => childrenRoute(child));
+function parentRoute(parent) {
+	parent.children = parent.children.map(child => childrenRoute(parent, child));
 	return parent;
 }
 
@@ -55,7 +56,7 @@ const router = new Router({
 	mode: 'history',
 	base: getAbsolutePath(),
 	routes: paths
-		.map(path => parentRoute(path))
+		.map(parent => parentRoute(parent))
 		.concat([
 			{ path: '*', redirect: '/dashboard' }, //此处后期应该改为not found
 		]),
