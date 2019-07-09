@@ -7,7 +7,8 @@
 			allow-multiple="true"
 			accepted-file-types="image/jpeg, image/png"
 			v-bind="config"
-			v-on:init="handleFilePondInit"
+			@init="handleFilePondInit"
+			@processfile="$props.uploadedCallBack"
 		/>
 	</div>
 </template>
@@ -29,6 +30,7 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css
 // Import image preview and file type validation plugins
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import { log } from 'util';
 
 // Create component
 const FilePond = vueFilePond(
@@ -38,6 +40,13 @@ const FilePond = vueFilePond(
 
 export default {
 	name: 'app',
+	props: {
+		uploadedCallBack: {
+			//定义一个外来方法
+			type: Function, //参数类型：函数
+			required: true, //是否必填：是
+		},
+	},
 	data: function() {
 		return {
 			config: {
@@ -51,18 +60,18 @@ export default {
 						progress,
 						abort,
 					) => {
-						console.log(file);
+						// console.log(file);
 
-						var QJ = await AV.Cloud.run('getQiniuJSON', {
+						let QJ = await AV.Cloud.run('getQiniuJSON', {
 							fileNameArr: [file.name],
 						});
 
 						console.log(QJ);
 
-						var observer = {
+						let observer = {
 							next(res) {
-								var e = res.total;
-								console.log(e);
+								let e = res.total;
+								// console.log(e);
 								progress(true, e.loaded, e.size);
 							},
 							error(err) {
@@ -72,45 +81,51 @@ export default {
 							complete(res) {
 								console.log(res);
 								if (res.code == 0) {
-									var json = res;
-									// console.log(json);
-									var filename = file.name;
+									//原石墨床上传后的登记处理
+									// let json = res;
+									// // console.log(json);
+									// let filename = file.name;
 
-									var arr = filename.split('.');
-									var suffix = arr.pop();
-									var realName = arr.join('.');
+									// let arr = filename.split('.');
+									// let suffix = arr.pop();
+									// let realName = arr.join('.');
 
-									json.data.suffix = suffix;
-									json.data.name = realName;
+									// json.data.suffix = suffix;
+									// json.data.name = realName;
 
-									AV.Cloud.run('updateShimo', json);
+									// AV.Cloud.run('updateShimo', json);
 
+									//完成后应调用load方法，并传递返回的服务器文件id
+									//该服务器文件id随后在恢复或恢复文件时使用
+									//这样，您的服务器就知道返回哪个文件，而无需向客户端公开该信息
+
+									file.qiniu = res;
 									load(res); //完成后，应该用文件对象或blob调用load方法 load方法接受字符串(id)或对象
 								}
 							},
 						};
 
-						var putExtra = {
+						let putExtra = {
 							fname: '', //fname: string，文件原文件名
 							params: {}, //params: object，用来放置自定义变量
 							mimeType: null, //mimeType: null || array，用来限制上传文件类型，为 null 时表示不对文件类型限制；限制类型放到数组里：["image/png", "image/jpeg", "image/gif"]
 						};
 
-						var config = {
+						let config = {
 							// useCdnDomain: true,//表示是否使用 cdn 加速域名，为布尔值，true 表示使用，默认为 false。（感觉开启了之后，上传的速度更慢了）
 							concurrentRequestLimit: 9, //分片上传的并发请求量，number，默认为3；因为浏览器本身也会限制最大并发量，所以最大并发量与浏览器有关。
 						};
 
-						var observable = qiniu.upload(
+						let observable = qiniu.upload(
 							file,
 							QJ[0].key,
 							QJ[0].token,
 							putExtra,
 							config,
 						);
-						var subscription = observable.subscribe(observer); // 上传开始
+						let subscription = observable.subscribe(observer); // 上传开始
 						// or
-						//   var subscription = observable.subscribe(next, error, complete); // 这样传参形式也可以
+						//   let subscription = observable.subscribe(next, error, complete); // 这样传参形式也可以
 
 						return {
 							abort: () => {

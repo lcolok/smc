@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from 'vue';
 import AV from 'leancloud-storage';
 const apiConfig = require('../../config/api.config');
 // import current_app_id from '!raw-loader!../../.leancloud/current_app_id';
@@ -24,10 +24,10 @@ if (process.env.NODE_ENV == 'development') {
 			return;
 		}
 		if (bool) {
-			console.log('本地⮕远程');
+			// console.log('本地⮕远程');
 			AV._setServerURLs(devServerURLs); //设置本地服务器端口(必须先进行 lean up 操作)
 		} else {
-			console.log('本地⬅远程');
+			// console.log('本地⬅远程');
 			AV._setServerURLs(origServerURLs);
 		}
 	}
