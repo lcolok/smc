@@ -67,15 +67,26 @@ export default [
 		children: [
 			{
 				path: '/login',
-				view: 'Login',
+				view: 'user/Login',
 			},
 			{
 				path: '/register',
-				view: 'Register',
+				view: 'user/Register',
 			},
 			{
 				path: '/email_check',
-				view: 'Email_Check',
+				view: 'user/Email_Check',
+			},
+		],
+	},
+	{
+		path: '/e',
+		redirect: 'eninge',
+		component: AuthLayout,
+		children: [
+			{
+				path: '/eninge',
+				view: 'other/Eninge',
 			},
 		],
 	},

@@ -20,11 +20,17 @@ Vue.prototype.$AV = AV;
 function childrenRoute() {
 	let child = arguments[0];
 
+	let path = child.view;
 	child.name = child.name || child.view;
+
+	if (!child.view.match(/\//)) {
+		path = 'root/' + path;
+	}
+
 	child.component = resovle =>
-		import(
-			/* webpackChunkName: "[request]" */ `@/views/${child.view}.vue`
-		).then(resovle);
+		import(/* webpackChunkName: "[request]" */ `@/views/${path}.vue`).then(
+			resovle,
+		);
 
 	return child;
 }
