@@ -84,13 +84,13 @@ export default [
 	},
 	{
 		path: '/e',
-		redirect: 'eninge',
+		redirect: 'e',
 		component: EningeLayout,
 		group: 'other',
 
 		children: [
 			{
-				path: '/eninge',
+				path: '/e',
 				view: 'Eninge',
 				meta: {
 					title: '1柠1',
