@@ -7,6 +7,8 @@ import AuthLayout from '@/layout/AuthLayout';
 
 import DashboardLayout from '@/layout/DashboardLayout';
 
+import EningeLayout from '@/layout/EningeLayout';
+
 export default [
 	{
 		path: '/',
@@ -83,7 +85,7 @@ export default [
 	{
 		path: '/e',
 		redirect: 'eninge',
-		component: AuthLayout,
+		component: EningeLayout,
 		group: 'other',
 		children: [
 			{

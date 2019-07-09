@@ -4,54 +4,14 @@
 			<div class="card bg-secondary shadow border-0">
 				<div class="card-header bg-transparent pb-5">
 					<div class="text-muted text-center mt-2 mb-3 font-weight-bolder">
-						<small>{{ $t('Sign in with') }}</small>
-					</div>
-					<div class="btn-wrapper text-center">
-						<a href="#" class="btn btn-neutral btn-icon">
-							<span class="btn-inner--icon">
-								<img :src="`${$baseUrl}img/icons/common/github.svg`" />
-							</span>
-							<span class="btn-inner--text">Github</span>
-						</a>
-						<a href="#" class="btn btn-neutral btn-icon">
-							<span class="btn-inner--icon">
-								<img :src="`${$baseUrl}img/icons/common/google.svg`" />
-							</span>
-							<span class="btn-inner--text">Google</span>
-						</a>
+						<small>当前二维码</small>
 					</div>
 				</div>
 				<div class="card-body px-lg-5 py-lg-5">
 					<div class="text-center text-muted mb-4 font-weight-bolder">
-						<small>{{ $t('Or sign up with credentials') }}</small>
+						<small>把新的二维码裁剪好并拖拽上传即可</small>
 					</div>
-					<form role="form">
-						<base-input
-							class="input-group-alternative mb-3"
-							:placeholder="$t('Username') + $t('or') + $t('Email')"
-							addon-left-icon="ni ni-single-02"
-							v-model="model.username"
-						></base-input>
-
-						<base-input
-							class="input-group-alternative"
-							:placeholder="$t('Password')"
-							type="password"
-							addon-left-icon="ni ni-lock-circle-open"
-							v-model="model.password"
-						></base-input>
-
-						<base-checkbox class="custom-control-alternative">
-							<span class="text-muted font-weight-bolder">{{
-								$t('Remember me')
-							}}</span>
-						</base-checkbox>
-						<div class="text-center">
-							<base-button type="primary" class="my-4" @click="login()">{{
-								$t('Sign in')
-							}}</base-button>
-						</div>
-					</form>
+					<base-filepond />
 				</div>
 			</div>
 			<div class="row mt-3">
