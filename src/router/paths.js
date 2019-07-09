@@ -87,10 +87,14 @@ export default [
 		redirect: 'eninge',
 		component: EningeLayout,
 		group: 'other',
+
 		children: [
 			{
 				path: '/eninge',
 				view: 'Eninge',
+				meta: {
+					title: '1柠1',
+				},
 			},
 		],
 	},

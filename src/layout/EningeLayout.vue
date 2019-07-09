@@ -7,12 +7,12 @@
 			<div class="container">
 				<div class="header-body text-center mb-7">
 					<div class="row justify-content-center">
-						<div class="col-lg-5 col-md-6">
-							<h1 class="text-white font-weight-bold">二维码更新后台</h1>
-							<!-- <p class="text-lead text-white font-weight-bolder">
+						<!-- <div class="col-lg-5 col-md-6">
+							<h2 class="text-white font-weight-bold">二维码更新后台</h2>
+							<p class="text-lead text-white font-weight-bolder">
 								把新的二维码裁剪好并拖拽上传即可
-							</p> -->
-						</div>
+							</p>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -44,51 +44,10 @@
 					<div class="col-xl-6">
 						<div class="copyright text-center text-xl-left text-muted">
 							&copy; {{ year }}
-							<a
-								href="https://www.creative-tim.com"
-								class="font-weight-bold ml-1"
-								target="_blank"
-								>Creative Tim</a
+							<a href="/#/login" class="font-weight-bold ml-1" target="_blank"
+								>JUB MEDIA</a
 							>
 						</div>
-					</div>
-					<div class="col-xl-6">
-						<ul
-							class="nav nav-footer justify-content-center justify-content-xl-end"
-						>
-							<li class="nav-item">
-								<a
-									href="https://www.creative-tim.com"
-									class="nav-link"
-									target="_blank"
-									>Creative Tim</a
-								>
-							</li>
-							<li class="nav-item">
-								<a
-									href="https://www.creative-tim.com/presentation"
-									class="nav-link"
-									target="_blank"
-									>About Us</a
-								>
-							</li>
-							<li class="nav-item">
-								<a
-									href="http://blog.creative-tim.com"
-									class="nav-link"
-									target="_blank"
-									>Blog</a
-								>
-							</li>
-							<li class="nav-item">
-								<a
-									href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md"
-									class="nav-link"
-									target="_blank"
-									>MIT License</a
-								>
-							</li>
-						</ul>
 					</div>
 				</div>
 			</div>

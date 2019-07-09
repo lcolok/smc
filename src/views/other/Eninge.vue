@@ -1,20 +1,25 @@
 <template>
 	<div class="row justify-content-center">
 		<div class="col-lg-5 col-md-7">
-			<div class="card bg-secondary shadow border-0">
-				<div class="card-header bg-transparent pb-5">
-					<div class="text-muted text-center mt-2 mb-3 font-weight-bolder">
-						<small>当前二维码</small>
-					</div>
-
-					<v-img :src="QRcode" />
-				</div>
-
-				<div class="card-body px-lg-5 py-lg-5">
+			<div class="card bg-custom shadow border-0">
+				<div v-if="auth" class="card-header bg-white pb-5">
 					<div class="text-center text-muted mb-4 font-weight-bolder">
 						<small>把新的二维码裁剪好并拖拽上传即可</small>
 					</div>
 					<base-filepond :uploadedCallBack="updateQRCode" />
+				</div>
+
+				<div class="card-body px-lg-5 py-lg-5">
+					<div
+						v-if="auth"
+						class="text-muted text-center mt-2 mb-3 font-weight-bolder"
+					>
+						<small>当前二维码</small>
+					</div>
+					<div>
+						<img :src="QRcode" class="v-image v-image__image--cover" />
+					</div>
+					<!-- <v-img :src="QRcode" /> -->
 				</div>
 			</div>
 			<!-- <div class="row mt-3">
@@ -46,6 +51,11 @@ export default {
 		let latestPic = query.first().then(obj => {
 			this.QRcode = obj.get('images');
 		});
+	},
+	computed: {
+		auth() {
+			return AV.User.current() ? true : false;
+		},
 	},
 	data() {
 		return {
@@ -82,4 +92,19 @@ export default {
 	},
 };
 </script>
-<style></style>
+<style>
+.v-image {
+	z-index: -1;
+
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.v-image__image--cover {
+	background-size: cover;
+}
+.bg-custom {
+	background-color: #ededed !important;
+}
+</style>
