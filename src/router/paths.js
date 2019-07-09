@@ -96,6 +96,13 @@ export default [
 					title: '1柠1',
 				},
 			},
+			{
+				path: '/el',
+				view: 'EningeLow',
+				meta: {
+					title: '1柠1',
+				},
+			},
 		],
 	},
 ];
