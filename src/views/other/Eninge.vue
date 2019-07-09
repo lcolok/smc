@@ -16,9 +16,16 @@
 					>
 						<small>当前二维码</small>
 					</div>
-					<div>
-						<img :src="QRcode" class="v-image v-image__image--cover" />
+					<div
+						class="center-cropped"
+						:style="`background-image: url(${QRcode});`"
+					>
+						<img :src="QRcode" />
 					</div>
+
+					<!-- <div class="center-cropped" :style="`background-image: url(${QRcode});`">
+            <img :src="QRcode" />
+          </div> -->
 					<!-- <v-img :src="QRcode" /> -->
 				</div>
 			</div>
@@ -93,13 +100,33 @@ export default {
 };
 </script>
 <style>
-.v-image {
-	z-index: -1;
-
-	top: 0;
-	left: 0;
+.center-cropped {
 	width: 100%;
-	height: 100%;
+	height: 1200px;
+	background-position: center -550px;
+	background-repeat: no-repeat;
+	overflow: hidden;
+	border-radius: 50px;
+
+	zoom: 0.3;
+}
+
+/* Set the image to fill its parent and make transparent */
+.center-cropped img {
+	min-height: 100%;
+	min-width: 100%;
+	zoom: 5;
+	/* IE 8 */
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
+	/* IE 5-7 */
+	filter: alpha(opacity=0);
+	/* modern browsers */
+	opacity: 0;
+}
+
+.v-image {
+	height: 850px;
+	object-fit: cover;
 }
 .v-image__image--cover {
 	background-size: cover;
