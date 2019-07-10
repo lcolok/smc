@@ -64,5 +64,5 @@ module.exports = (req, res, next) => {
 			},
 		);
 
-	res.send();
+	res.send('u2a');
 };
