@@ -129,7 +129,7 @@ export default {
 			this.abovePicPath = '';
 			this.picPath = '';
 
-			let srcURL = this.attachmentsURL || this.uploaderURL;
+			let srcURL = this.attachmentURL;
 
 			if (
 				srcURL.match(
@@ -227,7 +227,7 @@ export default {
 			type: String,
 			default: undefined,
 		},
-		attachmentsURL: {
+		attachmentURL: {
 			type: String,
 			default: undefined,
 		},

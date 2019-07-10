@@ -69,14 +69,13 @@ export default {
 				// console.log(o);
 				o.suffix = o.suffix.toLowerCase(); //后缀全变小写
 
-				if (o.attachmentsURL) {
-				} else if (o.uploaderURL) {
-					let response = await this._vm.$http.get(
-						`/functions/expand?url=${o.uploaderURL}`,
-					);
-					o.attachmentsURL = response.data.expandedURL;
-				} else if (o.expandedURL) {
-					o.attachmentsURL = o.expandedURL;
+				if (!o.attachmentURL) {
+					if (o.uploaderURL) {
+						let response = await this._vm.$http.get(
+							`/functions/expand?url=${o.uploaderURL}`,
+						);
+						o.attachmentURL = response.data.expandedURL;
+					}
 				}
 				return o;
 			}),
@@ -90,7 +89,7 @@ export default {
 				title: '未知',
 				subTitle: '未知',
 
-				attachmentsURL:
+				attachmentURL:
 					'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
 				uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
 			},
@@ -99,7 +98,7 @@ export default {
 				title: '未知',
 				subTitle: '未知',
 
-				attachmentsURL:
+				attachmentURL:
 					'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
 				uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
 			},
@@ -108,7 +107,7 @@ export default {
 				title: '未知',
 				subTitle: '未知',
 
-				attachmentsURL:
+				attachmentURL:
 					'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
 				uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
 			},
@@ -117,7 +116,7 @@ export default {
 				title: '未知',
 				subTitle: '未知',
 
-				attachmentsURL:
+				attachmentURL:
 					'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
 				uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
 			},
@@ -126,7 +125,7 @@ export default {
 				title: 'pdf',
 				subTitle: 'pdf',
 
-				attachmentsURL:
+				attachmentURL:
 					'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
 				uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
 			},
@@ -135,7 +134,7 @@ export default {
 				title: 'pages',
 				subTitle: 'pages',
 
-				attachmentsURL:
+				attachmentURL:
 					'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
 				uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
 			},
@@ -144,7 +143,7 @@ export default {
 				title: 'Love is in the air',
 				subTitle: '爱在空气中',
 
-				attachmentsURL:
+				attachmentURL:
 					'https://attachments-cdn.shimo.im/2oaRC0QraiQYFZeh/Love_is_in_the_air.mp4',
 				uploaderURL: 'https://uploader.shimo.im/f/2oaRC0QraiQYFZeh.mp4',
 			},
@@ -153,7 +152,7 @@ export default {
 				title: 'Run Snow run',
 				subTitle: '跑啊,雪诺！',
 
-				attachmentsURL:
+				attachmentURL:
 					'https://attachments-cdn.shimo.im/0OBY67kZa38RVJrE/Run_Snow_run_.mp4',
 				uploaderURL: 'https://uploader.shimo.im/f/0OBY67kZa38RVJrE.mp4',
 			},
@@ -162,7 +161,7 @@ export default {
 				title: 'Light my fire',
 				subTitle: '点燃我的生命',
 
-				attachmentsURL:
+				attachmentURL:
 					'https://attachments-cdn.shimo.im/1u2nOsrpI24vVL9g/Light_my_fire.mp4',
 				uploaderURL: 'https://uploader.shimo.im/f/1u2nOsrpI24vVL9g.mp4',
 			},
@@ -171,7 +170,7 @@ export default {
 				title: '꽥&꼬닥 Emoticon ( chicken&egg ) on Behance',
 				subTitle: '表情符号（鸡肉和鸡蛋）',
 
-				attachmentsURL:
+				attachmentURL:
 					'https://attachments-cdn.shimo.im/8IMoog6CYUkkipD7/_Emoticon_chicken_egg_on_Behance.mp4',
 				uploaderURL: 'https://uploader.shimo.im/f/8IMoog6CYUkkipD7.mp4',
 			},
@@ -180,7 +179,7 @@ export default {
 				title: 'EIGHT DELIGHTS OF TRANSFER _FULL VERSION',
 				subTitle: '[仁川机场 x BT21] ',
 
-				attachmentsURL:
+				attachmentURL:
 					'https://attachments-cdn.shimo.im/hNmEqm9ydwgZdyLs/_IncheonAirport_x_BT21_EIGHT_DELIGHTS_OF_TRANSFER_FULL_VERSION.mp4',
 				uploaderURL: 'https://uploader.shimo.im/f/hNmEqm9ydwgZdyLs.mp4',
 			},
@@ -189,7 +188,7 @@ export default {
 				title: '图片',
 				subTitle: '图片',
 
-				attachmentsURL:
+				attachmentURL:
 					'https://attachments-cdn.shimo.im/JgBij6l5sis7pMZj/image.jpg',
 				uploaderURL: 'https://uploader.shimo.im/f/JgBij6l5sis7pMZj.jpg',
 			},
