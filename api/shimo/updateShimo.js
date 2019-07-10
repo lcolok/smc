@@ -322,19 +322,14 @@ async function thisFunc(request) {
 
 	if (request && request.params.code == 0) {
 		//如果传入了石墨上传成功后返回的参数(code:0),那么就直接进行save2DataBase,否则就进行常规的update
-		var e = request.params.data;
+		let params = request.params.data;
 		console.log('\033[1;31;47m已经成功传入updateShimo这里了\033[0m');
 
 		var chosenClass = request.params.class || 'ShimoBed';
 
-		var params = {
-			suffix: e.suffix,
-			name: e.name,
-			size: e.size,
-			uploaderURL: e.url,
-			lottieURL: request.params.lottieURL,
-			chosenClass: chosenClass,
-		};
+		params.uploaderURL = params.url;
+		params.lottieURL = request.params.lottieURL;
+		params.chosenClass = chosenClass;
 
 		// console.log(params);
 
