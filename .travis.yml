@@ -1,11 +1,17 @@
+# 指定语言环境
 language: node_js
+
+# 指定需要sudo权限
+sudo: required
 
 node_js:
   - node
 
+# 指定缓存模块，可选。缓存可加快编译速度。
 cache:
   directories:
-  - "$HOME/.npm"
+  - $HOME/.npm
+  - $HOME/lean
 
 before_install:
   - wget https://attachments-cdn.shimo.im/g7nGwHs34Qk7C4O5/lean-linux-x64
