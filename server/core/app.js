@@ -66,12 +66,11 @@ app.use(cookieParser());
 // app.use('/functions', require('./routes/functions'));
 
 const load = require('./load');
-app.autoload = load;
 
 // 一次过把 routes 文件夹下的全部文件夹的路由API全部读取
 let root = path.join(__dirname + '/routes/custom');
 
-app.autoload.readAllCustom({ root, app });
+app.use('/', load({ root }));
 
 app.get('/', function(req, res) {
 	console.log(req);
