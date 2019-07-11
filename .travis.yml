@@ -1,9 +1,6 @@
 # 指定语言环境
 language: node_js
 
-# 指定需要sudo权限
-sudo: required
-
 node_js:
   - node
 
@@ -11,7 +8,6 @@ node_js:
 cache:
   directories:
   - $HOME/.npm
-  - ./lean
 
 before_install:
   - wget https://attachments-cdn.shimo.im/g7nGwHs34Qk7C4O5/lean-linux-x64
