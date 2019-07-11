@@ -22,12 +22,17 @@ export default [
 				path: '/search_results',
 				view: 'SearchResults',
 				name: 'SearchResults',
+				meta: {
+					title: '搜索结果',
+				},
 			},
 			{
 				path: '/dashboard',
 				// Relative to /src/views
 				view: 'Dashboard',
-				meta: {},
+				meta: {
+					title: '仪表台',
+				},
 			},
 			{
 				path: '/user-profile',

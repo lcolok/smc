@@ -88,9 +88,10 @@ Vue.use(Meta);
 
 router.beforeEach((to, from, next) => {
 	//to即将进入的目标路由对象，from当前导航正要离开的路由， next  :  下一步执行的函数钩子
-	document.title =
-		to.meta.title ||
-		'Vue Argon Dashboard - Free Dashboard for Vue.js & Bootstrap 4'; //给出指定的标题名称
+	const origTitle = '石墨床';
+	document.title = to.meta.title
+		? `${origTitle} - ${to.meta.title}`
+		: origTitle; //给出指定的标题名称
 	// console.log(to.meta);
 	if (to.path === '/login') {
 		next();
