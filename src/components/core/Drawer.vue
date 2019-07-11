@@ -75,7 +75,12 @@ export default {
 				{
 					to: '/search_results',
 					icon: 'mdi-cloud-search',
-					text: this.$t('SearchResults'),
+					text: this.$t('Search Results'),
+				},
+				{
+					to: '/upload_page',
+					icon: 'mdi-cloud-upload',
+					text: this.$t('Upload Page'),
 				},
 				{
 					to: '/dashboard',

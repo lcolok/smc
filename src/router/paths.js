@@ -21,9 +21,17 @@ export default [
 			{
 				path: '/search_results',
 				view: 'SearchResults',
-				name: 'SearchResults',
+				name: 'Search Results',
 				meta: {
 					title: '搜索结果',
+				},
+			},
+			{
+				path: '/upload_page',
+				view: 'UploadPage',
+				name: 'Upload Page',
+				meta: {
+					title: '上传页面',
 				},
 			},
 			{
