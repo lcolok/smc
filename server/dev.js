@@ -40,7 +40,6 @@ function selectMode(index) {
 			name: 'Progress bar mode',
 			stdio: 'pipe',
 			consoleMode: true,
-			processDisplay: true,
 		},
 		{
 			name: 'Gulp details mode',
@@ -58,27 +57,25 @@ function selectMode(index) {
 		spawn = child_process.spawn,
 		exec = child_process.exec,
 		stdio = allMode[index].stdio,
-		consoleMode = allMode[index].consoleMode || false,
-		processDisplay = allMode[index].processDisplay || false;
+		consoleMode = allMode[index].consoleMode || false;
 
 	let i = 0;
 	for (let j in tasks.gulp) {
 		const ls = spawn('gulp', [tasks.gulp[j]], { stdio }); //如果使用stdio:"inherit",就能显示彩色的console结果;如果是用pipe的话就可以进行下面的 ls.stdout.on
 
-		if (processDisplay) {
-			process.env.PROGRESS_BAR_RUNNING = 'false';
+		if (consoleMode) {
+			ls.stdout.on('data', data => {
+				// console.log(data.toString());
+				let sign = '-fs';
+				if (data.toString().match(sign)) {
+					console.log('\n' + data.toString().replace(sign, ''));
+				}
+			});
+			ls.stderr.on('data', data => {
+				console.log(`\n stderr: ${data} \n`);
+			});
 		}
 
-		ls.stdout.on('data', data => {
-			// console.log(data.toString());
-			let sign = '-fs';
-			if (data.toString().match(sign)) {
-				console.log('\n' + data.toString().replace(sign, ''));
-			}
-		});
-		ls.stderr.on('data', data => {
-			console.log(`\n stderr: ${data} \n`);
-		});
 		ls.on('close', code => {
 			// console.log(`child process exited with code ${code}`);
 			pb.stepRender(consoleMode);
