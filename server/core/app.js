@@ -65,12 +65,11 @@ app.use(cookieParser());
 // 可以将一类的路由单独保存在一个文件中
 // app.use('/functions', require('./routes/functions'));
 
-const load = require('./load');
-
 // 一次过把 routes 文件夹下的全部文件夹的路由API全部读取
-let root = path.join(__dirname + '/routes/custom');
 
-app.use('/', load({ root }));
+const custom = require(path.join(__dirname + '/routes/custom'));
+console.log(custom.allFunc);
+app.use(custom.router);
 
 app.get('/', function(req, res) {
 	console.log(req);

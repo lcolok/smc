@@ -2,16 +2,16 @@ const fs = require('fs');
 const express = require('express');
 const path = require('path');
 
-const newRouter = express.Router();
+const router = express.Router();
 const rules = ['get', 'post']; //读取文件夹的规则,假如文件夹名字匹配其中一项，就会判定这是要读取的method
 
 let allFunc = {};
 
-function readAllCustom({ root }) {
+module.exports = function(root) {
 	// console.log(dir);
 
 	readOne(root);
-	return newRouter;
+	return { router, allFunc };
 
 	function readOne(currentPath) {
 		fs.readdirSync(currentPath).forEach(function(ele, index) {
@@ -21,15 +21,15 @@ function readAllCustom({ root }) {
 					// .filter(e => e.match(/\.js/)) //过滤掉非js的文件
 					.forEach((e, index) => {
 						let funcName = e.match('.js') ? e.split('.js').shift() : e;
-						console.log(funcName);
+						// console.log(funcName);
 						if (!allFunc[funcName]) {
 							let apiPath = path.join(newPath, e);
 							let finalPath = currentPath.replace(root, '');
-							newRouter[ele](path.join(finalPath, funcName), require(apiPath));
+							router[ele](path.join(finalPath, funcName), require(apiPath));
 							// console.log({ finalPath });
 
 							allFunc[funcName] = { funcName, finalPath };
-							console.log({ allFunc });
+							// console.log({ allFunc });
 						} else {
 							throw Error('不能定义同名函数:' + funcName);
 						}
@@ -46,6 +46,4 @@ function readAllCustom({ root }) {
 			}
 		});
 	}
-}
-
-module.exports = readAllCustom;
+};
