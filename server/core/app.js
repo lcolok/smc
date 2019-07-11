@@ -4,31 +4,19 @@ const path = require('path');
 const fs = require('fs');
 const AV = require('leanengine');
 const requireContext = require('require-context');
-var compression = require('compression');
-var express = require('express');
-var timeout = require('connect-timeout');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const compression = require('compression');
+const express = require('express');
+const timeout = require('connect-timeout');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const cors = require('cors');
-const router = require('express').Router;
+const load = require('./load');
 
 // // 加载云函数定义，你可以将云函数拆分到多个文件方便管理，但需要在主文件中加载它们
-// var apiBuildDest = require(path.resolve('config/api.config.js')).apiBuildDest;
-
-// require('require-all')({
-//     dirname: path.resolve(apiBuildDest),
-//     excludeDirs: /^public$/,
-//     filter: function (fileName) {
-//         if (fileName == 'tempCodeRunnerFile.js') return; //排除掉tempCodeRunnerFile.js这种临时生成的文件
-//         if (!fileName.match(/(.+)\.js$/)) return; //符合js命名格式的才能通过
-//         return fileName;
-//     },
-// })
-
 //更简约地加载云函数
 require(path.resolve('api'));
 
-var app = express();
+const app = express();
 
 // //这是因为http请求头部没有进行允许跨域导致的，打开后端服务的app.js文件，在路由配置前添加以下代码
 // app.all('*', function (req, res, next) {
@@ -43,7 +31,7 @@ app.use(cors());
 
 app.use(compression());
 
-var distPath;
+let distPath;
 if (process.env.npm_lifecycle_event == 'dev') {
 	distPath = path.resolve('./dist');
 	app.all('*', function(req, res, next) {
@@ -57,7 +45,7 @@ if (process.env.npm_lifecycle_event == 'dev') {
 
 // 设置模板引擎
 app.set('views', distPath);
-var ejs = require('ejs'); //我是新引入的ejs插件,让express也能够加载html
+const ejs = require('ejs'); //我是新引入的ejs插件,让express也能够加载html
 app.engine('html', ejs.__express);
 app.set('view engine', 'html');
 
@@ -80,41 +68,8 @@ app.use(cookieParser());
 
 // 一次过把 routes 文件夹下的全部文件夹的路由API全部读取
 let root = path.join(__dirname + '/routes/custom');
-let rule = { get: true, post: true };
 
-readDirSync({ path: root });
-function readDirSync(params) {
-	let currentPath = params.path;
-	let dir = params.dir;
-
-	fs.readdirSync(currentPath).forEach(function(ele, index) {
-		if (rule[ele]) {
-			let method = ele;
-			let newRouter = new router();
-			fs.readdirSync(currentPath + '/' + method)
-				.filter(e => e.match(/\.js/)) //过滤掉非js的文件
-				.forEach((e, index) => {
-					let funcName = e
-						.split('/')
-						.pop()
-						.split('.js')
-						.shift();
-					let apiPath = currentPath + '/' + method + '/' + e;
-					newRouter[method]('/' + funcName, require(apiPath));
-					app.use('/' + dir, newRouter); // require同名文件夹
-					// console.log({ funcName, method, dir, currentPath, apiPath });
-				});
-		} else {
-			let info = fs.statSync(currentPath + '/' + ele);
-			if (info.isDirectory()) {
-				// console.log("dir: " + ele)
-				readDirSync({ path: currentPath + '/' + ele, dir: ele });
-			} else {
-				// console.log("file: " + ele)
-			}
-		}
-	});
-}
+load.readAllCustom({ root, app });
 
 app.get('/', function(req, res) {
 	console.log(req);
@@ -124,7 +79,7 @@ app.get('/', function(req, res) {
 app.use(function(req, res, next) {
 	// 如果任何一个路由都没有返回响应，则抛出一个 404 异常给后续的异常处理器
 	if (!res.headersSent) {
-		var err = new Error('Not Found');
+		const err = new Error('Not Found');
 		err.status = 404;
 		next(err);
 	}
@@ -137,7 +92,7 @@ app.use(function(err, req, res, next) {
 		return;
 	}
 
-	var statusCode = err.status || 500;
+	const statusCode = err.status || 500;
 	if (statusCode === 500) {
 		console.error(err.stack || err);
 	}
@@ -150,7 +105,7 @@ app.use(function(err, req, res, next) {
 	}
 	res.status(statusCode);
 	// 默认不输出异常详情
-	var error = {};
+	const error = {};
 	if (app.get('env') === 'development') {
 		// 如果是开发环境，则将异常堆栈输出到页面，方便开发调试
 		error = err;
