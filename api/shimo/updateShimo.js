@@ -1,5 +1,6 @@
 const AV = require('leancloud-storage');
 const path = require('path');
+const expand = require(path.resolve('server/utils/expandUtils'));
 var axios = require('axios');
 const Qs = require('qs');
 var fs = require('fs');
@@ -273,6 +274,17 @@ async function update(newDiscussionID, getAttachmentID) {
 }
 
 async function save2DataBase(params) {
+	let regExp = /(http(s?):\/\/(attachments-cdn\.shimo\.im)\/([a-z0-9]{16,})(\/[\S]+)*)(\?)*/i;
+
+	let expandedURL = await expand(params.uploaderURL);
+
+	let matched = expandedURL.match(regExp);
+	if (matched) {
+		let attachmentURL = matched[1];
+		console.log(attachmentURL);
+		params.attachmentURL = attachmentURL;
+	}
+
 	params.shortURL = await shortenURL(params.uploaderURL);
 	params.name_trans = await AV.Cloud.run('googleTranslateByPost', {
 		orig: params.name.toLowerCase(),

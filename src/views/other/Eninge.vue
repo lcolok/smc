@@ -6,7 +6,10 @@
 					<div class="text-center text-muted mb-4 font-weight-bolder">
 						<small>把新的二维码裁剪好并拖拽上传即可</small>
 					</div>
-					<base-filepond :uploadedCallBack="updateQRCode" />
+					<base-filepond
+						:uploadedCallBack="updateQRCode"
+						accepted-file-types="image/jpeg, image/png"
+					/>
 				</div>
 
 				<div class="card-body px-lg-5 py-lg-5">

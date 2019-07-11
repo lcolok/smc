@@ -3,10 +3,13 @@
 		<file-pond
 			name="test"
 			ref="pond"
-			:label-idle="$t('Drop files here...')"
+			:label-idle="
+				`${$t(
+					'Drag & Drop your files or',
+				)} <span class='filepond--label-action'> ${$t('Browse')} </span>`
+			"
 			allow-multiple="true"
-			accepted-file-types="image/jpeg, image/png"
-			v-bind="config"
+			v-bind="[$attrs, config]"
 			@init="handleFilePondInit"
 			@processfile="$props.uploadedCallBack"
 		/>
