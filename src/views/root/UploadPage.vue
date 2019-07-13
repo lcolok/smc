@@ -1,15 +1,11 @@
 <template>
-	<div class="mapouter">
-		<div class="gmap_canvas">
-			<v-container fill-height fluid grid-list-md>
-				<v-layout wrap>
-					<v-flex>
-						<base-filepond :uploadedCallBack="uploadShimobed" />
-					</v-flex>
-				</v-layout>
-			</v-container>
-		</div>
-	</div>
+	<v-container fill-height fluid grid-list-md class="mapouter">
+		<v-layout wrap>
+			<v-flex class="gmap_canvas">
+				<base-filepond :uploadedCallBack="uploadShimobed" />
+			</v-flex>
+		</v-layout>
+	</v-container>
 </template>
 
 <script>
@@ -44,7 +40,7 @@ export default {
 }
 
 .filepond--root {
-	height: 54rem;
+	height: calc(100vh - 4px - 64px - 50px);
 }
 
 .filepond--panel-root {

@@ -1,19 +1,19 @@
 <template>
-	<div id="app">
-		<file-pond
-			name="test"
-			ref="pond"
-			:label-idle="
+  <div id="file-pond">
+    <file-pond
+      name="test"
+      ref="pond"
+      :label-idle="
 				`${$t(
 					'Drag & Drop your files or',
 				)} <span class='filepond--label-action'> ${$t('Browse')} </span>`
 			"
-			allow-multiple="true"
-			v-bind="[$attrs, config]"
-			@init="handleFilePondInit"
-			@processfile="$props.uploadedCallBack"
-		/>
-	</div>
+      allow-multiple="true"
+      v-bind="[$attrs, config, i18n, setOptions, serverOptions]"
+      @init="handleFilePondInit"
+      @processfile="$props.uploadedCallBack"
+    />
+  </div>
 </template>
 
 <script>
@@ -33,13 +33,18 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css
 // Import image preview and file type validation plugins
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilePondPluginFileRename from 'filepond-plugin-file-rename';
 import { log } from 'util';
+
 
 // Create component
 const FilePond = vueFilePond(
 	FilePondPluginFileValidateType,
 	FilePondPluginImagePreview,
+	FilePondPluginFileRename,
 );
+
+// console.log(FilePond);
 
 export default {
 	name: 'app',
@@ -53,6 +58,9 @@ export default {
 	data: function() {
 		return {
 			config: {
+				dropOnPage: true,
+			},
+			serverOptions: {
 				server: {
 					process: async (
 						fieldName,
@@ -141,8 +149,29 @@ export default {
 						};
 					},
 				},
-				dropOnPage: true,
+			},
+			setOptions: {
+				fileRenameFunction: file => {
+					function rename(origName) {
+						return window.prompt('Enter new filename', origName);
+					}
 
+					function fileNameCheck(name) {
+						if (!name.match(/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/gi)) {
+							return name;
+						}else{
+						return fileNameCheck(rename(name));
+
+						}
+
+					}
+
+					return new Promise(resolve => {
+						resolve(fileNameCheck(file.name));
+					});
+				},
+			},
+			i18n: {
 				//以下为本地化
 				labelIdle:
 					'拖放文件于此或者<span class="filepond--label-action"> 浏览本地 </span>',
