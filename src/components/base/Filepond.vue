@@ -1,19 +1,19 @@
 <template>
-  <div id="file-pond">
-    <file-pond
-      name="test"
-      ref="pond"
-      :label-idle="
+	<div id="file-pond">
+		<file-pond
+			name="test"
+			ref="pond"
+			:label-idle="
 				`${$t(
 					'Drag & Drop your files or',
 				)} <span class='filepond--label-action'> ${$t('Browse')} </span>`
 			"
-      allow-multiple="true"
-      v-bind="[$attrs, config, i18n, setOptions, serverOptions]"
-      @init="handleFilePondInit"
-      @processfile="$props.uploadedCallBack"
-    />
-  </div>
+			allow-multiple="true"
+			v-bind="[$attrs, config, i18n, setOptions, serverOptions]"
+			@init="handleFilePondInit"
+			@processfile="$props.uploadedCallBack"
+		/>
+	</div>
 </template>
 
 <script>
@@ -35,7 +35,6 @@ import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileRename from 'filepond-plugin-file-rename';
 import { log } from 'util';
-
 
 // Create component
 const FilePond = vueFilePond(
@@ -153,17 +152,16 @@ export default {
 			setOptions: {
 				fileRenameFunction: file => {
 					function rename(origName) {
-						return window.prompt('Enter new filename', origName);
+						return window.prompt('Enter new filename', origName) || origName;
 					}
 
 					function fileNameCheck(name) {
+						console.log(name);
 						if (!name.match(/\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/gi)) {
 							return name;
-						}else{
-						return fileNameCheck(rename(name));
-
+						} else {
+							return fileNameCheck(rename(name));
 						}
-
 					}
 
 					return new Promise(resolve => {
