@@ -1,7 +1,7 @@
 <template>
 	<v-layout row>
 		<v-flex>
-			<v-card hover>
+			<v-card hover @contextmenu="rightClick($event)">
 				<v-expand-transition>
 					<v-img
 						v-if="picPath"
@@ -46,16 +46,14 @@
 					<v-btn flat color="primary">Share</v-btn>
 					<v-btn color="primary">Explore</v-btn>
 					<v-spacer></v-spacer>
-					<v-btn icon @click="show = !show" flat color="primary">
-						<v-icon>
-							{{
-								show ? 'mdi-arrow-up-drop-circle' : 'mdi-arrow-down-drop-circle'
-							}}
+					<v-btn icon @click="rightClick($event)">
+						<v-icon color="primary">
+							mdi-dots-vertical
 						</v-icon>
 					</v-btn>
 				</v-card-actions>
 
-				<v-expand-transition>
+				<!-- 				<v-expand-transition>
 					<v-card-text v-show="show">
 						I'm a thing. But, like most politicians, he promised more than he
 						could deliver. You won't have time for sleeping, soldier, not with
@@ -63,7 +61,7 @@
 						file! Hey, you add a one and two zeros to that or we walk! You're
 						going to do his laundry? I've got to find a way to escape.
 					</v-card-text>
-				</v-expand-transition>
+				</v-expand-transition> -->
 			</v-card>
 		</v-flex>
 	</v-layout>
@@ -71,11 +69,21 @@
 
 <script>
 import Card from './Card';
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex';
 
 export default {
 	data: () => ({
-		show: false,
+		showMenu: false,
+		x: 0,
+		y: 0,
+		items: [
+			{ title: 'Click Me' },
+			{ title: 'Click Me' },
+			{ title: 'Click Me' },
+			{ title: 'Click Me 2' },
+		],
+
+		// show: false,
 		abovePicPath: '',
 		picPath: '',
 		picHeight: 200,
@@ -124,6 +132,16 @@ export default {
 		this.updatePic();
 	},
 	methods: {
+		show(e) {
+			e.preventDefault();
+			this.showMenu = false;
+			this.x = e.clientX;
+			this.y = e.clientY;
+			this.$nextTick(() => {
+				this.showMenu = true;
+			});
+		},
+		...mapActions('rightClickMenu', ['rightClick']),
 		updatePic: async function() {
 			// console.log(this.suffixList);
 			this.abovePicPath = '';

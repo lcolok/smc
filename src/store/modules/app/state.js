@@ -1,4 +1,4 @@
-const images = [
+const images1 = [
 	'https://cdn.dribbble.com/users/59947/screenshots/6145574/run-for-dribbble.gif',
 	'https://cdn.dribbble.com/users/500242/screenshots/6357566/scrollboi_finalfinalpdf_render2_dribbble2.gif',
 	'https://cdn.dribbble.com/users/634508/screenshots/5755935/kittyyingyang_dribbble.gif',
@@ -13,18 +13,25 @@ const images = [
 	'https://images-cdn.shimo.im/tncnW1p0rUsZA8PR/cat_washer_dribbble.gif',
 ];
 
+const images = [
+	'https://cdn.dribbble.com/users/15687/screenshots/6791533/lotr-bilbo.png',
+	'https://cdn.dribbble.com/users/15687/screenshots/6760627/st-byers2.png',
+	'https://cdn.dribbble.com/users/15687/screenshots/6640481/barbecue2.png',
+	'https://cdn.dribbble.com/users/15687/screenshots/6618356/rainforest2.png',
+];
+
 const colors = ['primary', 'info', 'success', 'warning', 'danger'];
 
+const random = images[Math.floor(images.length * Math.random())];
 
 export default {
 	devPort: null,
 	drawer: null,
 	color: 'primary',
 	colors: colors,
-	image: images[Math.floor(images.length * Math.random())], //随机显示某一张
+	image: random, //随机显示某一张
 	images: images,
 	sidebarBackgroundColor: 'rgba(27, 27, 27, 0.74)',
-
 
 	typeList: [
 		{
