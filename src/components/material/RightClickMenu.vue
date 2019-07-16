@@ -1,6 +1,7 @@
 <template>
 	<v-menu
 		v-model="showMenu"
+		v-if="index === showMenuIndex"
 		:position-x="MenuX"
 		:position-y="MenuY"
 		absolute
@@ -28,13 +29,28 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 export default {
+	beforeCreate() {
+		console.log(this.$attrs);
+	},
 	data() {
 		return {
 			result: { attributes: {} },
 		};
 	},
 	computed: {
-		...mapState('rightClickMenu', ['listItems', 'MenuX', 'MenuY', 'showMenu']),
+		...mapState('rightClickMenu', [
+			'listItems',
+			'MenuX',
+			'MenuY',
+			'showMenu',
+			'showMenuIndex',
+		]),
+	},
+	props: {
+		index: {
+			type: Number,
+			default: undefined,
+		},
 	},
 };
 </script>

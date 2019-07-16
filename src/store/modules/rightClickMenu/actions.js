@@ -1,5 +1,5 @@
 export default {
-	rightClick({ state }, e) {
+	rightClick({ state }, { index, e }) {
 		// e.preventDefault()
 		// console.log(e);
 		// this.showMenu = false
@@ -8,11 +8,14 @@ export default {
 		// this.$nextTick(() => {
 		//   this.showMenu = true
 		// })
+		console.log(index);
+		console.log(e);
+		console.log(this._vm);
 
 		e.preventDefault();
 		// console.log(index);
 		state.showMenu = false;
-		// state.showMenuIndex = index;
+		state.showMenuIndex = index;
 		state.MenuX = e.clientX;
 		state.MenuY = e.clientY;
 

@@ -1,7 +1,9 @@
 <template>
 	<v-layout row>
+		<material-right-click-menu v-bind="[$attrs, $props]" />
+
 		<v-flex>
-			<v-card hover @contextmenu="rightClick($event)">
+			<v-card hover @contextmenu="rightClick({ index, e: $event })">
 				<v-expand-transition>
 					<v-img
 						v-if="picPath"
@@ -46,7 +48,7 @@
 					<v-btn flat color="primary">Share</v-btn>
 					<v-btn color="primary">Explore</v-btn>
 					<v-spacer></v-spacer>
-					<v-btn icon @click="rightClick($event)">
+					<v-btn icon @click="rightClick({ index, e: $event })">
 						<v-icon color="primary">
 							mdi-dots-vertical
 						</v-icon>
@@ -73,16 +75,6 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 
 export default {
 	data: () => ({
-		showMenu: false,
-		x: 0,
-		y: 0,
-		items: [
-			{ title: 'Click Me' },
-			{ title: 'Click Me' },
-			{ title: 'Click Me' },
-			{ title: 'Click Me 2' },
-		],
-
 		// show: false,
 		abovePicPath: '',
 		picPath: '',
@@ -132,15 +124,6 @@ export default {
 		this.updatePic();
 	},
 	methods: {
-		show(e) {
-			e.preventDefault();
-			this.showMenu = false;
-			this.x = e.clientX;
-			this.y = e.clientY;
-			this.$nextTick(() => {
-				this.showMenu = true;
-			});
-		},
 		...mapActions('rightClickMenu', ['rightClick']),
 		updatePic: async function() {
 			// console.log(this.suffixList);
@@ -266,6 +249,10 @@ export default {
 			default: undefined,
 		},
 		size: {
+			type: Number,
+			default: undefined,
+		},
+		index: {
 			type: Number,
 			default: undefined,
 		},

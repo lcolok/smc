@@ -2,6 +2,7 @@ export default {
 	MenuX: 500,
 	MenuY: 500,
 	showMenu: false,
+	showMenuIndex: undefined,
 	listItems: [
 		{
 			icon: 'mdi-clipboard-text',

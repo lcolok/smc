@@ -1,12 +1,12 @@
 <template>
 	<v-container v-if="update" fill-height fluid grid-list-md>
-		<material-right-click-menu />
 		<v-layout wrap>
 			<v-flex v-for="(item, index) in results" :key="index" sm6 xs12 md6 lg3>
 				<material-results-card
 					v-bind="item"
 					:title="item.name"
 					:subTitle="item.name_trans"
+					:index="index"
 				/>
 			</v-flex>
 		</v-layout>
