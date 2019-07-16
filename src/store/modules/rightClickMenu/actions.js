@@ -8,9 +8,6 @@ export default {
 		// this.$nextTick(() => {
 		//   this.showMenu = true
 		// })
-		console.log(index);
-		console.log(e);
-		console.log(this._vm);
 
 		e.preventDefault();
 		// console.log(index);

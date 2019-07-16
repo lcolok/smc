@@ -29,22 +29,28 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 export default {
-	beforeCreate() {
-		console.log(this.$attrs);
-	},
-	data() {
-		return {
-			result: { attributes: {} },
-		};
-	},
+	// beforeCreate() {
+	// 	console.log(this.$attrs);
+	// },
+	data: () => ({
+		// ...mapState('rightClickMenu', ['showMenu']),
+		result: { attributes: {} },
+	}),
 	computed: {
 		...mapState('rightClickMenu', [
 			'listItems',
 			'MenuX',
 			'MenuY',
-			'showMenu',
 			'showMenuIndex',
 		]),
+		showMenu: {
+			get: function() {
+				return this.$store.state.rightClickMenu.showMenu;
+			},
+			set: function(newValue) {
+				this.$store.state.rightClickMenu.showMenu = newValue;
+			},
+		},
 	},
 	props: {
 		index: {
