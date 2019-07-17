@@ -10,13 +10,15 @@ export default {
 			showInSheet: true,
 			name: 'copyBTN',
 			action: (result, e) => {
-				clearTimeout(app.clipboardTimer);
-				app.bottomSheetToolbar[0].icon = 'mdi-clipboard-check';
-				app.clipboardTimer = setTimeout(() => {
-					app.bottomSheetToolbar[0].icon = 'mdi-clipboard-text';
-				}, 1000);
-
-				// console.log(result);
+				// dispatch('doCopy', {
+				// 	copyContent: 'hahahah',
+				// });
+				// clearTimeout(app.clipboardTimer);
+				// app.bottomSheetToolbar[0].icon = 'mdi-clipboard-check';
+				// app.clipboardTimer = setTimeout(() => {
+				// 	app.bottomSheetToolbar[0].icon = 'mdi-clipboard-text';
+				// }, 1000);
+				// // console.log(result);
 			},
 		},
 		{

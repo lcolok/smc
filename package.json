@@ -71,7 +71,7 @@
 		"vue": "^2.6.6",
 		"vue-chartist": "^2.1.2",
 		"vue-chartjs": "3.4.2",
-		"vue-clipboard2": "0.3.0",
+		"vue-clipboard2": "^0.3.0",
 		"vue-filepond": "~5.1.1",
 		"vue-flatpickr-component": "8.1.2",
 		"vue-loader": "^15.7.0",

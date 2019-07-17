@@ -7,6 +7,7 @@
 		@keyup.enter="search(searchContent)"
 		hide-details
 		autofocus
+		v-bind="[$attrs, $props]"
 	/>
 </template>
 <script>

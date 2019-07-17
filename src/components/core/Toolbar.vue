@@ -19,8 +19,10 @@
 		<v-toolbar-items>
 			<v-flex align-center layout py-2>
 				<base-searchbar v-if="responsiveInput" />
-
-				<router-link v-ripple class="toolbar-items" to="/">
+				<router-link v-ripple class="toolbar-items" to="/home">
+					<v-icon color="tertiary">mdi-home</v-icon>
+				</router-link>
+				<router-link v-ripple class="toolbar-items" to="/dashboard">
 					<v-icon color="tertiary">mdi-view-dashboard</v-icon>
 				</router-link>
 				<v-menu

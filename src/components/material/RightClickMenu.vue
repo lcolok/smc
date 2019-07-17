@@ -1,5 +1,5 @@
 <template>
-	<v-menu
+	<!-- <v-menu
 		v-model="showMenu"
 		v-if="index === showMenuIndex"
 		:position-x="MenuX"
@@ -24,7 +24,15 @@
 				<v-list-tile-title>{{ menuItem.text }}</v-list-tile-title>
 			</v-list-tile>
 		</v-list>
-	</v-menu>
+	</v-menu> -->
+	<base-menu
+		v-if="index === showMenuIndex"
+		v-model="showMenu"
+		:items="listItems"
+		:position-x="MenuX"
+		:position-y="MenuY"
+		:details="$attrs"
+	/>
 </template>
 <script>
 import { mapState, mapActions } from 'vuex';
