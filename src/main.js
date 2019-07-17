@@ -2,7 +2,7 @@
 
 // 禁止右键菜单
 document.oncontextmenu = function() {
-	return false;
+	return process.env.NODE_ENV === 'development'; //如果在开发模式就返回 true ，可以使用右键，如果生产模式就返回 false，禁止右键
 };
 // 禁止文字选择
 // document.onselectstart = function(){ return false; };

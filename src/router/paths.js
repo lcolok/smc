@@ -12,18 +12,26 @@ import EningeLayout from '@/layout/EningeLayout';
 export default [
 	{
 		path: '/',
-		redirect: 'dashboard',
+		redirect: 'home',
 		component: DashboardLayout,
 		meta: {
 			requiresAuth: true,
 		},
 		children: [
 			{
+				path: '/home',
+				view: 'Home',
+				name: 'Home',
+				meta: {
+					title: 'Home',
+				},
+			},
+			{
 				path: '/search_results',
 				view: 'SearchResults',
 				name: 'Search Results',
 				meta: {
-					title: '搜索结果',
+					title: 'Search Results',
 				},
 			},
 			{
@@ -31,7 +39,7 @@ export default [
 				view: 'UploadPage',
 				name: 'Upload Page',
 				meta: {
-					title: '上传页面',
+					title: 'Upload Page',
 				},
 			},
 			{
@@ -39,7 +47,7 @@ export default [
 				// Relative to /src/views
 				view: 'Dashboard',
 				meta: {
-					title: '仪表台',
+					title: 'Dashboard',
 				},
 			},
 			{

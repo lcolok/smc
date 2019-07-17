@@ -10,12 +10,14 @@
 		width="260"
 	>
 		<v-img :src="image" :gradient="sidebarOverlayGradiant" height="100%">
-			<v-layout class="fill-height" tag="v-list" column>
+			<v-layout tag="v-list" column>
 				<v-list-tile avatar>
 					<v-list-tile-avatar color="white">
 						<v-img :src="logo" height="34" contain />
 					</v-list-tile-avatar>
-					<v-list-tile-title class="title">Vuetify MD</v-list-tile-title>
+					<v-list-tile-title class="title">{{
+						$t('Shared Management Center')
+					}}</v-list-tile-title>
 				</v-list-tile>
 				<v-divider />
 				<v-list-tile v-if="responsive">
@@ -72,6 +74,11 @@ export default {
 		return {
 			logo: `${this.$baseUrl}img/vuetifylogo.png`,
 			links: [
+				{
+					to: '/home',
+					icon: 'mdi-home',
+					text: this.$t('Home'),
+				},
 				{
 					to: '/search_results',
 					icon: 'mdi-cloud-search',
@@ -185,7 +192,7 @@ export default {
 <style lang="scss">
 #app-drawer {
 	.v-list__tile {
-		border-radius: 4px;
+		border-radius: 8px;
 
 		&--buy {
 			margin-top: auto;

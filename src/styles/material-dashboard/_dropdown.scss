@@ -1,46 +1,51 @@
 .dropdown-menu {
-  border-radius: $border-radius-base;
+	border-radius: $border-radius-base;
 
-  .v-icon {
-    transition: none;
-    color: #333 !important;
-    display: flex;
-    margin: 0 1rem 0 -0.8rem;
-  }
+	.v-icon {
+		transition: none;
+		color: #333 !important;
+		display: flex;
+		margin: 0 1rem 0 -0.8rem;
+	}
 
-  .v-list__tile {
-    cursor:pointer;
-    border-radius: $border-radius-base - 1;
-    color: #333 !important;
-    display: flex;
-    font-size: $font-size-dropdown;
-    font-weight: $font-weight-boldest;
-    margin: 0 $margin-small - 5;
-    padding: $padding-small 1.5rem;
-    text-transform: none;
-    @include transition-except-props(0.15s linear, color, background-color, box-shadow 0ms);
-    white-space: nowrap;
+	.v-list__tile {
+		cursor: pointer;
+		border-radius: $border-radius-base - 1;
+		color: #333 !important;
+		display: flex;
+		font-size: $font-size-dropdown;
+		font-weight: $font-weight-boldest;
+		margin: 0 $margin-small - 5;
+		padding: $padding-small 1.5rem;
+		text-transform: none;
+		@include transition-except-props(
+			0.15s linear,
+			color,
+			background-color,
+			box-shadow 0ms
+		);
+		white-space: nowrap;
 
-    .v-list__tile__title {
-      text-align: center;
-      // text-align-last: justify;
-      margin: 0 -0.5rem 0 -0.5rem;
+		.v-list__tile__title {
+			text-align: center;
+			// text-align-last: justify;
+			margin: 0 -0.5rem 0 -0.5rem;
 
-      transition: none;
-    }
+			transition: none;
+		}
 
-    &:hover,
-    &:focus,
-    &:active {
-      @include dropdown-menu-color($brand-primary);
+		&:hover,
+		&:focus,
+		&:active {
+			@include dropdown-menu-color($brand-primary);
 
-      &,
-      .v-list__tile__title {
-        color: $white !important;
-      }
-      .v-icon {
-        color: $white !important;
-      }
-    }
-  }
+			&,
+			.v-list__tile__title {
+				color: $white !important;
+			}
+			.v-icon {
+				color: $white !important;
+			}
+		}
+	}
 }
