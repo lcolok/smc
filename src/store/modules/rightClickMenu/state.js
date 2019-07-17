@@ -1,4 +1,5 @@
 import { cutHTTP } from '@/utils/handle';
+import AV from 'leancloud-storage';
 
 export default {
 	MenuX: 500,
@@ -56,7 +57,32 @@ export default {
 			icon: 'mdi-rename-box',
 			text: '重命名',
 			showInSheet: true,
-			action: ({ $event, details: d, $copyText, $store }) => {},
+			action: ({ $event, details: d, $copyText, $store }) => {
+				console.log(d);
+				async function renameContent(currentVideo) {
+					if (app.renameInput !== app.originalName) {
+						let renameObject = AV.Object.createWithoutData(
+							'ShimoBed',
+							d.objectId,
+						);
+						renameObject.set('name', app.renameInput);
+						renameObject
+							.save()
+							.then(function(renameObject) {
+								currentVideo.attributes.name = app.renameInput; //刷新在屏幕上显示的名称
+								app.$message.success(
+									`「${app.originalName}」已重命名为「${app.renameInput}」`,
+								);
+								// 成功保存之后，执行其他逻辑.
+							})
+							.catch(err => {
+								app.$message.error(`发生错误:${err}`);
+							});
+						return;
+					}
+					console.log('名字没有更改');
+				}
+			},
 		},
 		{
 			icon: 'mdi-comment-plus',
@@ -67,13 +93,33 @@ export default {
 			icon: 'mdi-link-box-variant-outline',
 			text: '纯短链',
 			name: 'copyShortURL',
-			action: () => {},
+			action: ({ $event, details: d, $copyText, $store }) => {
+				$copyText(d.shortURL)
+					.then(e => {
+						// alert('Copied');
+						console.log(e);
+					})
+					.catch(e => {
+						alert('Can not copy');
+						console.log(e);
+					});
+			},
 		},
 		{
 			icon: 'mdi-link-variant',
 			text: '纯长链',
 			name: 'copyLongURL',
-			action: () => {},
+			action: ({ $event, details: d, $copyText, $store }) => {
+				$copyText(d.attachmentURL)
+					.then(e => {
+						// alert('Copied');
+						console.log(e);
+					})
+					.catch(e => {
+						alert('Can not copy');
+						console.log(e);
+					});
+			},
 		},
 		/*       {
             icon: 'mdi-egg-easter', text: '获取ID', name: 'getID', action: () => {

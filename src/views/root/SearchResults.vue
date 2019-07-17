@@ -29,7 +29,7 @@ export default {
 		return { update: true };
 	},
 	watch: {
-		results() {
+		results(val) {
 			this.reload();
 		},
 	},
