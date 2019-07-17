@@ -5,5 +5,4 @@ export default {
 	setImage: set('image'),
 	setColor: set('color'),
 	toggleDrawer: toggle('drawer'),
-
 };
