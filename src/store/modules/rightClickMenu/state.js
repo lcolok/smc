@@ -1,3 +1,5 @@
+import { cutHTTP } from '@/utils/handle';
+
 export default {
 	MenuX: 500,
 	MenuY: 500,
@@ -9,45 +11,38 @@ export default {
 			text: '复制短链',
 			showInSheet: true,
 			name: 'copyBTN',
-			action: ({ $event, details, $copyText, $store }) => {
-				// console.log({ $event, details, $copyText });
-				console.log($store._vm.$copyText);
-				$copyText(details.shortURL).then(
-					function(e) {
+			action: ({ $event, details: d, $copyText, $store }) => {
+				//$store._vm.$copyText 也能读取到 copyText
+				let copyContent = '';
+				let descriptionList = $store.state.search.descriptionList;
+				let emoji = descriptionList[d.suffix].emoji;
+
+				copyContent = `${emoji} ${d.name} | ${cutHTTP(d.shortURL)}`;
+
+				console.log(copyContent);
+
+				$copyText(copyContent)
+					.then(e => {
 						// alert('Copied');
 						console.log(e);
-					},
-					function(e) {
+					})
+					.catch(e => {
 						alert('Can not copy');
 						console.log(e);
-					},
-				);
-
-				// dispatch('doCopy', {
-				// 	copyContent: 'hahahah',
-				// });
-				// clearTimeout(app.clipboardTimer);
-				// app.bottomSheetToolbar[0].icon = 'mdi-clipboard-check';
-				// app.clipboardTimer = setTimeout(() => {
-				// 	app.bottomSheetToolbar[0].icon = 'mdi-clipboard-text';
-				// }, 1000);
-				// // console.log(result);
+					});
 			},
 		},
 		{
 			icon: 'mdi-download',
 			text: '直接下载',
 			showInSheet: true,
-			action: e => {
-				if (e.attributes) {
-					var url = e.attributes.expandedURL
-						? e.attributes.expandedURL
-						: e.attributes.uploaderURL;
-					app.downloadStraightly(url);
-					return;
-				}
-				console.error('下载失败');
-				// app.downloadStraightly(app.currentVideo.attributes.url);
+			action: ({ $event, details: d, $copyText, $store }) => {
+				console.log(d);
+				let downloadURL = `${d.attachmentURL}?attname=${encodeURIComponent(
+					d.title,
+				)}.${d.suffix}&download`;
+				console.log(downloadURL);
+				window.location.href = downloadURL;
 			},
 		},
 		/*      {
@@ -61,16 +56,7 @@ export default {
 			icon: 'mdi-rename-box',
 			text: '重命名',
 			showInSheet: true,
-			action: (renameOjbect, event) => {
-				app.originalName = renameOjbect.attributes.name;
-				app.renameOjbect = renameOjbect;
-				console.log(event);
-				app.renameInput = renameOjbect.get('name');
-				app.renameDialog = true;
-				setTimeout(() => {
-					app.$refs.renameInput.focus();
-				}, 0);
-			},
+			action: ({ $event, details: d, $copyText, $store }) => {},
 		},
 		{
 			icon: 'mdi-comment-plus',
