@@ -13,7 +13,7 @@
 				<v-list-tile
 					v-for="(item, i) in items"
 					:key="i"
-					@click="item.action({ e: $event, details })"
+					@click="item.action({ $event, details, $copyText })"
 				>
 					<!--               <v-list-tile-avatar color="rgba(0, 0, 0, 0)">
                 <v-icon>{{ item.icon }}</v-icon>
@@ -29,6 +29,9 @@
 <script>
 import { Object } from 'leancloud-storage';
 export default {
+	created() {
+		console.log(this);
+	},
 	watch: {
 		details(val) {
 			console.log(val);

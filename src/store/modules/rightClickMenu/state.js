@@ -9,7 +9,20 @@ export default {
 			text: '复制短链',
 			showInSheet: true,
 			name: 'copyBTN',
-			action: (result, e) => {
+			action: ({ $event, details, $copyText }) => {
+				// console.log({ $event, details, $copyText });
+
+				$copyText(details.shortURL).then(
+					function(e) {
+						// alert('Copied');
+						console.log(e);
+					},
+					function(e) {
+						alert('Can not copy');
+						console.log(e);
+					},
+				);
+
 				// dispatch('doCopy', {
 				// 	copyContent: 'hahahah',
 				// });

@@ -40,6 +40,7 @@ export default {
 	// beforeCreate() {
 	// 	console.log(this.$attrs);
 	// },
+
 	data: () => ({
 		// ...mapState('rightClickMenu', ['showMenu']),
 		result: { attributes: {} },
