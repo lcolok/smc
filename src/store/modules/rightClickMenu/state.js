@@ -9,9 +9,9 @@ export default {
 			text: '复制短链',
 			showInSheet: true,
 			name: 'copyBTN',
-			action: ({ $event, details, $copyText }) => {
+			action: ({ $event, details, $copyText, $store }) => {
 				// console.log({ $event, details, $copyText });
-
+				console.log($store._vm.$copyText);
 				$copyText(details.shortURL).then(
 					function(e) {
 						// alert('Copied');

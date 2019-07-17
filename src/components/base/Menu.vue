@@ -13,7 +13,7 @@
 				<v-list-tile
 					v-for="(item, i) in items"
 					:key="i"
-					@click="item.action({ $event, details, $copyText })"
+					@click="item.action({ $event, details, $copyText, $store })"
 				>
 					<!--               <v-list-tile-avatar color="rgba(0, 0, 0, 0)">
                 <v-icon>{{ item.icon }}</v-icon>
