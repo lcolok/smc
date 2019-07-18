@@ -71,10 +71,12 @@
 import { mapMutations, mapState } from 'vuex';
 
 export default {
-	data() {
-		return {
-			logo: `${this.$baseUrl}img/vuetifylogo.png`,
-			links: [
+	computed: {
+		...mapState('app', ['image', 'color']),
+		...mapState('search', ['results']),
+		links() {
+			let vm = this;
+			let links = [
 				{
 					to: '/home',
 					icon: 'mdi-home',
@@ -84,12 +86,13 @@ export default {
 					to: '/search_results',
 					icon: 'mdi-cloud-search',
 					text: this.$t('Search Results'),
+					display: this.results.length !== 0,
 				},
-				{
-					to: '/upload_page',
-					icon: 'mdi-cloud-upload',
-					text: this.$t('Upload Page'),
-				},
+				// {
+				// 	to: '/upload_page',
+				// 	icon: 'mdi-cloud-upload',
+				// 	text: this.$t('Upload Page'),
+				// },
 				{
 					to: '/dashboard',
 					icon: 'mdi-view-dashboard',
@@ -125,12 +128,25 @@ export default {
 					icon: 'mdi-bell',
 					text: this.$t('Notifications'),
 				},
-			],
-			responsive: false,
-		};
-	},
-	computed: {
-		...mapState('app', ['image', 'color']),
+			];
+			return links
+				.filter(e => {
+					return e.display == undefined ? true : e.display;
+				})
+				.map(e => {
+					e.to = makeTo(e.to);
+					console.log(e);
+
+					function makeTo(to) {
+						return {
+							path: to,
+							query: vm.$route.query,
+						};
+					}
+
+					return e;
+				});
+		},
 		inputValue: {
 			get() {
 				return this.$store.state.app.drawer;
@@ -146,6 +162,14 @@ export default {
 			return `${this.$store.state.app.sidebarBackgroundColor}, ${this.$store.state.app.sidebarBackgroundColor}`;
 		},
 	},
+	data() {
+		return {
+			logo: `${this.$baseUrl}img/vuetifylogo.png`,
+
+			responsive: false,
+		};
+	},
+
 	mounted() {
 		this.onResponsiveInverted();
 		window.addEventListener('resize', this.onResponsiveInverted);

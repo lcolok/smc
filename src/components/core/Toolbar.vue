@@ -39,7 +39,7 @@
 					:draggable="false"
 					v-ripple
 					class="toolbar-items"
-					@click="toggleUploadBottomSheet()"
+					@click="toggleUBS()"
 				>
 					<!-- <v-icon color="tertiary">mdi-cloud-upload</v-icon> -->
 					<lottie-upload-status />
@@ -146,7 +146,8 @@ export default {
 	},
 
 	methods: {
-		...mapMutations('app', ['setDrawer', 'toggleDrawer', 'toggleUBS']),
+		...mapMutations('app', ['setDrawer', 'toggleDrawer']),
+		...mapMutations('upload', ['toggleUBS']),
 		// ...mapActions('upload', ['toggleUploadBottomSheet']),
 
 		onResponsiveInverted() {
