@@ -146,8 +146,8 @@ export default {
 	},
 
 	methods: {
-		...mapMutations('app', ['setDrawer', 'toggleDrawer']),
-		...mapActions('upload', ['toggleUploadBottomSheet']),
+		...mapMutations('app', ['setDrawer', 'toggleDrawer', 'toggleUBS']),
+		// ...mapActions('upload', ['toggleUploadBottomSheet']),
 
 		onResponsiveInverted() {
 			if (window.innerWidth < 991) {
