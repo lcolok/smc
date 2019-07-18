@@ -34,7 +34,7 @@ export default {
 	// },
 
 	methods: {
-		...mapActions('app', ['showUploadBottomSheet', 'hideUploadBottomSheet']),
+		...mapActions('upload', ['showUploadBottomSheet', 'hideUploadBottomSheet']),
 	},
 };
 </script>

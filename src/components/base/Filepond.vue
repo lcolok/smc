@@ -10,8 +10,8 @@
 			"
 			allow-multiple="true"
 			v-bind="[$attrs, config, i18n, setOptions, serverOptions]"
+			v-on="$listeners"
 			@init="handleFilePondInit"
-			@processfile="$props.uploadedCallBack"
 		/>
 	</div>
 </template>
@@ -47,12 +47,15 @@ const FilePond = vueFilePond(
 
 export default {
 	name: 'app',
+	created() {
+		// console.log(this);
+	},
 	props: {
-		uploadedCallBack: {
-			//定义一个外来方法
-			type: Function, //参数类型：函数
-			required: true, //是否必填：是
-		},
+		// uploadedCallBack: {
+		// 	//定义一个外来方法
+		// 	type: Function, //参数类型：函数
+		// 	required: true, //是否必填：是
+		// },
 	},
 	data: function() {
 		return {

@@ -7,8 +7,14 @@
 						<v-flex>
 							<div @dragover="hideUploadBottomSheet(100)">
 								<base-filepond
-									:uploadedCallBack="uploadShimobed"
 									id="dropZone"
+									@processfilestart="animUploading"
+									@processfiles="animFinished"
+									@processfile="
+										(error, cb) => {
+											uploadShimobed(error, cb);
+										}
+									"
 								/>
 							</div>
 						</v-flex>
@@ -21,22 +27,34 @@
 
 <script>
 import AV from 'leancloud-storage';
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 
 export default {
 	computed: {
-		...mapState('app', ['uploadBottomSheet']),
+		...mapState('upload', ['uploadBottomSheet', 'status']),
+
 		UBS: {
 			get() {
 				return this.uploadBottomSheet;
 			},
 			set(val) {
-				return (this.$store.state.app.uploadBottomSheet = val);
+				return (this.$store.state.upload.uploadBottomSheet = val);
 			},
 		},
 	},
 	methods: {
-		...mapActions('app', ['hideUploadBottomSheet']),
+		...mapMutations('upload', ['setStatus']),
+		...mapActions('upload', ['hideUploadBottomSheet']),
+		animUploading() {
+			console.log('开始上传');
+			this.setStatus('uploading');
+			console.log(this.status);
+		},
+		animFinished() {
+			console.log('完成');
+			this.setStatus('finished');
+			console.log(this.status);
+		},
 		uploadShimobed: async function(error, cb) {
 			let dic = cb.file.qiniu;
 
