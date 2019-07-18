@@ -4,38 +4,38 @@
 
 		<v-flex>
 			<v-card hover @contextmenu="rightClick({ index, e: $event })">
-				<v-expand-transition>
-					<v-img
-						v-if="picPath"
-						:src="picPath"
-						:height="picHeight"
-						@error="picPath = unknown_bg_src"
-					>
-						<div :class="!rawPreview || 'fill-height bottom-gradient'">
-							<v-container class="caption white--text font-weight-800">
-								<v-flex class="file-type-prompt">
-									<v-layout align-center justify-start row fill-height>
-										<v-icon size="18" color="white">{{ icon }}</v-icon>
+				<!-- <v-expand-transition> -->
+				<v-img
+					v-if="picPath"
+					:src="picPath"
+					:height="picHeight"
+					@error="picPath = unknown_bg_src"
+				>
+					<div :class="!rawPreview || 'fill-height bottom-gradient'">
+						<v-container class="caption white--text font-weight-800">
+							<v-flex class="file-type-prompt">
+								<v-layout align-center justify-start row fill-height>
+									<v-icon size="18" color="white">{{ icon }}</v-icon>
 
-										<v-flex>{{ suffix }}</v-flex>
-									</v-layout>
-								</v-flex>
-								<v-flex class="file-size">
-									<v-layout align-center justify-start row fill-height>
-										<v-icon size="18" color="white">mdi-harddisk</v-icon>
+									<v-flex>{{ suffix }}</v-flex>
+								</v-layout>
+							</v-flex>
+							<v-flex class="file-size">
+								<v-layout align-center justify-start row fill-height>
+									<v-icon size="18" color="white">mdi-harddisk</v-icon>
 
-										<v-flex>{{ readaleSize }}</v-flex>
-									</v-layout>
-								</v-flex>
-							</v-container>
-							<v-img
-								:src="abovePicPath"
-								:style="aboveStyle"
-								@error="abovePicPath = unknown_text_src"
-							></v-img>
-						</div>
-					</v-img>
-				</v-expand-transition>
+									<v-flex>{{ readaleSize }}</v-flex>
+								</v-layout>
+							</v-flex>
+						</v-container>
+						<v-img
+							:src="abovePicPath"
+							:style="aboveStyle"
+							@error="abovePicPath = unknown_text_src"
+						></v-img>
+					</div>
+				</v-img>
+				<!-- </v-expand-transition> -->
 
 				<v-card-title primary-title>
 					<div>

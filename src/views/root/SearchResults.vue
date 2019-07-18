@@ -19,9 +19,10 @@ import router from '@/router';
 
 export default {
 	mounted() {
-		console.log(this.$route.query);
+		// console.log({ oldKey: this.oldKey });
+		// console.log(this.$route.query);
 		let query = this.$route.query;
-		if (query.key) {
+		if (query.key !== this.oldKey) {
 			this.searchByKey({ key: query.key });
 		}
 	},
@@ -35,6 +36,7 @@ export default {
 	},
 	computed: {
 		...mapState('search', ['results']),
+		...mapState('search', { oldKey: state => state.key }),
 	},
 	methods: {
 		...mapActions('search', ['searchByKey']),

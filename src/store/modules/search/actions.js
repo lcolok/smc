@@ -34,6 +34,7 @@ export default {
 			result = makeAList(every);
 			// console.log(result);
 		} else {
+			state.key = params.key;
 			var result = await dispatch('searchLC', {
 				key: params.key,
 			});
@@ -61,7 +62,7 @@ export default {
 
 		query.queryString(params.key); //要搜索的关键词
 		let resp = await query.find();
-		console.log('找到了 ' + query.hits() + ' 个文件.');
+		// console.log('找到了 ' + query.hits() + ' 个文件.');
 
 		let results = await Promise.all(
 			resp.map(async e => {
@@ -81,7 +82,7 @@ export default {
 			}),
 		);
 
-		console.log(results);
+		// console.log(results);
 		return results;
 		return [
 			{

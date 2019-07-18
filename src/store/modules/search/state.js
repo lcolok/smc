@@ -232,6 +232,7 @@ function arrayToObject(array, key) {
 }
 
 export default {
+	key: null,
 	results: [],
 
 	unknownDescription: {

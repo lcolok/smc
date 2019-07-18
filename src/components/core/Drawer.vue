@@ -135,7 +135,7 @@ export default {
 				})
 				.map(e => {
 					e.to = makeTo(e.to);
-					console.log(e);
+					// console.log(e);
 
 					function makeTo(to) {
 						return {

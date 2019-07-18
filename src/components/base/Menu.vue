@@ -29,9 +29,9 @@
 <script>
 import { Object } from 'leancloud-storage';
 export default {
-	created() {
-		console.log(this);
-	},
+	// created() {
+	// 	console.log(this);
+	// },
 	watch: {
 		details(val) {
 			console.log(val);
