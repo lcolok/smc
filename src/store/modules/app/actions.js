@@ -13,4 +13,7 @@ export default {
 			state.uploadBottomSheet = false;
 		}, delay || 0);
 	},
+	toggleUploadBottomSheet({ state }) {
+		state.uploadBottomSheet = !state.uploadBottomSheet;
+	},
 };

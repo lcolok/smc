@@ -19,13 +19,32 @@
 		<v-toolbar-items>
 			<v-flex align-center layout py-2>
 				<base-searchbar v-if="responsiveInput" />
-				<router-link v-ripple class="toolbar-items" to="/home">
+				<router-link
+					:draggable="false"
+					v-ripple
+					class="toolbar-items"
+					to="/home"
+				>
 					<v-icon color="tertiary">mdi-home</v-icon>
 				</router-link>
-				<router-link v-ripple class="toolbar-items" to="/dashboard">
+				<router-link
+					:draggable="false"
+					v-ripple
+					class="toolbar-items"
+					to="/dashboard"
+				>
 					<v-icon color="tertiary">mdi-view-dashboard</v-icon>
 				</router-link>
-				<v-menu
+				<a
+					:draggable="false"
+					v-ripple
+					class="toolbar-items"
+					@click="toggleUploadBottomSheet()"
+				>
+					<!-- <v-icon color="tertiary">mdi-cloud-upload</v-icon> -->
+					<lottie-upload-status />
+				</a>
+				<!-- <v-menu
 					bottom
 					left
 					content-class="dropdown-menu"
@@ -54,7 +73,7 @@
 							</v-list-tile>
 						</v-list>
 					</v-card>
-				</v-menu>
+        </v-menu>-->
 				<!-- <router-link v-ripple class="toolbar-items" to="/user-profile">
           <v-icon color="tertiary">mdi-account</v-icon>
         </router-link>-->
@@ -66,7 +85,7 @@
 					offset-y
 					transition="slide-y-transition"
 				>
-					<a v-ripple slot="activator" class="toolbar-items">
+					<a slot="activator" :draggable="false" v-ripple class="toolbar-items">
 						<v-icon color="tertiary">mdi-dots-vertical</v-icon>
 					</a>
 					<v-list dense>
@@ -95,6 +114,9 @@ export default {
 	computed: {
 		profileMenu() {
 			return this.$store.state.menu.profileMenu;
+		},
+		toPath(e) {
+			return this.$route.fullPath;
 		},
 	},
 	data: () => ({
@@ -125,6 +147,8 @@ export default {
 
 	methods: {
 		...mapMutations('app', ['setDrawer', 'toggleDrawer']),
+		...mapActions('app', ['toggleUploadBottomSheet']),
+
 		onResponsiveInverted() {
 			if (window.innerWidth < 991) {
 				this.responsive = true;

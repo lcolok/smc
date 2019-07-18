@@ -1,6 +1,6 @@
 <template>
 	<div class="text-xs-center">
-		<v-bottom-sheet v-model="uploadBottomSheet">
+		<v-bottom-sheet v-model="UBS">
 			<v-card>
 				<v-container fill-height fluid grid-list-md>
 					<v-layout wrap>
@@ -26,6 +26,14 @@ import { mapState, mapActions } from 'vuex';
 export default {
 	computed: {
 		...mapState('app', ['uploadBottomSheet']),
+		UBS: {
+			get() {
+				return this.uploadBottomSheet;
+			},
+			set(val) {
+				return (this.$store.state.app.uploadBottomSheet = val);
+			},
+		},
 	},
 	methods: {
 		...mapActions('app', ['hideUploadBottomSheet']),

@@ -29,6 +29,7 @@
 					:to="link.to"
 					:active-class="color"
 					avatar
+					:draggable="false"
 					class="v-list-item"
 				>
 					<v-list-tile-action>
