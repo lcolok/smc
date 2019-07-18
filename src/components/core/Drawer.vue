@@ -15,9 +15,9 @@
 					<v-list-tile-avatar color="white">
 						<v-img :src="logo" height="34" contain />
 					</v-list-tile-avatar>
-					<v-list-tile-title class="title">{{
-						$t('Shared Management Center')
-					}}</v-list-tile-title>
+					<v-list-tile-title class="title">
+						{{ $t('Shared Management Center') }}
+					</v-list-tile-title>
 				</v-list-tile>
 				<v-divider />
 				<v-list-tile v-if="responsive">
@@ -71,6 +71,9 @@
 import { mapMutations, mapState } from 'vuex';
 
 export default {
+	created() {
+		console.log(Object.keys(this.$route.query).length === 0);
+	},
 	computed: {
 		...mapState('app', ['image', 'color']),
 		...mapState('search', ['results']),
@@ -86,7 +89,11 @@ export default {
 					to: '/search_results',
 					icon: 'mdi-cloud-search',
 					text: this.$t('Search Results'),
-					display: this.results.length !== 0,
+					display:
+						this.results.length !== 0 ||
+						(Object.keys(this.$route.query).length === 0
+							? false
+							: this.$route.query.key),
 				},
 				// {
 				// 	to: '/upload_page',
