@@ -2,13 +2,19 @@
 	<v-text-field
 		v-model="searchContent"
 		:loading="loading"
-		class="mr-4 mt-2 purple-input"
+		class=" mt-2 purple-input"
 		:label="$t('Search...')"
 		@keyup.enter="search(searchContent)"
 		hide-details
-		autofocus
 		v-bind="[$attrs, $props]"
-	/>
+		type="search"
+		clearable
+	>
+		<template v-slot:label>
+			搜索
+			<v-icon style="vertical-align: middle" size="20">mdi-cloud-search</v-icon>
+		</template></v-text-field
+	>
 </template>
 <script>
 import { mapMutations, mapActions } from 'vuex';
