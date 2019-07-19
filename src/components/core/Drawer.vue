@@ -15,9 +15,9 @@
 					<v-list-tile-avatar color="white">
 						<v-img :src="logo" height="34" contain />
 					</v-list-tile-avatar>
-					<v-list-tile-title class="title">
-						{{ $t('Shared Management Center') }}
-					</v-list-tile-title>
+					<v-list-tile-title class="title">{{
+						$t('Shared Management Center')
+					}}</v-list-tile-title>
 				</v-list-tile>
 				<v-divider />
 				<v-list-tile v-if="responsive">
@@ -73,8 +73,8 @@ import { mapMutations, mapState } from 'vuex';
 import * as _ from 'lodash';
 
 export default {
-	created() {
-		console.log(_.has(this.$route, 'query.key'));
+	beforeRouteEnter(to, from, next) {
+		console.log(to);
 	},
 	computed: {
 		...mapState('app', ['image', 'color']),

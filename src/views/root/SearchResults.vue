@@ -30,7 +30,7 @@ export default {
 				}
 			});
 		} else {
-			next({ path: '/' });
+			next({ path: from.fullPath });
 		}
 	},
 	data() {
