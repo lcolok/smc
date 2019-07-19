@@ -69,10 +69,12 @@
 <script>
 // Utilities
 import { mapMutations, mapState } from 'vuex';
+// import { isEmpty } from 'underscore';
+import * as _ from 'lodash';
 
 export default {
 	created() {
-		console.log(Object.keys(this.$route.query).length === 0);
+		console.log(_.has(this.$route, 'query.key'));
 	},
 	computed: {
 		...mapState('app', ['image', 'color']),
@@ -89,11 +91,7 @@ export default {
 					to: '/search_results',
 					icon: 'mdi-cloud-search',
 					text: this.$t('Search Results'),
-					display:
-						this.results.length !== 0 ||
-						(Object.keys(this.$route.query).length === 0
-							? false
-							: this.$route.query.key),
+					display: !_.isEmpty(this.results) || _.has(this.$route, 'query.key'),
 				},
 				// {
 				// 	to: '/upload_page',

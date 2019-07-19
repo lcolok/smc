@@ -16,14 +16,19 @@
 <script>
 import { mapState, mapActions } from 'vuex';
 import router from '@/router';
+import * as _ from 'lodash';
 
 export default {
-	mounted() {
+	created() {
 		// console.log({ oldKey: this.oldKey });
 		// console.log(this.$route.query);
-		let query = this.$route.query;
-		if (query.key !== this.oldKey) {
-			this.searchByKey({ key: query.key });
+		if (_.has(this.$route, 'query.key')) {
+			let query = this.$route.query;
+			if (query.key !== this.oldKey) {
+				this.searchByKey({ key: query.key });
+			}
+		} else {
+			router.push({ path: '/' });
 		}
 	},
 	data() {
