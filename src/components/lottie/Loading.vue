@@ -1,13 +1,11 @@
 <template>
-	<div id="app">
-		<base-lottie
-			style="position:relative;top:45px;"
-			:options="defaultOptions"
-			:height="120"
-			:width="120"
-			@animCreated="initAnim"
-		/>
-	</div>
+	<base-lottie
+		style="position:relative;top:45px;"
+		:options="defaultOptions"
+		:height="120"
+		:width="120"
+		@animCreated="initAnim"
+	/>
 </template>
 
 <script>

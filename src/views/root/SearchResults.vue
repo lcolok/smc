@@ -14,11 +14,14 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions, mapMutations } from 'vuex';
 import router from '@/router';
 import * as _ from 'lodash';
 
 export default {
+	// created() {
+	// 	this.showMenu(false);
+	// },
 	beforeRouteEnter(to, from, next) {
 		//beforeRouteEnter 守卫 不能 访问 this，因为守卫在导航确认前被调用,因此即将登场的新组件还没被创建。
 		if (_.has(to, 'query.key')) {
@@ -32,6 +35,12 @@ export default {
 		} else {
 			next({ path: from.fullPath });
 		}
+	},
+	beforeRouteLeave(to, from, next) {
+		// 导航离开该组件的对应路由时调用
+		// 可以访问组件实例 `this`
+		this.showMenu(false);
+		next();
 	},
 	data() {
 		return { update: true };
@@ -47,6 +56,7 @@ export default {
 	},
 	methods: {
 		...mapActions('search', ['searchByKey']),
+		...mapMutations('rightClickMenu', ['showMenu']),
 		complete(index) {
 			this.list[index] = !this.list[index];
 		},

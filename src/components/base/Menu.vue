@@ -32,11 +32,11 @@ export default {
 	// created() {
 	// 	console.log(this);
 	// },
-	watch: {
-		details(val) {
-			console.log(val);
-		},
-	},
+	// watch: {
+	// 	details(val) {
+	// 		console.log(val);
+	// 	},
+	// },
 	props: {
 		items: {
 			type: Array,
