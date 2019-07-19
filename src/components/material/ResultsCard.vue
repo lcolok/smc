@@ -5,12 +5,15 @@
 		<v-flex>
 			<v-card hover @contextmenu="rightClick({ index, e: $event })">
 				<!-- <v-expand-transition> -->
+
 				<v-img
 					v-if="picPath"
 					:src="picPath"
 					:height="picHeight"
 					@error="picPath = unknown_bg_src"
+					@load="loaded"
 				>
+					<lottie-loading v-show="lottieLoading" />
 					<div :class="!rawPreview || 'fill-height bottom-gradient'">
 						<v-container class="caption white--text font-weight-800">
 							<v-flex class="file-type-prompt">
@@ -29,6 +32,7 @@
 							</v-flex>
 						</v-container>
 						<v-img
+							v-if="abovePicPath"
 							:src="abovePicPath"
 							:style="aboveStyle"
 							@error="abovePicPath = unknown_text_src"
@@ -76,6 +80,7 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 export default {
 	data: () => ({
 		// show: false,
+		lottieLoading: true,
 		abovePicPath: '',
 		picPath: '',
 		picHeight: 200,
@@ -125,6 +130,9 @@ export default {
 	},
 	methods: {
 		...mapActions('rightClickMenu', ['rightClick']),
+		loaded() {
+			this.lottieLoading = false;
+		},
 		updatePic: async function() {
 			// console.log(this.suffixList);
 			this.abovePicPath = '';
