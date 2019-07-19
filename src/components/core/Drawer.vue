@@ -169,7 +169,7 @@ export default {
 	},
 	data() {
 		return {
-			logo: `${this.$baseUrl}img/vuetifylogo.png`,
+			logo: `${this.$baseUrl}img/CloudUploadAlpha.png`,
 
 			responsive: false,
 		};
