@@ -19,16 +19,18 @@ import router from '@/router';
 import * as _ from 'lodash';
 
 export default {
-	created() {
-		// console.log({ oldKey: this.oldKey });
-		// console.log(this.$route.query);
-		if (_.has(this.$route, 'query.key')) {
-			let query = this.$route.query;
-			if (query.key !== this.oldKey) {
-				this.searchByKey({ key: query.key });
-			}
+	beforeRouteEnter(to, from, next) {
+		//beforeRouteEnter 守卫 不能 访问 this，因为守卫在导航确认前被调用,因此即将登场的新组件还没被创建。
+		if (_.has(to, 'query.key')) {
+			next(vm => {
+				// 通过 `vm` 访问组件实例
+				let query = to.query;
+				if (query.key !== vm.oldKey) {
+					vm.searchByKey({ key: query.key });
+				}
+			});
 		} else {
-			router.push({ path: '/' });
+			next({ path: '/' });
 		}
 	},
 	data() {
