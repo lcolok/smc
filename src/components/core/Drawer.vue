@@ -37,7 +37,7 @@
 					</v-list-tile-action>
 					<v-list-tile-title v-text="link.text" />
 				</v-list-tile>
-				<v-list-tile
+				<!-- <v-list-tile
 					active-class="primary"
 					class="v-list-item v-list__tile--buy"
 					@click="testClass()"
@@ -60,7 +60,7 @@
 					<v-list-tile-title class="font-weight-light"
 						>测试API</v-list-tile-title
 					>
-				</v-list-tile>
+				</v-list-tile> -->
 			</v-layout>
 		</v-img>
 	</v-navigation-drawer>

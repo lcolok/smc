@@ -4,7 +4,10 @@
 		:loading="loading"
 		class=" mt-2 purple-input"
 		:label="$t('Search...')"
-		@keyup.enter="search(searchContent)"
+		@keyup.enter="
+			$event.target.blur();
+			search(searchContent);
+		"
 		hide-details
 		v-bind="[$attrs, $props]"
 		type="search"
@@ -31,9 +34,10 @@ export default {
 	},
 	methods: {
 		...mapActions('search', ['searchByKey']),
+		...mapMutations('app', ['setDrawer']),
+
 		search: async function(key) {
 			console.log(key);
-
 			this.items = [];
 			this.searchByKey({ key });
 		},

@@ -11,6 +11,21 @@
 			</v-flex>
 		</v-layout>
 	</v-container>
+	<v-container v-else fill-height>
+		<v-layout
+			align-center
+			justify-center
+			column
+			fill-height
+			style="position:relative;top:20vh"
+		>
+			<lottie-file-not-found />
+			<h3>
+				{{ $t('Your search - ') }}{{ oldKey
+				}}{{ $t(' - did not match any documents.') }}
+			</h3>
+		</v-layout>
+	</v-container>
 </template>
 
 <script>
@@ -42,8 +57,9 @@ export default {
 		this.showMenu(false);
 		next();
 	},
+
 	data() {
-		return { update: true };
+		return {};
 	},
 	watch: {
 		results(val) {
@@ -53,6 +69,12 @@ export default {
 	computed: {
 		...mapState('search', ['results']),
 		...mapState('search', { oldKey: state => state.key }),
+		update: {
+			get() {
+				return !_.isEmpty(this.results);
+			},
+			set() {},
+		},
 	},
 	methods: {
 		...mapActions('search', ['searchByKey']),
