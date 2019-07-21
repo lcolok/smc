@@ -19,7 +19,7 @@
                 <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-avatar>-->
 					<v-icon>{{ item.icon }}</v-icon>
-					<v-list-tile-title>{{ item.text }}</v-list-tile-title>
+					<v-list-tile-title>{{ $t(item.text) }}</v-list-tile-title>
 				</v-list-tile>
 			</v-list>
 		</v-menu>
