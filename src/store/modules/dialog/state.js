@@ -1,1 +1,4 @@
-export default {};
+export default {
+	dialogModel: false,
+	tab: 'Test',
+};
