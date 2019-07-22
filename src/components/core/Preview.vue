@@ -1,6 +1,6 @@
 <template>
 	<v-layout row justify-center>
-		<v-dialog v-model="model" max-width="80vw">
+		<v-dialog v-model="model" max-width="70vw">
 			<v-card>
 				<component :is="tab"></component>
 			</v-card>
