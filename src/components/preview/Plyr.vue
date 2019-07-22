@@ -2,8 +2,8 @@
 	<div>
 		<vue-plyr ref="plyr">
 			<video
-				poster="poster.png"
-				src="https://attachments-cdn.shimo.im/g6f6Crx4CdgQhJyY/电信项目第二期-教你用VoLTE.mp4"
+				crossorigin="anonymous"
+				poster="https://attachments-cdn.shimo.im/g6f6Crx4CdgQhJyY/电信项目第二期-教你用VoLTE.mp4?vframe/png/offset/60"
 			>
 				<source
 					src="https://attachments-cdn.shimo.im/g6f6Crx4CdgQhJyY/电信项目第二期-教你用VoLTE.mp4"
@@ -23,33 +23,63 @@
 					default
 				/>
 			</video>
+			<!-- <div
+				crossorigin="anonymous"
+				data-plyr-provider="youtube"
+				data-plyr-embed-id="bTqVqk7FSmY"
+			></div> -->
 		</vue-plyr>
+		<v-btn @click="capture" color="primary">截图</v-btn>
 	</div>
 </template>
 <script>
 export default {
-	data: () => ({
-		source: {
-			src:
-				'https://attachments-cdn.shimo.im/g6f6Crx4CdgQhJyY/电信项目第二期-教你用VoLTE.mp4',
-			type: 'video/mp4',
-			size: 720,
-		},
-	}),
+	data: () => ({}),
 	mounted() {
-		console.log(this.player);
+		console.log(
+			(this.player.source =
+				'https://attachments-cdn.shimo.im/g6f6Crx4CdgQhJyY/电信项目第二期-教你用VoLTE.mp4'),
+		);
 	},
 	computed: {
 		player() {
 			let player = this.$refs.plyr.player;
-			player.source = {
-				type: 'video',
-				title: 'Example title',
-
-				poster:
-					'https://attachments-cdn.shimo.im/EQmY7CGHF9E5iJ8J/%E7%94%B5%E4%BF%A15G_0426_%E9%85%8D%E9%9F%B3%E6%95%88.mp4?vframe/png/offset/87.822126/w/500',
-			};
 			return player;
+		},
+	},
+	methods: {
+		capture() {
+			// let player = this.player;
+			// const width = player.media.videoWidth;
+			// const height = player.media.videoHeight;
+			// const canvas = Object.assign(document.createElement('canvas'), {
+			// 	width,
+			// 	height,
+			// });
+			// canvas.getContext('2d').drawImage(player.media, 0, 0, width, height);
+			// // Set as poster (will show if you run `player.stop()` for example)
+
+			// let img = canvas.toDataURL('image/png');
+
+			const canvas = document.createElement('canvas');
+			canvas.width = this.player.media.videoWidth;
+			canvas.height = this.player.media.videoHeight;
+			canvas
+				.getContext('2d')
+				.drawImage(this.player.media, 0, 0, canvas.width, canvas.height);
+
+			let dataURL;
+			canvas.toBlob(blob => {
+				dataURL = URL.createObjectURL(blob);
+				const link = document.createElement('a');
+				link.href = dataURL;
+				link.download = 'DPlayer.png';
+				link.style.display = 'none';
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+				URL.revokeObjectURL(dataURL);
+			});
 		},
 	},
 };
