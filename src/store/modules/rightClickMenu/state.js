@@ -9,7 +9,7 @@ export default {
 	listItems: [
 		{
 			icon: 'mdi-clipboard-text',
-			text: '复制短链',
+			text: 'Share',
 			showInSheet: true,
 			name: 'copyBTN',
 			action: ({ $event, details: d, $copyText, $store }) => {
@@ -35,7 +35,7 @@ export default {
 		},
 		{
 			icon: 'mdi-download',
-			text: '直接下载',
+			text: 'Download',
 			showInSheet: true,
 			action: ({ $event, details: d, $copyText, $store }) => {
 				console.log(d);
@@ -55,10 +55,11 @@ export default {
 
 		{
 			icon: 'mdi-rename-box',
-			text: '重命名',
+			text: 'Rename',
 			showInSheet: true,
 			action: ({ $event, details: d, $copyText, $store }) => {
 				console.log(d);
+
 				async function renameContent(currentVideo) {
 					if (app.renameInput !== app.originalName) {
 						let renameObject = AV.Object.createWithoutData(
@@ -86,12 +87,12 @@ export default {
 		},
 		{
 			icon: 'mdi-comment-plus',
-			text: '备注',
+			text: 'Remarks',
 			action: () => {},
 		},
 		{
 			icon: 'mdi-link-box-variant-outline',
-			text: '纯短链',
+			text: 'Short URL',
 			name: 'copyShortURL',
 			action: ({ $event, details: d, $copyText, $store }) => {
 				$copyText(d.shortURL)
@@ -107,7 +108,7 @@ export default {
 		},
 		{
 			icon: 'mdi-link-variant',
-			text: '纯长链',
+			text: 'Long URL',
 			name: 'copyLongURL',
 			action: ({ $event, details: d, $copyText, $store }) => {
 				$copyText(d.attachmentURL)
@@ -128,7 +129,7 @@ export default {
           }, */
 		{
 			icon: 'mdi-delete',
-			text: '删除该项',
+			text: 'Delete',
 			subheader: '敏感操作',
 			action: deleteOjbect => {
 				app.deleteOjbect = deleteOjbect;

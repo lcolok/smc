@@ -52,5 +52,12 @@
 	"Shared Management Center": "共享管理中心",
 	"SMC": "SMC",
 	"Your search - ": "找不到和您查询的“",
-	" - did not match any documents.": "”相符的内容或信息。"
+	" - did not match any documents.": "”相符的内容或信息。",
+	"Download": "下载",
+	"Rename": "改名",
+	"Remarks": "备注",
+	"Share": "分享",
+	"Short URL": "短链",
+	"Long URL": "长链",
+	"Delete": "删除"
 }

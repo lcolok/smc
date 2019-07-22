@@ -1,7 +1,8 @@
 <template>
 	<div @dragenter="showUploadBottomSheet()">
 		<v-app>
-			<core-upload-bottom-sheet />
+			<core-dialog />
+			<core-upload />
 			<core-filter />
 			<core-toolbar />
 			<core-drawer />
