@@ -3,6 +3,7 @@
 		<v-app>
 			<core-dialog />
 			<core-upload />
+			<core-preview />
 			<core-filter />
 			<core-toolbar />
 			<core-drawer />

@@ -12,6 +12,7 @@
 						:height="picHeight"
 						@error="picPath = unknown_bg_src"
 						@load="loaded"
+						@click="leftClick()"
 					>
 						<lottie-loading v-show="lottieLoading" />
 						<div :class="!rawPreview || 'fill-height bottom-gradient'">
@@ -42,7 +43,7 @@
 				</v-fade-transition>
 				<!-- </v-expand-transition> -->
 
-				<v-card-title primary-title>
+				<v-card-title primary-title @click="leftClick()">
 					<div>
 						<div class="headline">{{ title }}</div>
 						<span class="grey--text">{{ subTitle }}</span>
@@ -54,21 +55,9 @@
 					<v-btn color="primary">Explore</v-btn>
 					<v-spacer></v-spacer>
 					<v-btn icon @click="rightClick({ index, e: $event })">
-						<v-icon color="primary">
-							mdi-dots-vertical
-						</v-icon>
+						<v-icon color="primary">mdi-dots-vertical</v-icon>
 					</v-btn>
 				</v-card-actions>
-
-				<!-- 				<v-expand-transition>
-					<v-card-text v-show="show">
-						I'm a thing. But, like most politicians, he promised more than he
-						could deliver. You won't have time for sleeping, soldier, not with
-						all the bed making you'll be doing. Then we'll go with that data
-						file! Hey, you add a one and two zeros to that or we walk! You're
-						going to do his laundry? I've got to find a way to escape.
-					</v-card-text>
-				</v-expand-transition> -->
 			</v-card>
 		</v-flex>
 	</v-layout>
@@ -131,6 +120,7 @@ export default {
 	},
 	methods: {
 		...mapActions('rightClickMenu', ['rightClick']),
+		...mapActions('preview', ['leftClick']),
 		loaded() {
 			this.lottieLoading = false;
 		},
