@@ -1,5 +1,5 @@
 <template>
-	<v-container v-if="update" fill-height fluid grid-list-md>
+	<v-container v-if="update && exist" fill-height fluid grid-list-md>
 		<v-layout wrap>
 			<v-flex v-for="(item, index) in results" :key="index" sm6 xs12 md6 lg3>
 				<material-results-card
@@ -12,18 +12,21 @@
 		</v-layout>
 	</v-container>
 	<v-container v-else fill-height>
-		<v-layout
-			align-center
-			justify-center
-			column
-			fill-height
-			style="position:relative;top:20vh"
-		>
+		<v-layout align-center justify-center column fill-height>
 			<lottie-file-not-found />
-			<h3>
-				{{ $t('Your search - ') }}{{ oldKey
-				}}{{ $t(' - did not match any documents.') }}
-			</h3>
+
+			<v-layout align-start justify-center column fill-height>
+				<h5>
+					{{ $t('Your search - ') }}{{ oldKey
+					}}{{ $t(' - did not match any documents.') }}
+				</h5>
+				<h5>建议：</h5>
+				<ul>
+					<li>请检查输入字词有无错误。</li>
+					<li>请尝试其他查询词。</li>
+					<li>请改用较常见的字词。</li>
+				</ul>
+			</v-layout>
 		</v-layout>
 	</v-container>
 </template>
@@ -59,7 +62,9 @@ export default {
 	},
 
 	data() {
-		return {};
+		return {
+			update: true,
+		};
 	},
 	watch: {
 		results(val) {
@@ -68,12 +73,14 @@ export default {
 	},
 	computed: {
 		...mapState('search', ['results']),
-		...mapState('search', { oldKey: state => state.key }),
-		update: {
+		...mapState('search', ['oldKey']),
+		exist: {
 			get() {
 				return !_.isEmpty(this.results);
 			},
-			set() {},
+			set(val) {
+				return;
+			},
 		},
 	},
 	methods: {

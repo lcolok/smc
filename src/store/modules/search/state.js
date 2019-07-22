@@ -232,6 +232,8 @@ function arrayToObject(array, key) {
 }
 
 export default {
+	oldKey: null,
+
 	key: null,
 	results: [],
 

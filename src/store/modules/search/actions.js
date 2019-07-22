@@ -54,6 +54,7 @@ export default {
 				return;
 			} else {
 				state.results = result;
+				state.oldKey = params.key;
 			}
 		}
 	},
