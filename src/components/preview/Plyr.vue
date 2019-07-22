@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<vue-plyr ref="plyr">
+		<vue-plyr ref="plyr" :options="options">
 			<video
 				crossorigin="anonymous"
 				poster="https://attachments-cdn.shimo.im/g6f6Crx4CdgQhJyY/电信项目第二期-教你用VoLTE.mp4?vframe/png/offset/60"
@@ -27,20 +27,65 @@
 				crossorigin="anonymous"
 				data-plyr-provider="youtube"
 				data-plyr-embed-id="bTqVqk7FSmY"
-			></div> -->
+      ></div>-->
 		</vue-plyr>
 		<v-btn @click="capture" color="primary">截图</v-btn>
 	</div>
 </template>
 <script>
 export default {
-	data: () => ({}),
-	mounted() {
-		console.log(
-			(this.player.source =
-				'https://attachments-cdn.shimo.im/g6f6Crx4CdgQhJyY/电信项目第二期-教你用VoLTE.mp4'),
-		);
-	},
+	data: () => ({
+		options: {
+			title: 'Example Title',
+			loadSprite: true,
+
+			i18n: {
+				restart: 'Restart',
+				rewind: 'Rewind {seektime}s',
+				play: 'Play',
+				pause: 'Pause',
+				fastForward: 'Forward {seektime}s',
+				seek: 'Seek',
+				seekLabel: '{currentTime} of {duration}',
+				played: 'Played',
+				buffered: 'Buffered',
+				currentTime: 'Current time',
+				duration: 'Duration',
+				volume: 'Volume',
+				mute: 'Mute',
+				unmute: 'Unmute',
+				enableCaptions: 'Enable captions',
+				disableCaptions: 'Disable captions',
+				download: 'Download',
+				enterFullscreen: 'Enter fullscreen',
+				exitFullscreen: 'Exit fullscreen',
+				frameTitle: 'Player for {title}',
+				captions: '字幕',
+				settings: '设定',
+				menuBack: 'Go back to previous menu',
+				speed: 'Speed',
+				normal: 'Normal',
+				quality: '质量',
+				loop: 'Loop',
+				start: 'Start',
+				end: 'End',
+				all: 'All',
+				reset: 'Reset',
+				disabled: 'Disabled',
+				enabled: 'Enabled',
+				advertisement: 'Ad',
+				qualityBadge: {
+					2160: '4K',
+					1440: 'HD',
+					1080: 'HD',
+					720: 'HD',
+					576: 'SD',
+					480: 'SD',
+				},
+			},
+		},
+	}),
+	mounted() {},
 	computed: {
 		player() {
 			let player = this.$refs.plyr.player;
