@@ -1,4 +1,4 @@
 export default {
-	previewModel: true,
+	previewModel: false,
 	tab: 'plyr',
 };
