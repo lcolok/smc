@@ -1,5 +1,5 @@
 export default {
-	rightClick({ state, commit }, { index, e }) {
+	rightClick({ state, commit }, { index, $event: e }) {
 		e.preventDefault();
 		commit('showMenu', false);
 		state.showMenuIndex = index;

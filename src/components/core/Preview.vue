@@ -2,7 +2,7 @@
 	<v-layout row justify-center>
 		<v-dialog v-model="model" max-width="70vw">
 			<v-card>
-				<component :is="tab"></component>
+				<component :attrs="attrs" :is="tab"></component>
 			</v-card>
 		</v-dialog>
 	</v-layout>
@@ -34,7 +34,7 @@ requireComponent.keys().forEach(fileName => {
 export default {
 	data: () => ({}),
 	computed: {
-		...mapState('preview', ['previewModel', 'tab']),
+		...mapState('preview', ['previewModel', 'tab', 'attrs']),
 		model: {
 			get() {
 				return this.previewModel;

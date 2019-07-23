@@ -1,16 +1,8 @@
 <template>
 	<div>
 		<vue-plyr ref="plyr" :options="options">
-			<video
-				crossorigin="anonymous"
-				poster="https://attachments-cdn.shimo.im/g6f6Crx4CdgQhJyY/电信项目第二期-教你用VoLTE.mp4?vframe/png/offset/60"
-			>
-				<v-btn />
-				<source
-					src="https://attachments-cdn.shimo.im/g6f6Crx4CdgQhJyY/电信项目第二期-教你用VoLTE.mp4"
-					type="video/mp4"
-					size="720"
-				/>
+			<video crossorigin="anonymous" :src="attrs.attachmentURL">
+				<!-- <source :src="src" type="video/mp4" size="720" />
 				<source
 					src="https://attachments-cdn.shimo.im/g6f6Crx4CdgQhJyY/电信项目第二期-教你用VoLTE.mp4"
 					type="video/mp4"
@@ -22,7 +14,7 @@
 					srclang="en"
 					src="captions-en.vtt"
 					default
-				/>
+        />-->
 			</video>
 			<!-- <div
 				crossorigin="anonymous"
@@ -34,7 +26,110 @@
 	</div>
 </template>
 <script>
+import { mapState } from 'vuex';
+import { setTimeout } from 'timers';
 export default {
+	props: {
+		attrs: {
+			type: Object,
+			required: true,
+		},
+	},
+
+	mounted() {
+		// console.log(this.attrs);
+	},
+	watch: {
+		previewModel(val) {
+			console.log(val);
+			if (val) {
+				setTimeout(() => {
+					this.player.play();
+				}, 100);
+			} else {
+				this.player.pause();
+			}
+		},
+	},
+	computed: {
+		...mapState('preview', ['previewModel']),
+		player() {
+			return this.$refs.plyr.player;
+		},
+	},
+	methods: {
+		capture() {
+			// let player = this.player;
+			// const width = player.media.videoWidth;
+			// const height = player.media.videoHeight;
+			// const canvas = Object.assign(document.createElement('canvas'), {
+			// 	width,
+			// 	height,
+			// });
+			// canvas.getContext('2d').drawImage(player.media, 0, 0, width, height);
+			// // Set as poster (will show if you run `player.stop()` for example)
+
+			// let img = canvas.toDataURL('image/png');
+
+			function MillisecondToDate(msd) {
+				var time = parseFloat(msd) / 1000;
+				if (null != time && '' != time) {
+					if (time > 60 && time < 60 * 60) {
+						time =
+							parseInt(time / 60.0) +
+							'分' +
+							parseInt((parseFloat(time / 60.0) - parseInt(time / 60.0)) * 60) +
+							'秒';
+					} else if (time >= 60 * 60 && time < 60 * 60 * 24) {
+						time =
+							parseInt(time / 3600.0) +
+							'时' +
+							parseInt(
+								(parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60,
+							) +
+							'分' +
+							parseInt(
+								(parseFloat(
+									(parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60,
+								) -
+									parseInt(
+										(parseFloat(time / 3600.0) - parseInt(time / 3600.0)) * 60,
+									)) *
+									60,
+							) +
+							'秒';
+					} else {
+						time = parseInt(time) + '秒';
+					}
+				} else {
+					time = '0 时 0 分0 秒';
+				}
+				return time;
+			}
+
+			const canvas = document.createElement('canvas');
+			canvas.width = this.player.media.videoWidth;
+			canvas.height = this.player.media.videoHeight;
+			canvas
+				.getContext('2d')
+				.drawImage(this.player.media, 0, 0, canvas.width, canvas.height);
+
+			let dataURL;
+			canvas.toBlob(blob => {
+				dataURL = URL.createObjectURL(blob);
+				const link = document.createElement('a');
+				link.href = dataURL;
+				link.download = `${this.attrs.name}(${MillisecondToDate(
+					this.player.currentTime * 1000,
+				)}处).png`;
+				link.style.display = 'none';
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+				URL.revokeObjectURL(dataURL);
+			});
+		},
+	},
 	data: () => ({
 		options: {
 			// Disable
@@ -47,7 +142,7 @@ export default {
 			debug: false,
 
 			// Auto play (if supported)
-			autoplay: false,
+			autoplay: true,
 
 			// Only allow one media playing at once (vimeo only)
 			autopause: true,
@@ -462,47 +557,5 @@ export default {
 			},
 		},
 	}),
-	mounted() {},
-	computed: {
-		player() {
-			let player = this.$refs.plyr.player;
-			return player;
-		},
-	},
-	methods: {
-		capture() {
-			// let player = this.player;
-			// const width = player.media.videoWidth;
-			// const height = player.media.videoHeight;
-			// const canvas = Object.assign(document.createElement('canvas'), {
-			// 	width,
-			// 	height,
-			// });
-			// canvas.getContext('2d').drawImage(player.media, 0, 0, width, height);
-			// // Set as poster (will show if you run `player.stop()` for example)
-
-			// let img = canvas.toDataURL('image/png');
-
-			const canvas = document.createElement('canvas');
-			canvas.width = this.player.media.videoWidth;
-			canvas.height = this.player.media.videoHeight;
-			canvas
-				.getContext('2d')
-				.drawImage(this.player.media, 0, 0, canvas.width, canvas.height);
-
-			let dataURL;
-			canvas.toBlob(blob => {
-				dataURL = URL.createObjectURL(blob);
-				const link = document.createElement('a');
-				link.href = dataURL;
-				link.download = 'DPlayer.png';
-				link.style.display = 'none';
-				document.body.appendChild(link);
-				link.click();
-				document.body.removeChild(link);
-				URL.revokeObjectURL(dataURL);
-			});
-		},
-	},
 };
 </script>

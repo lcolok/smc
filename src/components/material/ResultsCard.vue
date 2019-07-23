@@ -3,7 +3,7 @@
 		<material-right-click-menu v-bind="[$attrs, $props]" />
 
 		<v-flex>
-			<v-card hover @contextmenu="rightClick({ index, e: $event })">
+			<v-card hover @contextmenu="rightClick({ index, $event })">
 				<!-- <v-expand-transition> -->
 				<v-fade-transition>
 					<v-img
@@ -12,7 +12,7 @@
 						:height="picHeight"
 						@error="picPath = unknown_bg_src"
 						@load="loaded"
-						@click="leftClick()"
+						@click="leftClick({ $event, $attrs, $props, typeName })"
 					>
 						<lottie-loading v-show="lottieLoading" />
 						<div :class="!rawPreview || 'fill-height bottom-gradient'">
@@ -43,7 +43,10 @@
 				</v-fade-transition>
 				<!-- </v-expand-transition> -->
 
-				<v-card-title primary-title @click="leftClick()">
+				<v-card-title
+					primary-title
+					@click="leftClick({ $event, $attrs, $props, typeName })"
+				>
 					<div>
 						<div class="headline">{{ title }}</div>
 						<span class="grey--text">{{ subTitle }}</span>
@@ -54,7 +57,7 @@
 					<v-btn flat color="primary">Share</v-btn>
 					<v-btn color="primary">Explore</v-btn>
 					<v-spacer></v-spacer>
-					<v-btn icon @click="rightClick({ index, e: $event })">
+					<v-btn icon @click="rightClick({ index, $event })">
 						<v-icon color="primary">mdi-dots-vertical</v-icon>
 					</v-btn>
 				</v-card-actions>
