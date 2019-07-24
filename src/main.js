@@ -38,10 +38,27 @@ import store from '@/store';
 Vue.config.productionTip = false;
 Vue.prototype.$baseUrl = process.env.VUE_APP_PUBLIC_PATH;
 
+import Vuetify from 'vuetify';
+import theme from '@/plugins/theme.js';
+import 'vuetify/dist/vuetify.min.css';
+
+import '@mdi/font/scss/materialdesignicons.scss';
+
+import colors from 'vuetify/es5/util/colors';
+
+// console.log(colors);
+Vue.use(Vuetify, {
+	iconfont: 'mdi',
+	theme,
+});
+
+const vuetifyOptions = {};
+
 /* eslint-disable no-new */
 new Vue({
 	i18n,
 	router,
 	store,
+	vuetify: new Vuetify(vuetifyOptions),
 	render: h => h(App),
 }).$mount('#app');
