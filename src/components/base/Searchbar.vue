@@ -2,7 +2,7 @@
 	<v-text-field
 		v-model="searchContent"
 		:loading="loading"
-		class=" mt-2 purple-input"
+		class="mt-2 purple-input"
 		:label="$t('Search...')"
 		@keyup.enter="
 			$event.target.blur();
