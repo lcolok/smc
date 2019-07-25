@@ -55,7 +55,7 @@
 	.v-navigation-drawer
 		.v-list
 		.v-list-item
-		.v-list__tile.v-list__tile--active.#{$color-name} {
+		.v-list-item.v-list-item--active.#{$color-name} {
 		background-color: $color !important;
 		@include shadow-big-color($color);
 	}

@@ -19,9 +19,7 @@
 							</v-avatar>
 						</v-list-item-icon>
 						<v-list-item-content>
-							<v-list-item-title>{{
-								$t('Shared Management Center')
-							}}</v-list-item-title>
+							<div class="site_title">{{ $t('Shared Management Center') }}</div>
 						</v-list-item-content>
 					</v-list-item>
 					<v-divider />
@@ -32,7 +30,7 @@
 						v-for="(link, i) in links"
 						:key="i"
 						:to="link.to"
-						:active-class="color"
+						:color="color"
 						:draggable="false"
 						class="v-list-item"
 					>
@@ -43,7 +41,7 @@
 					</v-list-item>
 					<!-- <v-list-item
 					active-class="primary"
-					class="v-list-item v-list__tile--buy"
+					class="v-list-item v-list-item--buy"
 					@click="testClass()"
 				>
 					<v-list-item-action>
@@ -55,7 +53,7 @@
 				</v-list-item>
 				<v-list-item
 					active-class="primary"
-					class="v-list-item v-list__tile--buy"
+					class="v-list-item v-list-item--buy"
 					@click="testAPI()"
 				>
 					<v-list-item-action>
@@ -225,8 +223,12 @@ export default {
 </script>
 
 <style lang="scss">
+.site_title {
+	font-size: 20px;
+}
+
 #app-drawer {
-	.v-list__tile {
+	.v-list-item {
 		border-radius: 8px;
 
 		&--buy {

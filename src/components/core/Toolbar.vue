@@ -1,5 +1,5 @@
 <template>
-	<v-app-bar app id="core-toolbar" style="background: #eee;">
+	<v-app-bar clipped-left app id="core-toolbar" style="background: #eee;">
 		<v-toolbar-title class="tertiary--text font-weight-light">
 			<v-btn
 				v-if="responsive"
@@ -41,29 +41,29 @@
 					<lottie-upload-status />
 				</a>
 
-				<template v-slot:activator="{ on }">
-					<v-menu
-						bottom
-						left
-						content-class="dropdown-menu"
-						offset-y
-						transition="slide-y-transition"
-					>
+				<v-menu
+					bottom
+					left
+					content-class="dropdown-menu"
+					offset-y
+					transition="slide-y-transition"
+				>
+					<template v-slot:activator="{ on }">
 						<a v-on="on" :draggable="false" v-ripple class="toolbar-items">
 							<v-icon color="tertiary">mdi-dots-vertical</v-icon>
 						</a>
-						<v-list dense>
-							<v-list-tile
-								v-for="(menuItem, i) in profileMenu"
-								:key="i"
-								@click="menuItem.action($event)"
-							>
-								<v-icon>{{ menuItem.icon }}</v-icon>
-								<v-list-tile-title>{{ $t(menuItem.text) }}</v-list-tile-title>
-							</v-list-tile>
-						</v-list>
-					</v-menu>
-				</template>
+					</template>
+					<v-list dense>
+						<v-list-item
+							v-for="(menuItem, i) in profileMenu"
+							:key="i"
+							@click="menuItem.action($event)"
+						>
+							<v-icon>{{ menuItem.icon }}</v-icon>
+							<v-list-item-title>{{ $t(menuItem.text) }}</v-list-item-title>
+						</v-list-item>
+					</v-list>
+				</v-menu>
 			</v-flex>
 		</v-toolbar-items>
 	</v-app-bar>
