@@ -1,5 +1,5 @@
 <template>
-	<v-toolbar id="core-toolbar" prominent style="background: #eee;">
+	<v-app-bar app id="core-toolbar" dense style="background: #eee;">
 		<div class="v-toolbar-title">
 			<v-toolbar-title class="tertiary--text font-weight-light">
 				<v-btn
@@ -105,7 +105,7 @@
 				</template>
 			</v-flex>
 		</v-toolbar-items>
-	</v-toolbar>
+	</v-app-bar>
 </template>
 
 <script>
