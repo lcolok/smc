@@ -5,8 +5,8 @@
 			<core-upload />
 			<core-preview />
 			<core-filter />
-			<core-toolbar />
 			<core-drawer />
+			<core-toolbar />
 			<core-view />
 		</v-app>
 	</div>
