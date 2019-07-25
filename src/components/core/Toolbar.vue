@@ -1,5 +1,5 @@
 <template>
-	<v-toolbar id="core-toolbar" app prominent style="background: #eee;">
+	<v-toolbar id="core-toolbar" prominent style="background: #eee;">
 		<div class="v-toolbar-title">
 			<v-toolbar-title class="tertiary--text font-weight-light">
 				<v-btn
@@ -77,31 +77,32 @@
 				<!-- <router-link v-ripple class="toolbar-items" to="/user-profile">
           <v-icon color="tertiary">mdi-account</v-icon>
         </router-link>-->
-
-				<v-menu
-					bottom
-					left
-					content-class="dropdown-menu"
-					offset-y
-					transition="slide-y-transition"
-				>
-					<a slot="activator" :draggable="false" v-ripple class="toolbar-items">
-						<v-icon color="tertiary">mdi-dots-vertical</v-icon>
-					</a>
-					<v-list dense>
-						<v-list-tile
-							v-for="(menuItem, i) in profileMenu"
-							:key="i"
-							@click="menuItem.action($event)"
-						>
-							<!--               <v-list-tile-avatar color="rgba(0, 0, 0, 0)">
+				<template v-slot:activator="{ on }">
+					<v-menu
+						bottom
+						left
+						content-class="dropdown-menu"
+						offset-y
+						transition="slide-y-transition"
+					>
+						<a v-on="on" :draggable="false" v-ripple class="toolbar-items">
+							<v-icon color="tertiary">mdi-dots-vertical</v-icon>
+						</a>
+						<v-list dense>
+							<v-list-tile
+								v-for="(menuItem, i) in profileMenu"
+								:key="i"
+								@click="menuItem.action($event)"
+							>
+								<!--               <v-list-tile-avatar color="rgba(0, 0, 0, 0)">
                 <v-icon>{{ menuItem.icon }}</v-icon>
               </v-list-tile-avatar>-->
-							<v-icon>{{ menuItem.icon }}</v-icon>
-							<v-list-tile-title>{{ $t(menuItem.text) }}</v-list-tile-title>
-						</v-list-tile>
-					</v-list>
-				</v-menu>
+								<v-icon>{{ menuItem.icon }}</v-icon>
+								<v-list-tile-title>{{ $t(menuItem.text) }}</v-list-tile-title>
+							</v-list-tile>
+						</v-list>
+					</v-menu>
+				</template>
 			</v-flex>
 		</v-toolbar-items>
 	</v-toolbar>

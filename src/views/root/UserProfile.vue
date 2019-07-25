@@ -75,7 +75,7 @@
 							foundation in truth And I love you like Kanye loves Kanye I love
 							Rick Owens’ bed design but the back is...
 						</p>
-						<v-btn color="success" round class="font-weight-light"
+						<v-btn color="success" rounded class="font-weight-light"
 							>Follow</v-btn
 						>
 					</v-card-text>

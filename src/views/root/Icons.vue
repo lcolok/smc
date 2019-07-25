@@ -34,7 +34,7 @@
 				color="success"
 				href="https://materialdesignicons.com/"
 				target="_blank"
-				round
+				rounded
 			>
 				<v-icon left>mdi-material-design</v-icon>
 				<span>See all icons</span>
