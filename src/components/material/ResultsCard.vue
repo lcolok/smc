@@ -13,44 +13,24 @@
 							:height="picHeight"
 							@error="picPath = unknown_bg_src"
 							@load="loaded"
+							@click="hover || leftClick({ $event, $attrs, $props, typeName })"
 						>
-							<v-expand-transition>
-								<div
-									v-if="$vuetify.breakpoint.mdAndUp && hover"
-									class="d-flex transition-fast-in-fast-out black v-card--reveal caption font-weight-800 white--text"
-									style="height: 100%;"
-								>
-									<div class="align-self-center">
-										<v-flex class="align-self-center">
-											<v-btn
-												v-for="(icon, index) in icons"
-												:key="index"
-												icon
-												@click="leftClick({ $event, $attrs, $props, typeName })"
-											>
-												<v-icon>
-													{{ icon }}
-												</v-icon>
-											</v-btn>
-										</v-flex>
+							<div class=" caption font-weight-800 white--text">
+								<v-expand-transition>
+									<div
+										v-if="$vuetify.breakpoint.mdAndUp && hover"
+										class="d-flex transition-fast-in-fast-out black v-card--reveal "
+										style="height: 100%;"
+									>
+										<base-control-bar v-bind="[$props]" />
+										<base-file-details v-bind="[$props]" />
 									</div>
+									<div v-else-if="$vuetify.breakpoint.mdAndDown">
+										<base-file-details v-bind="[$props]" />
+									</div>
+								</v-expand-transition>
+							</div>
 
-									<v-flex class="file-type-prompt">
-										<v-layout align-center justify-start row fill-height>
-											<v-icon size="18" color="white">{{ icon }}</v-icon>
-
-											<v-flex>{{ suffix }}</v-flex>
-										</v-layout>
-									</v-flex>
-									<v-flex class="file-size">
-										<v-layout align-center justify-start row fill-height>
-											<v-icon size="18" color="white">mdi-harddisk</v-icon>
-
-											<v-flex>{{ readaleSize }}</v-flex>
-										</v-layout>
-									</v-flex>
-								</div>
-							</v-expand-transition>
 							<lottie-loading v-if="lottieLoading" />
 							<div :class="!rawPreview || 'fill-height bottom-gradient'">
 								<v-img
@@ -67,7 +47,7 @@
 
 					<v-card-text
 						primary-title
-						@click="leftClick({ $event, $attrs, $props, typeName })"
+						@click="hover || leftClick({ $event, $attrs, $props, typeName })"
 					>
 						<span class="text--primary">
 							<span>{{ title }}</span
@@ -78,9 +58,9 @@
 						><br />
 					</v-card-text>
 
-					<v-card-actions>
-						<v-btn text color="primary">Share</v-btn>
-						<v-btn color="primary">Explore</v-btn>
+					<v-card-actions v-if="$vuetify.breakpoint.smAndDown">
+						<!-- <v-btn text color="primary">Share</v-btn>
+						<v-btn color="primary">Explore</v-btn> -->
 						<v-spacer></v-spacer>
 						<v-btn icon @click="rightClick({ index, $event })">
 							<v-icon color="primary">mdi-dots-vertical</v-icon>
@@ -99,7 +79,7 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 export default {
 	data: () => ({
 		// show: false,
-		icons: ['mdi-rewind', 'mdi-play', 'mdi-fast-forward'],
+
 		lottieLoading: true,
 		abovePicPath: '',
 		picPath: '',
@@ -126,9 +106,7 @@ export default {
 		typeName() {
 			return this.thisDescriptionList.typeName;
 		},
-		icon() {
-			return this.thisDescriptionList.icon;
-		},
+
 		thisPlaceholderList() {
 			return (
 				this.placeholderList[this.suffix] || { name: 'unknown', width: 230 } //如果该后缀能不够匹配对应的placeholder类型,就会赋值默认的unknown图
@@ -140,9 +118,6 @@ export default {
 		aboveStyle() {
 			let width = this.thisPlaceholderList.width;
 			return `width: ${width}px;`;
-		},
-		readaleSize() {
-			return this.renderSize(this.size);
 		},
 	},
 	created() {
@@ -193,29 +168,6 @@ export default {
 					this.picPath = require(`@/assets/img/placeholder/file_cover_bg_${cover_name}@2x.png`);
 					break;
 			}
-		},
-		renderSize(value) {
-			if (null == value || value == '') {
-				return '0 Bytes';
-			}
-			var unitArr = new Array(
-				'Bytes',
-				'KB',
-				'MB',
-				'GB',
-				'TB',
-				'PB',
-				'EB',
-				'ZB',
-				'YB',
-			);
-			var index = 0,
-				srcsize = parseFloat(value);
-			index = Math.floor(Math.log(srcsize) / Math.log(1024));
-			var size = srcsize / Math.pow(1024, index);
-			//  保留的小数位数
-			size = size.toFixed(2);
-			return `${size} ${unitArr[index]}`;
 		},
 	},
 
@@ -324,18 +276,6 @@ export default {
 		rgba(0, 0, 255, 0.25) 5px,
 		rgba(0, 0, 255, 0.25) 10px
 	);
-}
-
-.file-type-prompt {
-	position: absolute;
-	bottom: 2%;
-	left: 2%;
-}
-
-.file-size {
-	position: absolute;
-	bottom: 2%;
-	right: 2%;
 }
 
 .v-card--material-results {
