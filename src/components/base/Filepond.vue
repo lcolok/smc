@@ -140,6 +140,8 @@ export default {
 						// or
 						//   let subscription = observable.subscribe(next, error, complete); // 这样传参形式也可以
 
+						// Should expose an abort method so the request can be cancelled
+						//应该公开一个中止方法，以便取消请求
 						return {
 							abort: () => {
 								// 如果用户点击了取消按钮，则进入该功能

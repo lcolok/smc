@@ -25,7 +25,7 @@
 										<base-control-bar v-bind="[$props]" />
 										<base-file-details v-bind="[$props]" />
 									</div>
-									<div v-else-if="$vuetify.breakpoint.mdAndDown">
+									<div v-else-if="!$vuetify.breakpoint.mdAndUp">
 										<base-file-details v-bind="[$props]" />
 									</div>
 								</v-expand-transition>
