@@ -3,65 +3,91 @@
 		<material-right-click-menu v-bind="[$attrs, $props]" />
 
 		<v-flex>
-			<v-card hover @contextmenu="rightClick({ index, $event })">
-				<!-- <v-expand-transition> -->
-				<v-fade-transition>
-					<v-img
-						v-if="picPath"
-						:src="picPath"
-						:height="picHeight"
-						@error="picPath = unknown_bg_src"
-						@load="loaded"
+			<v-hover v-slot:default="{ hover }">
+				<v-card hover @contextmenu="rightClick({ index, $event })">
+					<!-- <v-expand-transition> -->
+					<v-fade-transition>
+						<v-img
+							v-if="picPath"
+							:src="picPath"
+							:height="picHeight"
+							@error="picPath = unknown_bg_src"
+							@load="loaded"
+						>
+							<v-expand-transition>
+								<div
+									v-if="$vuetify.breakpoint.mdAndUp && hover"
+									class="d-flex transition-fast-in-fast-out black v-card--reveal caption font-weight-800 white--text"
+									style="height: 100%;"
+								>
+									<div class="align-self-center">
+										<v-flex class="align-self-center">
+											<v-btn
+												v-for="(icon, index) in icons"
+												:key="index"
+												icon
+												@click="leftClick({ $event, $attrs, $props, typeName })"
+											>
+												<v-icon>
+													{{ icon }}
+												</v-icon>
+											</v-btn>
+										</v-flex>
+									</div>
+
+									<v-flex class="file-type-prompt">
+										<v-layout align-center justify-start row fill-height>
+											<v-icon size="18" color="white">{{ icon }}</v-icon>
+
+											<v-flex>{{ suffix }}</v-flex>
+										</v-layout>
+									</v-flex>
+									<v-flex class="file-size">
+										<v-layout align-center justify-start row fill-height>
+											<v-icon size="18" color="white">mdi-harddisk</v-icon>
+
+											<v-flex>{{ readaleSize }}</v-flex>
+										</v-layout>
+									</v-flex>
+								</div>
+							</v-expand-transition>
+							<lottie-loading v-if="lottieLoading" />
+							<div :class="!rawPreview || 'fill-height bottom-gradient'">
+								<v-img
+									v-if="abovePicPath"
+									:src="abovePicPath"
+									:style="aboveStyle"
+									class="above_pic"
+									@error="abovePicPath = unknown_text_src"
+								></v-img>
+							</div>
+						</v-img>
+					</v-fade-transition>
+					<!-- </v-expand-transition> -->
+
+					<v-card-text
+						primary-title
 						@click="leftClick({ $event, $attrs, $props, typeName })"
 					>
-						<lottie-loading v-show="lottieLoading" />
-						<div :class="!rawPreview || 'fill-height bottom-gradient'">
-							<v-container class="caption white--text font-weight-800">
-								<v-flex class="file-type-prompt">
-									<v-layout align-center justify-start row fill-height>
-										<v-icon size="18" color="white">{{ icon }}</v-icon>
+						<span class="text--primary">
+							<span>{{ title }}</span
+							><br />
+							<!-- <span>Whitsunday Island, Whitsunday Islands</span> -->
+						</span>
+						<span>{{ subTitle }}</span
+						><br />
+					</v-card-text>
 
-										<v-flex>{{ suffix }}</v-flex>
-									</v-layout>
-								</v-flex>
-								<v-flex class="file-size">
-									<v-layout align-center justify-start row fill-height>
-										<v-icon size="18" color="white">mdi-harddisk</v-icon>
-
-										<v-flex>{{ readaleSize }}</v-flex>
-									</v-layout>
-								</v-flex>
-							</v-container>
-							<v-img
-								v-if="abovePicPath"
-								:src="abovePicPath"
-								:style="aboveStyle"
-								@error="abovePicPath = unknown_text_src"
-							></v-img>
-						</div>
-					</v-img>
-				</v-fade-transition>
-				<!-- </v-expand-transition> -->
-
-				<v-card-title
-					primary-title
-					@click="leftClick({ $event, $attrs, $props, typeName })"
-				>
-					<div>
-						<div class="headline">{{ title }}</div>
-						<span class="grey--text">{{ subTitle }}</span>
-					</div>
-				</v-card-title>
-
-				<v-card-actions>
-					<v-btn text color="primary">Share</v-btn>
-					<v-btn color="primary">Explore</v-btn>
-					<v-spacer></v-spacer>
-					<v-btn icon @click="rightClick({ index, $event })">
-						<v-icon color="primary">mdi-dots-vertical</v-icon>
-					</v-btn>
-				</v-card-actions>
-			</v-card>
+					<v-card-actions>
+						<v-btn text color="primary">Share</v-btn>
+						<v-btn color="primary">Explore</v-btn>
+						<v-spacer></v-spacer>
+						<v-btn icon @click="rightClick({ index, $event })">
+							<v-icon color="primary">mdi-dots-vertical</v-icon>
+						</v-btn>
+					</v-card-actions>
+				</v-card>
+			</v-hover>
 		</v-flex>
 	</v-layout>
 </template>
@@ -73,6 +99,7 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 export default {
 	data: () => ({
 		// show: false,
+		icons: ['mdi-rewind', 'mdi-play', 'mdi-fast-forward'],
 		lottieLoading: true,
 		abovePicPath: '',
 		picPath: '',
@@ -112,7 +139,7 @@ export default {
 		},
 		aboveStyle() {
 			let width = this.thisPlaceholderList.width;
-			return `width: ${width}px;margin-top:35px; margin-left: auto; margin-right: auto;`;
+			return `width: ${width}px;`;
 		},
 		readaleSize() {
 			return this.renderSize(this.size);
@@ -262,7 +289,55 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.above_pic {
+	margin-top: 80px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.show-btns {
+	color: rgba(255, 255, 255, 1) !important;
+}
+.v-card--reveal {
+	align-items: center;
+	bottom: 0;
+	justify-content: center;
+	opacity: 0.5;
+	position: absolute;
+	width: 100%;
+	z-index: 1;
+}
+
+.bottom-gradient {
+	background-image: linear-gradient(
+		to top,
+		rgba(0, 0, 0, 0.4) 0%,
+		transparent 25%
+	);
+}
+
+.repeating-gradient {
+	background-image: repeating-linear-gradient(
+		-45deg,
+		rgba(255, 0, 0, 0.25),
+		rgba(255, 0, 0, 0.25) 5px,
+		rgba(0, 0, 255, 0.25) 5px,
+		rgba(0, 0, 255, 0.25) 10px
+	);
+}
+
+.file-type-prompt {
+	position: absolute;
+	bottom: 2%;
+	left: 2%;
+}
+
+.file-size {
+	position: absolute;
+	bottom: 2%;
+	right: 2%;
+}
+
 .v-card--material-results {
 	display: flex;
 	flex-wrap: wrap;
@@ -295,37 +370,5 @@ export default {
 	.v-card__actions {
 		flex: 1 0 100%;
 	}
-}
-</style>
-
-<style scoped>
-.bottom-gradient {
-	background-image: linear-gradient(
-		to top,
-		rgba(0, 0, 0, 0.4) 0%,
-		transparent 25%
-	);
-}
-
-.repeating-gradient {
-	background-image: repeating-linear-gradient(
-		-45deg,
-		rgba(255, 0, 0, 0.25),
-		rgba(255, 0, 0, 0.25) 5px,
-		rgba(0, 0, 255, 0.25) 5px,
-		rgba(0, 0, 255, 0.25) 10px
-	);
-}
-
-.file-type-prompt {
-	position: absolute;
-	bottom: 2%;
-	left: 2%;
-}
-
-.file-size {
-	position: absolute;
-	bottom: 2%;
-	right: 2%;
 }
 </style>
