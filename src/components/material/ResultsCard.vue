@@ -50,12 +50,12 @@
 						@click="hover || leftClick({ $event, $attrs, $props, typeName })"
 					>
 						<span class="text--primary">
-							<span>{{ title }}</span
-							><br />
+							<span class="title">{{ title }}</span>
 							<!-- <span>Whitsunday Island, Whitsunday Islands</span> -->
 						</span>
-						<span>{{ subTitle }}</span
-						><br />
+						<span v-if="title !== subTitle">
+							<br /><span class="subtitle-1">{{ subTitle }}</span>
+						</span>
 					</v-card-text>
 
 					<v-card-actions v-if="$vuetify.breakpoint.smAndDown">
