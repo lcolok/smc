@@ -1,7 +1,7 @@
 <template>
-	<div id="app">
+	<div id="upload_btn">
 		<base-lottie
-			style="position:relative;bottom:4px;"
+			style="position:relative;"
 			:options="defaultOptions"
 			:height="20"
 			:width="20"
@@ -14,7 +14,7 @@
 import * as animationData from './json/1683-cloud-upload.json';
 import { mapState } from 'vuex';
 export default {
-	name: 'app',
+	name: 'upload_btn',
 	watch: {
 		status(val) {
 			switch (val) {

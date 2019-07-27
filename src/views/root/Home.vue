@@ -1,6 +1,6 @@
 <template>
 	<v-container fluid grid-list-xl fill-height>
-		<v-layout align-space-around justify-center column fill-height>
+		<v-layout wrap align-space-around justify-center column fill-height>
 			<v-flex>
 				<v-card>
 					<v-flex mt-1>
@@ -10,36 +10,7 @@
 			</v-flex>
 
 			<v-flex xs12>
-				<v-flex md6 sm12>
-					<material-card
-						color="primary"
-						:title="$t('Recently uploaded')"
-						text="Complete your profile"
-					>
-						<v-card-text>
-							<v-container fill-height fluid grid-list-md>
-								<v-layout wrap>
-									<v-flex
-										v-for="(item, index) in results"
-										:key="index"
-										sm6
-										xs12
-										md12
-										lg6
-									>
-										<material-results-card
-											v-bind="item"
-											:title="item.name"
-											:subTitle="item.name_trans"
-											:index="index"
-										/>
-									</v-flex>
-								</v-layout>
-							</v-container>
-						</v-card-text>
-					</material-card>
-				</v-flex>
-				<!-- <material-card color="white" :dark="false">
+				<material-card color="white" :dark="false">
 					<v-card-text>
 						<v-layout row wrap>
 							<v-flex md6 sm12>
@@ -166,7 +137,7 @@
 							>
 						</v-snackbar>
 					</v-card-text>
-				</material-card> -->
+				</material-card>
 			</v-flex>
 		</v-layout>
 	</v-container>

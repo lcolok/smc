@@ -2,66 +2,69 @@
 	<v-navigation-drawer
 		id="app-drawer"
 		v-model="inputValue"
-		app
 		dark
+		app
 		floating
 		persistent
 		mobile-break-point="991"
 		width="260"
 	>
 		<v-img :src="image" :gradient="sidebarOverlayGradiant" height="100%">
-			<v-layout tag="v-list" column>
-				<v-list-tile avatar>
-					<v-list-tile-avatar color="white">
-						<v-img :src="logo" height="34" contain />
-					</v-list-tile-avatar>
-					<v-list-tile-title class="title">{{
-						$t('Shared Management Center')
-					}}</v-list-tile-title>
-				</v-list-tile>
-				<v-divider />
-				<v-list-tile v-if="responsive">
-					<base-searchbar />
-				</v-list-tile>
-				<v-list-tile
-					v-for="(link, i) in links"
-					:key="i"
-					:to="link.to"
-					:active-class="color"
-					avatar
-					:draggable="false"
-					class="v-list-item"
-				>
-					<v-list-tile-action>
-						<v-icon>{{ link.icon }}</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-title v-text="link.text" />
-				</v-list-tile>
-				<!-- <v-list-tile
+			<v-list nav dense avatar>
+				<v-layout column>
+					<v-list-item>
+						<v-list-item-icon>
+							<v-avatar color="white">
+								<v-img :src="logo" height="34" contain />
+							</v-avatar>
+						</v-list-item-icon>
+						<v-list-item-content>
+							<div class="site_title">{{ $t('Shared Management Center') }}</div>
+						</v-list-item-content>
+					</v-list-item>
+					<v-divider />
+					<v-list-item v-if="responsive">
+						<base-searchbar />
+					</v-list-item>
+					<v-list-item
+						v-for="(link, i) in links"
+						:key="i"
+						:to="link.to"
+						:color="color"
+						:draggable="false"
+						class="v-list-item"
+					>
+						<v-list-item-action>
+							<v-icon>{{ link.icon }}</v-icon>
+						</v-list-item-action>
+						<v-list-item-title v-text="link.text" />
+					</v-list-item>
+					<!-- <v-list-item
 					active-class="primary"
-					class="v-list-item v-list__tile--buy"
+					class="v-list-item v-list-item--buy"
 					@click="testClass()"
 				>
-					<v-list-tile-action>
+					<v-list-item-action>
 						<v-icon>mdi-package-up</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-title class="font-weight-light"
-						>测试Class</v-list-tile-title
+					</v-list-item-action>
+					<v-list-item-title class="font-weight-light"
+						>测试Class</v-list-item-title
 					>
-				</v-list-tile>
-				<v-list-tile
+				</v-list-item>
+				<v-list-item
 					active-class="primary"
-					class="v-list-item v-list__tile--buy"
+					class="v-list-item v-list-item--buy"
 					@click="testAPI()"
 				>
-					<v-list-tile-action>
+					<v-list-item-action>
 						<v-icon>mdi-package-up</v-icon>
-					</v-list-tile-action>
-					<v-list-tile-title class="font-weight-light"
-						>测试API</v-list-tile-title
+					</v-list-item-action>
+					<v-list-item-title class="font-weight-light"
+						>测试API</v-list-item-title
 					>
-				</v-list-tile> -->
-			</v-layout>
+				</v-list-item> -->
+				</v-layout>
+			</v-list>
 		</v-img>
 	</v-navigation-drawer>
 </template>
@@ -220,8 +223,12 @@ export default {
 </script>
 
 <style lang="scss">
+.site_title {
+	font-size: 20px;
+}
+
 #app-drawer {
-	.v-list__tile {
+	.v-list-item {
 		border-radius: 8px;
 
 		&--buy {

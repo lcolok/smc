@@ -3,65 +3,71 @@
 		<material-right-click-menu v-bind="[$attrs, $props]" />
 
 		<v-flex>
-			<v-card hover @contextmenu="rightClick({ index, $event })">
-				<!-- <v-expand-transition> -->
-				<v-fade-transition>
-					<v-img
-						v-if="picPath"
-						:src="picPath"
-						:height="picHeight"
-						@error="picPath = unknown_bg_src"
-						@load="loaded"
-						@click="leftClick({ $event, $attrs, $props, typeName })"
+			<v-hover v-slot:default="{ hover }">
+				<v-card hover @contextmenu="rightClick({ index, $event })">
+					<!-- <v-expand-transition> -->
+					<v-fade-transition>
+						<v-img
+							v-if="picPath"
+							:src="picPath"
+							:height="picHeight"
+							@error="picPath = unknown_bg_src"
+							@load="loaded"
+							@click="hover || leftClick({ $event, $attrs, $props, typeName })"
+						>
+							<div class=" caption font-weight-800 white--text">
+								<v-expand-transition>
+									<div
+										v-if="$vuetify.breakpoint.mdAndUp && hover"
+										class="d-flex transition-fast-in-fast-out black v-card--reveal "
+										style="height: 100%;"
+									>
+										<base-control-bar v-bind="[$props]" />
+										<base-file-details v-bind="[$props]" />
+									</div>
+									<div v-else-if="!$vuetify.breakpoint.mdAndUp">
+										<base-file-details v-bind="[$props]" />
+									</div>
+								</v-expand-transition>
+							</div>
+
+							<lottie-loading v-if="lottieLoading" />
+							<div :class="!rawPreview || 'fill-height bottom-gradient'">
+								<v-img
+									v-if="abovePicPath"
+									:src="abovePicPath"
+									:style="aboveStyle"
+									class="above_pic"
+									@error="abovePicPath = unknown_text_src"
+								></v-img>
+							</div>
+						</v-img>
+					</v-fade-transition>
+					<!-- </v-expand-transition> -->
+
+					<v-card-text
+						primary-title
+						@click="hover || leftClick({ $event, $attrs, $props, typeName })"
 					>
-						<lottie-loading v-show="lottieLoading" />
-						<div :class="!rawPreview || 'fill-height bottom-gradient'">
-							<v-container class="caption white--text font-weight-800">
-								<v-flex class="file-type-prompt">
-									<v-layout align-center justify-start row fill-height>
-										<v-icon size="18" color="white">{{ icon }}</v-icon>
+						<span class="text--primary">
+							<span class="title">{{ title }}</span>
+							<!-- <span>Whitsunday Island, Whitsunday Islands</span> -->
+						</span>
+						<span v-if="title !== subTitle">
+							<br /><span class="subtitle-1">{{ subTitle }}</span>
+						</span>
+					</v-card-text>
 
-										<v-flex>{{ suffix }}</v-flex>
-									</v-layout>
-								</v-flex>
-								<v-flex class="file-size">
-									<v-layout align-center justify-start row fill-height>
-										<v-icon size="18" color="white">mdi-harddisk</v-icon>
-
-										<v-flex>{{ readaleSize }}</v-flex>
-									</v-layout>
-								</v-flex>
-							</v-container>
-							<v-img
-								v-if="abovePicPath"
-								:src="abovePicPath"
-								:style="aboveStyle"
-								@error="abovePicPath = unknown_text_src"
-							></v-img>
-						</div>
-					</v-img>
-				</v-fade-transition>
-				<!-- </v-expand-transition> -->
-
-				<v-card-title
-					primary-title
-					@click="leftClick({ $event, $attrs, $props, typeName })"
-				>
-					<div>
-						<div class="headline">{{ title }}</div>
-						<span class="grey--text">{{ subTitle }}</span>
-					</div>
-				</v-card-title>
-
-				<v-card-actions>
-					<v-btn flat color="primary">Share</v-btn>
-					<v-btn color="primary">Explore</v-btn>
-					<v-spacer></v-spacer>
-					<v-btn icon @click="rightClick({ index, $event })">
-						<v-icon color="primary">mdi-dots-vertical</v-icon>
-					</v-btn>
-				</v-card-actions>
-			</v-card>
+					<v-card-actions v-if="$vuetify.breakpoint.smAndDown">
+						<!-- <v-btn text color="primary">Share</v-btn>
+						<v-btn color="primary">Explore</v-btn> -->
+						<v-spacer></v-spacer>
+						<v-btn icon @click="rightClick({ index, $event })">
+							<v-icon color="primary">mdi-dots-vertical</v-icon>
+						</v-btn>
+					</v-card-actions>
+				</v-card>
+			</v-hover>
 		</v-flex>
 	</v-layout>
 </template>
@@ -73,6 +79,7 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 export default {
 	data: () => ({
 		// show: false,
+
 		lottieLoading: true,
 		abovePicPath: '',
 		picPath: '',
@@ -99,9 +106,7 @@ export default {
 		typeName() {
 			return this.thisDescriptionList.typeName;
 		},
-		icon() {
-			return this.thisDescriptionList.icon;
-		},
+
 		thisPlaceholderList() {
 			return (
 				this.placeholderList[this.suffix] || { name: 'unknown', width: 230 } //如果该后缀能不够匹配对应的placeholder类型,就会赋值默认的unknown图
@@ -112,10 +117,7 @@ export default {
 		},
 		aboveStyle() {
 			let width = this.thisPlaceholderList.width;
-			return `width: ${width}px;margin-top:35px; margin-left: auto; margin-right: auto;`;
-		},
-		readaleSize() {
-			return this.renderSize(this.size);
+			return `width: ${width}px;`;
 		},
 	},
 	created() {
@@ -166,29 +168,6 @@ export default {
 					this.picPath = require(`@/assets/img/placeholder/file_cover_bg_${cover_name}@2x.png`);
 					break;
 			}
-		},
-		renderSize(value) {
-			if (null == value || value == '') {
-				return '0 Bytes';
-			}
-			var unitArr = new Array(
-				'Bytes',
-				'KB',
-				'MB',
-				'GB',
-				'TB',
-				'PB',
-				'EB',
-				'ZB',
-				'YB',
-			);
-			var index = 0,
-				srcsize = parseFloat(value);
-			index = Math.floor(Math.log(srcsize) / Math.log(1024));
-			var size = srcsize / Math.pow(1024, index);
-			//  保留的小数位数
-			size = size.toFixed(2);
-			return `${size} ${unitArr[index]}`;
 		},
 	},
 
@@ -262,7 +241,43 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.above_pic {
+	margin-top: 80px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.show-btns {
+	color: rgba(255, 255, 255, 1) !important;
+}
+.v-card--reveal {
+	align-items: center;
+	bottom: 0;
+	justify-content: center;
+	opacity: 0.5;
+	position: absolute;
+	width: 100%;
+	z-index: 1;
+}
+
+.bottom-gradient {
+	background-image: linear-gradient(
+		to top,
+		rgba(0, 0, 0, 0.4) 0%,
+		transparent 25%
+	);
+}
+
+.repeating-gradient {
+	background-image: repeating-linear-gradient(
+		-45deg,
+		rgba(255, 0, 0, 0.25),
+		rgba(255, 0, 0, 0.25) 5px,
+		rgba(0, 0, 255, 0.25) 5px,
+		rgba(0, 0, 255, 0.25) 10px
+	);
+}
+
 .v-card--material-results {
 	display: flex;
 	flex-wrap: wrap;
@@ -295,37 +310,5 @@ export default {
 	.v-card__actions {
 		flex: 1 0 100%;
 	}
-}
-</style>
-
-<style scoped>
-.bottom-gradient {
-	background-image: linear-gradient(
-		to top,
-		rgba(0, 0, 0, 0.4) 0%,
-		transparent 25%
-	);
-}
-
-.repeating-gradient {
-	background-image: repeating-linear-gradient(
-		-45deg,
-		rgba(255, 0, 0, 0.25),
-		rgba(255, 0, 0, 0.25) 5px,
-		rgba(0, 0, 255, 0.25) 5px,
-		rgba(0, 0, 255, 0.25) 10px
-	);
-}
-
-.file-type-prompt {
-	position: absolute;
-	bottom: 2%;
-	left: 2%;
-}
-
-.file-size {
-	position: absolute;
-	bottom: 2%;
-	right: 2%;
 }
 </style>

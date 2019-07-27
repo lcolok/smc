@@ -8,7 +8,7 @@
 		margin: 0 1rem 0 -0.8rem;
 	}
 
-	.v-list__tile {
+	.v-list-item {
 		cursor: pointer;
 		border-radius: $border-radius-base - 1;
 		color: #333 !important;
@@ -26,7 +26,7 @@
 		);
 		white-space: nowrap;
 
-		.v-list__tile__title {
+		.v-list-item__title {
 			text-align: center;
 			// text-align-last: justify;
 			margin: 0 -0.5rem 0 -0.5rem;
@@ -40,7 +40,7 @@
 			@include dropdown-menu-color($brand-primary);
 
 			&,
-			.v-list__tile__title {
+			.v-list-item__title {
 				color: $white !important;
 			}
 			.v-icon {

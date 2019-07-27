@@ -69,7 +69,7 @@
 								<td>
 									<v-btn
 										class="subheading white--text font-weight-light"
-										round
+										rounded
 										large
 										color="grey"
 										disabled
@@ -79,7 +79,7 @@
 								<td>
 									<v-btn
 										class="subheading white--text font-weight-light"
-										round
+										rounded
 										large
 										color="cyan"
 										>Upgrade to Pro</v-btn

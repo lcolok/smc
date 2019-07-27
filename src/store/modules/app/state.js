@@ -20,7 +20,7 @@ const images = [
 	'https://cdn.dribbble.com/users/15687/screenshots/6618356/rainforest2.png',
 ];
 
-const colors = ['primary', 'info', 'success', 'warning', 'danger'];
+const colors = ['primary', 'info', 'success', 'warning'];
 
 const random = images[Math.floor(images.length * Math.random())];
 

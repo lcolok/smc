@@ -5,9 +5,11 @@
 			<core-upload />
 			<core-preview />
 			<core-filter />
-			<core-toolbar />
 			<core-drawer />
-			<core-view />
+			<core-toolbar />
+			<v-flex mt-2>
+				<core-view />
+			</v-flex>
 		</v-app>
 	</div>
 </template>

@@ -1,23 +1,22 @@
 //引入全局scss，初衷是为了隐藏滚动条
-@import "global";
+@import 'global';
 
 //material-dashboard import
 
-@import "material-dashboard/mixins";
-@import "material-dashboard/variables";
-@import "material-dashboard/typography";
-@import "material-dashboard/sidebar";
-@import "material-dashboard/toolbar";
-@import "material-dashboard/misc";
-@import "material-dashboard/inputs";
-@import "material-dashboard/footer";
-@import "material-dashboard/cards";
-@import "material-dashboard/tables";
-@import "material-dashboard/tabs";
-@import "material-dashboard/checkboxes";
-@import "material-dashboard/tooltips";
-@import "material-dashboard/buttons";
-@import "material-dashboard/alerts";
-@import "material-dashboard/fixed-plugin";
-@import "material-dashboard/dropdown";
-
+@import 'material-dashboard/mixins';
+@import 'material-dashboard/variables';
+@import 'material-dashboard/typography';
+@import 'material-dashboard/sidebar';
+@import 'material-dashboard/toolbar';
+@import 'material-dashboard/misc';
+@import 'material-dashboard/inputs';
+@import 'material-dashboard/footer';
+@import 'material-dashboard/cards';
+@import 'material-dashboard/tables';
+@import 'material-dashboard/tabs';
+@import 'material-dashboard/checkboxes';
+@import 'material-dashboard/tooltips';
+@import 'material-dashboard/buttons';
+@import 'material-dashboard/alerts';
+@import 'material-dashboard/fixed-plugin';
+@import 'material-dashboard/dropdown';

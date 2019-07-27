@@ -9,18 +9,15 @@
 			absolute
 			v-bind="[$attrs]"
 		>
-			<v-list dense>
-				<v-list-tile
+			<v-list dense avatar>
+				<v-list-item
 					v-for="(item, i) in items"
 					:key="i"
 					@click="item.action({ $event, details, $copyText, $store })"
 				>
-					<!--               <v-list-tile-avatar color="rgba(0, 0, 0, 0)">
-                <v-icon>{{ item.icon }}</v-icon>
-          </v-list-tile-avatar>-->
 					<v-icon>{{ item.icon }}</v-icon>
-					<v-list-tile-title>{{ $t(item.text) }}</v-list-tile-title>
-				</v-list-tile>
+					<v-list-item-title>{{ $t(item.text) }}</v-list-item-title>
+				</v-list-item>
 			</v-list>
 		</v-menu>
 	</div>

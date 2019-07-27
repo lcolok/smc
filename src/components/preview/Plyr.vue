@@ -71,6 +71,8 @@ export default {
 
 			// let img = canvas.toDataURL('image/png');
 
+			let vm = this;
+
 			function MillisecondToDate(msd) {
 				var time = parseFloat(msd) / 1000;
 				if (null != time && '' != time) {
@@ -108,19 +110,20 @@ export default {
 			}
 
 			const canvas = document.createElement('canvas');
-			canvas.width = this.player.media.videoWidth;
-			canvas.height = this.player.media.videoHeight;
+			canvas.width = vm.player.media.videoWidth;
+			canvas.height = vm.player.media.videoHeight;
 			canvas
 				.getContext('2d')
-				.drawImage(this.player.media, 0, 0, canvas.width, canvas.height);
+				.drawImage(vm.player.media, 0, 0, canvas.width, canvas.height);
 
 			let dataURL;
 			canvas.toBlob(blob => {
 				dataURL = URL.createObjectURL(blob);
 				const link = document.createElement('a');
 				link.href = dataURL;
-				link.download = `${this.attrs.name}(${MillisecondToDate(
-					this.player.currentTime * 1000,
+				console.log(vm.attrs);
+				link.download = `${vm.attrs.title}(${MillisecondToDate(
+					vm.player.currentTime * 1000,
 				)}处).png`;
 				link.style.display = 'none';
 				document.body.appendChild(link);
