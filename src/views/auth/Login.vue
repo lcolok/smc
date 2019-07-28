@@ -25,24 +25,27 @@
 				</div>
 				<div class="card-body px-lg-5 py-lg-5">
 					<div class="text-center text-muted mb-4 font-weight-bolder">
-						<small>{{ $t('Or sign up with credentials') }}</small>
+						<small>{{ $t('Or login in with credentials') }}</small>
 					</div>
 					<form role="form">
-						<v-text-field
-							v-model="model.username"
-							autocapitalize="off"
-							prepend-icon="mdi-account"
-							:placeholder="$t('Username') + $t('or') + $t('Email')"
-							solo
-						></v-text-field>
-
-						<v-text-field
-							v-model="model.password"
-							type="password"
-							prepend-icon="mdi-lock"
-							:placeholder="$t('Password')"
-							solo
-						></v-text-field>
+						<v-flex>
+							<v-text-field
+								v-model="model.username"
+								autocapitalize="off"
+								prepend-icon="mdi-account"
+								:placeholder="$t('Username') + $t('or') + $t('Email')"
+								solo
+							></v-text-field>
+						</v-flex>
+						<v-flex>
+							<v-text-field
+								v-model="model.password"
+								type="password"
+								prepend-icon="mdi-lock"
+								:placeholder="$t('Password')"
+								solo
+							></v-text-field>
+						</v-flex>
 
 						<!-- <base-input
 							class="input-group-alternative mb-3"
@@ -66,9 +69,9 @@
 							</span>
 						</base-checkbox> -->
 						<div class="text-center">
-							<base-button type="primary" class="my-4" @click="login()">
-								{{ $t('Sign in') }}
-							</base-button>
+							<v-btn @click="login()" color="primary" class="subtitle-2">{{
+								$t('Sign in')
+							}}</v-btn>
 						</div>
 					</form>
 				</div>
