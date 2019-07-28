@@ -26,36 +26,62 @@
 						<small>{{ $t('Or sign up with credentials') }}</small>
 					</div>
 					<form role="form">
-						<base-input
+						<!-- <base-input
 							class="input-group-alternative mb-3"
 							:placeholder="$t('Username')"
 							addon-left-icon="ni ni-hat-3"
 							v-model="model.username"
-						></base-input>
+						></base-input> -->
 
-						<base-input
+						<!-- <base-input
 							class="input-group-alternative mb-3"
 							:placeholder="$t('Email')"
 							addon-left-icon="ni ni-email-83"
 							v-model="model.email"
-						></base-input>
+            ></base-input>-->
+						<!-- <div>
+							<base-input
+								class="input-group-alternative"
+								:placeholder="$t('Password')"
+								type="password"
+								addon-left-icon="ni ni-lock-circle-open"
+								v-model="model.password"
+							></base-input>
+						</div> -->
 
-						<base-input
-							class="input-group-alternative"
-							:placeholder="$t('Password')"
-							type="password"
-							addon-left-icon="ni ni-lock-circle-open"
+						<v-text-field
+							v-model="model.username"
+							autocapitalize="off"
+							prepend-icon="mdi-account"
+							:placeholder="$t('Username') + $t('or') + $t('Email')"
+							solo
+						></v-text-field>
+						<v-text-field
 							v-model="model.password"
-						></base-input>
-
-						<div class="text-muted font-italic">
+							prepend-icon="mdi-lock"
+							:append-icon="visible ? 'mdi-eye' : 'mdi-eye-off'"
+							:type="visible ? 'text' : 'password'"
+							@click:append="visible = !visible"
+							:placeholder="$t('Password')"
+							solo
+							:hint="warning"
+							:rules="[rules.required, rules.min, rules.verification]"
+						></v-text-field>
+						<password
+							v-model="model.password"
+							:strength-meter-only="true"
+							:secureLength="8"
+							@score="showScore"
+							@feedback="showFeedback"
+						/>
+						<!-- <div class="text-muted font-italic">
 							<small>
 								{{ $t('password strength') }}:
 								<span class="text-success font-weight-700">strong</span>
 							</small>
-						</div>
+						</div> -->
 
-						<div class="row my-4">
+						<!-- <div class="row my-4">
 							<div class="col-12">
 								<base-checkbox class="custom-control-alternative">
 									<span class="text-muted">
@@ -64,11 +90,11 @@
 									</span>
 								</base-checkbox>
 							</div>
-						</div>
+						</div> -->
 						<div class="text-center">
-							<base-button type="primary" class="my-4" @click="signUp()">{{
-								$t('Create account')
-							}}</base-button>
+							<base-button type="primary" class="my-4" @click="signUp()">
+								{{ $t('Create account') }}
+							</base-button>
 						</div>
 					</form>
 				</div>
@@ -90,21 +116,42 @@
 </template>
 <script>
 import { signUp } from '@/utils/user';
+import Password from 'vue-password-strength-meter';
 
 export default {
 	name: 'register',
+	components: { Password },
 	data() {
 		return {
 			model: {
-				username: '',
-				email: '',
-				password: '',
+				username: null,
+				email: null,
+				password: null,
+			},
+			visible: false,
+			suggestions: null,
+			warning: null,
+			rules: {
+				required: value => !!value || 'Required.',
+				min: v => v.length >= 8 || 'Min 8 characters',
+				verification: val => {
+					return this.warning || true;
+				},
 			},
 		};
 	},
 	methods: {
 		signUp() {
 			signUp(this);
+		},
+		showFeedback({ suggestions, warning }) {
+			console.log('🙏', suggestions);
+			console.log('⚠️', warning);
+			this.suggestions = suggestions;
+			this.warning = warning;
+		},
+		showScore(score) {
+			console.log('💯', score);
 		},
 	},
 };
