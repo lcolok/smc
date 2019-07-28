@@ -7,7 +7,7 @@
 						<small>{{ $t('Sign in with') }}</small>
 					</div>
 					<div class="btn-wrapper text-center">
-						<!-- <a href="#" class="btn btn-neutral btn-icon">
+						<a href="#" class="btn btn-neutral btn-icon">
 							<span class="btn-inner--icon">
 								<img :src="`${$baseUrl}img/icons/common/github.svg`" />
 							</span>
@@ -18,9 +18,7 @@
 								<img :src="`${$baseUrl}img/icons/common/google.svg`" />
 							</span>
 							<span class="btn-inner--text">Google</span>
-						</a>-->
-
-						<base-bark-launch />
+						</a>
 					</div>
 				</div>
 				<div class="card-body px-lg-5 py-lg-5">
@@ -28,47 +26,30 @@
 						<small>{{ $t('Or sign up with credentials') }}</small>
 					</div>
 					<form role="form">
-						<v-text-field
-							v-model="model.username"
-							autocapitalize="off"
-							prepend-icon="mdi-account"
-							:placeholder="$t('Username') + $t('or') + $t('Email')"
-							solo
-						></v-text-field>
-
-						<v-text-field
-							v-model="model.password"
-							type="password"
-							prepend-icon="mdi-lock"
-							:placeholder="$t('Password')"
-							solo
-						></v-text-field>
-
-						<!-- <base-input
+						<base-input
 							class="input-group-alternative mb-3"
-							autocapitalize="off"
 							:placeholder="$t('Username') + $t('or') + $t('Email')"
 							addon-left-icon="ni ni-single-02"
 							v-model="model.username"
-						></base-input> -->
+						></base-input>
 
-						<!-- <base-input
+						<base-input
 							class="input-group-alternative"
 							:placeholder="$t('Password')"
 							type="password"
 							addon-left-icon="ni ni-lock-circle-open"
 							v-model="model.password"
-						></base-input> -->
+						></base-input>
 
-						<!-- <base-checkbox class="custom-control-alternative">
-							<span class="text-muted font-weight-bolder">
-								{{ $t('Remember me') }}
-							</span>
-						</base-checkbox> -->
+						<base-checkbox class="custom-control-alternative">
+							<span class="text-muted font-weight-bolder">{{
+								$t('Remember me')
+							}}</span>
+						</base-checkbox>
 						<div class="text-center">
-							<base-button type="primary" class="my-4" @click="login()">
-								{{ $t('Sign in') }}
-							</base-button>
+							<base-button type="primary" class="my-4" @click="login()">{{
+								$t('Sign in')
+							}}</base-button>
 						</div>
 					</form>
 				</div>

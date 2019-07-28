@@ -5,16 +5,17 @@
 .btn-icon {
 	.btn-inner--icon {
 		img {
-			width: 20px;
+			width: 24px;
+			position: relative;
+			top: 2px;
+			border-radius: 5px;
 		}
 	}
 
-	.btn-inner--text:not(:first-child) {
+	.btn-inner--text {
+		position: relative;
+		bottom: 2px;
 		margin-left: 0.75em;
-	}
-
-	.btn-inner--text:not(:last-child) {
-		margin-right: 0.75em;
 	}
 }
 

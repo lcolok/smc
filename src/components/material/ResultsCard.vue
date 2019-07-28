@@ -13,7 +13,10 @@
 							:height="picHeight"
 							@error="picPath = unknown_bg_src"
 							@load="loaded"
-							@click="hover || leftClick({ $event, $attrs, $props, typeName })"
+							@click="
+								$vuetify.breakpoint.mdAndUp ||
+									leftClick({ $event, $attrs, $props, typeName })
+							"
 						>
 							<div class=" caption font-weight-800 white--text">
 								<v-expand-transition>
