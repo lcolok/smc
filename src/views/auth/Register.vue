@@ -74,6 +74,16 @@
 							@score="showScore"
 							@feedback="showFeedback"
 						/>
+						<v-text-field
+							v-model="model.InvitationCode"
+							v-mask="mask"
+							prepend-icon="mdi-barcode-scan"
+							autocapitalize="off"
+							spellcheck="false"
+							:placeholder="$t('Invitation Code')"
+							solo
+							:rules="[rules.required]"
+						></v-text-field>
 						<!-- <div class="text-muted font-italic">
 							<small>
 								{{ $t('password strength') }}:
@@ -117,23 +127,28 @@
 <script>
 import { signUp } from '@/utils/user';
 import Password from 'vue-password-strength-meter';
-
+import { mask } from 'vue-the-mask';
 export default {
 	name: 'register',
 	components: { Password },
+	directives: {
+		mask,
+	},
 	data() {
 		return {
+			mask: 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
 			model: {
 				username: null,
 				email: null,
 				password: null,
+				InvitationCode: null,
 			},
 			visible: false,
 			suggestions: null,
 			warning: null,
 			rules: {
 				required: value => !!value || 'Required.',
-				min: v => v.length >= 8 || 'Min 8 characters',
+				min: v => v == null || (v.length >= 8 || 'Min 8 characters'),
 				verification: val => {
 					return this.warning || true;
 				},

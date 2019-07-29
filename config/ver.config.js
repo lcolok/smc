@@ -1,10 +1,10 @@
 module.exports = {
 	parts: {
 		major: 1,
-		minor: 18,
-		build: 141,
+		minor: 19,
+		build: 18,
 		revision: 0
 	},
-	whole: "1.18.141(413)",
-	commits: 413
+	whole: "1.19.18(414)",
+	commits: 414
 }
