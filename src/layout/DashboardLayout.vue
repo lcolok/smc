@@ -7,9 +7,7 @@
 			<core-filter />
 			<core-drawer />
 			<core-toolbar />
-			<v-flex mt-2>
-				<core-view />
-			</v-flex>
+			<core-view />
 		</v-app>
 	</div>
 </template>

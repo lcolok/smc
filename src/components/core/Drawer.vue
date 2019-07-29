@@ -107,6 +107,11 @@ export default {
 					text: this.$t('Dashboard'),
 				},
 				{
+					to: '/management',
+					icon: 'mdi-account',
+					text: this.$t('User Management'),
+				},
+				{
 					to: '/user-profile',
 					icon: 'mdi-account',
 					text: this.$t('User Profile'),

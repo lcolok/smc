@@ -61,5 +61,9 @@
 	"Long URL": "长链",
 	"Delete": "删除",
 	"Recently uploaded": "最近上传",
-	"Or login in with credentials": "或直接登录"
+	"Or login in with credentials": "或直接登录",
+	"User Management": "用户管理",
+	"Management": "管理",
+	"Invitation code generator": "邀请码生成器",
+	"Generate": "生成"
 }

@@ -51,6 +51,14 @@ export default [
 				},
 			},
 			{
+				path: '/management',
+				// Relative to /src/views
+				view: 'Management',
+				meta: {
+					title: 'User Management',
+				},
+			},
+			{
 				path: '/user-profile',
 				name: 'User Profile',
 				view: 'UserProfile',

@@ -1,12 +1,14 @@
 <template>
-	<v-content>
-		<div id="core-view">
-			<v-fade-transition mode="out-in">
-				<router-view />
-			</v-fade-transition>
-		</div>
-		<core-footer v-if="!['Maps', 'Upload Page'].includes($route.name)" />
-	</v-content>
+	<v-flex mt-2 fill-height>
+		<v-content>
+			<div id="core-view">
+				<v-fade-transition mode="out-in">
+					<router-view />
+				</v-fade-transition>
+			</div>
+			<core-footer v-if="!['Maps', 'Upload Page'].includes($route.name)" />
+		</v-content>
+	</v-flex>
 </template>
 
 <script>
