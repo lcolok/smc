@@ -40,7 +40,8 @@ export default {
 			this.items.push(resp);
 		},
 		copy(e) {
-			this.$copyText(e);
+			let url = `${window.location.host}/register?code=${encodeURI(e)}`;
+			this.$copyText(url);
 		},
 		getAll() {
 			const query = new AV.Query('InvitationCode');

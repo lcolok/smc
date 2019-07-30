@@ -113,6 +113,20 @@ import { mask } from 'vue-the-mask';
 import AV from 'leancloud-storage';
 import * as _ from 'lodash';
 export default {
+	beforeRouteEnter(to, from, next) {
+		//beforeRouteEnter 守卫 不能 访问 this，因为守卫在导航确认前被调用,因此即将登场的新组件还没被创建。
+
+		if (!AV.User.current()) {
+			next(vm => {
+				if (_.has(vm.$route, 'query.code')) {
+					vm.invitationCode = vm.$route.query.code;
+				}
+				// vm.invitationCode=vm.$route
+			});
+		} else {
+			next({ path: from.path });
+		}
+	},
 	name: 'register',
 	components: { Password },
 	directives: {
