@@ -11,7 +11,13 @@ export default {
 			let userID = vm.$route.query.userID,
 				barkID = vm.$route.query.barkID;
 			console.log(userID, barkID);
-			AV.Cloud.run('finishedBinding', { barkID, userID });
+			let query = new AV.Query('BarkBinding');
+			query.equalTo('barkID', barkID);
+			query.equalTo('userID', userID);
+			query.first().then(barkObject => {
+				let token = barkObject.get('token');
+				AV.Cloud.run('finishedBinding', { barkID, userID, token });
+			});
 		}
 	},
 };

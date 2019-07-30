@@ -33,7 +33,8 @@
 </template>
 <script>
 import AV from 'leancloud-storage';
-
+import router from '@/router';
+import * as _ from 'lodash';
 export default {
 	data: () => ({
 		fav: true,
@@ -42,8 +43,31 @@ export default {
 		hints: true,
 	}),
 	methods: {
-		launch(user) {
-			AV.Cloud.run('launchByBark', { user });
+		launch: async function(user) {
+			let vm = this;
+			let token = await AV.Cloud.run('launchByBark', { user });
+			AV.User.become(token).then(
+				function(user) {
+					// 登录成功
+					if (user) {
+						console.log(user);
+						let dest;
+						if (_.has(vm.$route, 'query.redirect')) {
+							dest = vm.$route.query.redirect;
+						} else {
+							//默认转跳到
+							dest = '/';
+						}
+						console.log(dest);
+						router.push({
+							path: dest,
+						});
+					}
+				},
+				function(error) {
+					// session token 无效
+				},
+			);
 		},
 	},
 };
