@@ -46,21 +46,21 @@ export const login = function() {
 		.catch(alert);
 };
 
-export const signUp = function() {
-	let __this = arguments[0];
-	console.log();
-
+export const signUp = function({ username, password, invitationCode }) {
 	// 新建 AVUser 对象实例
 	var user = new AV.User();
 	// 设置用户名
-	user.setUsername(__this.model.username);
+	user.setUsername(username);
 	// 设置密码
-	user.setPassword(__this.model.password);
-	// 设置邮箱
-	user.setEmail(__this.model.email);
+	user.setPassword(password);
+	// // 设置邮箱
+	// user.setEmail(email);
 	user
 		.signUp()
 		.then(function(loggedInUser) {
+			if (loggedInUser) {
+				AV.Cloud.run('useInvitationCode', { code: invitationCode });
+			}
 			console.log(loggedInUser);
 			router.push({
 				path: '/',

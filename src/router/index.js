@@ -105,24 +105,25 @@ router.beforeEach((to, from, next) => {
 			// 如果没有登录，重定向到登录页面。
 			// console.log('需要鉴权');
 			if (!AV.User.current()) {
-				console.log('还没登录');
+				// console.log('还没登录');
 				next({
 					path: '/login',
 					query: { redirect: to.fullPath }, //留下原来要到达的路径信息，等用户登录好之后，再进行跳转
 				});
 			} else {
 				// console.log('已经登录了');
-				if (!AV.User.current().attributes.emailVerified) {
-					console.log('邮箱还没激活');
-					next({
-						path: '/email_check',
-						query: {
-							redirect: to.fullPath, //留下原来要到达的路径信息，等用户登录好之后，再进行跳转
-						},
-					});
-				} else {
-					next();
-				}
+				// if (!AV.User.current().attributes.emailVerified) {
+				// 	console.log('邮箱还没激活');
+				// 	next({
+				// 		path: '/email_check',
+				// 		query: {
+				// 			redirect: to.fullPath, //留下原来要到达的路径信息，等用户登录好之后，再进行跳转
+				// 		},
+				// 	});
+				// } else {
+				// 	next();
+				// }
+				next();
 			}
 		} else {
 			next(); // 确保一定要调用 next()

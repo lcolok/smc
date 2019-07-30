@@ -26,35 +26,19 @@
 						<small>{{ $t('Or sign up with credentials') }}</small>
 					</div>
 					<form role="form">
-						<!-- <base-input
-							class="input-group-alternative mb-3"
-							:placeholder="$t('Username')"
-							addon-left-icon="ni ni-hat-3"
-							v-model="username"
-            ></base-input>-->
-
-						<!-- <base-input
-							class="input-group-alternative mb-3"
-							:placeholder="$t('Email')"
-							addon-left-icon="ni ni-email-83"
-							v-model="email"
-            ></base-input>-->
-						<!-- <div>
-							<base-input
-								class="input-group-alternative"
-								:placeholder="$t('Password')"
-								type="password"
-								addon-left-icon="ni ni-lock-circle-open"
-								v-model="password"
-							></base-input>
-            </div>-->
-
 						<v-text-field
 							v-model="username"
 							autocapitalize="off"
 							prepend-icon="mdi-account"
 							:placeholder="$t('Username') + $t('or') + $t('Email')"
 							solo
+							spellcheck="false"
+							:append-outer-icon="
+								status.username ? 'mdi-check-decagram' : 'mdi-alert-decagram'
+							"
+							:color="status.username ? 'success' : 'error'"
+							:rules="[rules.required]"
+							:hint="userHint"
 						></v-text-field>
 						<v-text-field
 							v-model="password"
@@ -66,6 +50,11 @@
 							solo
 							:hint="warning"
 							:rules="[rules.required, rules.min, rules.verification]"
+							:append-outer-icon="
+								status.password ? 'mdi-check-decagram' : 'mdi-alert-decagram'
+							"
+							:color="status.password ? 'success' : 'error'"
+							autocomplete="new-password"
 						></v-text-field>
 						<password
 							v-model="password"
@@ -84,33 +73,20 @@
 							solo
 							:rules="[rules.required, rules.checkInvitationCode]"
 							:append-outer-icon="
-								invitationCodeStatus
+								status.invitationCode
 									? 'mdi-check-decagram'
 									: 'mdi-alert-decagram'
 							"
-							:color="invitationCodeStatus ? 'success' : 'error'"
+							:color="status.invitationCode ? 'success' : 'error'"
 						></v-text-field>
-						<!-- <div class="text-muted font-italic">
-							<small>
-								{{ $t('password strength') }}:
-								<span class="text-success font-weight-700">strong</span>
-							</small>
-            </div>-->
 
-						<!-- <div class="row my-4">
-							<div class="col-12">
-								<base-checkbox class="custom-control-alternative">
-									<span class="text-muted">
-										{{ $t('I agree with the') }}
-										<a href="#!">{{ $t('Privacy Policy') }}</a>
-									</span>
-								</base-checkbox>
-							</div>
-            </div>-->
 						<div class="text-center">
-							<base-button type="primary" class="my-4" @click="signUp()">{{
-								$t('Create account')
-							}}</base-button>
+							<base-button
+								type="primary"
+								class="my-4"
+								@click="signUp({ username, password, invitationCode, status })"
+								>{{ $t('Create account') }}</base-button
+							>
 						</div>
 					</form>
 				</div>
@@ -135,6 +111,7 @@ import { signUp } from '@/utils/user';
 import Password from 'vue-password-strength-meter';
 import { mask } from 'vue-the-mask';
 import AV from 'leancloud-storage';
+import * as _ from 'lodash';
 export default {
 	name: 'register',
 	components: { Password },
@@ -147,26 +124,40 @@ export default {
 				return;
 			}
 
+			this.oldInvitationCode = val;
+
 			if (!this.checkInvitationCode(val)) {
 				console.log(val);
-				this.oldInvitationCode = val;
+
 				let resp = await AV.Cloud.run('checkInvitationCode', { code: val });
 				if (resp) {
-					this.invitationCodeStatus = true;
+					this.status.invitationCode = true;
 				} else {
-					this.invitationCodeStatus = false;
+					this.status.invitationCode = false;
 				}
 				return resp;
 			}
-			this.invitationCodeStatus = false;
+			this.status.invitationCode = false;
 			return;
+		},
+		username: async function(val) {
+			setTimeout(async () => {
+				if (!val) return (this.status.username = false);
+
+				let resp = await AV.Cloud.run('checkUsername', { username: val });
+				if (resp) {
+					this.status.username = false;
+				} else {
+					this.status.username = true;
+				}
+			}, 500);
 		},
 	},
 	data() {
 		return {
 			mask: 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
 
-			invitationCodeStatus: false,
+			status: { invitationCode: false, password: false, username: false },
 
 			username: null,
 			email: null,
@@ -187,6 +178,11 @@ export default {
 			},
 		};
 	},
+	computed: {
+		userHint() {
+			return !this.status.username ? 'Username has been registered' : '';
+		},
+	},
 	methods: {
 		checkInvitationCode(val) {
 			let len = 'e5c632e4-4ad2-4105-b91c-2dd9c7165bfc'.length;
@@ -201,8 +197,17 @@ export default {
 			}
 			return true;
 		},
-		signUp() {
-			signUp(this);
+		signUp({ username, password, invitationCode, status }) {
+			let newArr = [];
+			_.forIn(status, function(value, key) {
+				if (value) {
+					newArr.push(key);
+				}
+			});
+			if (newArr.length == _.values(status).length) {
+				console.log('通过认证');
+				signUp({ username, password, invitationCode });
+			}
 		},
 		showFeedback({ suggestions, warning }) {
 			console.log('🙏', suggestions);
@@ -212,6 +217,8 @@ export default {
 		},
 		showScore(score) {
 			console.log('💯', score);
+
+			this.status.password = score == 4 ? true : false;
 		},
 	},
 };
