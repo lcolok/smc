@@ -74,6 +74,7 @@
 import { mapMutations, mapState } from 'vuex';
 // import { isEmpty } from 'underscore';
 import * as _ from 'lodash';
+import AV from 'leancloud-storage';
 
 export default {
 	beforeRouteEnter(to, from, next) {
@@ -110,6 +111,7 @@ export default {
 					to: '/management',
 					icon: 'mdi-account',
 					text: this.$t('User Management'),
+					display: AV.User.current().id == '5d19ba8a30863b0070ef7faf',
 				},
 				{
 					to: '/user-profile',
@@ -184,6 +186,8 @@ export default {
 	},
 
 	mounted() {
+		console.log(AV.User.current());
+
 		this.onResponsiveInverted();
 		window.addEventListener('resize', this.onResponsiveInverted);
 	},

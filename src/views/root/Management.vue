@@ -12,5 +12,16 @@
 </template>
 
 <script>
-export default {};
+import AV from 'leancloud-storage';
+
+export default {
+	beforeRouteEnter(to, from, next) {
+		//beforeRouteEnter 守卫 不能 访问 this，因为守卫在导航确认前被调用,因此即将登场的新组件还没被创建。
+		if (AV.User.current().id == '5d19ba8a30863b0070ef7faf') {
+			next();
+		} else {
+			next({ path: '/' });
+		}
+	},
+};
 </script>
