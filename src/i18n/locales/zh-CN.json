@@ -67,5 +67,7 @@
 	"Invitation code generator": "邀请码生成器",
 	"Generate": "生成",
 	"Invitation Code": "邀请码",
-	"Bark settings": "设置Bark"
+	"Bark settings": "设置Bark",
+	"Bark初始化": "bark初始化",
+	"InitBark": "initbark"
 }

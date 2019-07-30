@@ -134,4 +134,19 @@ export default [
 			},
 		],
 	},
+	{
+		path: '/init_bark',
+		redirect: 'init_bark',
+		component: DashboardLayout,
+		group: 'bark',
+		children: [
+			{
+				path: '/init_bark',
+				view: 'InitBark',
+				meta: {
+					title: 'Bark初始化',
+				},
+			},
+		],
+	},
 ];
