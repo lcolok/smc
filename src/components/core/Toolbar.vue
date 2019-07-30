@@ -57,7 +57,8 @@
 						<v-list-item
 							v-for="(menuItem, i) in profileMenu"
 							:key="i"
-							@click="menuItem.action($event)"
+							@click="!menuItem.action || menuItem.action($event)"
+							:to="menuItem.to"
 						>
 							<v-icon>{{ menuItem.icon }}</v-icon>
 							<v-list-item-title>{{ $t(menuItem.text) }}</v-list-item-title>

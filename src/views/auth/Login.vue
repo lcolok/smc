@@ -20,7 +20,7 @@
 							<span class="btn-inner--text">Google</span>
 						</a>-->
 
-						<base-bark-launch />
+						<atom-bark-launch />
 					</div>
 				</div>
 				<div class="card-body px-lg-5 py-lg-5">

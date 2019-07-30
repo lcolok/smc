@@ -109,14 +109,14 @@ export default {
 				},
 				{
 					to: '/management',
-					icon: 'mdi-account',
+					icon: 'mdi-account-group',
 					text: this.$t('User Management'),
 					display: AV.User.current().id == '5d19ba8a30863b0070ef7faf',
 				},
 				{
 					to: '/user-profile',
 					icon: 'mdi-account',
-					text: this.$t('User Profile'),
+					text: this.$t('My profile'),
 				},
 				{
 					to: '/table-list',
@@ -186,7 +186,7 @@ export default {
 	},
 
 	mounted() {
-		console.log(AV.User.current());
+		// console.log(AV.User.current());
 
 		this.onResponsiveInverted();
 		window.addEventListener('resize', this.onResponsiveInverted);
