@@ -14,6 +14,31 @@
 					<v-card-text>
 						<v-layout row wrap>
 							<v-flex md6 sm12>
+								<h2 class="title font-weight-light">
+									{{ $t('Recently uploaded') }}
+								</h2>
+								<v-container fill-height fluid grid-list-md>
+									<v-layout wrap>
+										<v-flex
+											v-for="(item, index) in results"
+											:key="index"
+											sm6
+											xs12
+											md12
+											lg6
+										>
+											<material-results-card
+												v-bind="item"
+												:title="item.name"
+												:subTitle="item.name_trans"
+												:index="index"
+											/>
+										</v-flex>
+									</v-layout>
+								</v-container>
+							</v-flex>
+
+							<v-flex md6 sm12>
 								<h2 class="title font-weight-light mb-3">
 									Notifications Style
 								</h2>
@@ -44,31 +69,6 @@
 									always vertically aligned. This is a beautiful notification.
 									So you don't have to worry about the style.
 								</material-notification>
-							</v-flex>
-
-							<v-flex md6 sm12>
-								<h2 class="title font-weight-light">
-									{{ $t('Recently uploaded') }}
-								</h2>
-								<v-container fill-height fluid grid-list-md>
-									<v-layout wrap>
-										<v-flex
-											v-for="(item, index) in results"
-											:key="index"
-											sm6
-											xs12
-											md12
-											lg6
-										>
-											<material-results-card
-												v-bind="item"
-												:title="item.name"
-												:subTitle="item.name_trans"
-												:index="index"
-											/>
-										</v-flex>
-									</v-layout>
-								</v-container>
 							</v-flex>
 						</v-layout>
 						<div class="text-xs-center">

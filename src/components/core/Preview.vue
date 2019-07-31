@@ -1,8 +1,37 @@
 <template>
-	<v-layout row justify-center>
-		<v-dialog v-model="model" max-width="70vw">
-			<v-card>
-				<component :attrs="attrs" :is="tab"></component>
+	<v-layout justify-center>
+		<v-dialog
+			v-model="dialog"
+			:fullscreen="$vuetify.breakpoint.mdAndDown"
+			:hide-overlay="$vuetify.breakpoint.mdAndDown"
+			:scrollable="false"
+			:max-width="!$vuetify.breakpoint.mdAndDown ? '70vw' : ''"
+			:transition="
+				$vuetify.breakpoint.mdAndDown
+					? 'dialog-bottom-transition'
+					: 'fade-transition'
+			"
+		>
+			<v-card class="rounded_off">
+				<v-toolbar
+					v-if="$vuetify.breakpoint.mdAndDown"
+					dark
+					flat
+					class="v-toolbar--fixed rounded_off"
+					color="primary"
+				>
+					<v-btn icon dark @click="dialog = false">
+						<v-icon>mdi-close</v-icon>
+					</v-btn>
+					<v-toolbar-title>Settings</v-toolbar-title>
+					<v-spacer></v-spacer>
+					<v-toolbar-items>
+						<v-btn dark text @click="dialog = false">Save</v-btn>
+					</v-toolbar-items>
+				</v-toolbar>
+				<v-flex>
+					<component :attrs="attrs" :is="tab"></component>
+				</v-flex>
 			</v-card>
 		</v-dialog>
 	</v-layout>
@@ -32,10 +61,12 @@ requireComponent.keys().forEach(fileName => {
 });
 
 export default {
-	data: () => ({}),
+	data() {
+		return {};
+	},
 	computed: {
 		...mapState('preview', ['previewModel', 'tab', 'attrs']),
-		model: {
+		dialog: {
 			get() {
 				return this.previewModel;
 			},
@@ -51,4 +82,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.rounded_off {
+	border-radius: 0px;
+}
+</style>

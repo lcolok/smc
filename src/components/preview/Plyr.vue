@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<v-flex>
 		<vue-plyr ref="plyr" :options="options">
 			<video crossorigin="anonymous" :src="attrs.attachmentURL">
 				<!-- <source :src="src" type="video/mp4" size="720" />
@@ -23,7 +23,7 @@
       ></div>-->
 		</vue-plyr>
 		<v-btn @click="capture" color="primary">截图</v-btn>
-	</div>
+	</v-flex>
 </template>
 <script>
 import { mapState } from 'vuex';
