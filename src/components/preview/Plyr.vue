@@ -2,7 +2,11 @@
 	<v-flex>
 		<v-card>
 			<v-hover v-slot:default="{ hover }" :open-delay="200">
-				<vue-plyr ref="plyr" :options="options">
+				<vue-plyr
+					ref="plyr"
+					:options="options"
+					:controls="$vuetify.breakpoint.mdAndDown ? c1 : c2"
+				>
 					<video crossorigin="anonymous" :src="attrs.attachmentURL"></video>
 
 					<v-btn fab fixed @click="capture" color="primary">截图</v-btn>
@@ -10,10 +14,11 @@
 					<v-expand-transition>
 						<div
 							v-if="hover"
-							class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
-							style="height: 10%;"
+							class="d-flex transition-plyr top-gradient white--text"
 						>
-							$14.99
+							<div class="top-bar">
+								<span>{{ attrs.title }}</span>
+							</div>
 						</div>
 					</v-expand-transition>
 				</vue-plyr>
@@ -30,6 +35,27 @@ export default {
 		this.options.urls.download =
 			a.attachmentURL +
 			`?attname=${encodeURIComponent(a.title)}.${a.suffix}&download`;
+		// if (this.$vuetify.breakpoint.mdAndDown) {
+		// 	this.options.controls = [
+		// 		'play-large',
+		// 		// 'restart',
+		// 		// 'rewind',
+		// 		'play',
+		// 		// 'fast-forward',
+		// 		'progress',
+		// 		'current-time',
+		// 		// 'duration',
+		// 		'mute',
+		// 		// 'volume',
+		// 		// 'captions',
+		// 		// 'settings',
+		// 		// 'pip',
+		// 		'airplay',
+		// 		// 'capture',
+		// 		// 'download',
+		// 		'fullscreen',
+		// 	];
+		// }
 	},
 	props: {
 		attrs: {
@@ -132,6 +158,44 @@ export default {
 		},
 	},
 	data: () => ({
+		c1: [
+			'play-large',
+			// 'restart',
+			// 'rewind',
+			'play',
+			// 'fast-forward',
+			'progress',
+			'current-time',
+			// 'duration',
+			'mute',
+			// 'volume',
+			// 'captions',
+			// 'settings',
+			// 'pip',
+			'airplay',
+			// 'capture',
+			// 'download',
+			'fullscreen',
+		],
+		c2: [
+			'play-large',
+			'restart',
+			'rewind',
+			'play',
+			'fast-forward',
+			'progress',
+			'current-time',
+			'duration',
+			'mute',
+			'volume',
+			'captions',
+			'settings',
+			'pip',
+			'airplay',
+			'capture',
+			'download',
+			'fullscreen',
+		],
 		options: {
 			// Disable
 			enabled: true,
@@ -250,25 +314,25 @@ export default {
 			},
 
 			// Default controls
-			controls: [
-				'play-large',
-				'restart',
-				'rewind',
-				'play',
-				'fast-forward',
-				'progress',
-				'current-time',
-				'duration',
-				'mute',
-				'volume',
-				'captions',
-				'settings',
-				'pip',
-				'airplay',
-				'capture',
-				'download',
-				'fullscreen',
-			],
+			// controls: [
+			// 	'play-large',
+			// 	'restart',
+			// 	'rewind',
+			// 	'play',
+			// 	'fast-forward',
+			// 	'progress',
+			// 	'current-time',
+			// 	'duration',
+			// 	'mute',
+			// 	'volume',
+			// 	'captions',
+			// 	'settings',
+			// 	'pip',
+			// 	'airplay',
+			// 	'capture',
+			// 	'download',
+			// 	'fullscreen',
+			// ],
 			settings: ['captions', 'quality', 'speed'],
 
 			// Localisation
@@ -562,13 +626,33 @@ export default {
 </script>
 
 <style scoped>
-.v-card--reveal {
+#a {
+	color: #ffffff;
+}
+
+.top-bar {
+	font-weight: 500;
+	font-family: Avenir;
+	-webkit-font-smoothing: subpixel-antialiased;
+	margin: 0 0 25px 0;
+}
+
+.top-gradient {
+	height: 15%;
+
 	align-items: center;
 	top: 0;
 	justify-content: center;
-	opacity: 0.5;
+	opacity: 1;
 	position: absolute;
 	width: 100%;
+	background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+}
+
+.transition-plyr {
+	opacity: 0.4s ease-in-out;
+	transform: 0.4s ease-in-out;
+	-webkit-transform: 0.4s ease-in-out;
 }
 </style>
 vb
