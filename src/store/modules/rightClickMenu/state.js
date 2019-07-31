@@ -12,16 +12,19 @@ export default {
 			text: 'Share',
 			showInSheet: true,
 			name: 'copyBTN',
-			action: ({ $event, details: d, $copyText, $store }) => {
+			action: async function({ $event, details: d, $copyText, $store }) {
 				//$store._vm.$copyText 也能读取到 copyText
+				let domain = window.location.host;
 				let copyContent = '';
 				let descriptionList = $store.state.search.descriptionList;
-
+				let url = `https://${domain}/v?id=${d.objectId}`;
+				console.log(url);
+				let shortURL = await AV.Cloud.run('shortenURL', { origURL: url });
 				let emoji = _.has(descriptionList, d.suffix)
 					? descriptionList[d.suffix].emoji
 					: '❓';
 
-				copyContent = `${emoji} ${d.name} | ${cutHTTP(d.shortURL)}`;
+				copyContent = `${emoji} ${d.name} | ${cutHTTP(shortURL)}`;
 
 				console.log(copyContent);
 
@@ -35,6 +38,30 @@ export default {
 						console.log(e);
 					});
 			},
+			// //旧版复制短链
+			// action: ({ $event, details: d, $copyText, $store }) => {
+			// 	//$store._vm.$copyText 也能读取到 copyText
+			// 	let copyContent = '';
+			// 	let descriptionList = $store.state.search.descriptionList;
+
+			// 	let emoji = _.has(descriptionList, d.suffix)
+			// 		? descriptionList[d.suffix].emoji
+			// 		: '❓';
+
+			// 	copyContent = `${emoji} ${d.name} | ${cutHTTP(d.shortURL)}`;
+
+			// 	console.log(copyContent);
+
+			// 	$copyText(copyContent)
+			// 		.then(e => {
+			// 			// alert('Copied');
+			// 			console.log(e);
+			// 		})
+			// 		.catch(e => {
+			// 			alert('Can not copy');
+			// 			console.log(e);
+			// 		});
+			// },
 		},
 		{
 			icon: 'mdi-download',

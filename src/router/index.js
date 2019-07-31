@@ -12,7 +12,7 @@ import VueAnalytics from 'vue-analytics';
 import Router from 'vue-router';
 import Meta from 'vue-meta';
 import AV from '@/plugins/lc_client_init';
-
+import * as _ from 'lodash';
 // Routes
 import paths from './paths';
 
@@ -50,15 +50,18 @@ function getAbsolutePath() {
 	return path.substring(0, path.lastIndexOf('/') + 1);
 }
 
+const routes = paths
+	.map(parent => parentRoute(parent))
+	.concat([
+		{ path: '*', redirect: '/dashboard' }, //此处后期应该改为not found
+	]);
+// console.log(routes);
+
 // Create a new router
 const router = new Router({
 	mode: 'history',
 	base: getAbsolutePath(),
-	routes: paths
-		.map(parent => parentRoute(parent))
-		.concat([
-			{ path: '*', redirect: '/dashboard' }, //此处后期应该改为not found
-		]),
+	routes,
 	scrollBehavior(to, from, savedPosition) {
 		if (savedPosition) {
 			return savedPosition;
@@ -88,6 +91,14 @@ document.title = 'SMC'; //默认网页title
 
 router.beforeEach((to, from, next) => {
 	//to即将进入的目标路由对象，from当前导航正要离开的路由， next  :  下一步执行的函数钩子
+
+	if (_.has(to, 'query.v')) {
+		console.log(to);
+		let id = to.query.v;
+		next({ path: '/v', query: { id } });
+	} else {
+		console.log('没有vid');
+	}
 
 	// console.log(from);
 	if (to.path === '/login') {

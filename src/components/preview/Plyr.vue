@@ -35,10 +35,6 @@ export default {
 			required: true,
 		},
 	},
-
-	mounted() {
-		// console.log(this.attrs);
-	},
 	watch: {
 		previewModel(val) {
 			console.log(val);

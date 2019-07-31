@@ -3,17 +3,17 @@
  * for more information on routes, see the
  * official documentation https://router.vuejs.org/en/
  */
-import AuthLayout from '@/layout/AuthLayout';
+// import AuthLayout from '@/layout/AuthLayout';
 
-import DashboardLayout from '@/layout/DashboardLayout';
+// import DashboardLayout from '@/layout/DashboardLayout';
 
-import EningeLayout from '@/layout/EningeLayout';
+// import EningeLayout from '@/layout/EningeLayout';
 
 export default [
 	{
 		path: '/',
 		redirect: 'home',
-		component: DashboardLayout,
+		component: require('@/layout/DashboardLayout').default, //使用懒加载
 		meta: {
 			requiresAuth: true,
 		},
@@ -94,7 +94,7 @@ export default [
 	{
 		path: '/',
 		redirect: 'login',
-		component: AuthLayout,
+		component: require('@/layout/AuthLayout').default,
 		group: 'auth',
 		children: [
 			{
@@ -114,7 +114,7 @@ export default [
 	{
 		path: '/e',
 		redirect: 'e',
-		component: EningeLayout,
+		component: require('@/layout/EningeLayout').default,
 		group: 'other',
 
 		children: [
@@ -137,7 +137,7 @@ export default [
 	{
 		path: '/init_bark',
 		redirect: 'init_bark',
-		component: DashboardLayout,
+		component: require('@/layout/DashboardLayout').default,
 		group: 'bark',
 		children: [
 			{
@@ -145,6 +145,25 @@ export default [
 				view: 'InitBark',
 				meta: {
 					title: 'Bark初始化',
+				},
+			},
+		],
+	},
+	{
+		path: '/',
+
+		component: require('@/layout/PlayLayout').default,
+		group: 'play',
+		meta: {
+			requiresAuth: false,
+		},
+		children: [
+			{
+				path: '/v',
+				view: 'Video',
+
+				meta: {
+					title: 'SMC Video',
 				},
 			},
 		],
