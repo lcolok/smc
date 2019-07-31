@@ -1,28 +1,24 @@
 <template>
 	<v-flex>
-		<vue-plyr ref="plyr" :options="options">
-			<video crossorigin="anonymous" :src="attrs.attachmentURL">
-				<!-- <source :src="src" type="video/mp4" size="720" />
-				<source
-					src="https://attachments-cdn.shimo.im/g6f6Crx4CdgQhJyY/电信项目第二期-教你用VoLTE.mp4"
-					type="video/mp4"
-					size="1080"
-				/>
-				<track
-					kind="captions"
-					label="English"
-					srclang="en"
-					src="captions-en.vtt"
-					default
-        />-->
-			</video>
-			<!-- <div
-				crossorigin="anonymous"
-				data-plyr-provider="youtube"
-				data-plyr-embed-id="bTqVqk7FSmY"
-      ></div>-->
-		</vue-plyr>
-		<!-- <v-btn @click="capture" color="primary">截图</v-btn> -->
+		<v-card>
+			<v-hover v-slot:default="{ hover }" :open-delay="200">
+				<vue-plyr ref="plyr" :options="options">
+					<video crossorigin="anonymous" :src="attrs.attachmentURL"></video>
+
+					<v-btn fab fixed @click="capture" color="primary">截图</v-btn>
+
+					<v-expand-transition>
+						<div
+							v-if="hover"
+							class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
+							style="height: 10%;"
+						>
+							$14.99
+						</div>
+					</v-expand-transition>
+				</vue-plyr>
+			</v-hover>
+		</v-card>
 	</v-flex>
 </template>
 <script>
@@ -558,3 +554,15 @@ export default {
 	}),
 };
 </script>
+
+<style scoped>
+.v-card--reveal {
+	align-items: center;
+	top: 0;
+	justify-content: center;
+	opacity: 0.5;
+	position: absolute;
+	width: 100%;
+}
+</style>
+vb

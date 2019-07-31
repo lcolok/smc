@@ -15,7 +15,7 @@
 			<v-card class="rounded_off">
 				<v-toolbar
 					v-if="$vuetify.breakpoint.mdAndDown"
-					flat
+					text
 					class="v-toolbar--fixed rounded_off"
 					color="primary"
 				>
@@ -26,7 +26,7 @@
 						><span color="white" class="title">Settings</span></v-toolbar-title
 					>
 					<v-spacer></v-spacer>
-					<v-btn flat @click="dialog = false">Save</v-btn>
+					<v-btn text @click="dialog = false">Save</v-btn>
 				</v-toolbar>
 				<v-flex>
 					<component :attrs="attrs" :is="tab"></component>
