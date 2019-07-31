@@ -10,18 +10,22 @@
 							v-if="hover"
 							class="d-flex transition-plyr top-gradient white--text"
 						>
-							<div class="top-bar ">
-								<flex>{{ attrs.title }}</flex>
+							<div class="top-bar">
+								<!-- <v-layout align-center justify-space-around row fill-height> -->
 
-								<flex>
-									<button
-										type="button"
-										class="plyr__controls__item plyr__control"
-										@click="capture"
-									>
-										<v-icon color="white" size="20">mdi-camera</v-icon>
-									</button>
-								</flex>
+								<v-btn class="player-title subtitle-1" text>
+									{{ attrs.title }}
+								</v-btn>
+
+								<button
+									type="button"
+									class="plyr__controls__item plyr__control"
+									@click="capture"
+								>
+									<v-icon color="white" size="20">mdi-camera</v-icon>
+								</button>
+
+								<!-- </v-layout> -->
 							</div>
 						</div>
 					</v-expand-transition>
@@ -593,6 +597,21 @@ export default {
 </script>
 
 <style scoped>
+.player-title {
+	margin: auto;
+	position: absolute;
+
+	left: 10px;
+}
+
+.plyr__controls__item {
+	margin-left: 2.5px;
+	margin: auto;
+	position: absolute;
+
+	right: 10px;
+}
+
 .plyr__control:hover {
 	background: #00b3ff;
 	color: #fff;
@@ -602,7 +621,7 @@ export default {
 	font-weight: 500;
 	font-family: Avenir;
 	-webkit-font-smoothing: subpixel-antialiased;
-	padding: 10px 10px 35px 10px;
+	padding: 10px 10px 70px 10px;
 }
 
 .top-gradient {
