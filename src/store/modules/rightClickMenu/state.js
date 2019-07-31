@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { cutHTTP } from '@/utils/handle';
 import AV from 'leancloud-storage';
 import * as _ from 'lodash';
@@ -24,7 +25,7 @@ export default {
 					? descriptionList[d.suffix].emoji
 					: '❓';
 
-				copyContent = `${emoji} ${d.name} | ${cutHTTP(shortURL)}`;
+				copyContent = `${emoji} ${d.name || d.title} | ${cutHTTP(shortURL)}`;
 
 				console.log(copyContent);
 
@@ -125,6 +126,7 @@ export default {
 			text: 'Short URL',
 			name: 'copyShortURL',
 			action: ({ $event, details: d, $copyText, $store }) => {
+				console.log(d);
 				$copyText(d.shortURL)
 					.then(e => {
 						// alert('Copied');

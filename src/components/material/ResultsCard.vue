@@ -212,6 +212,10 @@ export default {
 			type: String,
 			default: undefined,
 		},
+		shortURL: {
+			type: String,
+			default: undefined,
+		},
 		attachmentURL: {
 			type: String,
 			default: undefined,

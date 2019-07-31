@@ -17,14 +17,41 @@
 									{{ attrs.title }}
 								</v-btn>
 
-								<button
-									type="button"
-									class="plyr__controls__item plyr__control"
-									@click="capture"
-								>
-									<v-icon color="white" size="20">mdi-camera</v-icon>
-								</button>
-
+								<div class="player-right-group ">
+									<v-tooltip v-for="(item, i) in listItems" :key="i" top>
+										<template v-slot:activator="{ on }">
+											<button
+												type="button"
+												class="plyr__controls__item plyr__control"
+												v-on="on"
+												@click="
+													item.action({
+														$event,
+														details: attrs,
+														$copyText,
+														$store,
+													})
+												"
+											>
+												<v-icon color="white" size="20">{{ item.icon }}</v-icon>
+											</button>
+										</template>
+										<span class="body-2">{{ $t(item.text) }}</span>
+									</v-tooltip>
+									<v-tooltip top>
+										<template v-slot:activator="{ on }">
+											<button
+												type="button"
+												class="plyr__controls__item plyr__control"
+												v-on="on"
+												@click="capture"
+											>
+												<v-icon color="white" size="20">mdi-camera</v-icon>
+											</button>
+										</template>
+										<span class="body-2">{{ $t('Snapshot') }}</span>
+									</v-tooltip>
+								</div>
 								<!-- </v-layout> -->
 							</div>
 						</div>
@@ -86,6 +113,7 @@ export default {
 	},
 	computed: {
 		...mapState('preview', ['previewModel']),
+		...mapState('rightClickMenu', ['listItems']),
 		player() {
 			return this.$refs.plyr.player;
 		},
@@ -604,12 +632,15 @@ export default {
 	left: 10px;
 }
 
-.plyr__controls__item {
-	margin-left: 2.5px;
+.player-right-group {
 	margin: auto;
 	position: absolute;
 
 	right: 10px;
+}
+
+.plyr__controls__item {
+	margin-left: 2.5px;
 }
 
 .plyr__control:hover {

@@ -2,6 +2,7 @@
 	<v-layout justify-center>
 		<v-dialog
 			v-model="dialog"
+			:retain-focus="false"
 			:fullscreen="$vuetify.breakpoint.mdAndDown"
 			:hide-overlay="$vuetify.breakpoint.mdAndDown"
 			:scrollable="false"
