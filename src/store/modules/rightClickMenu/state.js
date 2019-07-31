@@ -1,6 +1,6 @@
 import { cutHTTP } from '@/utils/handle';
 import AV from 'leancloud-storage';
-
+import * as _ from 'lodash';
 export default {
 	MenuX: 500,
 	MenuY: 500,
@@ -16,7 +16,10 @@ export default {
 				//$store._vm.$copyText 也能读取到 copyText
 				let copyContent = '';
 				let descriptionList = $store.state.search.descriptionList;
-				let emoji = descriptionList[d.suffix].emoji;
+
+				let emoji = _.has(descriptionList, d.suffix)
+					? descriptionList[d.suffix].emoji
+					: '❓';
 
 				copyContent = `${emoji} ${d.name} | ${cutHTTP(d.shortURL)}`;
 
