@@ -25,6 +25,12 @@
 import { mapState } from 'vuex';
 import { setTimeout } from 'timers';
 export default {
+	created() {
+		let a = this.attrs;
+		this.options.urls.download =
+			a.attachmentURL +
+			`?attname=${encodeURIComponent(a.title)}.${a.suffix}&download`;
+	},
 	props: {
 		attrs: {
 			type: Object,
@@ -185,7 +191,7 @@ export default {
 			// Sprite (for icons)
 			loadSprite: true,
 			iconPrefix: 'plyr',
-			iconUrl: 'https://cdn.plyr.io/3.5.6/plyr.svg',
+			iconUrl: 'https://attachments-cdn.shimo.im/A7KYglEEJRw09jUx/plyr.svg',
 
 			// Blank video (used to prevent errors on source change)
 			blankVideo: 'https://cdn.plyr.io/static/blank.mp4',
@@ -212,7 +218,7 @@ export default {
 			// Keyboard shortcut settings
 			keyboard: {
 				focused: true,
-				global: false,
+				global: true,
 			},
 
 			// Display tooltips
@@ -246,13 +252,13 @@ export default {
 			// Default controls
 			controls: [
 				'play-large',
-				// 'restart',
-				// 'rewind',
+				'restart',
+				'rewind',
 				'play',
-				// 'fast-forward',
+				'fast-forward',
 				'progress',
 				'current-time',
-				// 'duration',
+				'duration',
 				'mute',
 				'volume',
 				'captions',
@@ -260,7 +266,7 @@ export default {
 				'pip',
 				'airplay',
 				'capture',
-				// 'download',
+				'download',
 				'fullscreen',
 			],
 			settings: ['captions', 'quality', 'speed'],
