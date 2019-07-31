@@ -22,7 +22,7 @@
 				data-plyr-embed-id="bTqVqk7FSmY"
       ></div>-->
 		</vue-plyr>
-		<v-btn @click="capture" color="primary">截图</v-btn>
+		<!-- <v-btn @click="capture" color="primary">截图</v-btn> -->
 	</v-flex>
 </template>
 <script>

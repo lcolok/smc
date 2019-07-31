@@ -15,19 +15,18 @@
 			<v-card class="rounded_off">
 				<v-toolbar
 					v-if="$vuetify.breakpoint.mdAndDown"
-					dark
 					flat
 					class="v-toolbar--fixed rounded_off"
 					color="primary"
 				>
-					<v-btn icon dark @click="dialog = false">
+					<v-btn icon @click="dialog = false">
 						<v-icon>mdi-close</v-icon>
 					</v-btn>
-					<v-toolbar-title>Settings</v-toolbar-title>
+					<v-toolbar-title
+						><span color="white" class="title">Settings</span></v-toolbar-title
+					>
 					<v-spacer></v-spacer>
-					<v-toolbar-items>
-						<v-btn dark text @click="dialog = false">Save</v-btn>
-					</v-toolbar-items>
+					<v-btn flat @click="dialog = false">Save</v-btn>
 				</v-toolbar>
 				<v-flex>
 					<component :attrs="attrs" :is="tab"></component>
