@@ -9,14 +9,19 @@
 			<div class="textHolder">
 				<p>
 					<v-card-text>
-						<v-btn
-							v-for="icon in icons"
-							:key="icon"
-							class="mx-4 white--text"
-							icon
-						>
-							<v-icon size="24px">{{ icon }}</v-icon>
-						</v-btn>
+						<div>
+							<v-btn
+								v-for="icon in icons"
+								:key="icon"
+								:class="[
+									$vuetify.breakpoint.smAndDown || 'mx-4',
+									'white--text',
+								]"
+								icon
+							>
+								<v-icon size="24px">{{ icon }}</v-icon>
+							</v-btn>
+						</div>
 						<div class="white--text pt-0  caption">
 							<div>
 								Copyright © 2013 — {{ new Date().getFullYear() }} JUB MEDIA. All

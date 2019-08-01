@@ -1,17 +1,19 @@
 <template>
 	<v-app>
 		<div dark height="100%" class="mainHolder text-center white--text">
-			<v-layout align-center column justify-start>
-				<v-container>
-					<h1 class="display-2 font-weight-thin mb-4">SMC</h1>
+			<v-container>
+				<v-layout align-space-around justify-space-around column fill-height>
+					<h1 :class="['display-2', 'font-weight-thin', 'mb-0']">
+						SMC
+					</h1>
 					<h4 class="subheading">Save file , save life.</h4>
 
 					<slide-y-up-transition mode="out-in" origin="center top">
 						<router-view></router-view>
 					</slide-y-up-transition>
-					<base-footer />
-				</v-container>
-			</v-layout>
+					<base-footer v-if="!$vuetify.breakpoint.smAndDown" />
+				</v-layout>
+			</v-container>
 		</div>
 	</v-app>
 </template>
