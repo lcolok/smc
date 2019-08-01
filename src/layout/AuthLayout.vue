@@ -1,20 +1,18 @@
 <template>
 	<v-app>
-		<v-content>
-			<v-parallax dark height="100%" class="mainHolder text-center">
-				<v-layout align-center column justify-start>
-					<v-container>
-						<h1 class="display-2 font-weight-thin mb-4">SMC</h1>
-						<h4 class="subheading">Save file , save life.</h4>
+		<div dark height="100%" class="mainHolder text-center white--text">
+			<v-layout align-center column justify-start>
+				<v-container>
+					<h1 class="display-2 font-weight-thin mb-4">SMC</h1>
+					<h4 class="subheading">Save file , save life.</h4>
 
-						<slide-y-up-transition mode="out-in" origin="center top">
-							<router-view></router-view>
-						</slide-y-up-transition>
-						<base-footer />
-					</v-container>
-				</v-layout>
-			</v-parallax>
-		</v-content>
+					<slide-y-up-transition mode="out-in" origin="center top">
+						<router-view></router-view>
+					</slide-y-up-transition>
+					<base-footer />
+				</v-container>
+			</v-layout>
+		</div>
 	</v-app>
 </template>
 <script>
@@ -44,7 +42,7 @@ export default {
 };
 </script>
 
-<style>
+<style scope>
 * {
 	box-sizing: border-box;
 }
@@ -56,4 +54,13 @@ export default {
 	background-position: center;
 	background-size: cover;
 }
+/* 隐藏滚动条 */
+::-webkit-scrollbar {
+	width: 0 !important;
+}
+::-webkit-scrollbar {
+	width: 0 !important;
+	height: 0;
+}
+/* 隐藏滚动条 */
 </style>

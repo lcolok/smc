@@ -86,7 +86,7 @@ export default {
 	position: absolute;
 	top: 0;
 	right: 0;
-	bottom: -50px;
+	bottom: 0;
 	left: 0;
 	background: inherit;
 	background-attachment: fixed;
