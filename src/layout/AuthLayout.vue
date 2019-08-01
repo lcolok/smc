@@ -1,40 +1,18 @@
 <template>
 	<v-app>
 		<div class="main-content bg-default">
-			<!-- Navbar -->
-
-			<!-- Header -->
-			<div class="header bg-gradient-success py-2 py-lg-3">
-				<div class="container">
-					<div class="header-body text-center mb-7">
-						<div class="row justify-content-center">
-							<div class="col-lg-5 col-md-6">
-								<h1 class="text-white font-weight-bold">Welcome!</h1>
-								<p class="text-lead text-white font-weight-bolder">
-									Use these awesome forms to login or create new account in your
-									project for free.
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="separator separator-bottom separator-skew zindex-100">
-					<svg
-						x="0"
-						y="0"
-						viewBox="0 0 2560 100"
-						preserveAspectRatio="none"
-						version="1.1"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<polygon
-							class="fill-default"
-							points="2560 0 2560 100 0 100"
-						></polygon>
-					</svg>
-				</div>
-			</div>
-			<!-- Page content -->
+			<template>
+				<v-parallax
+					dark
+					height="450"
+					src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
+				>
+					<v-layout align-center column justify-center>
+						<h1 class="display-2 font-weight-thin mb-4">Vuetify.js</h1>
+						<h4 class="subheading">Build your application today!</h4>
+					</v-layout>
+				</v-parallax>
+			</template>
 			<div class="container mt--8 pb-5">
 				<slide-y-up-transition mode="out-in" origin="center top">
 					<router-view></router-view>
@@ -53,44 +31,6 @@
 									>Creative Tim</a
 								>
 							</div>
-						</div>
-						<div class="col-xl-6">
-							<ul
-								class="nav nav-footer justify-content-center justify-content-xl-end"
-							>
-								<li class="nav-item">
-									<a
-										href="https://www.creative-tim.com"
-										class="nav-link"
-										target="_blank"
-										>Creative Tim</a
-									>
-								</li>
-								<li class="nav-item">
-									<a
-										href="https://www.creative-tim.com/presentation"
-										class="nav-link"
-										target="_blank"
-										>About Us</a
-									>
-								</li>
-								<li class="nav-item">
-									<a
-										href="http://blog.creative-tim.com"
-										class="nav-link"
-										target="_blank"
-										>Blog</a
-									>
-								</li>
-								<li class="nav-item">
-									<a
-										href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md"
-										class="nav-link"
-										target="_blank"
-										>MIT License</a
-									>
-								</li>
-							</ul>
 						</div>
 					</div>
 				</div>
