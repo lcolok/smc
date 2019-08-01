@@ -77,7 +77,7 @@
 				</div>
 			</div>
 			<div class="row mt-3">
-				<div class="col-6">
+				<div class="col-6 text-left">
 					<a href="#" class="text-light font-weight-bolder">
 						<small>{{ $t('Forgot password?') }}</small>
 					</a>

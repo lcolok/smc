@@ -1,41 +1,20 @@
 <template>
 	<v-app>
-		<div class="main-content bg-default">
-			<template>
-				<v-parallax
-					dark
-					height="450"
-					src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
-				>
-					<v-layout align-center column justify-center>
-						<h1 class="display-2 font-weight-thin mb-4">Vuetify.js</h1>
-						<h4 class="subheading">Build your application today!</h4>
-					</v-layout>
-				</v-parallax>
-			</template>
-			<div class="container mt--8 pb-5">
-				<slide-y-up-transition mode="out-in" origin="center top">
-					<router-view></router-view>
-				</slide-y-up-transition>
-			</div>
-			<footer class="py-5">
-				<div class="container">
-					<div class="row align-items-center justify-content-xl-between">
-						<div class="col-xl-6">
-							<div class="copyright text-center text-xl-left text-muted">
-								&copy; {{ year }}
-								<a
-									href="https://www.creative-tim.com"
-									class="font-weight-bold ml-1"
-									target="_blank"
-									>Creative Tim</a
-								>
-							</div>
-						</div>
-					</div>
-				</div>
-			</footer>
-		</div>
+		<v-content>
+			<v-parallax dark height="100%" class="mainHolder text-center">
+				<v-layout align-center column justify-start>
+					<v-container>
+						<h1 class="display-2 font-weight-thin mb-4">SMC</h1>
+						<h4 class="subheading">Save file , save life.</h4>
+
+						<slide-y-up-transition mode="out-in" origin="center top">
+							<router-view></router-view>
+						</slide-y-up-transition>
+						<base-footer />
+					</v-container>
+				</v-layout>
+			</v-parallax>
+		</v-content>
 	</v-app>
 </template>
 <script>
@@ -52,8 +31,29 @@ export default {
 		return {
 			year: new Date().getFullYear(),
 			showMenu: false,
+			icons: [
+				'mdi-wechat',
+				'mdi-qqchat',
+				'mdi-sina-weibo',
+				'mdi-apple',
+				'mdi-google',
+				'mdi-microsoft',
+			],
 		};
 	},
 };
 </script>
-<style></style>
+
+<style>
+* {
+	box-sizing: border-box;
+}
+.mainHolder {
+	width: 100%;
+	height: 100%;
+	background-image: url(https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg);
+	background-attachment: fixed;
+	background-position: center;
+	background-size: cover;
+}
+</style>
