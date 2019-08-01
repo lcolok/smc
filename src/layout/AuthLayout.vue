@@ -49,7 +49,7 @@ export default {
 .mainHolder {
 	width: 100%;
 	height: 100%;
-	background-image: url(https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg);
+	background-image: url(https://attachments-cdn.shimo.im/H5lb60JBjwA8uavB/vbanner.jpg);
 	background-attachment: fixed;
 	background-position: center;
 	background-size: cover;
