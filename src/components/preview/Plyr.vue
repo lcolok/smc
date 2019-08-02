@@ -18,39 +18,30 @@
 								</v-btn>
 
 								<div class="player-right-group ">
-									<v-tooltip v-for="(item, i) in listItems" :key="i" top>
-										<template v-slot:activator="{ on }">
-											<button
-												type="button"
-												class="plyr__controls__item plyr__control"
-												v-on="on"
-												@click="
-													item.action({
-														$event,
-														details: attrs,
-														$copyText,
-														$store,
-													})
-												"
-											>
-												<v-icon color="white" size="20">{{ item.icon }}</v-icon>
-											</button>
-										</template>
-										<span class="body-2">{{ $t(item.text) }}</span>
-									</v-tooltip>
-									<v-tooltip top>
-										<template v-slot:activator="{ on }">
-											<button
-												type="button"
-												class="plyr__controls__item plyr__control"
-												v-on="on"
-												@click="capture"
-											>
-												<v-icon color="white" size="20">mdi-camera</v-icon>
-											</button>
-										</template>
-										<span class="body-2">{{ $t('Snapshot') }}</span>
-									</v-tooltip>
+									<button
+										v-for="(item, i) in listItems"
+										:key="i"
+										type="button"
+										class="plyr__controls__item plyr__control"
+										@click="
+											item.action({
+												$event,
+												details: attrs,
+												$copyText,
+												$store,
+											})
+										"
+									>
+										<v-icon color="white" size="20">{{ item.icon }}</v-icon>
+									</button>
+
+									<button
+										type="button"
+										class="plyr__controls__item plyr__control"
+										@click="capture"
+									>
+										<v-icon color="white" size="20">mdi-camera</v-icon>
+									</button>
 								</div>
 								<!-- </v-layout> -->
 							</div>
