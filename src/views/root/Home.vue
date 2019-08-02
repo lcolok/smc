@@ -1,5 +1,5 @@
 <template>
-	<v-container fluid grid-list-xl fill-height>
+	<v-container fluid grid-list-md fill-height>
 		<v-layout wrap align-space-around justify-center column fill-height>
 			<v-flex>
 				<v-card>
