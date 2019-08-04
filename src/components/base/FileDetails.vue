@@ -16,8 +16,8 @@
 	</v-flex>
 </template>
 <script>
-import { mapState } from 'vuex';
-
+import { mapState, mapActions } from 'vuex';
+import { renderSize } from '@/utils/handle';
 export default {
 	created() {
 		// console.log(this);
@@ -38,31 +38,7 @@ export default {
 			return this.descriptionList[this.suffix] || this.unknownDescription;
 		},
 	},
-	methods: {
-		renderSize(value) {
-			if (null == value || value == '') {
-				return '0 Bytes';
-			}
-			var unitArr = new Array(
-				'Bytes',
-				'KB',
-				'MB',
-				'GB',
-				'TB',
-				'PB',
-				'EB',
-				'ZB',
-				'YB',
-			);
-			var index = 0,
-				srcsize = parseFloat(value);
-			index = Math.floor(Math.log(srcsize) / Math.log(1024));
-			var size = srcsize / Math.pow(1024, index);
-			//  保留的小数位数
-			size = size.toFixed(2);
-			return `${size} ${unitArr[index]}`;
-		},
-	},
+	methods: { renderSize },
 };
 </script>
 <style lang="scss" scoped>

@@ -18,18 +18,22 @@
 					text
 					class="v-toolbar--fixed rounded_off"
 					color="primary"
+					dense
 				>
 					<v-btn icon @click="dialog = false">
 						<v-icon>mdi-close</v-icon>
 					</v-btn>
 					<v-toolbar-title
-						><span class="title">{{ attrs.title }}</span></v-toolbar-title
+						><span class="title">{{ title }}</span></v-toolbar-title
 					>
 					<v-spacer></v-spacer>
 					<v-btn text @click="dialog = false">Save</v-btn>
 				</v-toolbar>
 				<v-flex>
 					<component :attrs="attrs" :is="tab"></component>
+				</v-flex>
+				<v-flex>
+					<preview-controls :attrs="attrs" />
 				</v-flex>
 			</v-card>
 		</v-dialog>
@@ -72,6 +76,9 @@ export default {
 			set(val) {
 				this.setPreviewModel(val);
 			},
+		},
+		title() {
+			return !this.attrs || this.attrs.title;
 		},
 	},
 	methods: {

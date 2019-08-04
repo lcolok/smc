@@ -3,7 +3,12 @@
 		<v-card>
 			<v-hover v-slot:default="{ hover }" :open-delay="200">
 				<vue-plyr ref="plyr" :options="options">
-					<video crossorigin="anonymous" :src="attrs.attachmentURL"></video>
+					<video
+						crossorigin="anonymous"
+						:src="attrs.attachmentURL"
+						playsinline
+						autoplay
+					></video>
 
 					<v-expand-transition v-if="$vuetify.breakpoint.mdAndUp">
 						<div
@@ -96,7 +101,7 @@ export default {
 			if (val) {
 				setTimeout(() => {
 					this.player.play();
-				}, 100);
+				}, 200);
 			} else {
 				this.player.pause();
 			}
@@ -294,7 +299,7 @@ export default {
 			fullscreen: {
 				enabled: true, // Allow fullscreen?
 				fallback: true, // Fallback using full viewport/window
-				iosNative: false, // Use the native fullscreen in iOS (disables custom controls)
+				iosNative: true, // Use the native fullscreen in iOS (disables custom controls)
 			},
 
 			// Local storage

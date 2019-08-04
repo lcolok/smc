@@ -87,7 +87,7 @@
 		"vue2-transitions": "0.3.0",
 		"vuedraggable": "^2.23.0",
 		"vuetify": "^2.0.4",
-		"webpack": "^4.39.0",
+		"webpack": "^4.39.1",
 		"workbox-webpack-plugin": "^4.3.1",
 		"zxcvbn": "^4.4.2"
 	},
