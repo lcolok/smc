@@ -4,7 +4,6 @@
 			v-model="dialog"
 			:retain-focus="false"
 			:fullscreen="$vuetify.breakpoint.mdAndDown"
-			:hide-overlay="$vuetify.breakpoint.mdAndDown"
 			:scrollable="false"
 			:max-width="!$vuetify.breakpoint.mdAndDown ? '70vw' : ''"
 			:transition="
@@ -24,7 +23,7 @@
 						<v-icon>mdi-close</v-icon>
 					</v-btn>
 					<v-toolbar-title
-						><span color="white" class="title">Settings</span></v-toolbar-title
+						><span class="title">{{ attrs.title }}</span></v-toolbar-title
 					>
 					<v-spacer></v-spacer>
 					<v-btn text @click="dialog = false">Save</v-btn>

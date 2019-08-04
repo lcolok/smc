@@ -5,7 +5,7 @@
 				<vue-plyr ref="plyr" :options="options">
 					<video crossorigin="anonymous" :src="attrs.attachmentURL"></video>
 
-					<v-expand-transition>
+					<v-expand-transition v-if="$vuetify.breakpoint.mdAndUp">
 						<div
 							v-if="hover"
 							class="d-flex transition-plyr top-gradient white--text"
