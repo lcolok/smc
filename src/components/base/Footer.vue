@@ -55,7 +55,7 @@ export default {
 
 <style lang="scss" scoped>
 .blur_footer {
-	background-image: url(https://attachments-cdn.shimo.im/H5lb60JBjwA8uavB/vbanner.jpg);
+	background-image: url('~@/assets/img/background/auth.jpg');
 	background-position: center top;
 	background-size: cover;
 	background-attachment: fixed;
