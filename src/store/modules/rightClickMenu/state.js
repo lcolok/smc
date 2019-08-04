@@ -14,31 +14,70 @@ export default {
 			showInSheet: true,
 			name: 'copyBTN',
 			action: async function({ $event, details: d, $copyText, $store }) {
-				//$store._vm.$copyText 也能读取到 copyText
-				let domain = window.location.host;
-				let copyContent = '';
+				// console.log(d);
+				let uploaderID = d.uploaderURL.match(
+					/uploader\.shimo\.im\/f\/(\w+)/i,
+				)[1];
+				console.log(uploaderID);
+				function nameFilter(name) {
+					return name.replace(
+						/[,/#!$%^&*+;:{}=_`~()。~·！,，。？ ！ ， 、 ； ： “ ” ‘ ' （ ） 《 》 〈 〉 【 】 『 』 「 」 ﹃ ﹄ 〔 〕 … — ～ ﹏ ￥\s]+/g,
+						'_',
+					);
+				}
+
+				let fixedName = nameFilter(d.name);
+
+				let selfMakeAttachmentURL = `https://dn-shimo-attachment.qbox.me/${uploaderID}/${fixedName}.${d.suffix}`;
+				console.log(d.attachmentURL);
+				console.log(selfMakeAttachmentURL);
 				let descriptionList = $store.state.search.descriptionList;
-				let url = `https://${domain}/v?id=${d.objectId}`;
-				console.log(url);
-				let shortURL = await AV.Cloud.run('shortenURL', { origURL: url });
+				let shortURL = await AV.Cloud.run('shortenURL', {
+					origURL: selfMakeAttachmentURL,
+				});
 				let emoji = _.has(descriptionList, d.suffix)
 					? descriptionList[d.suffix].emoji
 					: '❓';
 
-				copyContent = `${emoji} ${d.name || d.title} | ${cutHTTP(shortURL)}`;
-
-				console.log(copyContent);
-
+				let copyContent = `${emoji} ${d.name || d.title} | ${cutHTTP(
+					shortURL,
+				)}`;
 				$copyText(copyContent)
 					.then(e => {
 						// alert('Copied');
 						console.log(e);
 					})
 					.catch(e => {
-						alert('Can not copy');
+						alert(`不能复制:${e}`);
 						console.log(e);
 					});
 			},
+			// action: async function({ $event, details: d, $copyText, $store }) {
+			// 	//$store._vm.$copyText 也能读取到 copyText
+			// 	let domain = window.location.host;
+			// 	let copyContent = '';
+			// 	let descriptionList = $store.state.search.descriptionList;
+			// 	let url = `https://${domain}/v?id=${d.objectId}`;
+			// 	console.log(url);
+			// 	let shortURL = await AV.Cloud.run('shortenURL', { origURL: url });
+			// 	let emoji = _.has(descriptionList, d.suffix)
+			// 		? descriptionList[d.suffix].emoji
+			// 		: '❓';
+
+			// 	copyContent = `${emoji} ${d.name || d.title} | ${cutHTTP(shortURL)}`;
+
+			// 	console.log(copyContent);
+
+			// 	$copyText(copyContent)
+			// 		.then(e => {
+			// 			// alert('Copied');
+			// 			console.log(e);
+			// 		})
+			// 		.catch(e => {
+			// 			alert('Can not copy');
+			// 			console.log(e);
+			// 		});
+			// },
 			// //旧版复制短链
 			// action: ({ $event, details: d, $copyText, $store }) => {
 			// 	//$store._vm.$copyText 也能读取到 copyText
