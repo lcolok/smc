@@ -11,7 +11,7 @@
 						{{ attrs.name_trans }}
 					</v-list-tile-sub-title>
 					<v-list-tile-sub-title class="caption font-weight-light">
-						{{ renderSize(attrs.size) }}</v-list-tile-sub-title
+						{{ prettyBytes(attrs.size) }}</v-list-tile-sub-title
 					>
 					<v-divider></v-divider>
 				</v-list-tile-content>
@@ -149,7 +149,7 @@
 							文件体积:
 							<v-card class="shadowChip" color="primary lighten-4">
 								<v-flex mx-2
-									>{{ renderSize(attrs.size) }}
+									>{{ prettyBytes(attrs.size) }}
 								</v-flex>
 							</v-card>
 						</v-flex>
@@ -165,7 +165,8 @@
 </template>
 
 <script>
-import { renderSize } from '@/utils/handle';
+import prettyBytes from 'pretty-bytes';
+
 export default {
 	props: {
 		attrs: {
@@ -174,7 +175,7 @@ export default {
 		},
 	},
 	methods: {
-		renderSize,
+		prettyBytes,
 		style() {
 			return { transform: 'rotate(' + this.arrowDegree / 360 + 'turn)' };
 		},

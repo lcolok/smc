@@ -10,14 +10,15 @@
 		<v-flex class="file-size">
 			<v-layout align-center justify-start row fill-height>
 				<v-icon size="18" color="white">mdi-harddisk</v-icon>
-				<v-flex>{{ renderSize(size) }}</v-flex>
+				<v-flex>{{ prettyBytes(size) }}</v-flex>
 			</v-layout>
 		</v-flex>
 	</v-flex>
 </template>
 <script>
 import { mapState, mapActions } from 'vuex';
-import { renderSize } from '@/utils/handle';
+import prettyBytes from 'pretty-bytes';
+
 export default {
 	created() {
 		// console.log(this);
@@ -38,7 +39,7 @@ export default {
 			return this.descriptionList[this.suffix] || this.unknownDescription;
 		},
 	},
-	methods: { renderSize },
+	methods: { prettyBytes },
 };
 </script>
 <style lang="scss" scoped>
