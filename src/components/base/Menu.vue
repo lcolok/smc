@@ -14,7 +14,13 @@
 					v-for="(item, i) in items"
 					:key="i"
 					@click="
-						item.action({ $event, $copyText, $store, $props, $attrs, details })
+						item.action({
+							$event,
+							$copyText,
+							$store,
+							$props,
+							$attrs,
+						})
 					"
 				>
 					<v-icon>{{ item.icon }}</v-icon>
@@ -40,9 +46,6 @@ export default {
 		items: {
 			type: Array,
 			required: true,
-		},
-		details: {
-			required: false,
 		},
 	},
 	methods: {},

@@ -24,14 +24,15 @@
 				<v-list-tile-title>{{ menuItem.text }}</v-list-tile-title>
 			</v-list-tile>
 		</v-list>
-	</v-menu> -->
+  </v-menu>-->
 	<base-menu
+		:dark="false"
 		v-if="index === showMenuIndex"
 		v-model="showMenu"
 		:items="listItems"
 		:position-x="MenuX"
 		:position-y="MenuY"
-		:details="$attrs"
+		v-bind="[$attrs, $props]"
 	/>
 </template>
 <script>
@@ -70,3 +71,4 @@ export default {
 	},
 };
 </script>
+<style lang="scss" scoped></style>

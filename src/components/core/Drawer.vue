@@ -95,7 +95,7 @@ export default {
 					to: '/search_results',
 					icon: 'mdi-cloud-search',
 					text: this.$t('Search Results'),
-					display: !_.isEmpty(this.results) || _.has(this.$route, 'query.key'),
+					display: !_.isEmpty(this.results) && _.has(this.$route, 'query.key'),
 				},
 				// {
 				// 	to: '/upload_page',

@@ -28,6 +28,7 @@
 											:title="item.name"
 											:subTitle="item.name_trans"
 											:index="index"
+											:results="results"
 										/>
 									</v-flex>
 								</v-layout>
@@ -142,6 +143,11 @@
 import AV from 'leancloud-storage';
 import { mapMutations } from 'vuex';
 export default {
+	beforeRouteEnter(to, from, next) {
+		next(vm => {
+			vm.getRecent();
+		});
+	},
 	beforeRouteLeave(to, from, next) {
 		// 导航离开该组件的对应路由时调用
 		// 可以访问组件实例 `this`
@@ -156,10 +162,17 @@ export default {
 		left: false,
 		right: false,
 		snackbar: false,
-		results: [],
 	}),
-	created() {
-		this.getRecent();
+
+	computed: {
+		results: {
+			get() {
+				return this.$store.state.home.results;
+			},
+			set(val) {
+				this.$store.state.home.results = val;
+			},
+		},
 	},
 	methods: {
 		...mapMutations('rightClickMenu', ['showMenu']),
@@ -182,7 +195,7 @@ export default {
 			query.descending('updatedAt');
 			query.limit(20); //请求数量上限为1000条
 			query.find().then(r => {
-				this.results = r.map(e => {
+				this.$store.state.home.results = r.map(e => {
 					return e.toJSON();
 				});
 				console.log(r);

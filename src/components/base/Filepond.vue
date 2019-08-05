@@ -77,9 +77,9 @@ export default {
 						progress,
 						abort,
 					) => {
-						let filename = 'smc' + extname(file.name);
+						// let filename = 'smc' + extname(file.name);
 						let QJ = await AV.Cloud.run('getQiniuJSON', {
-							fileNameArr: [filename],
+							fileNameArr: [file.name],
 						});
 
 						console.log(QJ);
