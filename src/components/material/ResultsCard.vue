@@ -162,7 +162,8 @@ export default {
 					break;
 				case '图片':
 					this.rawPreview = true;
-					this.picPath = srcURL + '?imageslim';
+					this.picPath = srcURL 
+					// + '?imageslim';
 					break;
 				default:
 					let cover_name = this.placeholderName;
