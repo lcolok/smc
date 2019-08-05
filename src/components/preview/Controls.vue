@@ -17,7 +17,7 @@
 				</v-list-tile-content>
 
 				<v-list-tile-action>
-					<v-btn icon flat :ripple="false">
+					<v-btn icon text :ripple="false">
 						<v-icon :style="style" color="grey darken-2" small
 							>fas fa-caret-down</v-icon
 						>
@@ -26,7 +26,7 @@
 			</v-list-tile>
 
 			<!-- <v-list-tile>
-				<v-toolbar flat class="transparent">
+				<v-toolbar text class="transparent">
 					<v-layout align-center v-bind="layoutAttributes" row fill-height />
 
 					<div
@@ -39,7 +39,7 @@
 						:key="bottomSheetToolbar.text"
 					>
 						<v-btn
-							flat
+							text
 							fab
 							@click="rightClickMenuItem.action(currentVideo, $event)"
 							:id="rightClickMenuItem.text"
@@ -57,7 +57,7 @@
 						<v-bottom-sheet v-model="moreBottomSheet" bottom left offset-y>
 							<v-btn
 								slot="activator"
-								flat
+								text
 								fab
 								@click="moreBTN.action($event)"
 								:id="moreBTN.text"
@@ -108,7 +108,7 @@
 			<v-expand-transition>
 
 
-				<v-card flat v-if="infoPanel" class="scrollContainer">
+				<v-card text v-if="infoPanel" class="scrollContainer">
 					<v-flex xs12>
 						<v-layout
 							v-scroll:#scroll-target=""

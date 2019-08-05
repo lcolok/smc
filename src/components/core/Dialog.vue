@@ -34,7 +34,15 @@ requireComponent.keys().forEach(fileName => {
 export default {
 	data: () => ({}),
 	computed: {
-		...mapState('dialog', ['dialogModel', 'tab']),
+		...mapState('dialog', ['tab']),
+		dialogModel: {
+			get: function() {
+				return this.$store.state.dialog.dialogModel;
+			},
+			set: function(newValue) {
+				this.$store.state.dialog.dialogModel = newValue;
+			},
+		},
 	},
 	components: components,
 };

@@ -13,7 +13,9 @@
 				<v-list-item
 					v-for="(item, i) in items"
 					:key="i"
-					@click="item.action({ $event, details, $copyText, $store })"
+					@click="
+						item.action({ $event, $copyText, $store, $props, $attrs, details })
+					"
 				>
 					<v-icon>{{ item.icon }}</v-icon>
 					<v-list-item-title>{{ $t(item.text) }}</v-list-item-title>

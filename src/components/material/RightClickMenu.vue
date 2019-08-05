@@ -52,6 +52,7 @@ export default {
 			'MenuY',
 			'showMenuIndex',
 		]),
+
 		showMenu: {
 			get: function() {
 				return this.$store.state.rightClickMenu.showMenu;

@@ -202,9 +202,13 @@ export default {
 			icon: 'mdi-delete',
 			text: 'Delete',
 			subheader: '敏感操作',
-			action: deleteOjbect => {
-				app.deleteOjbect = deleteOjbect;
-				app.deleteConfirmDialog = true;
+			action: ({ $event, details: d, $copyText, $store, $props, $attrs }) => {
+				console.log(d);
+				// console.log($store.state.search.results);
+				$store.state.dialog.tab = 'DeleteComfirm';
+				$store.state.dialog.dialogModel = true;
+				$store.state.dialog.deleteClass = d.chosenClass;
+				$store.state.dialog.deleteID = d.objectId;
 			},
 		},
 	],

@@ -74,5 +74,9 @@
 	"InitBark": "",
 	"Video": "",
 	"SMC Video": "",
-	"Snapshot": ""
+	"Snapshot": "",
+	"Confirm to delete this item?": "",
+	"This operation is irreversible, please be cautious": "",
+	"Cancel": "",
+	"Confirm": ""
 }

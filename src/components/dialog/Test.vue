@@ -63,14 +63,29 @@
 		</v-card-text>
 		<v-card-actions>
 			<v-spacer></v-spacer>
-			<v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
-			<v-btn color="blue darken-1" flat @click="dialog = false">Save</v-btn>
+			<v-btn color="blue darken-1" text @click="dialogModel = false"
+				>Close</v-btn
+			>
+			<v-btn color="blue darken-1" text @click="dialogModel = false"
+				>Save</v-btn
+			>
 		</v-card-actions>
 	</div>
 </template>
 
 <script>
-export default {};
+export default {
+	computed: {
+		dialogModel: {
+			get: function() {
+				return this.$store.state.dialog.dialogModel;
+			},
+			set: function(newValue) {
+				this.$store.state.dialog.dialogModel = newValue;
+			},
+		},
+	},
+};
 </script>
 
 <style lang="scss" scoped></style>
