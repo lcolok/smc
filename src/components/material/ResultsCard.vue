@@ -5,8 +5,8 @@
 		<v-flex>
 			<v-hover v-slot:default="{ hover }">
 				<v-card hover @contextmenu="rightClick({ index, $event })">
-					<!-- <v-expand-transition> -->
-					<v-fade-transition>
+					<v-expand-transition>
+						<!-- <v-fade-transition> -->
 						<v-img
 							v-if="picPath"
 							:src="picPath"
@@ -45,8 +45,8 @@
 								></v-img>
 							</div>
 						</v-img>
-					</v-fade-transition>
-					<!-- </v-expand-transition> -->
+						<!-- </v-fade-transition> -->
+					</v-expand-transition>
 
 					<v-card-text
 						primary-title

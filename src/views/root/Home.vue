@@ -13,6 +13,7 @@
 							<h2 class="title font-weight-light">
 								{{ $t('Recently uploaded') }}
 							</h2>
+
 							<v-container fill-height fluid grid-list-md>
 								<v-layout wrap>
 									<v-flex
@@ -29,6 +30,7 @@
 											:subTitle="item.name_trans"
 											:index="index"
 											:results="results"
+											compName="home_page"
 										/>
 									</v-flex>
 								</v-layout>

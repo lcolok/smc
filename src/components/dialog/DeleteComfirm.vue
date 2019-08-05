@@ -18,7 +18,7 @@
 	</v-card>
 </template>
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
 import AV from 'leancloud-storage';
 
 export default {
@@ -31,15 +31,22 @@ export default {
 				this.$store.state.dialog.dialogModel = newValue;
 			},
 		},
-		...mapState('dialog', ['deleteID', 'deleteClass']),
+		...mapState('dialog', ['object']),
 	},
 	methods: {
+		...mapMutations('home', ['deleteItem']),
 		del() {
+			let Obj = this.object;
 			let deleteObj = AV.Object.createWithoutData(
-				this.deleteClass,
-				this.deleteID,
+				Obj.chosenClass,
+				Obj.objectId,
 			);
-			console.log(deleteObj);
+
+			// console.log(Obj.compName);
+			// if (Obj.compName == 'home_page') {
+			// 	this.deleteItem(Obj.index);
+			// }
+
 			deleteObj.destroy().then(() => {
 				this.dialogModel = false;
 			});

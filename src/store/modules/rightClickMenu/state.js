@@ -202,12 +202,12 @@ export default {
 			icon: 'mdi-delete',
 			text: 'Delete',
 			subheader: '敏感操作',
-			action: ({ $event, $attrs, $copyText, $store, $props }) => {
-				console.log($attrs);
+			action: ({ $event, $copyText, $store, $props, $attrs }) => {
+				console.log({ $event, $copyText, $store, $props, $attrs });
+
 				$store.state.dialog.tab = 'DeleteComfirm';
+				$store.state.dialog.object = $attrs;
 				$store.state.dialog.dialogModel = true;
-				$store.state.dialog.deleteClass = $attrs.chosenClass;
-				$store.state.dialog.deleteID = $attrs.objectId;
 			},
 		},
 	],
