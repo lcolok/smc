@@ -34,13 +34,17 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileRename from 'filepond-plugin-file-rename';
+import FilePondPluginFileMetadata from 'filepond-plugin-file-metadata';
 import { log } from 'util';
+
+import { extname } from 'path';
 
 // Create component
 const FilePond = vueFilePond(
 	FilePondPluginFileValidateType,
 	FilePondPluginImagePreview,
 	FilePondPluginFileRename,
+	FilePondPluginFileMetadata,
 );
 
 // console.log(FilePond);
@@ -73,10 +77,9 @@ export default {
 						progress,
 						abort,
 					) => {
-						// console.log(file);
-
+						let filename = 'smc' + extname(file.name);
 						let QJ = await AV.Cloud.run('getQiniuJSON', {
-							fileNameArr: [file.name],
+							fileNameArr: [filename],
 						});
 
 						console.log(QJ);
