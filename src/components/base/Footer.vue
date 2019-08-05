@@ -8,7 +8,7 @@
 		<v-card class="mainHolder text-center">
 			<div class="textHolder">
 				<p>
-					<v-card-text>
+					<!-- <v-card-text>
 						<div>
 							<v-btn
 								v-for="icon in icons"
@@ -31,7 +31,7 @@
 								<strong>聚本传媒 版权所有</strong> 高企证书编号:GR201844005339
 							</div>
 						</div>
-					</v-card-text>
+					</v-card-text> -->
 				</p>
 			</div>
 		</v-card>
