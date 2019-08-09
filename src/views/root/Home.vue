@@ -16,6 +16,24 @@
 
 							<v-container fill-height fluid grid-list-md>
 								<v-layout wrap>
+									<grid
+										:draggable="true"
+										:sortable="true"
+										:items="results"
+										:cellHeight="300"
+										:cellWidth="400"
+									>
+										<template slot="cell" scope="props">
+											<material-results-card
+												v-bind="props.item"
+												:title="props.item.name"
+												:subTitle="props.item.name_trans"
+												:index="index"
+												:results="results"
+												compName="home_page"
+											/>
+										</template>
+									</grid>
 									<v-flex
 										v-for="(item, index) in results"
 										:key="index"
