@@ -13,30 +13,48 @@
 							<h2 class="title font-weight-light">
 								{{ $t('Recently uploaded') }}
 							</h2>
-							<grid-layout
-								:layout.sync="testLayout"
-								:col-num="12"
-								:row-height="30"
-								:is-draggable="true"
-								:is-resizable="true"
-								:is-mirrored="false"
-								:vertical-compact="true"
-								:margin="[10, 10]"
-								:use-css-transforms="true"
-							>
-								<grid-item
-									style="    border: 3px solid #000;"
-									v-for="item in testLayout"
-									:x="item.x"
-									:y="item.y"
-									:w="item.w"
-									:h="item.h"
-									:i="item.i"
-									:key="item.i"
-								>
-									{{ item.i }}
-								</grid-item>
-							</grid-layout>
+							<drag-select-container selectorClass="item">
+								<template slot-scope="{ selectedItems }">
+									<div
+										v-for="item in 50"
+										:key="item"
+										:class="getClasses(item, selectedItems)"
+										:data-item="item"
+									>
+										Item {{ item }}
+									</div>
+								</template>
+							</drag-select-container>
+							<drag-select-container selectorClass="item">
+								<template slot-scope="{ selectedItems }">
+									<grid-layout
+										:layout.sync="testLayout"
+										:col-num="12"
+										:row-height="30"
+										:is-draggable="true"
+										:is-resizable="true"
+										:is-mirrored="false"
+										:vertical-compact="true"
+										:margin="[10, 10]"
+										:use-css-transforms="true"
+									>
+										<grid-item
+											:data-item="item"
+											:class="getClasses(item, selectedItems)"
+											v-for="item in testLayout"
+											:x="item.x"
+											:y="item.y"
+											:w="item.w"
+											:h="item.h"
+											:i="item.i"
+											:key="item.i"
+										>
+											{{ item.i }}
+										</grid-item>
+									</grid-layout>
+								</template>
+							</drag-select-container>
+
 							<v-container fill-height fluid grid-list-md>
 								<v-layout wrap>
 									<v-flex
@@ -168,6 +186,7 @@
 import AV from 'leancloud-storage';
 import { mapMutations } from 'vuex';
 import VueGridLayout from 'vue-grid-layout';
+import DragSelect from 'vue-drag-select/src/DragSelect.vue';
 
 var testLayout = [
 	{ x: 0, y: 0, w: 2, h: 2, i: '0' },
@@ -226,6 +245,15 @@ export default {
 		},
 	},
 	methods: {
+		getClasses(item, selectedItems) {
+			const isActive = !!selectedItems.find(selectedItem => {
+				return parseInt(selectedItem.dataset.item, 10) === item;
+			});
+			return {
+				item: true,
+				active: isActive,
+			};
+		},
 		...mapMutations('rightClickMenu', ['showMenu']),
 		snack(...args) {
 			this.top = false;
@@ -256,6 +284,30 @@ export default {
 	components: {
 		GridLayout: VueGridLayout.GridLayout,
 		GridItem: VueGridLayout.GridItem,
+		'drag-select-container': DragSelect,
 	},
 };
 </script>
+
+<style scope>
+/* Basic reset */
+
+/* Custom styling */
+.item {
+	display: inline-flex;
+	min-width: 80px;
+	height: 100px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	background-color: #ddd;
+	justify-content: center;
+	align-items: center;
+	text-transform: uppercase;
+	letter-spacing: 3px;
+	font-size: 10px;
+}
+.item.active {
+	background-color: rgb(0, 162, 255);
+	color: #fff;
+}
+</style>

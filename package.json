@@ -78,6 +78,7 @@
 		"vue-chartist": "^2.2.1",
 		"vue-chartjs": "3.4.2",
 		"vue-clipboard2": "^0.3.0",
+		"vue-drag-select": "^0.2.0",
 		"vue-filepond": "^5.1.2",
 		"vue-flatpickr-component": "8.1.2",
 		"vue-grid-layout": "^2.3.4",
