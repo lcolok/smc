@@ -31,9 +31,6 @@ export default {
 						/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
 						'https://dn-shimo-attachment.qbox.me/',
 					);
-					console.log(attachmentURL);
-					console.log(selfMakeAttachmentURL);
-
 					shortURL = await AV.Cloud.run('shortenURL', {
 						origURL: selfMakeAttachmentURL,
 					});
@@ -50,7 +47,7 @@ export default {
 						console.log(e);
 					})
 					.catch(e => {
-						alert(`不能复制:${e}`);
+						alert(`不能复制:${e.toString()}`);
 						console.log(e);
 					});
 			},
@@ -75,13 +72,6 @@ export default {
 				window.location.href = downloadURL;
 			},
 		},
-		/*      {
-           icon: 'mdi-cloud-upload', text: '上传专用', showInSheet: true, action: () => {
-        
-           }
-         },
-        */
-
 		{
 			icon: 'mdi-rename-box',
 			text: 'Rename',
@@ -160,11 +150,6 @@ export default {
 					});
 			},
 		},
-		/*       {
-            icon: 'mdi-egg-easter', text: '获取ID', name: 'getID', action: () => {
-        
-            }
-          }, */
 		{
 			icon: 'mdi-delete',
 			text: 'Delete',
