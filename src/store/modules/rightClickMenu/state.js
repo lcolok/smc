@@ -22,16 +22,23 @@ export default {
 				title,
 				suffix,
 			}) {
-				let selfMakeAttachmentURL = attachmentURL.replace(
-					/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
-					'https://dn-shimo-attachment.qbox.me/',
-				);
-				console.log(attachmentURL);
-				console.log(selfMakeAttachmentURL);
-				let descriptionList = $store.state.search.descriptionList;
-				let shortURL = await AV.Cloud.run('shortenURL', {
-					origURL: selfMakeAttachmentURL,
-				});
+				let shortURL,
+					descriptionList = $store.state.search.descriptionList;
+				if ($attrs.newShortURL) {
+					shortURL = $attrs.newShortURL;
+				} else {
+					let selfMakeAttachmentURL = attachmentURL.replace(
+						/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
+						'https://dn-shimo-attachment.qbox.me/',
+					);
+					console.log(attachmentURL);
+					console.log(selfMakeAttachmentURL);
+
+					shortURL = await AV.Cloud.run('shortenURL', {
+						origURL: selfMakeAttachmentURL,
+					});
+				}
+
 				let emoji = _.has(descriptionList, suffix)
 					? descriptionList[suffix].emoji
 					: '❓';
@@ -52,11 +59,18 @@ export default {
 			icon: 'mdi-download',
 			text: 'Download',
 			showInSheet: true,
-			action: ({ $event, $attrs, $copyText, $store }) => {
-				console.log($attrs);
-				let downloadURL = `${$attrs.attachmentURL}?attname=${encodeURIComponent(
-					$attrs.title,
-				)}.${$attrs.suffix}&download`;
+			action: ({
+				$event,
+				$attrs,
+				$copyText,
+				$store,
+				attachmentURL,
+				title,
+				suffix,
+			}) => {
+				let downloadURL = `${attachmentURL}?attname=${encodeURIComponent(
+					title,
+				)}.${suffix}&download`;
 				console.log(downloadURL);
 				window.location.href = downloadURL;
 			},
@@ -126,8 +140,16 @@ export default {
 			icon: 'mdi-link-variant',
 			text: 'Long URL',
 			name: 'copyLongURL',
-			action: ({ $event, $attrs, $copyText, $store }) => {
-				$copyText($attrs.attachmentURL)
+			action: ({
+				$event,
+				$attrs,
+				$copyText,
+				$store,
+				attachmentURL,
+				title,
+				suffix,
+			}) => {
+				$copyText(attachmentURL)
 					.then(e => {
 						// alert('Copied');
 						console.log(e);

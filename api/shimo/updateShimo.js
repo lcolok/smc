@@ -278,6 +278,8 @@ async function save2DataBase(params) {
 
 	let expandedURL = await expand(params.uploaderURL);
 
+	console.log({ expandedURL });
+
 	let matched = expandedURL.match(regExp);
 	if (matched) {
 		let attachmentURL = matched[1];
