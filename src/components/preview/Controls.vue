@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<v-list dense two-line>
-			<v-list-tile ripple>
+			<!-- <v-list-tile ripple>
 				<v-list-tile-content>
 					<v-list-tile-title class="font-weight-bold subheading"
 						>{{ attrs.name }}
@@ -23,7 +23,7 @@
 						>
 					</v-btn>
 				</v-list-tile-action>
-			</v-list-tile>
+			</v-list-tile> -->
 
 			<!-- <v-list-tile>
 				<v-toolbar text class="transparent">

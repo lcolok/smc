@@ -5,7 +5,7 @@
 				<vue-plyr ref="plyr" :options="options">
 					<video
 						crossorigin="anonymous"
-						:src="attrs.attachmentURL"
+						:src="attachmentURL"
 						playsinline
 						autoplay
 					></video>
@@ -19,7 +19,7 @@
 								<!-- <v-layout align-center justify-space-around row fill-height> -->
 
 								<v-btn class="player-title subtitle-1" text>
-									{{ attrs.title }}
+									{{ title }}
 								</v-btn>
 
 								<div class="player-right-group ">
@@ -31,9 +31,12 @@
 										@click="
 											item.action({
 												$event,
-												details: attrs,
+												$attrs,
 												$copyText,
 												$store,
+												attachmentURL,
+												title,
+												suffix,
 											})
 										"
 									>
@@ -63,10 +66,9 @@ import { setTimeout } from 'timers';
 
 export default {
 	created() {
-		let a = this.attrs;
 		this.options.urls.download =
-			a.attachmentURL +
-			`?attname=${encodeURIComponent(a.title)}.${a.suffix}&download`;
+			this.attachmentURL +
+			`?attname=${encodeURIComponent(this.title)}.${this.suffix}&download`;
 		if (this.$vuetify.breakpoint.mdAndDown) {
 			this.options.controls = [
 				'play-large',
@@ -90,8 +92,16 @@ export default {
 		}
 	},
 	props: {
-		attrs: {
-			type: Object,
+		attachmentURL: {
+			type: String,
+			required: true,
+		},
+		title: {
+			type: String,
+			required: true,
+		},
+		suffix: {
+			type: String,
 			required: true,
 		},
 	},
@@ -178,8 +188,7 @@ export default {
 				dataURL = URL.createObjectURL(blob);
 				const link = document.createElement('a');
 				link.href = dataURL;
-				console.log(vm.attrs);
-				link.download = `${vm.attrs.title}(${MillisecondToDate(
+				link.download = `${vm.title}(${MillisecondToDate(
 					vm.player.currentTime * 1000,
 				)}处).png`;
 				link.style.display = 'none';

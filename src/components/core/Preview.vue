@@ -30,10 +30,15 @@
 					<v-btn text @click="dialog = false">Save</v-btn>
 				</v-toolbar>
 				<v-flex>
-					<component :attrs="attrs" :is="tab"></component>
+					<!-- 候选的预览组件 -->
+					<!-- preview-plyr -->
+					<component v-bind="[attrs]" :is="tab"></component>
 				</v-flex>
 				<v-flex>
-					<preview-controls :attrs="attrs" />
+					<preview-controls
+						v-if="$vuetify.breakpoint.mdAndDown"
+						:attrs="attrs"
+					/>
 				</v-flex>
 			</v-card>
 		</v-dialog>

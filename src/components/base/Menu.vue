@@ -20,6 +20,9 @@
 							$store,
 							$props,
 							$attrs,
+							attachmentURL,
+							title,
+							suffix,
 						})
 					"
 				>
@@ -45,6 +48,18 @@ export default {
 	props: {
 		items: {
 			type: Array,
+			required: true,
+		},
+		attachmentURL: {
+			type: String,
+			required: true,
+		},
+		title: {
+			type: String,
+			required: true,
+		},
+		suffix: {
+			type: String,
 			required: true,
 		},
 	},

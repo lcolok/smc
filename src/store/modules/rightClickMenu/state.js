@@ -13,35 +13,30 @@ export default {
 			text: 'Share',
 			showInSheet: true,
 			name: 'copyBTN',
-			action: async function({ $event, $attrs, $copyText, $store }) {
-				// console.log($attrs);
-				let uploaderID = $attrs.uploaderURL.match(
-					/uploader\.shimo\.im\/f\/(\w+)/i,
-				)[1];
-				console.log(uploaderID);
-				function nameFilter(name) {
-					return name.replace(
-						/[,/#!$%^&*+;:{}=_`~()。~·！,，。？ ！ ， 、 ； ： “ ” ‘ ' （ ） 《 》 〈 〉 【 】 『 』 「 」 ﹃ ﹄ 〔 〕 … — ～ ﹏ ￥\s]+/g,
-						'_',
-					);
-				}
-
-				let fixedName = nameFilter($attrs.name);
-
-				let selfMakeAttachmentURL = `https://dn-shimo-attachment.qbox.me/${uploaderID}/${fixedName}.${$attrs.suffix}`;
-				console.log($attrs.attachmentURL);
+			action: async function({
+				$event,
+				$attrs,
+				$copyText,
+				$store,
+				attachmentURL,
+				title,
+				suffix,
+			}) {
+				let selfMakeAttachmentURL = attachmentURL.replace(
+					/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
+					'https://dn-shimo-attachment.qbox.me/',
+				);
+				console.log(attachmentURL);
 				console.log(selfMakeAttachmentURL);
 				let descriptionList = $store.state.search.descriptionList;
 				let shortURL = await AV.Cloud.run('shortenURL', {
 					origURL: selfMakeAttachmentURL,
 				});
-				let emoji = _.has(descriptionList, $attrs.suffix)
-					? descriptionList[$attrs.suffix].emoji
+				let emoji = _.has(descriptionList, suffix)
+					? descriptionList[suffix].emoji
 					: '❓';
 
-				let copyContent = `${emoji} ${$attrs.name || $attrs.title} | ${cutHTTP(
-					shortURL,
-				)}`;
+				let copyContent = `${emoji} ${name || title} | ${cutHTTP(shortURL)}`;
 				$copyText(copyContent)
 					.then(e => {
 						// alert('Copied');
@@ -52,56 +47,6 @@ export default {
 						console.log(e);
 					});
 			},
-			// action: async function({ $event, details: $attrs, $copyText, $store }) {
-			// 	//$store._vm.$copyText 也能读取到 copyText
-			// 	let domain = window.location.host;
-			// 	let copyContent = '';
-			// 	let descriptionList = $store.state.search.descriptionList;
-			// 	let url = `https://${domain}/v?id=${$attrs.objectId}`;
-			// 	console.log(url);
-			// 	let shortURL = await AV.Cloud.run('shortenURL', { origURL: url });
-			// 	let emoji = _.has(descriptionList, $attrs.suffix)
-			// 		? descriptionList[$attrs.suffix].emoji
-			// 		: '❓';
-
-			// 	copyContent = `${emoji} ${$attrs.name || $attrs.title} | ${cutHTTP(shortURL)}`;
-
-			// 	console.log(copyContent);
-
-			// 	$copyText(copyContent)
-			// 		.then(e => {
-			// 			// alert('Copied');
-			// 			console.log(e);
-			// 		})
-			// 		.catch(e => {
-			// 			alert('Can not copy');
-			// 			console.log(e);
-			// 		});
-			// },
-			// //旧版复制短链
-			// action: ({ $event, details: $attrs, $copyText, $store }) => {
-			// 	//$store._vm.$copyText 也能读取到 copyText
-			// 	let copyContent = '';
-			// 	let descriptionList = $store.state.search.descriptionList;
-
-			// 	let emoji = _.has(descriptionList, $attrs.suffix)
-			// 		? descriptionList[$attrs.suffix].emoji
-			// 		: '❓';
-
-			// 	copyContent = `${emoji} ${$attrs.name} | ${cutHTTP($attrs.shortURL)}`;
-
-			// 	console.log(copyContent);
-
-			// 	$copyText(copyContent)
-			// 		.then(e => {
-			// 			// alert('Copied');
-			// 			console.log(e);
-			// 		})
-			// 		.catch(e => {
-			// 			alert('Can not copy');
-			// 			console.log(e);
-			// 		});
-			// },
 		},
 		{
 			icon: 'mdi-download',
