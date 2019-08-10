@@ -13,58 +13,37 @@ export default {
 			text: 'Share',
 			showInSheet: true,
 			name: 'copyBTN',
-			action: async function({
-				$event,
-				$attrs,
-				$copyText,
-				$store,
-				attachmentURL,
-				title,
-				suffix,
-			}) {
-				let shortURL,
-					descriptionList = $store.state.search.descriptionList;
-				if ($attrs.newShortURL) {
-					shortURL = $attrs.newShortURL;
-				} else {
-					let selfMakeAttachmentURL = attachmentURL.replace(
-						/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
-						'https://dn-shimo-attachment.qbox.me/',
-					);
-					shortURL = await AV.Cloud.run('shortenURL', {
-						origURL: selfMakeAttachmentURL,
-					});
-				}
+			action: ({ $copyText, $store, attachmentURL, title, suffix }) => {
+				let descriptionList = $store.state.search.descriptionList;
+				let selfMakeAttachmentURL = attachmentURL.replace(
+					/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
+					'https://dn-shimo-attachment.qbox.me/',
+				);
+				AV.Cloud.run('shortenURL', {
+					origURL: selfMakeAttachmentURL,
+				}).then(shortURL => {
+					let emoji = _.has(descriptionList, suffix)
+						? descriptionList[suffix].emoji
+						: '❓';
 
-				let emoji = _.has(descriptionList, suffix)
-					? descriptionList[suffix].emoji
-					: '❓';
-
-				let copyContent = `${emoji} ${name || title} | ${cutHTTP(shortURL)}`;
-				$copyText(copyContent)
-					.then(e => {
-						// alert('Copied');
-						console.log(e);
-					})
-					.catch(e => {
-						alert(`不能复制:${e.toString()}`);
-						console.log(e);
-					});
+					let copyContent = `${emoji} ${title} | ${cutHTTP(shortURL)}`;
+					$copyText(copyContent)
+						.then(e => {
+							// alert('Copied');
+							console.log(e);
+						})
+						.catch(e => {
+							alert(JSON.stringify(e));
+							console.log(e);
+						});
+				});
 			},
 		},
 		{
 			icon: 'mdi-download',
 			text: 'Download',
 			showInSheet: true,
-			action: ({
-				$event,
-				$attrs,
-				$copyText,
-				$store,
-				attachmentURL,
-				title,
-				suffix,
-			}) => {
+			action: ({ attachmentURL, title, suffix }) => {
 				let downloadURL = `${attachmentURL}?attname=${encodeURIComponent(
 					title,
 				)}.${suffix}&download`;
@@ -76,32 +55,8 @@ export default {
 			icon: 'mdi-rename-box',
 			text: 'Rename',
 			showInSheet: true,
-			action: ({ $event, $attrs, $copyText, $store }) => {
+			action: ({ $attrs }) => {
 				console.log($attrs);
-
-				async function renameContent(currentVideo) {
-					if (app.renameInput !== app.originalName) {
-						let renameObject = AV.Object.createWithoutData(
-							'ShimoBed',
-							$attrs.objectId,
-						);
-						renameObject.set('name', app.renameInput);
-						renameObject
-							.save()
-							.then(function(renameObject) {
-								currentVideo.attributes.name = app.renameInput; //刷新在屏幕上显示的名称
-								app.$message.success(
-									`「${app.originalName}」已重命名为「${app.renameInput}」`,
-								);
-								// 成功保存之后，执行其他逻辑.
-							})
-							.catch(err => {
-								app.$message.error(`发生错误:${err}`);
-							});
-						return;
-					}
-					console.log('名字没有更改');
-				}
 			},
 		},
 		{
@@ -113,7 +68,7 @@ export default {
 			icon: 'mdi-link-box-variant-outline',
 			text: 'Short URL',
 			name: 'copyShortURL',
-			action: ({ $event, $attrs, $copyText, $store }) => {
+			action: ({ $attrs, $copyText }) => {
 				console.log($attrs);
 				$copyText($attrs.shortURL)
 					.then(e => {
@@ -130,16 +85,12 @@ export default {
 			icon: 'mdi-link-variant',
 			text: 'Long URL',
 			name: 'copyLongURL',
-			action: ({
-				$event,
-				$attrs,
-				$copyText,
-				$store,
-				attachmentURL,
-				title,
-				suffix,
-			}) => {
-				$copyText(attachmentURL)
+			action: ({ $copyText, attachmentURL }) => {
+				let selfMakeAttachmentURL = attachmentURL.replace(
+					/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
+					'https://dn-shimo-attachment.qbox.me/',
+				);
+				$copyText(selfMakeAttachmentURL)
 					.then(e => {
 						// alert('Copied');
 						console.log(e);
