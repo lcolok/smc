@@ -16,10 +16,10 @@ export default {
 			action: ({ $copyText, $store, attachmentURL, title, suffix, $attrs }) => {
 				let newShortURL = $attrs.newShortURL;
 				if (newShortURL) {
-					copy(newShortURL, { suffix, title });
+					copy(newShortURL);
 					return;
 				}
-				let descriptionList = $store.state.search.descriptionList;
+
 				let selfMakeAttachmentURL = attachmentURL.replace(
 					/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
 					'https://dn-shimo-attachment.qbox.me/',
@@ -27,10 +27,11 @@ export default {
 				AV.Cloud.run('shortenURL', {
 					origURL: selfMakeAttachmentURL,
 				}).then(shortURL => {
-					copy(shortURL, { suffix, title });
+					copy(shortURL);
 				});
 
-				function copy(shortURL, { suffix, title }) {
+				function copy(shortURL) {
+					let descriptionList = $store.state.search.descriptionList;
 					let emoji = _.has(descriptionList, suffix)
 						? descriptionList[suffix].emoji
 						: '❓';
