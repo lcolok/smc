@@ -4,6 +4,11 @@ language: node_js
 node_js:
   - node
 
+ #指定只有检测到master分支有变动时才执行任务
+branchs:
+  only:
+  - master
+
 # 指定缓存模块，可选。缓存可加快编译速度。
 cache:
   directories:
