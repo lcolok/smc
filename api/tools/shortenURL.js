@@ -1,17 +1,28 @@
 const axios = require('axios');
 
 const shortenURL = async ({ params: { origURL } }) => {
-	return new Promise((resolve, reject) => {
-		console.log(origURL);
-		var longURL = origURL.match(/[a-zA-z]+:\/\/[^\s]*/g) || origURL;
-		var url =
-			'http://api.weibo.com/2/short_url/shorten.json?source=2849184197&url_long=' +
-			encodeURIComponent(longURL);
-		axios.get(url).then(response => {
-			var json = response.data;
-			var shortURL = json['urls'][0]['url_short'];
-			resolve(shortURL);
-		});
+	return new Promise(async resolve => {
+		async function main(input) {
+			let longURL = input.match(/[a-zA-z]+:\/\/[^\s]*/g);
+
+			for (let i = 0; i < longURL.length; i++) {
+				let url =
+					'http://api.weibo.com/2/short_url/shorten.json?source=2849184197&url_long=' +
+					encodeURIComponent(longURL[i]);
+				let response = await axios.get(url);
+				let json = response.data;
+				let shortURL = json['urls'][0]['url_short'];
+				input = input.replace(longURL[i], shortURL);
+			}
+			return input;
+		}
+
+		var shortenedURL = '';
+		do {
+			shortenedURL = await main(origURL);
+		} while (!shortenedURL.match(/http(s?):\/\/t\.cn\/\S+/));
+
+		resolve(shortenedURL);
 	});
 };
 

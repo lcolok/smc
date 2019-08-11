@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
 //uploaderURL to attachmentURL using the expand.js
 const AV = require('leanengine');
 const path = require('path');
