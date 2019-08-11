@@ -153,19 +153,27 @@ async function postDiscussion(fileID, content) {
 }
 
 async function shortenURL(input) {
-	var longURL = input.match(/[a-zA-z]+:\/\/[^\s]*/g);
+	async function main(input) {
+		let longURL = input.match(/[a-zA-z]+:\/\/[^\s]*/g);
 
-	for (i = 0; i < longURL.length; i++) {
-		var url =
-			'http://api.weibo.com/2/short_url/shorten.json?source=2849184197&url_long=' +
-			encodeURIComponent(longURL[i]);
-		var response = await axios.get(url);
-		var json = response.data;
-		var shortURL = json['urls'][0]['url_short'];
-		var input = input.replace(longURL[i], shortURL);
+		for (i = 0; i < longURL.length; i++) {
+			let url =
+				'http://api.weibo.com/2/short_url/shorten.json?source=2849184197&url_long=' +
+				encodeURIComponent(longURL[i]);
+			let response = await axios.get(url);
+			let json = response.data;
+			let shortURL = json['urls'][0]['url_short'];
+			input = input.replace(longURL[i], shortURL);
+		}
+		return input;
 	}
-	// console.log(clearHTTP);
-	return input;
+
+	var shortenedURL = '';
+	do {
+		shortenedURL = await main(input);
+	} while (!shortenedURL.match(/http(s?):\/\/t\.cn\/\S+/));
+
+	return shortenedURL;
 }
 
 function cutHTTP(input) {
@@ -278,16 +286,19 @@ async function save2DataBase(params) {
 
 	let expandedURL = await expand(params.uploaderURL);
 
-	console.log({ expandedURL });
-
 	let matched = expandedURL.match(regExp);
 	if (matched) {
 		let attachmentURL = matched[1];
 		console.log(attachmentURL);
 		params.attachmentURL = attachmentURL;
+
+		let selfMakeAttachmentURL = attachmentURL.replace(
+			/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
+			'https://dn-shimo-attachment.qbox.me/',
+		);
+		params.newShortURL = await shortenURL(selfMakeAttachmentURL);
 	}
 
-	params.shortURL = await shortenURL(params.uploaderURL);
 	params.name_trans = await AV.Cloud.run('googleTranslateByPost', {
 		orig: params.name.toLowerCase(),
 	});
@@ -304,7 +315,7 @@ async function save2DataBase(params) {
 	save2LeanCloud(params);
 
 	var output = `${emoji(params.suffix)} ${params.name} | ${cutHTTP(
-		params.shortURL,
+		params.shortURL || params.newShortURL,
 	)}`; //输出到控制台
 
 	return output;

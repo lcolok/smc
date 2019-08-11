@@ -13,7 +13,12 @@ export default {
 			text: 'Share',
 			showInSheet: true,
 			name: 'copyBTN',
-			action: ({ $copyText, $store, attachmentURL, title, suffix }) => {
+			action: ({ $copyText, $store, attachmentURL, title, suffix, $attrs }) => {
+				let newShortURL = $attrs.newShortURL;
+				if (newShortURL) {
+					copy(newShortURL, { suffix, title });
+					return;
+				}
 				let descriptionList = $store.state.search.descriptionList;
 				let selfMakeAttachmentURL = attachmentURL.replace(
 					/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
@@ -22,6 +27,10 @@ export default {
 				AV.Cloud.run('shortenURL', {
 					origURL: selfMakeAttachmentURL,
 				}).then(shortURL => {
+					copy(shortURL, { suffix, title });
+				});
+
+				function copy(shortURL, { suffix, title }) {
 					let emoji = _.has(descriptionList, suffix)
 						? descriptionList[suffix].emoji
 						: '❓';
@@ -36,7 +45,7 @@ export default {
 							alert(JSON.stringify(e));
 							console.log(e);
 						});
-				});
+				}
 			},
 		},
 		{
