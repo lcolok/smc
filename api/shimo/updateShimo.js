@@ -162,7 +162,7 @@ async function shortenURL(input) {
 				encodeURIComponent(longURL[i]);
 			let response = await axios.get(url);
 			let json = response.data;
-			let shortURL = json['urls'][0]['url_short'];
+			let shortURL = json[0]['url_short'];
 			input = input.replace(longURL[i], shortURL);
 		}
 		return input;
