@@ -158,7 +158,7 @@ async function shortenURL(input) {
 
 		for (i = 0; i < longURL.length; i++) {
 			let url =
-				'http://api.weibo.com/2/short_url/shorten.json?source=2849184197&url_long=' +
+				'http://api.t.sina.com.cn/short_url/shorten.json?source=2849184197&url_long=' +
 				encodeURIComponent(longURL[i]);
 			let response = await axios.get(url);
 			let json = response.data;
