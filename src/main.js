@@ -16,6 +16,13 @@ document.oncontextmenu = function() {
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
+import * as Sentry from '@sentry/browser';
+import * as Integrations from '@sentry/integrations';
+
+Sentry.init({
+	dsn: 'https://34e89440e1cd43d2b283997edfa3a69b@sentry.io/1553567',
+	integrations: [new Integrations.Vue({ Vue, attachProps: true })],
+});
 
 // Components
 import './components';
