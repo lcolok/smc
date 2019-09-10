@@ -4,6 +4,7 @@ const expand = require(path.resolve('server/utils/expandUtils'));
 var axios = require('axios');
 const Qs = require('qs');
 var fs = require('fs');
+const shortenURL = require('../tools/shortenURL');
 // var FormData = require('form-data');
 
 var newDiscussionID = 'K8CWmBMqMtYYpU1f';
@@ -152,30 +153,6 @@ async function postDiscussion(fileID, content) {
 	}
 }
 
-async function shortenURL(input) {
-	async function main(input) {
-		let longURL = input.match(/[a-zA-z]+:\/\/[^\s]*/g);
-
-		for (i = 0; i < longURL.length; i++) {
-			let url =
-				'http://api.t.sina.com.cn/short_url/shorten.json?source=2849184197&url_long=' +
-				encodeURIComponent(longURL[i]);
-			let response = await axios.get(url);
-			let json = response.data;
-			let shortURL = json[0]['url_short'];
-			input = input.replace(longURL[i], shortURL);
-		}
-		return input;
-	}
-
-	var shortenedURL = '';
-	do {
-		shortenedURL = await main(input);
-	} while (!shortenedURL.match(/http(s?):\/\/t\.cn\/\S+/));
-
-	return shortenedURL;
-}
-
 function cutHTTP(input) {
 	return input.replace(/[a-zA-z]+:\/\//g, '');
 }
@@ -287,17 +264,18 @@ async function save2DataBase(params) {
 	let expandedURL = await expand(params.uploaderURL);
 
 	let matched = expandedURL.match(regExp);
-	if (matched) {
-		let attachmentURL = matched[1];
-		console.log(attachmentURL);
-		params.attachmentURL = attachmentURL;
-
-		let selfMakeAttachmentURL = attachmentURL.replace(
-			/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
-			'https://dn-shimo-attachment.qbox.me/',
-		);
-		params.newShortURL = await shortenURL(selfMakeAttachmentURL);
+	if (!matched) {
+		return console.log('没有匹配的attachmentURL');
 	}
+	let attachmentURL = matched[1];
+	console.log(attachmentURL);
+	params.attachmentURL = attachmentURL;
+
+	let selfMakeAttachmentURL = attachmentURL.replace(
+		/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
+		'https://dn-shimo-attachment.qbox.me/',
+	);
+	params.newShortURL = await shortenURL(selfMakeAttachmentURL);
 
 	params.name_trans = await AV.Cloud.run('googleTranslateByPost', {
 		orig: params.name.toLowerCase(),

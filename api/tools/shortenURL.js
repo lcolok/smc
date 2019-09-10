@@ -7,11 +7,13 @@ const shortenURL = async ({ params: { origURL } }) => {
 
 			for (let i = 0; i < longURL.length; i++) {
 				let url =
-					'http://api.t.sina.com.cn/short_url/shorten.json?source=2849184197&url_long=' +
+					'https://api.weibo.com/2/short_url/shorten.json?source=560331235&url_long=' +
 					encodeURIComponent(longURL[i]);
 				let response = await axios.get(url);
 				let json = response.data;
-				let shortURL = json[0]['url_short'];
+				console.log(json);
+
+				let shortURL = json['urls'][0]['url_short'];
 				input = input.replace(longURL[i], shortURL);
 			}
 			return input;
