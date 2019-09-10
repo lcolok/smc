@@ -26,7 +26,6 @@
 		"body-parser": "^1.19.0",
 		"bootstrap": "4.3.1",
 		"bootstrap-vue": "2.0.0-rc.15",
-		"browser-sync": "^2.26.7",
 		"chalk": "^2.4.2",
 		"chartist": "0.11.0",
 		"cheerio": "^1.0.0-rc.3",
@@ -89,11 +88,11 @@
 		"vue2-transitions": "0.3.0",
 		"vuedraggable": "^2.23.0",
 		"vuetify": "^2.0.10",
-		"webpack": "^4.39.2",
 		"workbox-webpack-plugin": "^4.3.1",
 		"zxcvbn": "^4.4.2"
 	},
 	"devDependencies": {
+		"webpack": "^4.39.2",
 		"@kazupon/vue-i18n-loader": "^0.3.0",
 		"@mdi/font": "^3.9.97",
 		"@vue/cli-plugin-babel": "^3.11.0",
