@@ -275,7 +275,9 @@ async function save2DataBase(params) {
 		/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
 		'https://dn-shimo-attachment.qbox.me/',
 	);
-	params.newShortURL = await shortenURL(selfMakeAttachmentURL);
+	params.newShortURL = await AV.Cloud.run('shortenURL', {
+		origURL: selfMakeAttachmentURL,
+	});
 
 	params.name_trans = await AV.Cloud.run('googleTranslateByPost', {
 		orig: params.name.toLowerCase(),
