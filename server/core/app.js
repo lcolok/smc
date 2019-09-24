@@ -76,6 +76,17 @@ app.get('/', function(req, res) {
 	res.render('index', { currentTime: new Date() });
 });
 
+console.log(
+	path.join(__dirname, './routes/custom/mp/MP_verify_DdusQtAN7TA4jw9C.txt'),
+);
+
+app.get('/MP_verify_DdusQtAN7TA4jw9C.txt', function(req, res) {
+	// res.sendFile(
+	// 	path.join(__dirname, './routes/custom/mp/MP_verify_DdusQtAN7TA4jw9C.txt'),
+	// );
+	res.send('DdusQtAN7TA4jw9C');
+});
+
 app.use(function(req, res, next) {
 	// 如果任何一个路由都没有返回响应，则抛出一个 404 异常给后续的异常处理器
 	if (!res.headersSent) {
