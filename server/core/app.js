@@ -76,14 +76,7 @@ app.get('/', function(req, res) {
 	res.render('index', { currentTime: new Date() });
 });
 
-console.log(
-	path.join(__dirname, './routes/custom/mp/MP_verify_DdusQtAN7TA4jw9C.txt'),
-);
-
 app.get('/MP_verify_DdusQtAN7TA4jw9C.txt', function(req, res) {
-	// res.sendFile(
-	// 	path.join(__dirname, './routes/custom/mp/MP_verify_DdusQtAN7TA4jw9C.txt'),
-	// );
 	res.send('DdusQtAN7TA4jw9C');
 });
 
