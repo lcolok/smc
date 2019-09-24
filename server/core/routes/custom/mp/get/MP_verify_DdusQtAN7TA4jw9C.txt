@@ -1,3 +1,0 @@
-module.exports = (req, res) => {
-	res.json('DdusQtAN7TA4jw9C');
-};
