@@ -14,9 +14,9 @@ export default {
 			showInSheet: true,
 			name: 'copyBTN',
 			action: ({ $copyText, $store, attachmentURL, title, suffix, $attrs }) => {
-				let newShortURL = $attrs.newShortURL;
-				if (newShortURL) {
-					copy(newShortURL);
+				let shortURL = $attrs.shortURL;
+				if (shortURL) {
+					copy(shortURL);
 					return;
 				}
 

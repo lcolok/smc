@@ -276,7 +276,7 @@ async function save2DataBase(params) {
 	// 	/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
 	// 	'https://dn-shimo-attachment.qbox.me/',
 	// );
-	params.newShortURL = await AV.Cloud.run('shortenURL', {
+	params.shortURL = await AV.Cloud.run('shortenURL', {
 		origURL: selfMakeAttachmentURL,
 	});
 
@@ -296,7 +296,7 @@ async function save2DataBase(params) {
 	save2LeanCloud(params);
 
 	var output = `${emoji(params.suffix)} ${params.name} | ${cutHTTP(
-		params.shortURL || params.newShortURL,
+		params.shortURL || params.shortURL,
 	)}`; //输出到控制台
 
 	return output;
