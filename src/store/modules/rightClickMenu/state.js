@@ -20,7 +20,7 @@ export default {
 					return;
 				}
 
-				let selfMakeAttachmentURL = attachmentURL
+				let selfMakeAttachmentURL = attachmentURL;
 				// .replace(
 				// 	/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
 				// 	'https://dn-shimo-attachment.qbox.me/',
@@ -68,6 +68,45 @@ export default {
 			showInSheet: true,
 			action: ({ $attrs }) => {
 				console.log($attrs);
+				let origName = $attrs.name;
+				let renameInput =
+					window.prompt('Enter new filename', origName) || origName;
+
+				if (renameInput !== origName) {
+					const renameObject = AV.Object.createWithoutData(
+						'ShimoBed',
+						$attrs.objectId,
+					);
+
+					AV.Cloud.run('googleTranslateByPost', {
+						orig: renameInput.toLowerCase(),
+					}).then(name_trans => {
+						renameObject.set('name_trans', name_trans);
+						renameObject
+							.save()
+							.then(function(renameObject) {
+								// 成功保存之后，执行其他逻辑.
+								console.log(
+									`翻译成功:${name_trans}`,
+								);
+							})
+							.catch(err => {
+								console.error(`发生错误:${err}`);
+							});
+					});
+
+					renameObject.set('name', renameInput);
+					renameObject
+						.save()
+						.then(function(renameObject) {
+							// 成功保存之后，执行其他逻辑.
+							console.log(`「${origName}」已重命名为「${renameInput}」`);
+						})
+						.catch(err => {
+							console.error(`发生错误:${err}`);
+						});
+					return;
+				}
 			},
 		},
 		{
@@ -97,7 +136,7 @@ export default {
 			text: 'Long URL',
 			name: 'copyLongURL',
 			action: ({ $copyText, attachmentURL }) => {
-				let selfMakeAttachmentURL = attachmentURL
+				let selfMakeAttachmentURL = attachmentURL;
 				// .replace(
 				// 	/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
 				// 	'https://dn-shimo-attachment.qbox.me/',
