@@ -271,10 +271,11 @@ async function save2DataBase(params) {
 	console.log(attachmentURL);
 	params.attachmentURL = attachmentURL;
 
-	let selfMakeAttachmentURL = attachmentURL.replace(
-		/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
-		'https://dn-shimo-attachment.qbox.me/',
-	);
+	let selfMakeAttachmentURL = attachmentURL
+	// .replace(
+	// 	/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
+	// 	'https://dn-shimo-attachment.qbox.me/',
+	// );
 	params.newShortURL = await AV.Cloud.run('shortenURL', {
 		origURL: selfMakeAttachmentURL,
 	});

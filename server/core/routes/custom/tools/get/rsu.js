@@ -32,10 +32,11 @@ module.exports = (req, res, next) => {
 					if (attachmentURL) {
 						matched = attachmentURL.match(regExp);
 						if (matched) {
-							selfMakeAttachmentURL = attachmentURL.replace(
-								/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
-								'https://dn-shimo-attachment.qbox.me/',
-							);
+							selfMakeAttachmentURL = attachmentURL
+							// .replace(
+							// 	/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
+							// 	'https://dn-shimo-attachment.qbox.me/',
+							// );
 							AV.Cloud.run('shortenURL', {
 								origURL: selfMakeAttachmentURL,
 							}).then(shortURL => {

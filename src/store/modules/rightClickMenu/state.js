@@ -20,10 +20,11 @@ export default {
 					return;
 				}
 
-				let selfMakeAttachmentURL = attachmentURL.replace(
-					/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
-					'https://dn-shimo-attachment.qbox.me/',
-				);
+				let selfMakeAttachmentURL = attachmentURL
+				// .replace(
+				// 	/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
+				// 	'https://dn-shimo-attachment.qbox.me/',
+				// );
 				AV.Cloud.run('shortenURL', {
 					origURL: selfMakeAttachmentURL,
 				}).then(shortURL => {
@@ -96,10 +97,11 @@ export default {
 			text: 'Long URL',
 			name: 'copyLongURL',
 			action: ({ $copyText, attachmentURL }) => {
-				let selfMakeAttachmentURL = attachmentURL.replace(
-					/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
-					'https://dn-shimo-attachment.qbox.me/',
-				);
+				let selfMakeAttachmentURL = attachmentURL
+				// .replace(
+				// 	/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
+				// 	'https://dn-shimo-attachment.qbox.me/',
+				// );
 				$copyText(selfMakeAttachmentURL)
 					.then(e => {
 						// alert('Copied');
