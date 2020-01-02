@@ -7,19 +7,20 @@ const AV = require('leanengine');
 const path = require('path');
 const expand = require(path.resolve('server/utils/expandUtils'));
 
+const columnToMake = 'shortURL';
+
 module.exports = (req, res, next) => {
 	const query = new AV.Query('ShimoBed');
-	query.doesNotExist('newShortURL'); //空值查询
+	query.doesNotExist(columnToMake); //空值查询
 	query.limit(1000); //请求数量上限为1000条
 	query
 		.find()
 		.then(async every => {
 			let len = every.length;
 			console.log('总数:' + len);
-
 			every
 				.filter(object => {
-					return !object.get('newShortURL');
+					return !object.get(columnToMake);
 				})
 				.map(async each => {
 					let attachmentURL,
@@ -32,7 +33,7 @@ module.exports = (req, res, next) => {
 					if (attachmentURL) {
 						matched = attachmentURL.match(regExp);
 						if (matched) {
-							selfMakeAttachmentURL = attachmentURL
+							selfMakeAttachmentURL = attachmentURL;
 							// .replace(
 							// 	/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
 							// 	'https://dn-shimo-attachment.qbox.me/',
@@ -41,7 +42,7 @@ module.exports = (req, res, next) => {
 								origURL: selfMakeAttachmentURL,
 							}).then(shortURL => {
 								console.log(shortURL);
-								each.set('newShortURL', shortURL);
+								each.set(columnToMake, shortURL);
 								each.save();
 							});
 						}
