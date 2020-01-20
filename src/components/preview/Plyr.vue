@@ -8,7 +8,17 @@
 						:src="attachmentURL"
 						playsinline
 						autoplay
-					></video>
+					>
+						<track
+							v-for="(track, index) in tracks"
+							:key="index"
+							:kind="track.kind"
+							:label="track.label"
+							:srclang="track.srclang"
+							:src="track.src"
+							:default="true"
+						/>
+					</video>
 
 					<v-expand-transition v-if="$vuetify.breakpoint.mdAndUp">
 						<div
@@ -69,6 +79,8 @@ export default {
 		this.options.urls.download =
 			this.attachmentURL +
 			`?attname=${encodeURIComponent(this.title)}.${this.suffix}&download`;
+		console.log(this.options.urls.download);
+
 		if (this.$vuetify.breakpoint.mdAndDown) {
 			this.options.controls = [
 				'play-large',
@@ -90,6 +102,20 @@ export default {
 				'fullscreen',
 			];
 		}
+	},
+	mounted() {
+		console.log(this.player);
+
+		// this.player.tracks = [
+		// 	{
+		// 		kind: 'captions',
+		// 		label: '中文',
+		// 		srclang: 'zh',
+		// 		src:
+		// 			'https://attachments-cdn.shimo.im/PJNuIzQ4piwFIYF1/1Lesson_3_Delays_of_Our_Lives.vtt',
+		// 		default: true,
+		// 	},
+		// ];
 	},
 	props: {
 		attachmentURL: {
@@ -297,11 +323,11 @@ export default {
 
 			// Captions settings
 			captions: {
-				active: false,
+				active: true,
 				language: 'auto',
 				// Listen to new tracks added after Plyr is initialized.
 				// This is needed for streaming captions, but may result in unselectable options
-				update: false,
+				update: true,
 			},
 
 			// Fullscreen settings
@@ -625,6 +651,17 @@ export default {
 				modestbranding: 1, // Hide logos as much as possible (they still show one in the corner when paused)
 			},
 		},
+
+		tracks: [
+			{
+				kind: 'captions',
+				label: '中文',
+				srclang: 'zh',
+				src:
+					'https://attachments-cdn.shimo.im/PJNuIzQ4piwFIYF1/1Lesson_3_Delays_of_Our_Lives.vtt',
+				default: true,
+			},
+		],
 	}),
 };
 </script>

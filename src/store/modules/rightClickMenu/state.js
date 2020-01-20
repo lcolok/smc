@@ -86,9 +86,7 @@ export default {
 							.save()
 							.then(function(renameObject) {
 								// 成功保存之后，执行其他逻辑.
-								console.log(
-									`翻译成功:${name_trans}`,
-								);
+								console.log(`翻译成功:${name_trans}`);
 							})
 							.catch(err => {
 								console.error(`发生错误:${err}`);
