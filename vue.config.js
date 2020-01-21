@@ -31,6 +31,7 @@ function leanUp() {
 const publicPath = process.env.VUE_APP_PUBLIC_PATH || '/';
 
 module.exports = {
+	lintOnSave: false,
 	publicPath: publicPath,
 	assetsDir: 'assets',
 	lintOnSave: undefined,
