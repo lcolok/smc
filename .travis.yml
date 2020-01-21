@@ -16,7 +16,7 @@ cache:
 
 before_install:
   # - wget https://attachments-cdn.shimo.im/g7nGwHs34Qk7C4O5/lean-linux-x64
-  - wget https://github.com/leancloud/lean-cli/releases/download/v0.21.0/lean-linux-x64
+  - wget https://github.com/leancloud/lean-cli/releases/latest/download/lean-linux-x64
   - mv lean-linux-x64 lean
   - chmod +x ./lean
 
