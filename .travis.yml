@@ -23,6 +23,9 @@ before_install:
 install:
   - yarn
 
+cache: 
+  - yarn
+
 script:
   - yarn build
 

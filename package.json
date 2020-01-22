@@ -161,7 +161,7 @@
 		"not ie <= 8"
 	],
 	"engines": {
-		"node": "10.x"
+		"node": "12.x"
 	},
 	"gh-pages-name": "smcw"
 }
