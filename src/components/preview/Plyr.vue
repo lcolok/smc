@@ -81,6 +81,17 @@ export default {
 			`?attname=${encodeURIComponent(this.title)}.${this.suffix}&download`;
 		console.log(this.options.urls.download);
 
+		this.tracks = [
+			{
+				kind: 'captions',
+				label: '中文',
+				srclang: 'zh',
+				src:
+					'https://attachments-cdn.shimo.im/PJNuIzQ4piwFIYF1/1Lesson_3_Delays_of_Our_Lives.vtt',
+				default: true,
+			},
+		];
+
 		if (this.$vuetify.breakpoint.mdAndDown) {
 			this.options.controls = [
 				'play-large',
@@ -105,17 +116,6 @@ export default {
 	},
 	mounted() {
 		console.log(this.player);
-
-		// this.player.tracks = [
-		// 	{
-		// 		kind: 'captions',
-		// 		label: '中文',
-		// 		srclang: 'zh',
-		// 		src:
-		// 			'https://attachments-cdn.shimo.im/PJNuIzQ4piwFIYF1/1Lesson_3_Delays_of_Our_Lives.vtt',
-		// 		default: true,
-		// 	},
-		// ];
 	},
 	props: {
 		attachmentURL: {
@@ -651,17 +651,6 @@ export default {
 				modestbranding: 1, // Hide logos as much as possible (they still show one in the corner when paused)
 			},
 		},
-
-		tracks: [
-			{
-				kind: 'captions',
-				label: '中文',
-				srclang: 'zh',
-				src:
-					'https://attachments-cdn.shimo.im/PJNuIzQ4piwFIYF1/1Lesson_3_Delays_of_Our_Lives.vtt',
-				default: true,
-			},
-		],
 	}),
 };
 </script>

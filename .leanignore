@@ -31,3 +31,7 @@ vue.config.js
 
 # 忽略source map文件
 *.map 
+
+#忽略Lock.json
+package-lock.json
+yarn.lock

@@ -2,8 +2,8 @@
 // const AV = require('./lc_server_init');//加载leancloud
 
 require('./init'); //进行一切初始化
-const chalk = require('chalk');
-const path = require('path');
+import chalk from 'chalk';
+import path from 'path';
 const checkLocalServer = require(path.resolve(
 	'server/utils/check_local_server',
 ));

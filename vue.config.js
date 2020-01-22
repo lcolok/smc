@@ -36,7 +36,7 @@ module.exports = {
 	assetsDir: 'assets',
 	lintOnSave: undefined,
 	productionSourceMap: false,
-	outputDir: undefined,
+	outputDir: 'dist/client',
 	runtimeCompiler: true,
 	parallel: undefined,
 

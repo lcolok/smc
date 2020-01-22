@@ -4,6 +4,8 @@ const expand = require(path.resolve('server/utils/expandUtils'));
 var axios = require('axios');
 const Qs = require('qs');
 var fs = require('fs');
+const chalk = require('chalk');
+
 const shortenURL = require('../tools/shortenURL');
 // var FormData = require('form-data');
 
@@ -271,7 +273,7 @@ async function save2DataBase(params) {
 	console.log(attachmentURL);
 	params.attachmentURL = attachmentURL;
 
-	let selfMakeAttachmentURL = attachmentURL
+	let selfMakeAttachmentURL = attachmentURL;
 	// .replace(
 	// 	/http(s?):\/\/(attachments-cdn\.shimo\.im)\//i,
 	// 	'https://dn-shimo-attachment.qbox.me/',
@@ -329,7 +331,7 @@ async function thisFunc(request) {
 	if (request && request.params.code == 0) {
 		//如果传入了石墨上传成功后返回的参数(code:0),那么就直接进行save2DataBase,否则就进行常规的update
 		let params = request.params.data;
-		console.log('\033[1;31;47m已经成功传入updateShimo这里了\033[0m');
+		console.log(chalk.red('已经成功传入updateShimo这里了'));
 
 		var chosenClass = request.params.class || 'ShimoBed';
 

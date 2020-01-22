@@ -30,16 +30,17 @@ app.use(cors());
 
 app.use(compression());
 
+let clientDistPath = './dist/client';
 let distPath;
 if (process.env.npm_lifecycle_event == 'dev') {
-	distPath = path.resolve('./dist');
+	distPath = path.resolve(clientDistPath);
 	app.all('*', function(req, res, next) {
 		// req.headers['server_status'] = 'development';
 		res.header('server_status', 'development');
 		next();
 	});
 } else {
-	distPath = path.resolve('./dist');
+	distPath = path.resolve(clientDistPath);
 }
 
 // 设置模板引擎
