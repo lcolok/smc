@@ -15,9 +15,11 @@ cache:
   - $HOME/.npm
 
 before_install:
-  - wget https://github.com/leancloud/lean-cli/releases/latest/download/lean-linux-x64
-  - mv lean-linux-x64 lean
-  - chmod +x ./lean
+  - cd /bin
+  - sudo wget https://github.com/leancloud/lean-cli/releases/latest/download/lean-linux-x64
+  - sudo mv lean-linux-x64 lean
+  - sudo chmod -R 755 /bin/lean
+  - cd -
 
 install:
   - yarn
@@ -28,18 +30,25 @@ install:
 script:
   - yarn build
 
-before_deploy: 
-  # - npx vue-cli-service build --mode production --dest dist
-  - ./lean login -u $LC_USER -p $LC_PASSWORD -r CN
-  - ./lean switch SMC
-  - ./lean deploy
-  - ./lean publish
+aftersuccess: 
+  - lean login -u $LC_USER -p $LC_PASSWORD -r CN
+  - lean switch SMC
+  - lean deploy
+  - lean publish
 
 deploy:
   - provider: surge
     skip_cleanup: true
     project: dist/client
     domain: smcv.surge.sh
+  - provider: surge
+    skip_cleanup: true
+    project: dist/client
+    domain: smcc.surge.sh
+  - provider: surge
+    skip_cleanup: true
+    project: dist/client
+    domain: smc-cn.surge.sh
   - provider: pages
     skip_cleanup: true
     github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
