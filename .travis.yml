@@ -15,40 +15,36 @@ cache:
   - $HOME/.npm
 
 before_install:
-  # - wget https://attachments-cdn.shimo.im/g7nGwHs34Qk7C4O5/lean-linux-x64
   - wget https://github.com/leancloud/lean-cli/releases/latest/download/lean-linux-x64
   - mv lean-linux-x64 lean
   - chmod +x ./lean
 
 install:
   - yarn
-  - yarn add surge
 
-cache: 
-  - yarn
+# cache: 
+#   - yarn
 
 script:
   - yarn build
 
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-  local_dir:  ./dist/client
-  keep_history: true
-  on:
-    branch: master
-  fqdn: smc.wiki
-
-deploy:
-  provider: surge
-  project: ./dist/client
-  domain: smcc.surge.sh
-
-after_deploy: 
-  - npx vue-cli-service build --mode production --dest dist
+before_deploy: 
+  # - npx vue-cli-service build --mode production --dest dist
   - ./lean login -u $LC_USER -p $LC_PASSWORD -r CN
   - ./lean switch SMC
   - ./lean deploy
   - ./lean publish
-  - surge --domain smc-cn.surge.sh --project dist/client
+
+deploy:
+  - provider: surge
+    skip_cleanup: true
+    project: dist/client
+    domain: smcv.surge.sh
+  - provider: pages
+    skip_cleanup: true
+    github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+    local_dir:  dist/client
+    # keep_history: true
+    on:
+      branch: master
+    # fqdn: smc.wiki

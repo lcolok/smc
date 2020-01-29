@@ -150,6 +150,9 @@
 		},
 		"root": true
 	},
+	"engines": {
+		"node" : ">=10.x"
+	},
 	"postcss": {
 		"plugins": {
 			"autoprefixer": {}
