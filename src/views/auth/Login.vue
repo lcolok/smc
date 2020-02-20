@@ -88,6 +88,14 @@
 					</router-link>
 				</div>
 			</div>
+			<div class="row mt-3">
+				<div class="col-6 text-left">
+					<a href="http://www.beian.miit.gov.cn" class="text-light font-weight-bolder">
+						<small>粤ICP备19099058号</small>
+					</a>
+				</div>
+	
+			</div>
 		</div>
 	</div>
 </template>
