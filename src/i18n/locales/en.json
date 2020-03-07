@@ -79,5 +79,9 @@
 	"This operation is irreversible, please be cautious": "",
 	"Cancel": "",
 	"Confirm": "",
-	"TTS": ""
+	"TTS": "",
+	"Stop": "",
+	"Volume": "",
+	"Mute": "",
+	"Play/Pause": ""
 }

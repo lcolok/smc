@@ -2,7 +2,7 @@
 	<div class="player">
 		<div class="player-controls">
 			<div>
-				<a v-on:click.prevent="stop" title="Stop" href="#">
+				<a v-on:click.prevent="stop" :title="$t('Stop')" href="#">
 					<svg
 						width="18px"
 						xmlns="http://www.w3.org/2000/svg"
@@ -16,7 +16,11 @@
 				</a>
 			</div>
 			<div>
-				<a v-on:click.prevent="playing = !playing" title="Play/Pause" href="#">
+				<a
+					v-on:click.prevent="playing = !playing"
+					:title="$t('Play/Pause')"
+					href="#"
+				>
 					<svg
 						width="18px"
 						xmlns="http://www.w3.org/2000/svg"
@@ -35,8 +39,8 @@
 					</svg>
 				</a>
 			</div>
-			<div>
-				<div
+			<!-- <div> -->
+			<!-- <div
 					v-on:click="seek"
 					class="player-progress"
 					title="Time played : Total time"
@@ -45,16 +49,17 @@
 						:style="{ width: this.percentComplete + '%' }"
 						class="player-seeker"
 					></div>
+				</div> -->
+			<div class="player-time">
+				<div class="player-time-current">
+					{{ this.currentSeconds | convertTimeHHMMSS }}
 				</div>
-				<div class="player-time">
-					<div class="player-time-current">
-						{{ this.currentSeconds | convertTimeHHMMSS }}
-					</div>
-					<div class="player-time-total">
-						{{ this.durationSeconds | convertTimeHHMMSS }}
-					</div>
+				/
+				<div class="player-time-total">
+					{{ this.durationSeconds | convertTimeHHMMSS }}
 				</div>
 			</div>
+			<!-- </div> -->
 			<div>
 				<a v-on:click.prevent="download" href="#">
 					<svg
@@ -90,7 +95,7 @@
 				</a>
 			</div>
 			<div>
-				<a v-on:click.prevent="mute" title="Mute" href="#">
+				<a v-on:click.prevent="mute" :title="$t('Mute')" href="#">
 					<svg
 						width="18px"
 						xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +118,7 @@
 				<a
 					v-on:click.prevent=""
 					v-on:mouseenter="showVolume = true"
-					title="Volume"
+					:title="$t('Volume')"
 					href="#"
 				>
 					<svg
@@ -136,6 +141,9 @@
 				</a>
 			</div>
 		</div>
+		<div class="timeline" v-on:click="jumpTo" ref="timeline">
+			<div :style="{ width: this.percentComplete + '%' }"></div>
+		</div>
 		<audio
 			:loop="innerLoop"
 			ref="audiofile"
@@ -149,6 +157,9 @@
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
 
+$trackColor1: #836734;
+$trackColor2: darken($trackColor1, 10%);
+
 body {
 	font-family: 'Nunito', sans-serif;
 	-moz-osx-font-smoothing: grayscale;
@@ -156,10 +167,12 @@ body {
 	text-rendering: optimizeLegibility;
 }
 
+$font-weight: 500;
 $player-bg: #fff;
 $player-border-color: darken($player-bg, 12%);
+$player-progress-color: darken($player-border-color, 12%);
 $player-link-color: darken($player-bg, 75%);
-$player-progress-color: $player-border-color;
+
 $player-seeker-color: $player-link-color;
 $player-text-color: $player-link-color;
 
@@ -175,11 +188,40 @@ $player-text-color: $player-link-color;
 .player {
 	background-color: $player-bg;
 	border-radius: 5px;
-	border: 1px solid $player-border-color;
+	border: 0px solid $player-border-color;
 	box-shadow: 0 5px 8px rgba(0, 0, 0, 0.15);
 	color: $player-text-color;
 	display: inline-block;
 	line-height: 1.5625;
+
+	// border-radius: 10px;
+	// display: grid;
+	grid-template-rows: (405px - 90px) 90px 7px;
+	// height: 405px;
+	// margin: 130px auto 0;
+	position: relative;
+	// width: 578px;
+
+	.timeline {
+		background-color: $player-progress-color;
+		border-radius: 0 0 6px 6px;
+		overflow: hidden;
+		position: relative;
+		width: 100%;
+		height: 6px;
+		div {
+			transition: width 0.2s;
+			background-image: linear-gradient(
+				90deg,
+				$trackColor1 40%,
+				$trackColor2 85%
+			);
+			content: '';
+			height: 100%;
+			left: 0;
+			position: absolute;
+		}
+	}
 }
 
 .player-controls {
@@ -210,6 +252,7 @@ $player-text-color: $player-link-color;
 	position: relative;
 
 	.player-seeker {
+		transition: width 0.2s;
 		background-color: $player-seeker-color;
 		bottom: 0;
 		left: 0;
@@ -220,16 +263,17 @@ $player-text-color: $player-link-color;
 
 .player-time {
 	display: flex;
-	justify-content: space-between;
-
+	// justify-content: center; /* 水平居中 */
+	align-items: center;
 	.player-time-current {
-		font-weight: 700;
-		padding-left: 5px;
+		font-weight: $font-weight;
+		padding-left: 10px;
 	}
 
 	.player-time-total {
 		opacity: 0.5;
-		padding-right: 5px;
+		font-weight: $font-weight;
+		padding-right: 10px;
 	}
 }
 </style>
@@ -311,14 +355,26 @@ export default {
 			this.volume = 0;
 		},
 		seek(e) {
-			if (!this.playing || e.target.tagName === 'SPAN') {
-				return;
-			}
+			// if (!this.playing || e.target.tagName === 'SPAN') {
+			// 	return;
+			// }
 
 			const el = e.target.getBoundingClientRect();
 			const seekPos = (e.clientX - el.left) / el.width;
 
 			this.audio.currentTime = parseInt(this.audio.duration * seekPos);
+
+			this.audio.play();
+		},
+		jumpTo(e) {
+			const trackPercentage =
+				(e.layerX / this.$refs.timeline.offsetWidth) * 100;
+
+			this.playAt((this.audio.duration / 100) * trackPercentage);
+		},
+		playAt(seconds) {
+			this.audio.currentTime = seconds;
+			this.audio.play();
 		},
 		stop() {
 			this.playing = false;
