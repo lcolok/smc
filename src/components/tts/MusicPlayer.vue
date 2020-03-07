@@ -115,30 +115,44 @@
 				</a>
 			</div>
 			<div>
-				<a
-					v-on:click.prevent=""
-					v-on:mouseenter="showVolume = true"
-					:title="$t('Volume')"
-					href="#"
+				<v-menu
+					open-on-hover
+					top
+					offset-y
+					:close-on-content-click="false"
+					nudge-top="5"
+					close-delay="800"
 				>
-					<svg
-						width="18px"
-						xmlns="http://www.w3.org/2000/svg"
-						viewBox="0 0 20 20"
-					>
-						<path
-							fill="currentColor"
-							d="M19,13.805C19,14.462,18.462,15,17.805,15H1.533c-0.88,0-0.982-0.371-0.229-0.822l16.323-9.055C18.382,4.67,19,5.019,19,5.9V13.805z"
-						/>
-					</svg>
-					<input
-						v-model.lazy.number="volume"
-						v-show="showVolume"
-						type="range"
-						min="0"
-						max="100"
-					/>
-				</a>
+					<template v-slot:activator="{ on }">
+						<a v-on="on" :title="$t('Volume')" href="#">
+							<svg
+								width="18px"
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 20 20"
+							>
+								<path
+									fill="currentColor"
+									d="M19,13.805C19,14.462,18.462,15,17.805,15H1.533c-0.88,0-0.982-0.371-0.229-0.822l16.323-9.055C18.382,4.67,19,5.019,19,5.9V13.805z"
+								/>
+							</svg>
+						</a>
+					</template>
+					<!-- <div>
+					<v-slider v-model="volume" vertical></v-slider>
+					</div> -->
+
+					<v-progress-linear
+						rounded
+						v-model="volume"
+						color="grey darken-3"
+						height="6"
+						reactive
+					></v-progress-linear>
+
+					<!-- <div class="progress__bar" @click="clickProgress">
+						<div class="progress__current" :style="{ width: barWidth }"></div>
+					</div> -->
+				</v-menu>
 			</div>
 		</div>
 		<div class="timeline" v-on:click="jumpTo" ref="timeline">
@@ -156,6 +170,22 @@
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+
+.progress__bar {
+	height: 6px;
+	width: 100%;
+	cursor: pointer;
+	background-color: #d0d8e6;
+	display: inline-block;
+	border-radius: 10px;
+}
+.progress__current {
+	transition: width 0.2s;
+	height: inherit;
+	width: 0%;
+	background-color: #a3b3ce;
+	border-radius: 10px;
+}
 
 $trackColor1: #836734;
 $trackColor2: darken($trackColor1, 10%);
@@ -328,7 +358,7 @@ export default {
 			this.audio.pause();
 		},
 		volume(value) {
-			this.showVolume = false;
+			// this.showVolume = false;
 			this.audio.volume = this.volume / 100;
 		},
 	},
