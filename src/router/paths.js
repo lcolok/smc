@@ -35,6 +35,14 @@ export default [
 				},
 			},
 			{
+				path: '/tts',
+				view: 'TTS',
+				name: 'TTS',
+				meta: {
+					title: 'TTS',
+				},
+			},
+			{
 				path: '/upload_page',
 				view: 'UploadPage',
 				name: 'Upload Page',

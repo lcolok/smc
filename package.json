@@ -36,6 +36,7 @@
 		"core-js": "^3.6.4",
 		"cors": "^2.8.5",
 		"cron": "^1.8.1",
+		"crypto-js": "^4.0.0",
 		"dayjs": "^1.8.19",
 		"del": "^4.1.1",
 		"ejs": "^2.7.4",
@@ -151,7 +152,7 @@
 		"root": true
 	},
 	"engines": {
-		"node" : ">=10.x"
+		"node": ">=10.x"
 	},
 	"postcss": {
 		"plugins": {

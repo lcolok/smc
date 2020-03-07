@@ -76,5 +76,6 @@
 	"Confirm to delete this item?": "确认删除此项?",
 	"This operation is irreversible, please be cautious": "此操作不可逆转，请谨慎操作",
 	"Cancel": "取消",
-	"Confirm": "确认"
+	"Confirm": "确认",
+	"TTS": "文字转语音"
 }

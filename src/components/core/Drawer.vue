@@ -114,6 +114,11 @@ export default {
 					display: AV.User.current().id == '5d19ba8a30863b0070ef7faf',
 				},
 				{
+					to: '/tts',
+					icon: 'mdi-account',
+					text: this.$t('TTS'),
+				},
+				{
 					to: '/user-profile',
 					icon: 'mdi-account',
 					text: this.$t('My profile'),
