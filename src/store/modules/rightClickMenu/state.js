@@ -31,13 +31,32 @@ export default {
 					copy(shortURL);
 				});
 
+				function ckeckBrowerVersion(macHandle, winHandle) {
+					let version = navigator.userAgent.toLowerCase();
+					let mac = version.indexOf('mac');
+					let os = version.indexOf('os');
+
+					if (mac > 0 && os > 0) {
+						// 苹果系统下执行的操作
+						console.log(version);
+						return macHandle;
+					} else {
+						// windows系统下执行的操作
+						return winHandle;
+					}
+				}
+
 				function copy(shortURL) {
 					let descriptionList = $store.state.search.descriptionList;
+
 					let emoji = _.has(descriptionList, suffix)
 						? descriptionList[suffix].emoji
 						: '❓';
 
-					let copyContent = `${emoji} ${title} | ${cutHTTP(shortURL)}`;
+					let copyContent = ckeckBrowerVersion(
+						`${emoji} ${title} | ${cutHTTP(shortURL)}`,
+						`${title} | ${cutHTTP(shortURL)}`,
+					);
 					$copyText(copyContent)
 						.then(e => {
 							// alert('Copied');
