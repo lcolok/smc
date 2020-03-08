@@ -1,13 +1,15 @@
 <template>
-	<v-container class="grey lighten-5">
+	<v-container>
 		<!-- Stack the columns on mobile by making one full-width and the other half-width -->
 
-		<v-row>
-			<v-col cols="12" xs="12" sm="6" md="6" lg="4">
-				<tts-music-player :file="preview_audio_url" />
-			</v-col>
-			<v-col cols="12" lg="4" md="6" xs="12" sm="12">
-				<v-card outlined tile>
+		<v-layout row wrap>
+			<!-- <v-flex md6 sm12> </v-flex> -->
+			<v-flex md6 sm12>
+				<v-card outlined tile class="ma-2 pa-2 grey lighten-5">
+					<v-col align="center" justify="center">
+						<tts-music-player :file="preview_audio_url"
+					/></v-col>
+
 					<!-- <v-subheader>{{ $t('Reading speed') }}</v-subheader> -->
 					<v-card-text>
 						<v-slider
@@ -54,26 +56,20 @@
 						></v-slider>
 					</v-card-text>
 				</v-card>
-			</v-col>
-		</v-row>
-
-		<!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
-		<v-row>
-			<v-col v-for="n in 3" :key="n" cols="6" md="4">
-				<v-card class="pa-2" outlined tile>
-					.col-6 .col-md-4
+			</v-flex>
+			<v-flex md6 sm12>
+				<v-card outlined tile class="ma-2 pa-2 grey lighten-5">
+					<v-col align="center" justify="center">
+						<v-textarea
+							outlined
+							name="input-7-4"
+							label="Outlined textarea"
+							value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
+						></v-textarea>
+					</v-col>
 				</v-card>
-			</v-col>
-		</v-row>
-
-		<!-- Columns are always 50% wide, on mobile and desktop -->
-		<v-row>
-			<v-col v-for="n in 2" :key="n" cols="6">
-				<v-card class="pa-2" outlined tile>
-					.col-6
-				</v-card>
-			</v-col>
-		</v-row>
+			</v-flex>
+		</v-layout>
 	</v-container>
 </template>
 
