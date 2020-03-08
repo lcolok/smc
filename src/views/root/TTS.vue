@@ -25,10 +25,10 @@
 										<v-card
 											:elevation="hover ? 8 : 0"
 											style="transition: box-shadow 0.2s ease-in-out;"
-											class="ma-4"
+											class="ma-2"
 											@click="toggle"
-											max-width="200"
-											min-height="200"
+											max-width="150"
+											min-height="150"
 										>
 											<v-img
 												:lazy-src="

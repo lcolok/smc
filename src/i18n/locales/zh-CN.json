@@ -85,5 +85,8 @@
 	"Reading speed": "阅读速度",
 	"Music volume": "音乐音量",
 	"Speaker volume": "主播音量",
-	"Speaker tone": "主播语调"
+	"Speaker tone": "主播语调",
+	"Text input area": "文字输入区",
+	"Number of characters: ": "字符数：",
+	"Word limit exceeded": "超出字数限制"
 }
