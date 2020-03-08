@@ -341,7 +341,6 @@ $screen-xl-min: 1904px;
 	cursor: pointer;
 	@include rwd(0) {
 		padding: 2vw;
-		transform: scale(calc(18px / 100vw));
 	}
 	@include xs {
 		padding: 10px;
