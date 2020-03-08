@@ -83,5 +83,9 @@
 	"Stop": "",
 	"Volume": "",
 	"Mute": "",
-	"Play/Pause": ""
+	"Play/Pause": "",
+	"Reading speed": "",
+	"Music volume": "",
+	"Speaker volume": "",
+	"Speaker tone": ""
 }

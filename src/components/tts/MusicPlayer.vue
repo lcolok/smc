@@ -276,19 +276,19 @@ $player-text-color: $player-link-color;
 	}
 }
 
-$screen-xs-min: 370px;
+$screen-xs-min: 375px;
 
 // Small tablets and large smartphones (landscape view)
-$screen-sm-min: 576px;
+$screen-sm-min: 600px;
 
 // Small tablets (portrait view)
-$screen-md-min: 768px;
+$screen-md-min: 805px;
 
 // Tablets and small desktops
-$screen-lg-min: 992px;
+$screen-lg-min: 1264px;
 
 // Large tablets and desktops
-$screen-xl-min: 1200px;
+$screen-xl-min: 1904px;
 
 @mixin xs {
 	@media (min-width: #{$screen-xs-min}) {
@@ -344,17 +344,20 @@ $screen-xl-min: 1200px;
 		transform: scale(calc(18px / 100vw));
 	}
 	@include xs {
-		padding: 9px;
+		padding: 10px;
 	}
 	@include sm {
-		padding: 12px;
+		padding: 10px;
 	}
 	@include md {
-		padding: 15px;
+		padding: 12px;
 	}
 	// 992px window width and more
 	@include lg {
-		padding: 15px;
+		padding: 12.5px;
+	}
+	@include xl {
+		padding: 25px;
 	}
 }
 

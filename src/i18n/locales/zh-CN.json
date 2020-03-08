@@ -81,5 +81,9 @@
 	"Stop": "停止",
 	"Volume": "音量",
 	"Mute": "静音",
-	"Play/Pause": "播放/暂停"
+	"Play/Pause": "播放/暂停",
+	"Reading speed": "阅读速度",
+	"Music volume": "音乐音量",
+	"Speaker volume": "主播音量",
+	"Speaker tone": "主播语调"
 }
