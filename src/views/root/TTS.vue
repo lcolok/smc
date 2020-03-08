@@ -1,6 +1,6 @@
 <template>
 	<v-card>
-		<v-tabs background-color="white" color="deep-purple accent-4" left>
+		<v-tabs background-color="white" :color="color" left>
 			<v-tab v-for="item in speakersList" :key="item.tab">
 				{{ item.tab }}
 			</v-tab>
@@ -23,11 +23,12 @@
 								>
 									<v-hover v-slot:default="{ hover }">
 										<v-card
-											:elevation="hover ? 12 : 2"
+											:elevation="hover ? 8 : 0"
+											style="transition: box-shadow 0.2s ease-in-out;"
 											class="ma-4"
-											height="250"
-											width="250"
 											@click="toggle"
+											max-width="200"
+											min-height="200"
 										>
 											<v-img
 												:lazy-src="
@@ -41,14 +42,23 @@
 												<v-expand-transition>
 													<div
 														v-if="active"
-														class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
-														style="height: 100%;"
+														:class="
+															`d-flex transition-fast-in-fast-out v-card--reveal display-3 white--text lighten-0`
+														"
+														:style="`height: 100%;background-color:${color}`"
 													>
-														选中
+														<v-icon
+															x-large
+															color="white"
+															style="position: absolute;bottom:10px;right:10px"
+														>
+															<!-- mdi-check-circle-outline -->
+															mdi-check-circle
+														</v-icon>
 													</div>
 												</v-expand-transition>
 											</v-img>
-
+											<!-- 
 											<v-row
 												class="fill-height"
 												align="center"
@@ -62,19 +72,14 @@
 														v-text="'mdi-close-circle-outline'"
 													></v-icon>
 												</v-scale-transition>
-											</v-row>
+											</v-row> -->
 										</v-card>
 									</v-hover>
 								</v-slide-item>
 							</v-slide-group>
 
 							<v-expand-transition>
-								<v-sheet
-									v-if="model != null"
-									color="grey lighten-4"
-									height="200"
-									tile
-								>
+								<v-sheet v-if="model != null" tile>
 									<tts-sheet :speaker="item.list[model]" />
 								</v-sheet>
 							</v-expand-transition>
@@ -118,7 +123,7 @@
 </style>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapState } from 'vuex';
 export default {
 	methods: {
 		...mapActions('tts', ['getSpeakerList']),
@@ -128,6 +133,7 @@ export default {
 	},
 	computed: {
 		...mapGetters('tts', ['speakersList']),
+		...mapState('app', ['color']),
 	},
 	data: () => ({
 		model: null,

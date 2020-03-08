@@ -20,14 +20,14 @@ const images = [
 	'https://cdn.dribbble.com/users/15687/screenshots/6618356/rainforest2.png',
 ];
 
-const colors = ['primary', 'info', 'success', 'warning'];
+const colors = ['#2196F3', '#11cdef', '#2dce89', '#fb6340'];
 
 const random = images[Math.floor(images.length * Math.random())];
 
 export default {
 	devPort: null,
 	drawer: null,
-	color: 'primary',
+	color: '#2196F3',
 	colors: colors,
 	image: random, //随机显示某一张
 	images: images,

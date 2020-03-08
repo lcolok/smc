@@ -38,6 +38,7 @@
 								:class="[
 									c === color ? 'color-active color-' + c : 'color-' + c,
 								]"
+								:style="'background-color:' + c"
 								size="23"
 								@click="setColor(c)"
 							/>
