@@ -1,3 +1,5 @@
+import txtsegment from '../../../../api/xunfei/txtsegment';
+
 export default {
 	speakersList: state => {
 		return state.speakersList;
@@ -23,5 +25,8 @@ export default {
 			},
 		);
 		return (state.totalWord = handledValue.length);
+	},
+	afterSegment: state => {
+		return txtsegment(state.content);
 	},
 };
