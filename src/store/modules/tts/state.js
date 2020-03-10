@@ -4,4 +4,5 @@ export default {
 	speedSlider: null,
 	te: null,
 	music_volume: null,
+	content: '',
 };

@@ -15,4 +15,13 @@ export default {
 	speed: state => {
 		return [-200, -100, 0, 100, 200][state.speedSlider];
 	},
+	totalWord: state => {
+		let handledValue = state.content;
+		[/\[0\.5秒\]/g, /\[1秒\]/g, /\[2秒\]/g, /\[=[a-z]{1,6}[1-4]\]/g].forEach(
+			e => {
+				handledValue = handledValue.replace(e, '');
+			},
+		);
+		return (state.totalWord = handledValue.length);
+	},
 };

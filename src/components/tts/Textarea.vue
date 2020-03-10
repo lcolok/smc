@@ -5,38 +5,35 @@
 				no-resize
 				outlined
 				name="input-7-4"
-				:label="`${$t('Number of characters: ')}${numCharacters}/${limit}`"
+				:label="`${$t('Number of characters: ')}${totalWord}/${limit}`"
 				:height="cardHeight - 60"
 				autofocus
 				:rules="counter"
-				value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
+				v-model="content"
 			></v-textarea>
 		</v-col>
 	</v-card>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 export default {
-	data() {
-		return {
-			cardHeight: 450,
-			counter: [
-				value => {
-					let handledValue = value;
-					[
-						/\[0\.5秒\]/g,
-						/\[1秒\]/g,
-						/\[2秒\]/g,
-						/\[=[a-z]{1,6}[1-4]\]/g,
-					].forEach(e => {
-						handledValue = handledValue.replace(e, '');
-					});
-					let sum = (this.numCharacters = handledValue.length);
-					return sum <= this.limit || this.$t('Word limit exceeded');
-				},
-			],
-			limit: 20000,
-			numCharacters: 0,
-		};
+	computed: {
+		...mapGetters('tts', ['totalWord']),
+		content: {
+			set(val) {
+				this.$store.state.tts.content = val;
+			},
+			get() {
+				return this.$store.state.tts.content;
+			},
+		},
 	},
+	data: () => ({
+		cardHeight: 450,
+		counter: [
+			value => this.totalWord <= this.limit || this.$t('Word limit exceeded'),
+		],
+		limit: 20000,
+	}),
 };
 </script>
