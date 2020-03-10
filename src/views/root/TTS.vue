@@ -25,7 +25,7 @@
 										<v-card
 											:elevation="hover ? 8 : 0"
 											style="transition: box-shadow 0.2s ease-in-out;"
-											class="ma-2"
+											class="ma-1"
 											@click="toggle"
 											max-width="150"
 											min-height="150"
@@ -34,7 +34,7 @@
 												:lazy-src="
 													`https://attachments-cdn.shimo.im/nnMHaMAvXkoolrY1/default.jpg?imageView2/4/w/50/h/50`
 												"
-												:src="n.img_url"
+												:src="toHttps(n.img_url)"
 												class="white--text align-end"
 												gradient="0deg, rgba(0,0,0,0.5634628851540616) 0%, rgba(0,0,0,0.2553396358543417) 10%, rgba(0,0,0,0) 25%, rgba(255,255,255,0) 100%"
 											>
@@ -127,6 +127,11 @@ import { mapGetters, mapActions, mapState } from 'vuex';
 export default {
 	methods: {
 		...mapActions('tts', ['getSpeakerList']),
+		toHttps(u) {
+			const url = new URL(u);
+			url.protocol = 'https';
+			return url.toString();
+		},
 	},
 	mounted() {
 		this.getSpeakerList({ vm: this });

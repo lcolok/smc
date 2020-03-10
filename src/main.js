@@ -18,6 +18,12 @@ document.oncontextmenu = function() {
 import Vue from 'vue';
 import * as Sentry from '@sentry/browser';
 import * as Integrations from '@sentry/integrations';
+import APlayer from '@moefe/vue-aplayer';
+
+Vue.use(APlayer, {
+	defaultCover: 'https://github.com/u3u.png',
+	productionTip: true,
+});
 
 Sentry.init({
 	dsn: 'https://34e89440e1cd43d2b283997edfa3a69b@sentry.io/1553567',
