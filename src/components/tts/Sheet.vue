@@ -81,7 +81,7 @@
 					<v-card-text>
 						<v-slider
 							:label="$t('Reading speed')"
-							v-model="speedIndex"
+							v-model="speedSlider"
 							:tick-labels="speedArray.map(e => e + '×')"
 							:max="speedArray.length - 1"
 							step="1"
@@ -91,7 +91,9 @@
 						>
 							<template v-slot:append>
 								<v-btn
-									:color="speedIndex == speedIndexDefault ? 'grey' : 'primary'"
+									:color="
+										speedSlider == speedSliderDefault ? 'grey' : 'primary'
+									"
 									@click="resetSpeed"
 									x-small
 									style="padding: 0px 5px"
@@ -129,13 +131,13 @@
 						<v-slider
 							:label="$t('Speaker volume')"
 							prepend-icon="mdi-microphone"
-							v-model="volumeIndex"
+							v-model="volumeSlider"
 							thumb-label
 						>
 							<template v-slot:append>
 								<v-btn
 									:color="
-										volumeIndex == volumeIndexDefault ? 'grey' : 'primary'
+										volumeSlider == volumeSliderDefault ? 'grey' : 'primary'
 									"
 									@click="resetVolume"
 									x-small
@@ -175,6 +177,7 @@
 <script>
 // import url from 'url';
 import _ from 'lodash';
+import { mapGetters } from 'vuex';
 
 export default {
 	methods: {
@@ -185,16 +188,16 @@ export default {
 			return url.toString();
 		},
 		resetVolume() {
-			this.volumeIndex = this.volumeIndexDefault;
+			this.$store.state.tts.volumeSlider = this.volumeSliderDefault;
 		},
 		resetSpeed() {
-			this.speedIndex = this.speedIndexDefault;
+			this.$store.state.tts.speedSlider = this.speedSliderDefault;
 		},
 		resetTe() {
-			this.te = this.teDefault;
+			this.$store.state.tts.te = this.teDefault;
 		},
 		resetMusicVolume() {
-			this.music_volume = this.music_volumeDefault;
+			this.$store.state.tts.music_volume = this.music_volumeDefault;
 		},
 	},
 	computed: {
@@ -211,19 +214,39 @@ export default {
 				cover: this.toHttps(this.speaker.img_url) // prettier-ignore
 			};
 		},
-		speed() {
-			return [-200, -100, 0, 100, 200][this.speedIndex];
+
+		...mapGetters('tts', ['volume', 'speed']),
+		music_volume: {
+			set(val) {
+				this.$store.state.tts.music_volume = val;
+			},
+			get() {
+				return this.$store.state.tts.music_volume;
+			},
 		},
-		volume() {
-			function linear(t, tMin, tMax, minValue, maxValue) {
-				let duration = tMax - tMin;
-				let diff = maxValue - minValue;
-				return (t / duration) * diff + minValue;
-			}
-			let volume = linear(this.volumeIndex, 0, 100, -20, 20);
-			volume = Math.floor(volume);
-			console.log(volume);
-			return volume;
+		speedSlider: {
+			set(val) {
+				this.$store.state.tts.speedSlider = val;
+			},
+			get() {
+				return this.$store.state.tts.speedSlider;
+			},
+		},
+		volumeSlider: {
+			set(val) {
+				this.$store.state.tts.volumeSlider = val;
+			},
+			get() {
+				return this.$store.state.tts.volumeSlider;
+			},
+		},
+		te: {
+			set(val) {
+				this.$store.state.tts.te = val;
+			},
+			get() {
+				return this.$store.state.tts.te;
+			},
 		},
 	},
 	props: {
@@ -259,13 +282,10 @@ export default {
 			limit: 20000,
 			numCharacters: 0,
 			speedArray: ['0.6', '0.8', '1.0', '1.2', '1.4'],
-			speedIndexDefault: 2,
-			speedIndex: null,
-			music_volume: null,
+			speedSliderDefault: 2,
+
 			music_volumeDefault: 20,
-			volumeIndex: null,
-			volumeIndexDefault: 50,
-			te: null,
+			volumeSliderDefault: 50,
 			teDefault: 50,
 		};
 	},
