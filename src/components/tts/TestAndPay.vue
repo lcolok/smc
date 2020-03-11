@@ -82,8 +82,15 @@ export default {
 			};
 			console.log(payload);
 			AV.Cloud.run('playTemp', payload).then(resp => {
-				this.$store.state.tts.currentPlayUrl =
-					'http://localhost:3000/tts/temp?n=' + resp;
+				let url = '/tts/temp?n=' + resp;
+
+				if (window.location.href.includes('localhost')) {
+					url = 'http://localhost:3000' + url;
+				} else {
+					url = 'https://smc.wiki' + url;
+				}
+				this.$store.state.tts.currentPlayUrl = url;
+				console.log(url);
 				setTimeout(() => {
 					this.$refs.aplayer.play();
 				}, 0);
