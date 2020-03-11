@@ -3,10 +3,10 @@
 		<aplayer :audio="audio" mini />
 		<text-highlight :queries="queries">{{ content }}</text-highlight>
 		<v-slider
-			v-model="progress"
+			v-model="currentProgress"
 			thumb-label
 			:min="0"
-			:max="afterSegment.length - 1"
+			:max="sliderMax"
 		></v-slider>
 	</v-card>
 </template>
@@ -29,10 +29,7 @@ export default {
 			};
 		},
 		...mapState('tts', ['content']),
-		...mapGetters('tts', ['afterSegment']),
-		queries() {
-			return this.afterSegment[this.progress];
-		},
+		...mapGetters('tts', ['afterSegment', 'sliderMax', 'queries']),
 		// lyric() {
 		// 	const obj = {};
 		// 	this.afterSegment.map((e, index) => {
@@ -41,6 +38,14 @@ export default {
 		// 	console.log(obj);
 		// 	return obj;
 		// },
+		currentProgress: {
+			get() {
+				return this.$store.state.tts.currentProgress;
+			},
+			set(val) {
+				this.$store.state.tts.currentProgress = val;
+			},
+		},
 	},
 
 	methods: {
@@ -59,7 +64,6 @@ export default {
 	data: () => ({
 		// queries: ['birds', 'scatt'],
 		// description: 'Tropical birds scattered as Drake veered the Jeep',
-		progress: 0,
 	}),
 };
 </script>

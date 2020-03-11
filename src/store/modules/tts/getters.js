@@ -29,4 +29,19 @@ export default {
 	afterSegment: state => {
 		return txtsegment(state.content);
 	},
+	sliderMax: (state, getters) => {
+		return (getters.afterSegment.length - 1) * state.sliderScale;
+	},
+	queries: (state, getters) => {
+		let progress = state.currentProgress;
+		let scale = state.sliderScale;
+		// let rate = (progress - Math.floor(progress / scale) * scale) / scale;
+		let rate = progress / scale - Math.floor(progress / scale);
+
+		console.log(rate);
+		let currentSentence = getters.afterSegment[Math.floor(progress / scale)];
+		console.log(currentSentence);
+		let len = currentSentence.length;
+		return currentSentence.substr(Math.floor(len * rate), 1);
+	},
 };
