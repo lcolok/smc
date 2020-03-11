@@ -29,19 +29,25 @@ export default {
 	afterSegment: state => {
 		return txtsegment(state.content);
 	},
-	sliderMax: (state, getters) => {
-		return (getters.afterSegment.length - 1) * state.sliderScale;
+	currentLineIndex: (state, getters) => {
+		let progress = state.currentProgress;
+		let scale = state.sliderScale;
+		return Math.floor(progress / scale);
 	},
-	queries: (state, getters) => {
+	lineRate: (state, getters) => {
 		let progress = state.currentProgress;
 		let scale = state.sliderScale;
 		// let rate = (progress - Math.floor(progress / scale) * scale) / scale;
 		let rate = progress / scale - Math.floor(progress / scale);
-
-		console.log(rate);
-		let currentSentence = getters.afterSegment[Math.floor(progress / scale)];
+		return rate;
+	},
+	sliderMax: (state, getters) => {
+		return (getters.afterSegment.length - 1) * state.sliderScale;
+	},
+	queries: (state, getters) => {
+		let currentSentence = getters.afterSegment[getters.currentLineIndex];
 		console.log(currentSentence);
 		let len = currentSentence.length;
-		return currentSentence.substr(Math.floor(len * rate), 1);
+		return currentSentence.substr(Math.floor(len * getters.lineRate), 1);
 	},
 };

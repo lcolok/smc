@@ -1,13 +1,9 @@
 <template>
 	<v-card outlined tile class="ma-2 pa-2 grey lighten-5">
 		<aplayer :audio="audio" mini />
-		<text-highlight :queries="queries">{{ content }}</text-highlight>
-		<v-slider
-			v-model="currentProgress"
-			thumb-label
-			:min="0"
-			:max="sliderMax"
-		></v-slider>
+		<!-- <text-highlight :queries="queries">{{ content }}</text-highlight> -->
+		<tts-lyric />
+		<v-slider v-model="currentProgress" :min="0" :max="sliderMax"></v-slider>
 	</v-card>
 </template>
 
