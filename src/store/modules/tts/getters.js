@@ -34,6 +34,9 @@ export default {
 		let scale = state.sliderScale;
 		return Math.floor(progress / scale);
 	},
+	currentSentence: (state, getters) => {
+		return getters.afterSegment[getters.currentLineIndex];
+	},
 	lineRate: (state, getters) => {
 		let progress = state.currentProgress;
 		let scale = state.sliderScale;

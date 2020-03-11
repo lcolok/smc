@@ -145,9 +145,9 @@ function getSpeakerList() {
 	});
 }
 
-function play({ text, vid }) {
+function play({ te, text, vid }) {
 	return new Promise((resolve, reject) => {
-		var intonationsize = 50; //音高
+		var intonationsize = te || 50; //音高
 		intonationsize = parseInt(intonationsize);
 		var content = `[te${intonationsize}]${text}`;
 		var e =

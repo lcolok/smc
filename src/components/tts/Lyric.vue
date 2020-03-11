@@ -4,7 +4,7 @@
 		<div class="lyric-content" ref="lyric">
 			<div class="lyric-item-wrapper">
 				<div
-					:class="['lyric-item', { active: activeIndex === index }]"
+					:class="['lyric-item', { active: currentLineIndex === index }]"
 					v-for="(item, index) in afterSegment"
 					:key="index"
 					@click="lyricClick(index)"
@@ -39,14 +39,17 @@ export default {
 	watch: {
 		currentLineIndex(val) {
 			// console.log(val);
-			this.scroll.scrollTo(0, -27 * val + 54, 500);
+			this.scrollAction(val);
 			this.activeIndex = val;
 		},
 	},
 	methods: {
+		scrollAction(val) {
+			this.scroll.scrollTo(0, -27 * val + 54, 500);
+		},
 		lyricScrollInit() {
 			this.scroll = new BScroll(this.$refs.lyric);
-			this.scroll.scrollTo(0, 54);
+			this.scrollAction(this.currentLineIndex);
 		},
 		playClick() {
 			if (this.playBtnText === '暂停') {

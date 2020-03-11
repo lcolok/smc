@@ -6,9 +6,13 @@
 		ref="leftCard"
 		:height="cardHeight"
 	>
-		<!-- <v-col align="center" justify="center">
-						<tts-music-player :file="preview_audio_url"/>
-					</v-col> -->
+		<v-col align="center" justify="center">
+			<!-- <tts-music-player
+				:file="
+					'http://pyg-proxy.xfyousheng.com:17063/synth?uid=cfbee381-a0af-48fa-bc9c-e0dc11721967&ts=1583938434&sign=0250e97f8a48e1187b9adbd705f6553e&vid=65090&f=v2&cc=0000&sid=C56F52292EEC7B902436E1196A4F9E1C&volume=0&speed=0&content=%5Bte50%5D1.%20%E4%B8%8B%E5%8D%95%E4%BB%98%E8%B4%B9%E5%90%8E%E8%87%AA%E5%8A%A8%E5%8E%BB%E9%99%A4%E9%9F%B3%E9%A2%91%E6%B0%B4%E5%8D%B0%EF%BC%8C%E4%BA%AB%E5%8F%97%E7%BA%AF%E5%87%80%E9%9F%B3%E9%A2%91&listen=0'
+				"
+			/> -->
+		</v-col>
 		<!-- <v-subheader>{{ $t('Speaker audition') }}</v-subheader> -->
 		<v-tooltip top>
 			<template v-slot:activator="{ on }">

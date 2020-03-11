@@ -17,11 +17,29 @@
 
 <script>
 export default {
+	// computed: {
+	// 	currentSpeaker: {
+	// 		set(val) {
+	// 			this.$store.state.tts.currentSpeaker = val;
+	// 		},
+	// 		get() {
+	// 			return this.$store.state.tts.currentSpeaker;
+	// 		},
+	// 	},
+	// },
 	props: {
 		speaker: {
 			type: Object,
 			required: true,
 		},
+	},
+	watch: {
+		speaker(val) {
+			this.$store.state.tts.currentSpeaker = val;
+		},
+	},
+	mounted() {
+		this.$store.state.tts.currentSpeaker = this.speaker;
 	},
 	data: () => ({ cardHeight: 450 }),
 };
