@@ -1,6 +1,5 @@
 export default {
 	speakersList: [],
-	currentSpeaker: {},
 	volumeSlider: null,
 	speedSlider: null,
 	te: null,
@@ -9,4 +8,7 @@ export default {
 	sliderScale: 100,
 	currentProgress: 0,
 	currentPlayUrl: '',
+	slideIndex: null,
+	tabIndex: null,
+	prevSpeaker: null,
 };

@@ -28,7 +28,19 @@ function save2LeanCloud(dic) {
 
 module.exports = async function() {
 	const speakersArr = await getSpeakerList();
-
+	_.forEach(speakersArr, (value, i) => {
+		_.forEach(value, (val, j) => {
+			let url;
+			try {
+				url = new URL(val);
+				url.protocol = 'https';
+			} catch (err) {}
+			if (url) {
+				speakersArr[i][j] = url.toString();
+			}
+		});
+	});
 	const dic = { speakersArr, chosenClass: 'XunFei' };
 	save2LeanCloud(dic);
+	return speakersArr;
 };

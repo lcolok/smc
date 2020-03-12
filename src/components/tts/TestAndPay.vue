@@ -1,6 +1,16 @@
 <template>
 	<v-card outlined tile class="ma-2 pa-2 grey lighten-5">
-		<aplayer :audio="audio" mini ref="aplayer" loop="none" />
+		<aplayer
+			:audio="{
+				name: currentSpeaker.speaker_name,
+				artist: currentSpeaker.speaker_name,
+				url: $store.state.tts.currentPlayUrl,
+				cover: (currentSpeaker.img_url) // prettier-ignore
+			}"
+			mini
+			ref="aplayer"
+			loop="none"
+		/>
 		<!-- <text-highlight :queries="queries">{{ content }}</text-highlight> -->
 		<tts-lyric />
 		<v-btn color="primary" @click="test">试听</v-btn>
@@ -19,20 +29,21 @@ export default {
 	},
 	mounted() {},
 	computed: {
-		audio() {
-			return {
-				name: this.speaker.speaker_name,
-				artist: this.speaker.speaker_name,
-				url: this.currentPlayUrl,
-				cover: this.toHttps(this.speaker.img_url) // prettier-ignore
-			};
-		},
-		...mapState('tts', ['content', 'te', 'currentSpeaker']),
+		// audio() {
+		// 	return {
+		// 		name: this.currentSpeaker.speaker_name,
+		// 		artist: this.currentSpeaker.speaker_name,
+		// 		url: this.currentPlayUrl,
+		// 		cover: this.toHttps(this.currentSpeaker.img_url) // prettier-ignore
+		// 	};
+		// },
+		...mapState('tts', ['content', 'te']),
 		...mapGetters('tts', [
 			'afterSegment',
 			'sliderMax',
 			'queries',
 			'currentSentence',
+			'currentSpeaker',
 		]),
 		// lyric() {
 		// 	const obj = {};
@@ -55,7 +66,7 @@ export default {
 				return this.$store.state.tts.currentPlayUrl;
 			},
 			set(val) {
-				this.state.tts.currentPlayUrl = val;
+				this.$store.state.tts.currentPlayUrl = val;
 			},
 		},
 	},
@@ -97,12 +108,12 @@ export default {
 			});
 		},
 	},
-	props: {
-		speaker: {
-			type: Object,
-			required: true,
-		},
-	},
+	// props: {
+	// 	speaker: {
+	// 		type: Object,
+	// 		required: true,
+	// 	},
+	// },
 	data: () => ({
 		// queries: ['birds', 'scatt'],
 		// description: 'Tropical birds scattered as Drake veered the Jeep',

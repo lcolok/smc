@@ -1,8 +1,23 @@
 import txtsegment from '../../../../api/xunfei/txtsegment';
 
 export default {
-	speakersList: state => {
+	speakersList: (state, getters) => {
 		return state.speakersList;
+	},
+	currentSpeaker: (state, getters) => {
+		if (state.tabIndex == null && state.slideIndex == null) {
+			return null;
+		}
+		const cs = getters.speakersList[state.tabIndex].list[state.slideIndex];
+		console.log(cs);
+		if (cs) {
+			// state.prevSpeaker = cs;
+			return cs;
+		} else {
+			// return getters.speakersList[state.tabIndex].list[0];
+			// return state.prevSpeaker;
+			return null;
+		}
 	},
 	volume: state => {
 		function linear(t, tMin, tMax, minValue, maxValue) {

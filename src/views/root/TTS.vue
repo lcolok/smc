@@ -1,64 +1,60 @@
 <template>
 	<v-card>
-		<v-tabs background-color="white" :color="color" left>
+		<v-tabs v-model="tabIndex" background-color="white" :color="color" left>
 			<v-tab v-for="item in speakersList" :key="item.tab">
 				{{ item.tab }}
 			</v-tab>
 
 			<v-tab-item v-for="item in speakersList" :key="item.tab">
-				<v-container fluid>
-					<v-row>
-						<!-- <v-sheet class="mx-auto" elevation="8" max-width="800"> -->
-						<v-col>
-							<v-slide-group
-								v-model="model"
-								class="pa-4"
-								show-arrows
-								center-active
+				<v-slide-group
+					v-model="slideIndex"
+					class="pa-4"
+					show-arrows
+					center-active
+				>
+					<v-slide-item
+						v-for="n in item.list"
+						:key="n.speaker_no"
+						v-slot:default="{ active, toggle }"
+					>
+						<v-hover v-slot:default="{ hover }">
+							<v-card
+								:elevation="hover ? 8 : 0"
+								style="transition: box-shadow 0.2s ease-in-out;"
+								class="ma-1"
+								@click="toggle"
+								max-width="150"
+								min-height="150"
 							>
-								<v-slide-item
-									v-for="n in item.list"
-									:key="n.speaker_no"
-									v-slot:default="{ active, toggle }"
+								<v-img
+									:lazy-src="
+										`https://attachments-cdn.shimo.im/fr5wKraffRkyHNHu/default.jpg`
+									"
+									:src="toHttps(n.img_url)"
+									class="white--text align-end"
+									gradient="0deg, rgba(0,0,0,0.5634628851540616) 0%, rgba(0,0,0,0.2553396358543417) 10%, rgba(0,0,0,0) 25%, rgba(255,255,255,0) 100%"
 								>
-									<v-hover v-slot:default="{ hover }">
-										<v-card
-											:elevation="hover ? 8 : 0"
-											style="transition: box-shadow 0.2s ease-in-out;"
-											class="ma-1"
-											@click="toggle"
-											max-width="150"
-											min-height="150"
+									<v-card-title v-text="n.speaker_name"></v-card-title>
+									<v-expand-transition>
+										<div
+											v-if="active"
+											:class="
+												`d-flex transition-fast-in-fast-out v-card--reveal display-3 white--text lighten-0`
+											"
+											:style="`height: 100%;background-color:${color}`"
 										>
-											<v-img
-												:lazy-src="
-													`https://attachments-cdn.shimo.im/nnMHaMAvXkoolrY1/default.jpg?imageView2/4/w/50/h/50`
-												"
-												:src="toHttps(n.img_url)"
-												class="white--text align-end"
-												gradient="0deg, rgba(0,0,0,0.5634628851540616) 0%, rgba(0,0,0,0.2553396358543417) 10%, rgba(0,0,0,0) 25%, rgba(255,255,255,0) 100%"
+											<v-icon
+												x-large
+												color="white"
+												style="position: absolute;bottom:10px;right:10px"
 											>
-												<v-card-title v-text="n.speaker_name"></v-card-title>
-												<v-expand-transition>
-													<div
-														v-if="active"
-														:class="
-															`d-flex transition-fast-in-fast-out v-card--reveal display-3 white--text lighten-0`
-														"
-														:style="`height: 100%;background-color:${color}`"
-													>
-														<v-icon
-															x-large
-															color="white"
-															style="position: absolute;bottom:10px;right:10px"
-														>
-															<!-- mdi-check-circle-outline -->
-															mdi-check-circle
-														</v-icon>
-													</div>
-												</v-expand-transition>
-											</v-img>
-											<!-- 
+												<!-- mdi-check-circle-outline -->
+												mdi-check-circle
+											</v-icon>
+										</div>
+									</v-expand-transition>
+								</v-img>
+								<!-- 
 											<v-row
 												class="fill-height"
 												align="center"
@@ -73,33 +69,17 @@
 													></v-icon>
 												</v-scale-transition>
 											</v-row> -->
-										</v-card>
-									</v-hover>
-								</v-slide-item>
-							</v-slide-group>
-
-							<v-expand-transition>
-								<v-sheet v-if="model != null" tile>
-									<tts-sheet :speaker="item.list[model]" />
-								</v-sheet>
-							</v-expand-transition>
-						</v-col>
-						<!-- </v-sheet> -->
-						<!-- <v-col v-for="i in 12" :key="i" cols="4" md="2">
-							<v-img
-								:src="
-									`https://picsum.photos/500/300?image=${i * (n + 1) * 5 + 10}`
-								"
-								:lazy-src="
-									`https://picsum.photos/10/6?image=${i * (n + 1) * 5 + 10}`
-								"
-								aspect-ratio="1"
-							></v-img>
-						</v-col> -->
-					</v-row>
-				</v-container>
+							</v-card>
+						</v-hover>
+					</v-slide-item>
+				</v-slide-group>
 			</v-tab-item>
 		</v-tabs>
+		<v-expand-transition>
+			<v-sheet v-if="currentSpeaker != null" tile>
+				<tts-sheet />
+			</v-sheet>
+		</v-expand-transition>
 	</v-card>
 </template>
 
@@ -137,11 +117,27 @@ export default {
 		this.getSpeakerList({ vm: this });
 	},
 	computed: {
-		...mapGetters('tts', ['speakersList']),
+		...mapGetters('tts', ['speakersList', 'currentSpeaker']),
 		...mapState('app', ['color']),
+		tabIndex: {
+			get() {
+				return this.$store.state.tts.tabIndex;
+			},
+			set(val) {
+				this.$store.state.tts.tabIndex = val;
+			},
+		},
+		slideIndex: {
+			get() {
+				return this.$store.state.tts.slideIndex;
+			},
+			set(val) {
+				this.$store.state.tts.slideIndex = val;
+			},
+		},
 	},
 	data: () => ({
-		model: null,
+		// model: null,
 	}),
 };
 </script>

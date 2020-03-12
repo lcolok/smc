@@ -6,6 +6,17 @@
 		ref="leftCard"
 		:height="cardHeight"
 	>
+		<aplayer
+			:audio="{
+				name: currentSpeaker.speaker_name,
+				artist: currentSpeaker.speaker_name,
+				url: currentSpeaker.audio_url,
+				cover: (currentSpeaker.img_url) // prettier-ignore
+			}"
+			ref="aplayer_setting"
+			loop="none"
+			mini
+		/>
 		<v-col align="center" justify="center">
 			<!-- <tts-music-player
 				:file="
@@ -14,20 +25,19 @@
 			/> -->
 		</v-col>
 		<!-- <v-subheader>{{ $t('Speaker audition') }}</v-subheader> -->
-		<v-tooltip top>
+		<!-- <v-tooltip top>
 			<template v-slot:activator="{ on }">
-				<v-card outlined max-width="78" v-on="on"
-					><aplayer :audio="audio" mini
-				/></v-card>
+				<v-card outlined max-width="78" v-on="on">
+				</v-card>
 			</template>
 			<span>{{ $t('Click to listen') }}</span>
-		</v-tooltip>
+		</v-tooltip> -->
 
-		<v-card>
+		<!-- <v-card>
 			volume:{{ volume }} speed:{{ speed }} te:{{ te }} speaker_no:{{
-				speaker.speaker_no
+				currentSpeaker.speaker_no
 			}}
-		</v-card>
+		</v-card> -->
 
 		<!-- <v-card-text>
 						<v-row>
@@ -146,41 +156,16 @@ import _ from 'lodash';
 import { mapGetters } from 'vuex';
 
 export default {
-	methods: {
-		toHttps(u) {
-			const url = new URL(u);
-			url.protocol = 'https';
-			return url.toString();
-		},
-		resetVolume() {
-			this.$store.state.tts.volumeSlider = this.volumeSliderDefault;
-		},
-		resetSpeed() {
-			this.$store.state.tts.speedSlider = this.speedSliderDefault;
-		},
-		resetTe() {
-			this.$store.state.tts.te = this.teDefault;
-		},
-		resetMusicVolume() {
-			this.$store.state.tts.music_volume = this.music_volumeDefault;
-		},
-	},
 	computed: {
-		preview_audio_url() {
-			const url = new URL(this.speaker.audio_url);
-			url.protocol = 'https';
-			return url.toString();
-		},
-		audio() {
-			return {
-				name: this.speaker.speaker_name,
-				artist: this.speaker.speaker_name,
-				url: this.toHttps(this.speaker.audio_url),
-				cover: this.toHttps(this.speaker.img_url) // prettier-ignore
-			};
-		},
-
-		...mapGetters('tts', ['volume', 'speed']),
+		// audio() {
+		// 	return {
+		// 		name: this.currentSpeaker.speaker_name,
+		// 		artist: this.currentSpeaker.speaker_name,
+		// 		url: this.toHttps(this.currentSpeaker.audio_url),
+		// 		cover: this.toHttps(this.currentSpeaker.img_url) // prettier-ignore
+		// 	};
+		// },
+		...mapGetters('tts', ['currentSpeaker', 'volume', 'speed']),
 		music_volume: {
 			set(val) {
 				this.$store.state.tts.music_volume = val;
@@ -214,18 +199,33 @@ export default {
 			},
 		},
 	},
-	props: {
-		speaker: {
-			type: Object,
-			required: true,
-		},
-	},
 	mounted() {
 		this.resetVolume();
 		this.resetSpeed();
 		this.resetTe();
 		this.resetMusicVolume();
 	},
+
+	methods: {
+		toHttps(u) {
+			const url = new URL(u);
+			url.protocol = 'https';
+			return url.toString();
+		},
+		resetVolume() {
+			this.$store.state.tts.volumeSlider = this.volumeSliderDefault;
+		},
+		resetSpeed() {
+			this.$store.state.tts.speedSlider = this.speedSliderDefault;
+		},
+		resetTe() {
+			this.$store.state.tts.te = this.teDefault;
+		},
+		resetMusicVolume() {
+			this.$store.state.tts.music_volume = this.music_volumeDefault;
+		},
+	},
+
 	data() {
 		return {
 			cardHeight: 450,

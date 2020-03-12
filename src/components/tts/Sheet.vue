@@ -6,10 +6,10 @@
 			<!-- <v-flex md6 sm12> </v-flex> -->
 			<v-flex xl8 lg7 md6 sm12>
 				<tts-textarea />
-				<tts-test-and-pay :speaker="speaker" />
+				<tts-test-and-pay />
 			</v-flex>
 			<v-flex xl4 lg5 md6 sm12>
-				<tts-settings :speaker="speaker" />
+				<tts-settings />
 			</v-flex>
 		</v-layout>
 	</v-container>
@@ -17,29 +17,11 @@
 
 <script>
 export default {
-	// computed: {
-	// 	currentSpeaker: {
-	// 		set(val) {
-	// 			this.$store.state.tts.currentSpeaker = val;
-	// 		},
-	// 		get() {
-	// 			return this.$store.state.tts.currentSpeaker;
-	// 		},
-	// 	},
-	// },
 	props: {
-		speaker: {
-			type: Object,
-			required: true,
-		},
-	},
-	watch: {
-		speaker(val) {
-			this.$store.state.tts.currentSpeaker = val;
-		},
-	},
-	mounted() {
-		this.$store.state.tts.currentSpeaker = this.speaker;
+		// speaker: {
+		// 	type: Object,
+		// 	required: true,
+		// },
 	},
 	data: () => ({ cardHeight: 450 }),
 };

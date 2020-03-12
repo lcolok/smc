@@ -7,7 +7,6 @@
 				name="input-7-4"
 				:label="`${$t('Number of characters: ')}${totalWord}/${limit}`"
 				:height="cardHeight - 60"
-				autofocus
 				:rules="counter"
 				v-model="content"
 			></v-textarea>
