@@ -86,13 +86,19 @@ export default {
 			// console.log(this.currentSentence);
 			// console.log(this.currentSpeaker.speaker_no);
 			// console.log(this.te);
+
+			// var md5 = crypto.createHash('md5');
+			// var message = 'hello';
+			// var digest = md5.update(message, 'utf8').digest('hex');
+			// console.log(digest);
+
 			const payload = {
 				te: this.te,
 				text: this.currentSentence,
 				vid: this.currentSpeaker.speaker_no,
 			};
 			console.log(payload);
-			AV.Cloud.run('playTemp', payload).then(resp => {
+			AV.Cloud.run('tts_playTemp', payload).then(resp => {
 				let url = '/tts/temp?n=' + resp;
 
 				if (window.location.href.includes('localhost')) {

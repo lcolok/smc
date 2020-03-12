@@ -63,6 +63,7 @@
 		"mescroll.js": "^1.4.1",
 		"normalize.css": "^8.0.1",
 		"nouislider": "^13.1.5",
+		"object-hash": "^2.0.3",
 		"p-queue": "^5.0.0",
 		"plyr": "^3.5.6",
 		"pretty-bytes": "^5.3.0",
