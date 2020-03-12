@@ -45,7 +45,7 @@ module.exports = async function({ params }) {
 					uploadToQiniu({
 						filepath: tempFilePath,
 					}).then(async ({ code, data }) => {
-						if (code == 0) {
+						if (code == 0 && data.audio.duration !== 'null') {
 							console.log(data);
 							const dic = { url: data.url, chosenClass: 'tts_mp3Temp', md5 };
 							await save2LeanCloud(dic);

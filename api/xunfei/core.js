@@ -145,7 +145,7 @@ function getSpeakerList() {
 	});
 }
 
-function play({ te, text, vid }) {
+function play({ te, text, vid, volume, speed }) {
 	return new Promise((resolve, reject) => {
 		var intonationsize = te || 50; //音高
 		intonationsize = parseInt(intonationsize);
@@ -171,8 +171,8 @@ function play({ te, text, vid }) {
 						f: 'v2',
 						cc: window.sc,
 						sid: window.web_i_ss,
-						volume: 0,
-						speed: 0,
+						volume,
+						speed,
 						listen: 0, //必须0,不然有水印
 						content: ClearBr(content),
 					},

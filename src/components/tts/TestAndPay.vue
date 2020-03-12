@@ -44,6 +44,8 @@ export default {
 			'queries',
 			'currentSentence',
 			'currentSpeaker',
+			'speed',
+			'volume',
 		]),
 		// lyric() {
 		// 	const obj = {};
@@ -96,6 +98,8 @@ export default {
 				te: this.te,
 				text: this.currentSentence,
 				vid: this.currentSpeaker.speaker_no,
+				volume: this.volume,
+				speed: this.speed,
 			};
 			console.log(payload);
 			AV.Cloud.run('tts_playTemp', payload).then(resp => {
