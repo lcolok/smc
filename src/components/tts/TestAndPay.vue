@@ -106,7 +106,7 @@ export default {
 				} else {
 					url = 'https://smc.wiki' + url;
 				}
-				this.$store.state.tts.currentPlayUrl = url;
+				this.$store.state.tts.currentPlayUrl = url + '#' + new Date().getTime();
 				console.log(url);
 				setTimeout(() => {
 					this.$refs.aplayer.play();

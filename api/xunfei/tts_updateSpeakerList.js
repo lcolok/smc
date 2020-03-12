@@ -40,7 +40,7 @@ module.exports = async function() {
 			}
 		});
 	});
-	const dic = { speakersArr, chosenClass: 'XunFei' };
+	const dic = { speakersArr, chosenClass: 'tts_SpeakerList' };
 	save2LeanCloud(dic);
 	return speakersArr;
 };

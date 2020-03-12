@@ -16,7 +16,7 @@ module.exports = async function() {
 	// 		'used_times',
 	// 	]),
 	// );
-	const query = new AV.Query('XunFei');
+	const query = new AV.Query('tts_SpeakerList');
 	query.exists('speakersArr');
 	query.descending('createdAt');
 	query.limit(1);
