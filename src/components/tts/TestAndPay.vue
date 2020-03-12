@@ -99,14 +99,20 @@ export default {
 			};
 			console.log(payload);
 			AV.Cloud.run('tts_playTemp', payload).then(resp => {
-				let url = '/tts/temp?n=' + resp;
+				let url;
+				if (!resp.match('attachments-cdn')) {
+					url = '/tts/temp?n=' + resp;
 
-				if (window.location.href.includes('localhost')) {
-					url = 'http://localhost:3000' + url;
+					if (window.location.href.includes('localhost')) {
+						url = 'http://localhost:3000' + url;
+					} else {
+						url = 'https://smc.wiki' + url;
+					}
 				} else {
-					url = 'https://smc.wiki' + url;
+					url = resp;
 				}
-				this.$store.state.tts.currentPlayUrl = url + '#' + new Date().getTime();
+				url += '#' + new Date().getTime();
+				this.$store.state.tts.currentPlayUrl = url;
 				console.log(url);
 				setTimeout(() => {
 					this.$refs.aplayer.play();
