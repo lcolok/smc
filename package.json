@@ -76,6 +76,8 @@
 		"require-context": "^1.1.0",
 		"single-line-log": "^1.1.2",
 		"terser-webpack-plugin": "^1.4.3",
+		"tiptap": "^1.26.6",
+		"tiptap-extensions": "^1.28.6",
 		"underscore": "^1.9.2",
 		"unfurl-url": "^1.0.0",
 		"uuid": "^3.4.0",
@@ -178,5 +180,8 @@
 		"last 2 versions",
 		"not ie <= 8"
 	],
-	"gh-pages-name": "smcw"
+	"gh-pages-name": "smcw",
+	"resolutions": {
+		"prosemirror-model": "1.8.2"
+	}
 }

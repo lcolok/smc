@@ -1,6 +1,7 @@
 <template>
 	<v-card outlined tile class="ma-2 pa-2 grey lighten-5">
-		<tts-lyric />
+		<!-- <tts-lyric /> -->
+		<tts-rich-text />
 		<v-row align="center" class="ma-0 pa-0">
 			<aplayer
 				:audio="{

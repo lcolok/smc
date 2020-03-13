@@ -11,4 +11,5 @@ export default {
 	slideIndex: null,
 	tabIndex: null,
 	prevSpeaker: null,
+	segmentMD5: null,
 };
