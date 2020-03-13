@@ -32,9 +32,13 @@ const pb = new ProgressBar({
 	delay: 0,
 });
 
-selectMode(2);
+selectMode();
 
 function selectMode(index) {
+	if (!index) {
+		runCore();
+		return;
+	}
 	const allMode = [
 		{
 			name: 'Progress bar mode',

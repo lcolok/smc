@@ -51,33 +51,37 @@ function testPort(port) {
 
 function listen(PORT) {
 	const timer = setInterval(() => {
-		if (process.env.PROGRESS_BAR_RUNNING == 'false' || !developing) {
+		if (process.env.PROGRESS_BAR_RUNNING == undefined) {
+			pureListen(PORT, timer);
+		} else if (process.env.PROGRESS_BAR_RUNNING == 'false' || !developing) {
 			//只有进度条播放完才会进行以下声明
-			app.listen(PORT, function(err) {
-				clearInterval(timer);
-				console.log(
-					chalk.yellow.inverse(` SERVER READY `) +
-						' ' +
-						'Node app is running on',
-					`${chalk.yellow('http://localhost:' + PORT)}`,
-				); //启动本服务器
-				for (var n = 0; n < 10; n++) {
-					checkLocalServer(8080 + n); //从端口8080开始轮询
-				}
-
-				// 注册全局未捕获异常处理器
-				process.on('uncaughtException', function(err) {
-					console.error('Caught exception:', err.stack);
-				});
-				process.on('unhandledRejection', function(reason, p) {
-					console.error(
-						'Unhandled Rejection at: Promise ',
-						p,
-						' reason: ',
-						reason.stack,
-					);
-				});
-			});
+			pureListen(PORT, timer);
 		}
 	}, 10);
+}
+
+function pureListen(PORT, timer) {
+	app.listen(PORT, function(err) {
+		if (timer) clearInterval(timer);
+		console.log(
+			chalk.yellow.inverse(` SERVER READY `) + ' ' + 'Node app is running on',
+			`${chalk.yellow('http://localhost:' + PORT)}`,
+		); //启动本服务器
+		for (var n = 0; n < 10; n++) {
+			checkLocalServer(8080 + n); //从端口8080开始轮询
+		}
+
+		// 注册全局未捕获异常处理器
+		process.on('uncaughtException', function(err) {
+			console.error('Caught exception:', err.stack);
+		});
+		process.on('unhandledRejection', function(reason, p) {
+			console.error(
+				'Unhandled Rejection at: Promise ',
+				p,
+				' reason: ',
+				reason.stack,
+			);
+		});
+	});
 }
