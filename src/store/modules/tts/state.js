@@ -1,7 +1,7 @@
 export default {
 	speakersList: [],
-	volumeSlider: null,
-	speedSlider: null,
+	volumeSlider: 50,
+	speedSlider: 2,
 	te: null,
 	music_volume: null,
 	content: '',

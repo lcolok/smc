@@ -1,20 +1,32 @@
 <template>
 	<v-card outlined tile class="ma-2 pa-2 grey lighten-5">
-		<aplayer
-			:audio="{
-				name: currentSpeaker.speaker_name,
-				artist: currentSpeaker.speaker_name,
-				url: $store.state.tts.currentPlayUrl,
-				cover: (currentSpeaker.img_url) // prettier-ignore
-			}"
-			mini
-			ref="aplayer"
-			loop="none"
-		/>
-		<!-- <text-highlight :queries="queries">{{ content }}</text-highlight> -->
 		<tts-lyric />
-		<v-btn color="primary" @click="test">试听</v-btn>
-		<v-slider v-model="currentProgress" :min="0" :max="sliderMax"></v-slider>
+		<v-row align="center" class="ma-0 pa-0">
+			<aplayer
+				:audio="{
+					name: currentSpeaker.speaker_name,
+					artist: currentSpeaker.speaker_name,
+					url: $store.state.tts.currentPlayUrl,
+					cover: (currentSpeaker.img_url) // prettier-ignore
+				}"
+				mini
+				ref="aplayer"
+				loop="none"
+				@ended="currentLineIndex++"
+			/>
+
+			<v-slider
+				v-model="currentProgress"
+				:min="0"
+				:max="sliderMax"
+				dense
+				hide-details
+			></v-slider>
+		</v-row>
+
+		<!-- <text-highlight :queries="queries">{{ content }}</text-highlight> -->
+
+		<!-- <v-btn color="primary" @click="load">试听</v-btn> -->
 	</v-card>
 </template>
 
@@ -27,7 +39,17 @@ export default {
 	components: {
 		TextHighlight,
 	},
-	mounted() {},
+	mounted() {
+		this.load();
+	},
+	watch: {
+		currentSpeaker(val) {
+			this.load();
+		},
+		currentLineIndex(val) {
+			this.load();
+		},
+	},
 	computed: {
 		// audio() {
 		// 	return {
@@ -43,6 +65,7 @@ export default {
 			'sliderMax',
 			'queries',
 			'currentSentence',
+			'currentLineIndex',
 			'currentSpeaker',
 			'speed',
 			'volume',
@@ -72,19 +95,13 @@ export default {
 			},
 		},
 	},
-	// watch: {
-	// 	currentPlayUrl(val) {
-	// 		this.$refs.aplayer.play();
-	// 	},
-	// },
-
 	methods: {
 		toHttps(u) {
 			const url = new URL(u);
 			url.protocol = 'https';
 			return url.toString();
 		},
-		test() {
+		load() {
 			// console.log(this.currentSentence);
 			// console.log(this.currentSpeaker.speaker_no);
 			// console.log(this.te);
@@ -118,9 +135,9 @@ export default {
 				url += '#' + new Date().getTime();
 				this.$store.state.tts.currentPlayUrl = url;
 				console.log(url);
-				setTimeout(() => {
-					this.$refs.aplayer.play();
-				}, 0);
+				// setTimeout(() => {
+				// 	this.$refs.aplayer.play();
+				// }, 0);
 			});
 		},
 	},
