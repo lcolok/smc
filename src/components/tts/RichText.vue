@@ -7,7 +7,7 @@
 <script>
 import txtsegment from '../../../api/xunfei/txtsegment';
 import hash from 'object-hash';
-
+import TextHighlight from 'vue-text-highlight';
 import Icon from './components/Icon';
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap';
 import {
@@ -36,6 +36,7 @@ export default {
 		EditorContent,
 		EditorMenuBar,
 		Icon,
+		TextHighlight,
 	},
 	data() {
 		return {
@@ -113,7 +114,27 @@ export default {
 
 					this.setSegmentMD5(hash.MD5(newJSON));
 
+					const { selection } = this.editor;
+					const { from, to } = selection;
+					const text = state.doc.textBetween(from, to, ' ');
+					const diff = state.selection.anchor - this.anchor;
+					console.log(diff);
+					this.setAnchor(state.selection.anchor);
 					this.editor.setContent(newJSON);
+					let fix;
+					if (diff == -2) {
+						fix = 2;
+					} else if (diff == 2) {
+						fix = -2;
+					} else {
+						fix = 0;
+					}
+					this.editor.setSelection(this.anchor + fix, this.anchor + fix);
+					this.editor.focus();
+				},
+				onTransaction: ({ state }) => {
+					// this.setAnchor(state.selection.anchor);
+					console.log(state.selection.anchor);
 				},
 				editorProps: {
 					handlePaste: val => {
@@ -133,10 +154,10 @@ export default {
 		};
 	},
 	computed: {
-		...mapState('tts', ['segmentMD5']),
+		...mapState('tts', ['segmentMD5', 'anchor']),
 	},
 	methods: {
-		...mapMutations('tts', ['setSegmentMD5']),
+		...mapMutations('tts', ['setSegmentMD5', 'setAnchor']),
 	},
 	beforeDestroy() {
 		this.editor.destroy();

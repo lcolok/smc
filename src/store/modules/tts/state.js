@@ -12,4 +12,5 @@ export default {
 	tabIndex: null,
 	prevSpeaker: null,
 	segmentMD5: null,
+	anchor: 0,
 };

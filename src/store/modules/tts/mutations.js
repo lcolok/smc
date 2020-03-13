@@ -9,4 +9,7 @@ export default {
 	setSegmentMD5(state, md5) {
 		state.segmentMD5 = md5;
 	},
+	setAnchor(state, anchor) {
+		state.anchor = anchor;
+	},
 };
