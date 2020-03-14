@@ -1,6 +1,4 @@
 {
-        "favorites.resources": [
-                "src/store/modules/tts"
-        ],
-        "favorites.sortOrder": "DESC"
+	"favorites.resources": ["src/store/modules/tts", "api/xunfei"],
+	"favorites.sortOrder": "DESC"
 }
