@@ -140,10 +140,7 @@ export default {
 			// 	// 	this.$refs.aplayer.play();
 			// 	// }, 0);
 			// });
-			this.$AV.Cloud.run('playTemp', {
-				params: payload,
-			}).then(({ data }) => {
-				let resp = data;
+			this.$cloud.routes('playTemp', payload).then(resp => {
 				let url;
 				if (!resp.match('attachments-cdn')) {
 					url = '/tts/temp?n=' + resp;

@@ -13,10 +13,20 @@ axios.defaults.baseURL = baseURL;
 
 Vue.prototype.$http = axios;
 
-Vue.prototype.$AV = {
-	Cloud: {
-		run: (funcName, config) => {
-			return axios.post('/hub/routesFunc?funcName=' + funcName, config);
-		},
+Vue.prototype.$cloud = {
+	routes: (funcName, data) => {
+		// return axios.post('/hub/routesFunc?funcName=' + funcName, config);
+		return new Promise((resolve, reject) => {
+			axios({
+				method: 'POST',
+				url: '/hub/routesFunc',
+				params: { funcName },
+				data,
+			})
+				.then(response => {
+					resolve(response.data);
+				})
+				.catch(reject);
+		});
 	},
 };
