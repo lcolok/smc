@@ -69,6 +69,10 @@ app.use(cookieParser());
 // 一次过把 routes 文件夹下的全部文件夹的路由API全部读取
 
 const custom = require(path.join(__dirname + '/routes/custom'));
+app.use(function(req, res, next) {
+	res.allFunc = custom.allFunc;
+	next();
+});
 console.log(custom.allFunc);
 app.use(custom.router);
 

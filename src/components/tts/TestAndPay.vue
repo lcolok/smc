@@ -140,31 +140,29 @@ export default {
 			// 	// 	this.$refs.aplayer.play();
 			// 	// }, 0);
 			// });
-			this.$http
-				.post('/tts/playTemp', {
-					params: payload,
-				})
-				.then(({ data }) => {
-					let resp = data;
-					let url;
-					if (!resp.match('attachments-cdn')) {
-						url = '/tts/temp?n=' + resp;
+			this.$AV.Cloud.run('playTemp', {
+				params: payload,
+			}).then(({ data }) => {
+				let resp = data;
+				let url;
+				if (!resp.match('attachments-cdn')) {
+					url = '/tts/temp?n=' + resp;
 
-						if (window.location.href.includes('localhost')) {
-							url = 'http://localhost:3000' + url;
-						} else {
-							url = 'https://smc.wiki' + url;
-						}
+					if (window.location.href.includes('localhost')) {
+						url = 'http://localhost:3000' + url;
 					} else {
-						url = resp;
+						url = 'https://smc.wiki' + url;
 					}
-					url += '#' + new Date().getTime();
-					this.$store.state.tts.currentPlayUrl = url;
-					console.log(url);
-					// setTimeout(() => {
-					// 	this.$refs.aplayer.play();
-					// }, 0);
-				});
+				} else {
+					url = resp;
+				}
+				url += '#' + new Date().getTime();
+				this.$store.state.tts.currentPlayUrl = url;
+				console.log(url);
+				// setTimeout(() => {
+				// 	this.$refs.aplayer.play();
+				// }, 0);
+			});
 		},
 	},
 	// props: {

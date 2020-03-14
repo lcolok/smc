@@ -28,7 +28,11 @@ module.exports = function(root) {
 							router[ele](path.join(finalPath, funcName), require(apiPath));
 							// console.log({ finalPath });
 
-							allFunc[funcName] = { funcName, finalPath };
+							allFunc[funcName] = {
+								funcName,
+								finalPath,
+								func: require(apiPath),
+							};
 							// console.log({ allFunc });
 						} else {
 							throw Error('不能定义同名函数:' + funcName);
