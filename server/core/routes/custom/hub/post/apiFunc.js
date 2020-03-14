@@ -1,6 +1,9 @@
-const AV = require('leancloud-storage');
+// const AV = require('leancloud-storage');
 
 module.exports = async (req, res, next) => {
 	let funcName = req.query.funcName;
-	AV.Cloud.run(funcName, req.body).then(result => res.send(result));
+	let func = res.allAPI[funcName];
+	req.params = req.body;
+	let r = await func(req);
+	res.send(r);
 };

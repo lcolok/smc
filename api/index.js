@@ -6,6 +6,7 @@ const requireContext = require('require-context');
 const AV = require('leanengine');
 
 const scripts = requireContext(filePath, true, /\.js$/);
+const allAPI = {};
 
 scripts
 	.keys()
@@ -26,5 +27,8 @@ scripts
 			let thisFunc = require(filePath + '/' + key);
 			// console.log(thisFunc);
 			AV.Cloud.define(funcName, thisFunc);
+			allAPI[funcName] = thisFunc;
 		}
 	});
+
+module.exports = () => allAPI;

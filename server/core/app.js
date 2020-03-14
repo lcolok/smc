@@ -11,11 +11,16 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+const app = express();
+
 // // 加载云函数定义，你可以将云函数拆分到多个文件方便管理，但需要在主文件中加载它们
 //更简约地加载云函数
-require(path.resolve('api'));
-
-const app = express();
+const allAPI = require(path.resolve('api'))();
+console.log(allAPI);
+app.use(function(req, res, next) {
+	res.allAPI = allAPI;
+	next();
+});
 
 // //这是因为http请求头部没有进行允许跨域导致的，打开后端服务的app.js文件，在路由配置前添加以下代码
 // app.all('*', function (req, res, next) {
