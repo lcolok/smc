@@ -9,7 +9,8 @@
 		"build": "babel server --out-dir dist/server && vue-cli-service build",
 		"lint": "vue-cli-service lint",
 		"dev": "nodemon --exec babel-node server/dev.js",
-		"start": "node ./dist/server/core"
+		"start": "node ./dist/server/core",
+		".": "lsof -ti:3000 | xargs kill && lsof -ti:8080 | xargs kill && ./tools/run.jxa"
 	},
 	"main": "index.js",
 	"dependencies": {

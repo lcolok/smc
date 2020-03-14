@@ -1,0 +1,52 @@
+#!/usr/bin/env osascript -l JavaScript
+
+function run(input, parameters) {
+	ObjC.import('Cocoa');
+	app = Application.currentApplication();
+	app.includeStandardAdditions = true;
+	thePath = app.pathTo(this);
+
+	thePathStr = $.NSString.alloc.init;
+	thePathStr = $.NSString.alloc.initWithUTF8String(thePath);
+	thePathStrDir = thePathStr.stringByDeletingLastPathComponent;
+
+	curPath = thePathStrDir.js + '/';
+
+	// open iterm2 and retrieve session object
+	if (!Application('iTerm').running()) {
+		Application('iTerm').activate();
+	}
+	const iTerm = Application('iTerm');
+	iTerm.includeStandardAdditions = true;
+
+	let currentWindow;
+	if (iTerm.windows.length == 0) {
+		currentWindow = iTerm.createWindowWithDefaultProfile();
+	} else {
+		currentWindow = iTerm.windows[0];
+	}
+
+	currentWindow
+		.currentTab()
+		.currentSession()
+		.write({ text: `cd ${curPath} && yarn run prettier` });
+
+	currentWindow
+		.createTabWithDefaultProfile()
+		.currentSession()
+		.write({ text: `cd ${curPath} && yarn run serve` });
+
+	currentWindow
+		.createTabWithDefaultProfile()
+		.currentSession()
+		.write({ text: `cd ${curPath} && yarn run smc` });
+
+	// iTerm
+	// 	.createWindowWithDefaultProfile()
+	// 	.currentTab()
+	// 	.currentSession()
+	// 	.write({ text: `cd ${curPath} && yarn run serve` });
+	//run command in the session
+
+	return '';
+}
