@@ -29,4 +29,19 @@ Vue.prototype.$cloud = {
 				.catch(reject);
 		});
 	},
+	api: (funcName, data) => {
+		// return axios.post('/hub/routesFunc?funcName=' + funcName, config);
+		return new Promise((resolve, reject) => {
+			axios({
+				method: 'POST',
+				url: '/hub/apiFunc',
+				params: { funcName },
+				data,
+			})
+				.then(response => {
+					resolve(response.data);
+				})
+				.catch(reject);
+		});
+	},
 };

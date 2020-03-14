@@ -120,27 +120,7 @@ export default {
 				speed: this.speed,
 			};
 			console.log(payload);
-			// AV.Cloud.run('tts_playTemp', payload).then(resp => {
-			// 	let url;
-			// 	if (!resp.match('attachments-cdn')) {
-			// 		url = '/tts/temp?n=' + resp;
-
-			// 		if (window.location.href.includes('localhost')) {
-			// 			url = 'http://localhost:3000' + url;
-			// 		} else {
-			// 			url = 'https://smc.wiki' + url;
-			// 		}
-			// 	} else {
-			// 		url = resp;
-			// 	}
-			// 	url += '#' + new Date().getTime();
-			// 	this.$store.state.tts.currentPlayUrl = url;
-			// 	console.log(url);
-			// 	// setTimeout(() => {
-			// 	// 	this.$refs.aplayer.play();
-			// 	// }, 0);
-			// });
-			this.$cloud.routes('playTemp', payload).then(resp => {
+			this.$cloud.api('tts_playTemp', payload).then(resp => {
 				let url;
 				if (!resp.match('attachments-cdn')) {
 					url = '/tts/temp?n=' + resp;
