@@ -60,7 +60,7 @@ export default {
 		return rate;
 	},
 	sliderMax: (state, getters) => {
-		return (getters.afterSegment.length - 1) * state.sliderScale;
+		return getters.afterSegment.length * state.sliderScale - 1;
 	},
 	queries: (state, getters) => {
 		let currentSentence = getters.afterSegment[getters.currentLineIndex];
