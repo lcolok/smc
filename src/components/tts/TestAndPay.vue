@@ -1,7 +1,7 @@
 <template>
 	<v-card outlined tile class="ma-2 pa-2 grey lighten-5">
-		<!-- <tts-lyric /> -->
-		<tts-rich-text />
+		<tts-lyric />
+		<!-- <tts-rich-text /> -->
 		<v-row align="center" class="ma-0 pa-0">
 			<aplayer
 				:audio="{
@@ -23,6 +23,7 @@
 				dense
 				hide-details
 			></v-slider>
+			<v-btn color="primary" @click="sumbit">提交订单</v-btn>
 		</v-row>
 
 		<!-- <text-highlight :queries="queries">{{ content }}</text-highlight> -->
@@ -97,6 +98,22 @@ export default {
 		},
 	},
 	methods: {
+		sumbit() {
+			const payload = {
+				te: this.te,
+				text: this.content,
+				vid: this.currentSpeaker.speaker_no,
+				volume: this.volume,
+				speed: this.speed,
+			};
+
+			this.$cloud.api('tts_synthesis', payload).then(resp => {
+				// window.open(resp);
+				window.open(
+					`${resp}?download&attname=TTS_${new Date().toLocaleTimeString()}.mp3`,
+				);
+			});
+		},
 		toHttps(u) {
 			const url = new URL(u);
 			url.protocol = 'https';

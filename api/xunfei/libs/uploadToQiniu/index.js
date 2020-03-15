@@ -6,12 +6,13 @@ const unshorten = require('./lib/unshorten');
 
 const upload = require('./lib/upload');
 
-function downAndUpload({ filepath, stream }) {
+function downAndUpload({ filename, filepath, stream }) {
+	if (!filename) filename = 'temp';
 	return new Promise(async (resolve, reject) => {
 		const readableStream = stream || fs.createReadStream(filepath);
 
 		const QJ = await AV.Cloud.run('getQiniuJSON', {
-			fileNameArr: ['temp.mp3'],
+			fileNameArr: [`${filename}.mp3`],
 		});
 		if (QJ.length > 0) console.log('Got shimo token');
 		else return reject;
