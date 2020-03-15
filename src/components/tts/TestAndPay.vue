@@ -109,9 +109,23 @@ export default {
 
 			this.$cloud.api('tts_synthesis', payload).then(resp => {
 				// window.open(resp);
-				window.open(
-					`${resp}?download&attname=TTS_${new Date().toLocaleTimeString()}.mp3`,
-				);
+				let url;
+
+				let attname = `TTS_${new Date().toLocaleTimeString()}.mp3`;
+				if (resp.includes('tmp')) {
+					url = `/tts/sythesis?attname=${encodeURI(attname)}&path=${encodeURI(
+						resp,
+					)}`;
+					if (window.location.href.includes('localhost')) {
+						url = 'http://localhost:3000' + url;
+					} else {
+						url = 'https://smc.wiki' + url;
+					}
+				} else if (resp.includes('attachment')) {
+					url = `${resp}?download&attname=${attname}`;
+				}
+
+				window.open(url);
 			});
 		},
 		toHttps(u) {

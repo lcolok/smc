@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const promiseLimit = require('promise-limit');
 const AV = require('leanengine');
+const hash = require('object-hash');
 
 const ffmpeg = require('fluent-ffmpeg');
 
@@ -12,8 +13,9 @@ const uploadToQiniu = require('./libs/uploadToQiniu');
 
 module.exports = req =>
 	new Promise((resolve, reject) => {
-		const { te, text, vid, volume, speed } = req.params;
-		console.log('req.params', req.params);
+		const payload = req.params;
+		const { te, text, vid, volume, speed } = payload;
+		const md5 = hash.MD5(payload);
 
 		let tempArray = txtsegment(text);
 		let promiseArray = [],
@@ -95,6 +97,8 @@ module.exports = req =>
 				})
 				.output(outputPath)
 				.on('end', function() {
+					resolve(outputPath);
+
 					uploadToQiniu({
 						filename: 'synthesis',
 						filepath: outputPath,
@@ -103,10 +107,10 @@ module.exports = req =>
 							console.log(data);
 							const dic = { url: data.url, chosenClass: 'tts_jobDone' };
 							await save2LeanCloud(dic);
-							fs.remove(tempPath, err => {
-								if (err) return console.error(err);
-								console.log(tempPath, '清理干净!'); // I just deleted my entire HOME directory.
-							});
+							// fs.remove(tempPath, err => {
+							// 	if (err) return console.error(err);
+							// 	console.log(tempPath, '清理干净!'); // I just deleted my entire HOME directory.
+							// });
 							resolve(data.url);
 						}
 					});
