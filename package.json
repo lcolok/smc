@@ -6,7 +6,7 @@
 		"serve": "vue-cli-service serve",
 		"prettier": "onchange '@(@(**/*|*).@(js|jsx|json|scss|md|vue|html))' -- prettier --write {{changed}}",
 		"smc": "lean switch SMC && lean up",
-		"build": "babel server --out-dir dist/server && vue-cli-service build",
+		"build": "rm -rf ./dist && babel server --out-dir dist/server && vue-cli-service build",
 		"lint": "vue-cli-service lint",
 		"dev": "nodemon --exec babel-node server/dev.js",
 		"start": "node ./dist/server/core",
