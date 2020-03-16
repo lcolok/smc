@@ -1,5 +1,7 @@
 // require('./rotate_init')//用于周期测试
 // const AV = require('./lc_server_init');//加载leancloud
+const Sentry = require('@sentry/node');
+Sentry.init({ dsn: 'https://64acca401b17498797109155749b8dbc@sentry.io/4897618' });
 
 require('./init'); //进行一切初始化
 import chalk from 'chalk';
