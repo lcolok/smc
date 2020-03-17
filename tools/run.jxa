@@ -1,16 +1,235 @@
 #!/usr/bin/env osascript -l JavaScript
+Applet = Application.currentApplication()
+Applet.includeStandardAdditions = true
 
-function run(input, parameters) {
-	ObjC.import('Cocoa');
-	app = Application.currentApplication();
-	app.includeStandardAdditions = true;
-	thePath = app.pathTo(this);
+function sh(script, opt={}) {
+    return Applet.doShellScript(script, {
+        administratorPrivileges: !!opt.withPrompt,
+        withPrompt: opt.withPrompt ? opt.withPrompt : '',
+        alteringLineEndings: opt.alteringLineEndings ? opt.alteringLineEndings : false
+    }).trim()
+}
 
-	thePathStr = $.NSString.alloc.init;
-	thePathStr = $.NSString.alloc.initWithUTF8String(thePath);
-	thePathStrDir = thePathStr.stringByDeletingLastPathComponent;
+function ls(arg='') {
+    return sh(`ls ${arg}`).split('\n')
+}
 
-	curPath = thePathStrDir.js + '/';
+SimpleFileManager = {
+    pwd() {
+        return $.NSFileManager.defaultManager.currentDirectoryPath.js
+    },
+    cd(path='~') {
+        let p = $(path).stringByStandardizingPath.js
+        let r = $.NSFileManager.defaultManager.changeCurrentDirectoryPath(p)
+        if (!r) {
+            throw new Error(`cd: No such file or directory: "${path}"`)
+        }
+        return r
+    },
+    mkfile(path) {
+        if ($.NSFileManager.defaultManager.fileExistsAtPath($(path).stringByStandardizingPath.js))
+            throw new Error(`mkfile: Path is exists: "${path}"`)
+        let p = $(path).stringByStandardizingPath.js
+        let c = $.NSData.data //zero data
+        let a = $()
+        let r = $.NSFileManager.defaultManager.createFileAtPathContentsAttributes(p, c, a)
+        if (!r) {
+            throw new Error(`mkfile: Create file failed: "${path}"`)
+        }
+        return r
+    },
+    mkdir(path, createIntermediatesFlag=1) {
+        let p = $(path).stringByStandardizingPath.js
+        let i = createIntermediatesFlag ? 1 : 0
+        let a = $()
+        let e = $()
+        let r = $.NSFileManager.defaultManager.createDirectoryAtPathWithIntermediateDirectoriesAttributesError(p, i, a, e)
+        if (!e.isNil()) {
+            let s1 = 'mkdir: '
+            let s2 = e.localizedDescription.js
+            let s3 = e.localizedRecoverySuggestion.js ? e.localizedRecoverySuggestion.js : ''
+            throw new Error(s1+s2+s3)
+        }
+        return r
+    },
+    rm(path) {
+        let p = $(path).stringByStandardizingPath.js
+        let e = $()
+        let r = $.NSFileManager.defaultManager.removeItemAtPathError(p, e)
+        if (!e.isNil()) {
+            let s1 = 'rm: '
+            let s2 = e.localizedDescription.js
+            let s3 = e.localizedRecoverySuggestion.js ? e.localizedRecoverySuggestion.js : ''
+            throw new Error(s1+s2+s3)
+        }
+        return r
+    },
+    mv(at, to) {
+        let a = $(at).stringByStandardizingPath.js
+        let t = $(to).stringByStandardizingPath.js
+        let e = $()
+        let r = $.NSFileManager.defaultManager.moveItemAtPathToPathError(a, t, e)
+        if (!e.isNil()) {
+            let s1 = 'mv: '
+            let s2 = e.localizedDescription.js
+            let s3 = e.localizedRecoverySuggestion.js ? e.localizedRecoverySuggestion.js : ''
+            throw new Error(s1+s2+s3)
+        }
+        return r
+    },
+    cp(at, to) {
+        let a = $(at).stringByStandardizingPath.js
+        let t = $(to).stringByStandardizingPath.js
+        let e = $()
+        let r = $.NSFileManager.defaultManager.copyItemAtPathToPathError(a, t, e)
+        if (!e.isNil()) {
+            let s1 = 'cp: '
+            let s2 = e.localizedDescription.js
+            let s3 = e.localizedRecoverySuggestion.js ? e.localizedRecoverySuggestion.js : ''
+            throw new Error(s1+s2+s3)
+        }
+        return r
+    },
+    link(at, to) {
+        let a = $(at).stringByStandardizingPath.js
+        let t = $(to).stringByStandardizingPath.js
+        let e = $()
+        let r = $.NSFileManager.defaultManager.linkItemAtPathToPathError(a, t, e)
+        if (!e.isNil()) {
+            let s1 = 'link: '
+            let s2 = e.localizedDescription.js
+            let s3 = e.localizedRecoverySuggestion.js ? e.localizedRecoverySuggestion.js : ''
+            throw new Error(s1+s2+s3)
+        }
+        return r
+    },
+    ln(at, to) {
+        let a = $(to).stringByStandardizingPath.js
+        let w = $(at).stringByStandardizingPath.js
+        let e = $()
+        let r = $.NSFileManager.defaultManager.createSymbolicLinkAtPathWithDestinationPathError(a, w, e)
+        if (!e.isNil()) {
+            let s1 = 'ln: '
+            let s2 = e.localizedDescription.js
+            let s3 = e.localizedRecoverySuggestion.js ? e.localizedRecoverySuggestion.js : ''
+            throw new Error(s1+s2+s3)
+        }
+        return r
+    },
+    chmod(value, path) {
+        let a = $({'NSFilePosixPermissions':value})
+        let p = $(path).stringByStandardizingPath.js
+        let e = $()
+        let r = $.NSFileManager.defaultManager.setAttributesOfItemAtPathError(a, p, e)
+        if (!e.isNil()) {
+            let s1 = 'chmod: '
+            let s2 = e.localizedDescription.js
+            let s3 = e.localizedRecoverySuggestion.js ? e.localizedRecoverySuggestion.js : ''
+            throw new Error(s1+s2+s3)
+        }
+        return r
+    },
+    isExists(path) {
+        return $.NSFileManager.defaultManager.fileExistsAtPath($(path).stringByStandardizingPath.js)
+    },
+    isReadable(path) {
+        let p = $(path).stringByStandardizingPath.js
+        if (!this.isExists(p)) {
+            throw new Error(`isReadable: No such file or directory: "${path}"`)
+        }
+        return $.NSFileManager.defaultManager.isReadableFileAtPath(p)
+    },
+    isWritable(path) {
+        let p = $(path).stringByStandardizingPath.js
+        if (!this.isExists(p)) {
+            throw new Error(`isWritable: No such file or directory: "${path}"`)
+        }
+        return $.NSFileManager.defaultManager.isWritableFileAtPath(p)
+    },
+    isDeletable(path) {
+        let p = $(path).stringByStandardizingPath.js
+        if (!this.isExists(p)) {
+            throw new Error(`isDeletable: No such file or directory: "${path}"`)
+        }
+        return $.NSFileManager.defaultManager.isDeletableFileAtPath(p)
+    },
+    isExecutable(path) {
+        let p = $(path).stringByStandardizingPath.js
+        if (!this.isExists(p)) {
+            throw new Error(`isExeutable: No such file or directory: "${path}"`)
+        }
+        return $.NSFileManager.defaultManager.isExecutableFileAtPath(p)
+    },
+    isDir(path) {
+        let p = $(path).stringByStandardizingPath.js
+        let e = $()
+        let a = $.NSFileManager.defaultManager.attributesOfItemAtPathError(p, e)
+        if (!e.isNil()) {
+            let s1 = 'isDir: '
+            let s2 = e.localizedDescription.js
+            let s3 = e.localizedRecoverySuggestion.js ? e.localizedRecoverySuggestion.js : ''
+            throw new Error(s1+s2+s3)
+        }
+        return a.objectForKey($.NSFileType).js === $.NSFileTypeDirectory.js
+    },
+    isFile(path) {
+        let p = $(path).stringByStandardizingPath.js
+        let e = $()
+        let a = $.NSFileManager.defaultManager.attributesOfItemAtPathError(p, e)
+        if (!e.isNil()) {
+            let s1 = 'isFile: '
+            let s2 = e.localizedDescription.js
+            let s3 = e.localizedRecoverySuggestion.js ? e.localizedRecoverySuggestion.js : ''
+            throw new Error(s1+s2+s3)
+        }
+        return !(a.objectForKey($.NSFileType).js === $.NSFileTypeDirectory.js)
+    },
+    isSymbolicLink(path) {
+        let p = $(path).stringByStandardizingPath.js
+        let e = $()
+        let a = $.NSFileManager.defaultManager.attributesOfItemAtPathError(p, e)
+        if (!e.isNil()) {
+            let s1 = 'isSymbolicLink: '
+            let s2 = e.localizedDescription.js
+            let s3 = e.localizedRecoverySuggestion.js ? e.localizedRecoverySuggestion.js : ''
+            throw new Error(s1+s2+s3)
+        }
+        return a.objectForKey($.NSFileType).js === $.NSFileTypeSymbolicLink.js
+    },
+    readlink(path) {
+        let p = $(path).stringByStandardizingPath.js
+        let e = $()
+        let r = $.NSFileManager.defaultManager.destinationOfSymbolicLinkAtPathError(p, e)
+        if (!e.isNil()) {
+            let s1 = 'readlink: '
+            let s2 = e.localizedDescription.js
+            let s3 = e.localizedRecoverySuggestion.js ? e.localizedRecoverySuggestion.js : ''
+            throw new Error(s1+s2+s3)
+        }
+        return r.isNil() ? '' : r.js
+    },
+    mv2trash(path) {
+        let p = $(path).stringByStandardizingPath.js
+        let u = $.NSURL.fileURLWithPath(p)
+        let o = $()
+        let e = $()
+        let r = $.NSFileManager.defaultManager.trashItemAtURLResultingItemURLError(u, o, e)
+        if (!e.isNil()) {
+            let s1 = 'mv2trash: '
+            let s2 = e.localizedDescription.js
+            let s3 = e.localizedRecoverySuggestion.js ? e.localizedRecoverySuggestion.js : ''
+            throw new Error(s1+s2+s3)
+        }
+        return r ? true : false
+    },
+}
+
+f = SimpleFileManager
+
+
+function run(argv) {
+
+	curPath = sh('pwd');
 
 	// open iterm2 and retrieve session object
 	if (!Application('iTerm').running()) {
