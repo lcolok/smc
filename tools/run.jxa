@@ -248,17 +248,17 @@ function run(argv) {
 	currentWindow
 		.currentTab()
 		.currentSession()
-		.write({ text: `cd ${curPath} && yarn run prettier` });
+		.write({ text: `cd ${curPath} && tabset --color E25C5E Prettier && yarn run prettier` });
 
 	currentWindow
 		.createTabWithDefaultProfile()
 		.currentSession()
-		.write({ text: `cd ${curPath} && yarn run serve` });
+		.write({ text: `cd ${curPath} && tabset --color FDBC40 Vue && yarn run serve` });
 
 	currentWindow
 		.createTabWithDefaultProfile()
 		.currentSession()
-		.write({ text: `cd ${curPath} && yarn run smc` });
+		.write({ text: `cd ${curPath} && tabset --color 34C749 Server && yarn run smc` });
 
 	// iTerm
 	// 	.createWindowWithDefaultProfile()
