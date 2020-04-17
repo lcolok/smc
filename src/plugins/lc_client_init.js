@@ -9,6 +9,7 @@ const apiConfig = require('../../config/api.config');
 AV.init({
 	appId: 'tSaaSytepnN8bI2MQ1ubO68s-gzGzoHsz',
 	appKey: 'hpdGl56rjXKR0DvGMKypVpwk',
+	serverURL: 'https://api.smc.wiki',
 });
 
 if (process.env.NODE_ENV == 'development') {
