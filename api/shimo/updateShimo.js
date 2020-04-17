@@ -261,9 +261,10 @@ async function update(newDiscussionID, getAttachmentID) {
 }
 
 async function save2DataBase(params) {
-	let regExp = /(http(s?):\/\/(attachments-cdn\.shimo\.im)\/([a-z0-9]{16,})(\/[\S]+)*)(\?)*/i;
+	let regExp = /(http(s?):\/\/(attachments-cdn\.shimo\.im)\/([a-z0-9]{16,})([\S]+)*)(\?)*/i;
 
 	let expandedURL = await expand(params.uploaderURL);
+	console.log('functionsave2DataBase -> expandedURL', expandedURL);
 
 	let matched = expandedURL.match(regExp);
 	if (!matched) {
