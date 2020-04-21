@@ -193,9 +193,9 @@ export default {
 			this.snackbar = true;
 		},
 		getRecent() {
-			var query = new AV.Query('ShimoBed');
+			var query = new AV.Query('newShimoBed');
 			query.descending('updatedAt');
-			query.limit(20); //请求数量上限为1000条
+			query.limit(100); //请求数量上限为1000条
 			query.find().then(r => {
 				this.$store.state.home.results = r.map(e => {
 					return e.toJSON();

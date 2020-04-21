@@ -21,7 +21,7 @@ export default {
 			if (_.has(to, 'query.id')) {
 				let id = to.query.id;
 				console.log(id);
-				let query = new AV.Query('ShimoBed');
+				let query = new AV.Query('newShimoBed');
 				query.equalTo('objectId', id);
 				query.first().then(videoObj => {
 					if (videoObj) {

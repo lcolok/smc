@@ -10,7 +10,7 @@ const expand = require(path.resolve('server/utils/expandUtils'));
 const columnToMake = 'shortURL';
 
 module.exports = (req, res, next) => {
-	const query = new AV.Query('ShimoBed');
+	const query = new AV.Query('newShimoBed');
 	query.doesNotExist(columnToMake); //空值查询
 	query.limit(1000); //请求数量上限为1000条
 	query

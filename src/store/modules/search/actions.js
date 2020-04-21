@@ -24,9 +24,9 @@ export default {
 				// showTop20();
 			}
 
-			var query = new AV.Query('ShimoBed');
+			var query = new AV.Query('newShimoBed');
 			query.descending('updatedAt');
-			query.limit(20); //请求数量上限为1000条
+			query.limit(100); //请求数量上限为1000条
 			var every = await query.find();
 
 			console.log(every);
@@ -59,11 +59,11 @@ export default {
 		}
 	},
 	searchLC: async function({ dispatch, state }, params) {
-		var query = new AV.SearchQuery('ShimoBed'); //class名
+		var query = new AV.SearchQuery('newShimoBed'); //class名
 
 		query.queryString(params.key); //要搜索的关键词
 		let resp = await query.find();
-		// console.log('找到了 ' + query.hits() + ' 个文件.');
+		console.log('找到了 ' + query.hits() + ' 个文件.');
 
 		let results = await Promise.all(
 			resp.map(async e => {

@@ -93,7 +93,7 @@ export default {
 
 				if (renameInput !== origName) {
 					const renameObject = AV.Object.createWithoutData(
-						'ShimoBed',
+						'newShimoBed',
 						$attrs.objectId,
 					);
 

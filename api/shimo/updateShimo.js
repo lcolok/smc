@@ -334,7 +334,7 @@ async function thisFunc(request) {
 		let params = request.params.data;
 		console.log(chalk.red('已经成功传入updateShimo这里了'));
 
-		var chosenClass = request.params.class || 'ShimoBed';
+		var chosenClass = request.params.class || 'newShimoBed';
 
 		params.uploaderURL = params.url;
 		params.lottieURL = request.params.lottieURL;
