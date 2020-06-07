@@ -59,6 +59,14 @@ export default [
 				},
 			},
 			{
+				path: '/chuman',
+				// Relative to /src/views
+				view: 'ChumanData',
+				meta: {
+					title: 'Chuman Data',
+				},
+			},
+			{
 				path: '/management',
 				// Relative to /src/views
 				view: 'Management',

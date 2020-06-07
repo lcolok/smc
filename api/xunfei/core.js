@@ -28,7 +28,7 @@ var myAjax = function(url, e, b, successFunc, errorFunc) {
 			}
 		})
 		.catch(function(error) {
-			errorFunc(error);
+			// errorFunc(error);
 			console.log(error);
 		});
 	//     d.open("POST", ajaxurlip + url, true);

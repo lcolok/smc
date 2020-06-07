@@ -971,10 +971,10 @@
     event-target-shim "^5.0.1"
     miniprogram-api-typings "^2.10.2"
 
-"@mdi/font@^3.9.97":
-  version "3.9.97"
-  resolved "https://registry.npm.taobao.org/@mdi/font/download/@mdi/font-3.9.97.tgz#b9f31e05574452e84f57e5b81d34ffd593bc9c29"
-  integrity sha1-ufMeBVdEUuhPV+W4HTT/1ZO8nCk=
+"@mdi/font@^5.3.45":
+  version "5.3.45"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-5.3.45.tgz#086d3ef77dee260c04dd5a593af602c250e5b315"
+  integrity sha512-SD5d2vHEKRvDCInZQFXOwiFpBlzpuZOiqwxKf6E+zCt7UDc52TUSrL0+TXqY57VQh/SnTpZVXM+Uvs21OdPFWg==
 
 "@moefe/vue-aplayer@^2.0.0-beta.5":
   version "2.0.0-beta.5"
@@ -9808,6 +9808,11 @@ qs@^6.4.0, qs@^6.9.1:
   resolved "https://registry.npm.taobao.org/qs/download/qs-6.9.3.tgz#bfadcd296c2d549f1dffa560619132c977f5008e"
   integrity sha1-v63NKWwtVJ8d/6VgYZEyyXf1AI4=
 
+qs@^6.9.4:
+  version "6.9.4"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.4.tgz#9090b290d1f91728d3c22e54843ca44aea5ab687"
+  integrity sha512-A1kFqHekCTM7cz0udomYUoYNWjBebHm/5wzU/XqrBRBNWectVH0QIiN+NEcZ0Dte5hvzHwbr8+XQmguPhJ6WdQ==
+
 qs@~6.5.2:
   version "6.5.2"
   resolved "https://registry.npm.taobao.org/qs/download/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
@@ -12458,10 +12463,10 @@ vuetify-loader@^1.4.3:
   dependencies:
     loader-utils "^1.2.0"
 
-vuetify@^2.2.4:
-  version "2.2.22"
-  resolved "https://registry.npm.taobao.org/vuetify/download/vuetify-2.2.22.tgz#a5bc5814a16472d719acb45d2cb5fb5605d2e12e"
-  integrity sha1-pbxYFKFkctcZrLRdLLX7VgXS4S4=
+vuetify@^2.2.32:
+  version "2.2.32"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.2.32.tgz#53a511916382e4fd6a0f01347233e67f817d95f9"
+  integrity sha512-53K8jRS3bnk6SZwZ9DVJMl3EqED5rEVoq8DHXPf90Pdbt4rr9JTKtuVu17m3k/sJ3GvpmIgMl6iwH2qCo29nAQ==
 
 vuex-router-sync@^5.0.0:
   version "5.0.0"

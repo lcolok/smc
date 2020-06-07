@@ -76,6 +76,8 @@ import { mapMutations, mapState } from 'vuex';
 import * as _ from 'lodash';
 import AV from 'leancloud-storage';
 
+const administrators = ['5d19ba8a30863b0070ef7faf'];
+
 export default {
 	beforeRouteEnter(to, from, next) {
 		console.log(to);
@@ -111,7 +113,13 @@ export default {
 					to: '/management',
 					icon: 'mdi-account-group',
 					text: this.$t('User Management'),
-					display: AV.User.current().id == '5d19ba8a30863b0070ef7faf',
+					display: administrators.includes(AV.User.current().id),
+				},
+				{
+					to: '/chuman',
+					icon: 'mdi-database-sync',
+					text: this.$t('Chuman Data'),
+					display: administrators.includes(AV.User.current().id),
 				},
 				{
 					to: '/tts',
