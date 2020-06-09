@@ -18,36 +18,30 @@ module.exports = ({ params: { nickname } }) =>
 
 		for (name of nickname) {
 			const id = sheet[name].id;
-			const MAuthorization = sheet[name].videoList;
-			if (!MAuthorization) {
-				console.log('没有对应sheetID');
-				arr.push([]);
-				break;
-			}
-			let pageArr = [];
-			let i = 1;
-			let err = false;
 
-			do {
+			let pageArr = [];
+			const videoListArr = sheet[name].videoList;
+			for (i in videoListArr) {
 				let { data } = await instance(
 					'/secure/?m=Api&c=Video&a=user_video_list',
 					{
-						data: qs.stringify({ page: i, pagesize: 30, type: 2, user_id: id }),
+						data: qs.stringify({
+							page: Number(i) + 1,
+							pagesize: 30,
+							type: 2,
+							user_id: id,
+						}),
 						headers: {
-							MAuthorization,
+							MAuthorization: videoListArr[i],
 						},
 					},
 				);
 				console.log(data.status);
 				if (data.status == 'ok') {
-					console.log(i);
-					i++;
 					pageArr = pageArr.concat(data.data.list);
-				} else {
-					err = true;
-					arr.push(pageArr);
 				}
-			} while (!err == true);
+			}
+			arr.push(pageArr);
 		}
 
 		resolve(arr);

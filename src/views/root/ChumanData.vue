@@ -28,11 +28,13 @@ export default {
 					sortable: false,
 					value: 'name',
 				},
-				{ text: '粉丝数', value: 'fans_count' },
 				{ text: '视频总数', value: 'video_count' },
+				{ text: '粉丝数', value: 'fans_count' },
 				{ text: '总赞数', value: 'like_num_count' },
 				{ text: '总播放数', value: 'play_num_count' },
-				{ text: '每集平均赞数', value: 'like_num_average' },
+				{ text: '集均获粉', value: 'fans_count_average' },
+				{ text: '集均赞数', value: 'like_num_average' },
+				{ text: '集均播放数', value: 'play_num_average' },
 			],
 			accounts: [],
 		};
@@ -67,7 +69,9 @@ export default {
 				dic.play_num_count += video.play_num;
 			});
 
-			dic.like_num_average = Math.floor(dic.like_num_count / dic.video_count);
+			dic.like_num_average = Math.ceil(dic.like_num_count / dic.video_count);
+			dic.play_num_average = Math.ceil(dic.play_num_count / dic.video_count);
+			dic.fans_count_average = Math.ceil(dic.fans_count / dic.video_count);
 
 			accounts.push(dic);
 		});
