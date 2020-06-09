@@ -15,6 +15,8 @@
 
 <script>
 import AV from 'leancloud-storage';
+import _ from 'lodash';
+import sheet from '../../../api/chuman/lib/sheet.json';
 
 export default {
 	data() {
@@ -24,20 +26,24 @@ export default {
 					text: '账户名',
 					align: 'start',
 					sortable: false,
-					value: 'nickname',
+					value: 'name',
 				},
 				{ text: '粉丝数', value: 'fans_count' },
 				{ text: '视频总数', value: 'video_count' },
-				{ text: 'Carbs (g)', value: 'carbs' },
-				{ text: 'Protein (g)', value: 'protein' },
-				{ text: 'Iron (%)', value: 'iron' },
+				{ text: '总赞数', value: 'like_num_count' },
+				{ text: '总播放数', value: 'play_num_count' },
+				{ text: '每集平均赞数', value: 'like_num_average' },
 			],
 			accounts: [],
 		};
 	},
 	mounted: async function() {
 		const accounts = [];
-		const nicknameGroup = ['星星相吸', '剧花磕瓜', '流浪享游'];
+
+		// const nicknameGroup = ['星星相吸', '剧花磕瓜', '流浪享游'];
+
+		const nicknameGroup = _.keys(sheet);
+
 		const [infoArr, videoListArr] = await Promise.all([
 			AV.Cloud.run('chumanUserInfo', {
 				nickname: nicknameGroup,
@@ -53,7 +59,15 @@ export default {
 			const videoList = videoListArr[index];
 			dic.nickname = nickname;
 			dic.fans_count = info.fans_count;
+			dic.name = info.profile.nickname;
 			dic.video_count = videoList.length;
+			dic.like_num_count = dic.play_num_count = 0;
+			videoList.forEach((video, index) => {
+				dic.like_num_count += video.like_num;
+				dic.play_num_count += video.play_num;
+			});
+
+			dic.like_num_average = Math.floor(dic.like_num_count / dic.video_count);
 
 			accounts.push(dic);
 		});

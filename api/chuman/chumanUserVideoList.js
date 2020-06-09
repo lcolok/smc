@@ -28,8 +28,8 @@ module.exports = ({ params: { nickname } }) =>
 			let i = 1;
 			let err = false;
 
-			while (!err) {
-				const { data } = await instance(
+			do {
+				let { data } = await instance(
 					'/secure/?m=Api&c=Video&a=user_video_list',
 					{
 						data: qs.stringify({ page: i, pagesize: 30, type: 2, user_id: id }),
@@ -38,15 +38,16 @@ module.exports = ({ params: { nickname } }) =>
 						},
 					},
 				);
+				console.log(data.status);
 				if (data.status == 'ok') {
+					console.log(i);
 					i++;
 					pageArr = pageArr.concat(data.data.list);
 				} else {
 					err = true;
 					arr.push(pageArr);
-					break;
 				}
-			}
+			} while (!err == true);
 		}
 
 		resolve(arr);
