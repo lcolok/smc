@@ -4,7 +4,7 @@
 			<v-flex mt-2>
 				<v-data-table
 					:headers="headers"
-					:items="desserts"
+					:items="accounts"
 					:items-per-page="10"
 					class="elevation-1"
 				></v-data-table>
@@ -16,114 +16,53 @@
 <script>
 import AV from 'leancloud-storage';
 
-AV.Cloud.run('chumanUserInfo', { user_id: 50453382 }).then(e => {
-	console.log(e);
-});
-
-AV.Cloud.run('chumanUserVideoList', { page: 1, user_id: 50453382 }).then(e => {
-	console.log(e);
-});
-
 export default {
 	data() {
 		return {
 			headers: [
 				{
-					text: 'Dessert (100g serving)',
+					text: '账户名',
 					align: 'start',
 					sortable: false,
-					value: 'name',
+					value: 'nickname',
 				},
-				{ text: 'Calories', value: 'calories' },
-				{ text: 'Fat (g)', value: 'fat' },
+				{ text: '粉丝数', value: 'fans_count' },
+				{ text: '视频总数', value: 'video_count' },
 				{ text: 'Carbs (g)', value: 'carbs' },
 				{ text: 'Protein (g)', value: 'protein' },
 				{ text: 'Iron (%)', value: 'iron' },
 			],
-			desserts: [
-				{
-					name: 'Frozen Yogurt',
-					calories: 159,
-					fat: 6.0,
-					carbs: 24,
-					protein: 4.0,
-					iron: '1%',
-				},
-				{
-					name: 'Ice cream sandwich',
-					calories: 237,
-					fat: 9.0,
-					carbs: 37,
-					protein: 4.3,
-					iron: '1%',
-				},
-				{
-					name: 'Eclair',
-					calories: 262,
-					fat: 16.0,
-					carbs: 23,
-					protein: 6.0,
-					iron: '7%',
-				},
-				{
-					name: 'Cupcake',
-					calories: 305,
-					fat: 3.7,
-					carbs: 67,
-					protein: 4.3,
-					iron: '8%',
-				},
-				{
-					name: 'Gingerbread',
-					calories: 356,
-					fat: 16.0,
-					carbs: 49,
-					protein: 3.9,
-					iron: '16%',
-				},
-				{
-					name: 'Jelly bean',
-					calories: 375,
-					fat: 0.0,
-					carbs: 94,
-					protein: 0.0,
-					iron: '0%',
-				},
-				{
-					name: 'Lollipop',
-					calories: 392,
-					fat: 0.2,
-					carbs: 98,
-					protein: 0,
-					iron: '2%',
-				},
-				{
-					name: 'Honeycomb',
-					calories: 408,
-					fat: 3.2,
-					carbs: 87,
-					protein: 6.5,
-					iron: '45%',
-				},
-				{
-					name: 'Donut',
-					calories: 452,
-					fat: 25.0,
-					carbs: 51,
-					protein: 4.9,
-					iron: '22%',
-				},
-				{
-					name: 'KitKat',
-					calories: 518,
-					fat: 26.0,
-					carbs: 65,
-					protein: 7,
-					iron: '6%',
-				},
-			],
+			accounts: [],
 		};
 	},
+	mounted: async function() {
+		const accounts = [];
+		const nicknameGroup = ['星星相吸', '剧花磕瓜', '流浪享游'];
+		const [infoArr, videoListArr] = await Promise.all([
+			AV.Cloud.run('chumanUserInfo', {
+				nickname: nicknameGroup,
+			}),
+			AV.Cloud.run('chumanUserVideoList', {
+				nickname: nicknameGroup,
+			}),
+		]);
+
+		nicknameGroup.forEach((nickname, index) => {
+			const dic = {};
+			const info = infoArr[index];
+			const videoList = videoListArr[index];
+			dic.nickname = nickname;
+			dic.fans_count = info.fans_count;
+			dic.video_count = videoList.length;
+
+			accounts.push(dic);
+		});
+
+		console.log(infoArr, videoListArr);
+
+		this.accounts = accounts;
+	},
+
 	beforeRouteEnter(to, from, next) {
 		//beforeRouteEnter 守卫 不能 访问 this，因为守卫在导航确认前被调用,因此即将登场的新组件还没被创建。
 		if (AV.User.current().id == '5d19ba8a30863b0070ef7faf') {

@@ -123,8 +123,6 @@ function ClearBr(a) {
 	return a;
 }
 
-getAES();
-
 function getSpeakerList() {
 	return new Promise((resolve, reject) => {
 		var data =

@@ -1,38 +1,53 @@
 const qs = require('qs');
-const instance = require('./lib/axiosInstance');
+const axios = require('axios');
+const sheet = require('./lib/sheet.json');
 
-module.exports = ({ params: { page, user_id } }) =>
-	new Promise((resolve, reject) => {
-		const data = qs.stringify({ page, pagesize: 30, type: 2, user_id });
-		// console.log(data);
-		instance('/secure/?m=Api&c=Video&a=user_video_list', {
-			method: 'POST',
-			// params: {
-			// 	m: 'Api',
-			// 	c: 'Video',
-			// 	a: 'user_video_list',
-			// },
-			data,
-			headers: {
-				Accept: '*/*',
-				'Accept-Encoding': 'gzip, deflate, br',
-				'Accept-Language':
-					'zh-Hans-CN;q=1, zh-Hant-CN;q=0.9, zh-Hant-HK;q=0.8, en-CN;q=0.7, ja-JP;q=0.6',
-				Connection: 'keep-alive',
-				'Content-Type': 'application/x-www-form-urlencoded',
-				Host: 'api.chumanapp.com',
-				Locale: 'zh-cn',
-				MAuthorization:
-					'0b379ed3f4f361a68859dece9ee632fe:c3ebcc4002dbccb03e82a669b9ef4057:YcNScEheSJyZu1lhFBV7HccG7aY=',
-				'User-Agent': 'TouchManga/4.9.9 (iPhone; iOS 13.5; Scale/3.00)',
-				device: 'ios',
-				versioncode: 'ios_4.9.9',
-			},
-		})
-			.then(response => {
-				resolve(response.data);
-			})
-			.catch(error => {
-				reject(error);
-			});
+const instance = axios.create({
+	method: 'POST',
+	baseURL: 'https://api.chumanapp.com/',
+	timeout: 5000,
+});
+
+module.exports = ({ params: { nickname } }) =>
+	new Promise(async (resolve, reject) => {
+		if (!(nickname instanceof Array)) {
+			nickname = [nickname];
+		}
+
+		const arr = [];
+
+		for (name of nickname) {
+			const id = sheet[name].id;
+			const MAuthorization = sheet[name].videoList;
+			if (!MAuthorization) {
+				console.log('没有对应sheetID');
+				arr.push([]);
+				break;
+			}
+			let pageArr = [];
+			let i = 1;
+			let err = false;
+
+			while (!err) {
+				const { data } = await instance(
+					'/secure/?m=Api&c=Video&a=user_video_list',
+					{
+						data: qs.stringify({ page: i, pagesize: 30, type: 2, user_id: id }),
+						headers: {
+							MAuthorization,
+						},
+					},
+				);
+				if (data.status == 'ok') {
+					i++;
+					pageArr = pageArr.concat(data.data.list);
+				} else {
+					err = true;
+					arr.push(pageArr);
+					break;
+				}
+			}
+		}
+
+		resolve(arr);
 	});
