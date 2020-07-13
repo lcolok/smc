@@ -43,6 +43,7 @@ module.exports = (req, res, next) => {
 							}).then(shortURL => {
 								console.log(shortURL);
 								each.set(columnToMake, shortURL);
+								each.set('shortURL', shortURL);
 								each.save();
 							});
 						}
