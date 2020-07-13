@@ -7,12 +7,12 @@ const AV = require('leanengine');
 const path = require('path');
 const expand = require(path.resolve('server/utils/expandUtils'));
 
-const columnToMake = 'shortURL';
+const columnToMake = 'xiaomarkShortURL';
 
 module.exports = (req, res, next) => {
 	const query = new AV.Query('newShimoBed');
 	query.doesNotExist(columnToMake); //空值查询
-	query.limit(1000); //请求数量上限为1000条
+	query.limit(80); //请求数量上限为1000条
 	query
 		.find()
 		.then(async every => {
