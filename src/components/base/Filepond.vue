@@ -135,7 +135,7 @@ export default {
 
 								let config = {
 									// useCdnDomain: true,//表示是否使用 cdn 加速域名，为布尔值，true 表示使用，默认为 false。（感觉开启了之后，上传的速度更慢了）
-									concurrentRequestLimit: 9, //分片上传的并发请求量，number，默认为3；因为浏览器本身也会限制最大并发量，所以最大并发量与浏览器有关。
+									concurrentRequestLimit: 3, //分片上传的并发请求量，number，默认为3；因为浏览器本身也会限制最大并发量，所以最大并发量与浏览器有关。
 								};
 
 								let observable = qiniu.upload(
