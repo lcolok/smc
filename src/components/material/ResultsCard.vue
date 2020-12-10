@@ -103,8 +103,13 @@ export default {
 			'descriptionList',
 		]),
 		...mapGetters('search', []),
+		suffixInLowerCase() {
+			return this.suffix.toLowerCase().trim();
+		},
 		thisDescriptionList() {
-			return this.descriptionList[this.suffix] || this.unknownDescription;
+			return (
+				this.descriptionList[this.suffixInLowerCase] || this.unknownDescription
+			);
 		},
 		typeName() {
 			return this.thisDescriptionList.typeName;
@@ -112,7 +117,10 @@ export default {
 
 		thisPlaceholderList() {
 			return (
-				this.placeholderList[this.suffix] || { name: 'unknown', width: 230 } //如果该后缀能不够匹配对应的placeholder类型,就会赋值默认的unknown图
+				this.placeholderList[this.suffixInLowerCase] || {
+					name: 'unknown',
+					width: 230,
+				} //如果该后缀能不够匹配对应的placeholder类型,就会赋值默认的unknown图
 			);
 		},
 		placeholderName() {
@@ -162,7 +170,7 @@ export default {
 					break;
 				case '图片':
 					this.rawPreview = true;
-					this.picPath = srcURL 
+					this.picPath = srcURL;
 					// + '?imageslim';
 					break;
 				default:

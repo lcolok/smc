@@ -24,8 +24,13 @@ import { mapActions, mapState } from 'vuex';
 export default {
 	computed: {
 		...mapState('search', ['descriptionList']),
+		suffixInLowerCase() {
+			return this.suffix.toLowerCase().trim();
+		},
 		thisDescriptionList() {
-			return this.descriptionList[this.suffix] || this.unknownDescription;
+			return (
+				this.descriptionList[this.suffixInLowerCase] || this.unknownDescription
+			);
 		},
 	},
 	methods: {

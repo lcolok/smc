@@ -35,8 +35,13 @@ export default {
 	},
 	computed: {
 		...mapState('search', ['unknownDescription', 'descriptionList']),
+		suffixInLowerCase() {
+			return this.suffix.toLowerCase().trim();
+		},
 		thisDescriptionList() {
-			return this.descriptionList[this.suffix] || this.unknownDescription;
+			return (
+				this.descriptionList[this.suffixInLowerCase] || this.unknownDescription
+			);
 		},
 	},
 	methods: { prettyBytes },
