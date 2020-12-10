@@ -4,7 +4,7 @@
 			<v-layout align-center justify-start row fill-height>
 				<v-icon size="18" color="white">{{ thisDescriptionList.icon }}</v-icon>
 
-				<v-flex>{{ suffix }}</v-flex>
+				<v-flex>{{ suffixInLowerCase }}</v-flex>
 			</v-layout>
 		</v-flex>
 		<v-flex class="file-size">
