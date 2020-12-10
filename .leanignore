@@ -35,3 +35,4 @@ vue.config.js
 #忽略Lock.json
 package-lock.json
 #yarn.lock
+.output
